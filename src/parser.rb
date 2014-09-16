@@ -8,7 +8,7 @@ def getName( list, i )
         and not(contains(normalize-space(.), "Public Union"))]'
   ).text
 
-  stringsToRemove = [ i.to_s + '.', ':', 'Date of arrest', 'Date of Detention', 'Date of detention', 'Detention date']
+  stringsToRemove = [ i.to_s + '.', ':', 'Date of arrest', 'Date of Detention', 'Date of detention', 'Detention date' ]
 
   stringsToRemove.each do |string|
     name.gsub! string, ''
@@ -18,16 +18,17 @@ def getName( list, i )
 end
 
 def getCsvFromHtml( html_path, csv_path )
-
   #Prepare list
-  list = Nokogiri::HTML( open( html_path ))
+  list = Nokogiri::HTML( open( html_path ).read )
+  list.encoding = 'utf-8'
+
   list.xpath('//br').remove()
   rows = []
 
   (1..98).each do |i|
     name = getName( list, i )
 
-    rows.push( [name] )
+    rows.push([ name ])
   end
 
   #Write to file

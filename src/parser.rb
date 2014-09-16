@@ -4,13 +4,13 @@ require 'csv'
 def getCsvFromList( list_path, csv_path )
 
   list = Nokogiri::HTML( open( list_path ))
-  #list.xpath('//br').remove()
+  list.xpath('//br').remove()
 
 ## Data gathered from list_input: Prisoner name, Date of Arrest, Charges (array), Place of Detention, Background Description, Picture
   rows = []
   (1..98).each do |i|
 
-    name = list.xpath('//b[starts-with(., "' + i.to_s + '.")]')
+    name = list.xpath('//b[starts-with(normalize-space(.), "' + i.to_s + '.")]')
 
     row = []
     row.push(name)

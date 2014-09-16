@@ -1,23 +1,34 @@
-require 'rubygems'
 require 'Nokogiri'
 require 'csv'
 
-list = Nokogiri::HTML(open( File.dirname(__FILE__) + '/../list.html' ))
+def getCsvFromList( list_path, csv_path )
 
-rows = []
-rows.push([ 'Nathan', 'Shane' ])
-rows.push([ 'James', 'Dean' ])
-rows.push([ 'Joe', 'Hobbit' ])
-rows.push([ 'John', 'Hobbit' ])
+  list = Nokogiri::HTML( open( list_path ))
+  #list.xpath('//br').remove()
 
-CSV_FILE_PATH = File.join( File.dirname(__FILE__), '../output.csv' );
+## Data gathered from list_input: Prisoner name, Date of Arrest, Charges (array), Place of Detention, Background Description, Picture
+  rows = []
+  (1..98).each do |i|
 
-CSV.open( CSV_FILE_PATH, 'wb' ) do |csv|
-  #Each row should have the first name of the person, followed by the last name
-  csv << ['first', 'last']
-  rows.each {
-    |row|
-    csv << row
-  }
+    name = list.xpath('//b[starts-with(., "' + i.to_s + '.")]')
 
+    row = []
+    row.push(name)
+    rows.push(row)
+  end
+
+## WRITE TO FILE
+  CSV.open( csv_path, 'wb' ) do |csv|
+    #Each row should have the first name of the person, followed by the last name
+    csv << [ 'Name', 'Type of Person', 'Date of Arrest', 'Charges', 'Place of Detention', 'Background Description', 'Picture' ]
+
+    rows.each do |row|
+      csv << row
+    end
+
+  end
 end
+
+getCsvFromList( File.dirname(__FILE__) + '/../list.html', File.dirname(__FILE__) + '/../output.csv' )
+getCsvFromList( File.dirname(__FILE__) + '/../cleanList.html', File.dirname(__FILE__) + '/../cleanOutput.csv' )
+

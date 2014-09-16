@@ -29,6 +29,6 @@ def getCsvFromList( list_path, csv_path )
   end
 end
 
-getCsvFromList( File.dirname(__FILE__) + '/../list.html', File.dirname(__FILE__) + '/../output.csv' )
-getCsvFromList( File.dirname(__FILE__) + '/../cleanList.html', File.dirname(__FILE__) + '/../cleanOutput.csv' )
+getCsvFromList( File.dirname(__FILE__) + '/../input/list.html', File.dirname(__FILE__) + '/../output/output.csv' )
+getCsvFromList( File.dirname(__FILE__) + '/../input/cleanList.html', File.dirname(__FILE__) + '/../output/cleanOutput.csv' )
 

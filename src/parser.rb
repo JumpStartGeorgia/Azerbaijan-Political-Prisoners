@@ -1,12 +1,14 @@
 require 'Nokogiri'
 require 'csv'
 
-def getName( list, i )
-  name = list.xpath(
-      '//b[starts-with(normalize-space(.), "' + i.to_s + '.")
-        and not(contains(normalize-space(.), "' + (i + 1).to_s + '."))
+def nameXPath( prisNumber )
+  return '//b[starts-with(normalize-space(.), "' + prisNumber.to_s + '.")
+        and not(contains(normalize-space(.), "' + (prisNumber + 1).to_s + '."))
         and not(contains(normalize-space(.), "Public Union"))]'
-  ).text
+end
+
+def getName( list, i )
+  name = list.xpath( nameXPath( i )).text
 
   stringsToRemove = [ i.to_s + '.', ':', 'Date of arrest', 'Date of Detention', 'Date of detention', 'Detention date' ]
 
@@ -17,18 +19,46 @@ def getName( list, i )
   return name.lstrip.rstrip
 end
 
+def getPrisonerSection( list, i )
+  currentPrisonerNumber = i
+  nextPrisonerNumber = i + 1
+
+  currentPrisonerName = '//b[starts-with(normalize-space(.), "' + currentPrisonerNumber.to_s + '.") and not(contains(normalize-space(.), "' + (currentPrisonerNumber + 1).to_s + '.")) and not(contains(normalize-space(.), "Public Union"))]'
+
+  nodesAfterCurrentPrisonerName = currentPrisonerName + '/following-sibling::node()'
+  nodesBeforeNextPrisonerName = '//b[starts-with(normalize-space(.), "' + nextPrisonerNumber.to_s + '.") and not(contains(normalize-space(.), "' + (nextPrisonerNumber + 1).to_s + '.")) and not(contains(normalize-space(.), "Public Union"))]/preceding-sibling::node()'
+
+  prisonerSectionXpath = currentPrisonerName + ' | ' + nodesAfterCurrentPrisonerName + '[count(.|' + nodesBeforeNextPrisonerName + ') = count(' + nodesBeforeNextPrisonerName + ')]'
+
+  if i == 1
+    puts prisonerSectionXpath
+  end
+
+  prisonerSection = ''
+
+  if i == 1
+    prisonerSection = list.xpath( prisonerSectionXpath )
+    puts prisonerSection
+  end
+
+  return prisonerSection
+end
+
 def getCsvFromHtml( html_path, csv_path )
   #Prepare list
   list = Nokogiri::HTML( open( html_path ).read )
   list.encoding = 'utf-8'
 
-  list.xpath('//br').remove()
   rows = []
+  list.xpath('//br').remove()
 
   (1..98).each do |i|
     name = getName( list, i )
+    prisonerSection = getPrisonerSection( list, i )
 
-    rows.push([ name ])
+    dateArrest = ''
+
+    rows.push([ name, dateArrest ])
   end
 
   #Write to file
@@ -44,5 +74,5 @@ def getCsvFromHtml( html_path, csv_path )
 end
 
 getCsvFromHtml( File.dirname(__FILE__) + '/../input/list.html', File.dirname(__FILE__) + '/../output/output.csv' )
-getCsvFromHtml( File.dirname(__FILE__) + '/../input/cleanList.html', File.dirname(__FILE__) + '/../output/cleanOutput.csv' )
+#getCsvFromHtml( File.dirname(__FILE__) + '/../input/cleanList.html', File.dirname(__FILE__) + '/../output/cleanOutput.csv' )
 

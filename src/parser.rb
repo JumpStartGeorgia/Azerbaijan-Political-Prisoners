@@ -76,8 +76,15 @@ require 'csv'
 #
 #
 
-def wrapPrisonerSections( list )
+def prepareList( input_path )
+    list = Nokogiri::HTML( open(input_path).read )
+    list.encoding = 'utf-8'
+    list.xpath('//br').remove()
 
+    return list
+end
+
+def wrapPrisonerTypeSections( list )
     ('A'..'G').each do |letter|
         if letter == 'A'
             list = list.gsub( /<b>#{letter}\./, '<div id="' + letter + '-prisoner-type"> \\0' )
@@ -92,10 +99,41 @@ def wrapPrisonerSections( list )
     return list
 end
 
+def wrapPrisonerSections( list )
+    list = Nokogiri::HTML( list )
+
+    typeA = list.css( '#A-prisoner-type' )
+
+
+    return list.to_s
+
+    # Get Xpath prisoner TYPE sections
+    # Convert each prisoner TYPE section to string
+    # Add structure of prisoner sections to prisoner Type sections
+    # Replace the original Xpath prisoner TYPE sections with the new structured XPath Prisoner TYPE Sections in the list
+end
+
+def addStructureToList( list )
+    list = list.to_s
+
+    list = wrapPrisonerTypeSections( list )
+    list = wrapPrisonerSections( list )
+
+    list = Nokogiri::HTML( list )
+
+    return list
+end
+
+def getRowsFromList( list, rows )
+    rows.push(['Nathan Shane', 'Not a prisoner', 'Never', 'No Charges', 'Jumpstart', 'quite a description', 'heres my picture'])
+
+    return rows
+end
+
 def writeRowsToOutput( rows, output_path )
     CSV.open( output_path, 'wb') do |csv|
         #Each row should have the first name of the person, followed by the last name
-        csv << ['Name', 'Type of Person', 'Date of Arrest', 'Charges', 'Place of Detention', 'Background Description', 'Picture']
+        csv << ['Name', 'Type of Prisoner', 'Date of Arrest', 'Charges', 'Place of Detention', 'Background Description', 'Picture']
 
         rows.each do |row|
             csv << row
@@ -104,25 +142,11 @@ def writeRowsToOutput( rows, output_path )
 end
 
 def outputDataFromHtmlList(input_path, output_path)
-    #Prepare list
-    file = File.open(input_path, "rb")
-    list = file.read
-    file.close
-
-    list = wrapPrisonerSections( list )
-
-    #puts list
-
-    list = Nokogiri::HTML( list )
-    list.encoding = 'utf-8'
-
-    list.xpath('//br').remove()
-
-    # Get Xpath prisoner TYPE sections
-    # Convert each prisoner TYPE section to string
-    # Add structure of prisoner sections to prisoner Type sections
-
     rows = []
+
+    list = prepareList( input_path )
+    list = addStructureToList( list )
+    rows = getRowsFromList( list, rows )
 
     writeRowsToOutput( rows, output_path )
 end

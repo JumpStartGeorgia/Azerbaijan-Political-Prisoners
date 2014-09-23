@@ -160,6 +160,18 @@ def wrapDataValues( prisNum, prisonerSection )
     return prisonerSection
 end
 
+def cleanValue( name, prisNum )
+    name = name.to_s
+
+    ## Remove everything in tags
+    name = name.gsub(/<(.|\n)*?>/, '')
+
+    ## Remove numbers
+    name = name.gsub(/#{prisNum}\./, '')
+    name = name.strip()
+    return name
+end
+
 def getPrisonerType( prisTypeNum )
     if prisTypeNum == 1
         return 'Journalists and Bloggers'
@@ -190,11 +202,13 @@ def getRowsFromPrisonerSections( prisonerSectionsByType )
             prisonerSection = wrapDataValues( prisNum, prisonerSection )
             prisonerSection = Nokogiri::HTML( prisonerSection )
 
-            if prisNum == 85
-                puts prisonerSection
-            end
+            #if prisNum == 85
+            #    puts prisonerSection
+            #end
 
-            row.push( prisonerSection.css( '.prisoner-name' ))
+
+            name = cleanValue(prisonerSection.css('.prisoner-name'), prisNum)
+            row.push(name)
             row.push( getPrisonerType( prisTypeNum ))
 
             rows.push(row)

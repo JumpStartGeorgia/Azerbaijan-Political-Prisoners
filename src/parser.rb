@@ -155,30 +155,52 @@ end
 def wrapDataValues( prisNum, prisonerSection )
     prisonerSection = prisonerSection.gsub( /<b>\s*#{prisNum}\./, '<span class="prisoner-name">\\0')
     prisonerSection = prisonerSection.gsub( /Date of /, '</span>\\0<span class="date-of-arrest">')
+    prisonerSection = prisonerSection.gsub( /Detention date:/, '</span>\\0<span class="date-of-arrest">')
 
     return prisonerSection
 end
 
+def getPrisonerType( prisTypeNum )
+    if prisTypeNum == 1
+        return 'Journalists and Bloggers'
+    elsif prisTypeNum == 2
+        return 'Human Rights Defenders'
+    elsif prisTypeNum == 3
+        return 'Youth Activists'
+    elsif prisTypeNum == 4
+        return 'Politicians'
+    elsif prisTypeNum == 5
+        return 'Religious Activists'
+    elsif prisTypeNum == 6
+        return 'Lifetime Prisoners'
+    elsif prisTypeNum == 7
+        return'Other Cases'
+    end
+end
+
 def getRowsFromPrisonerSections( prisonerSectionsByType )
     rows = []
+    prisTypeNum = 1
     prisNum = 1
 
-    prisonerSectionsByType.each do |prisonerSectionsOneType |
+    prisonerSectionsByType.each do |prisonerSectionsOneType|
         prisonerSectionsOneType.each do |prisonerSection|
             row = []
 
             prisonerSection = wrapDataValues( prisNum, prisonerSection )
             prisonerSection = Nokogiri::HTML( prisonerSection )
 
-            if prisNum == 21
+            if prisNum == 85
                 puts prisonerSection
             end
 
-            row = [ prisonerSection.css('.prisoner-name') ]
+            row.push( prisonerSection.css( '.prisoner-name' ))
+            row.push( getPrisonerType( prisTypeNum ))
 
             rows.push(row)
             prisNum+=1
         end
+        prisTypeNum+=1
     end
 
     return rows
@@ -186,7 +208,6 @@ end
 
 def writeRowsToOutput( rows, output_path )
     CSV.open( output_path, 'wb') do |csv|
-        #Each row should have the first name of the person, followed by the last name
         csv << ['Name', 'Type of Prisoner', 'Date of Arrest', 'Charges', 'Place of Detention', 'Background Description', 'Picture']
 
         rows.each do |row|

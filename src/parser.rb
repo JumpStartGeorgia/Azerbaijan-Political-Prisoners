@@ -152,20 +152,32 @@ def getPrisonerSections( prisonerTypeSections )
     return prisonerSections
 end
 
+def wrapDataValues( prisNum, prisonerSection )
+    prisonerSection = prisonerSection.gsub( /<b>\s*#{prisNum}\./, '<span class="prisoner-name">\\0')
+    prisonerSection = prisonerSection.gsub( /Date of /, '</span>\\0<span class="date-of-arrest">')
+
+    return prisonerSection
+end
+
 def getRowsFromPrisonerSections( prisonerSectionsByType )
     rows = []
-    prisNumber = 1
+    prisNum = 1
 
     prisonerSectionsByType.each do |prisonerSectionsOneType |
         prisonerSectionsOneType.each do |prisonerSection|
             row = []
 
-            if prisNumber == 70
+            prisonerSection = wrapDataValues( prisNum, prisonerSection )
+            prisonerSection = Nokogiri::HTML( prisonerSection )
+
+            if prisNum == 21
                 puts prisonerSection
             end
 
+            row = [ prisonerSection.css('.prisoner-name') ]
+
             rows.push(row)
-            prisNumber+=1
+            prisNum+=1
         end
     end
 

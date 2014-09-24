@@ -103,6 +103,8 @@ def getPrisonerTypeSections( list )
     list = list.to_s
     list = wrapPrisonerTypeSections( list )
     list = Nokogiri::HTML( list )
+    list.encoding = 'utf-8'
+
 
     prisonerTypeSections = []
     ('A'..'G').each do |letter|
@@ -139,6 +141,7 @@ def getPrisonerSections( prisonerTypeSections )
         prisonerSectionsOfThisType = []
         prisonerTypeSection = wrapPrisonerSections( prisonerTypeSection )
         prisonerTypeSection = Nokogiri::HTML( prisonerTypeSection )
+        prisonerTypeSection.encoding = 'utf-8'
 
         (1..98).each do |j|
             prisonerSection = prisonerTypeSection.css('#prisoner-' + j.to_s).to_s
@@ -153,22 +156,55 @@ def getPrisonerSections( prisonerTypeSections )
 end
 
 def wrapDataValues( prisNum, prisonerSection )
-    prisonerSection = prisonerSection.gsub( /<b>\s*#{prisNum}\./, '<span class="prisoner-name">\\0')
-    prisonerSection = prisonerSection.gsub( /Date of /, '</span>\\0<span class="date-of-arrest">')
-    prisonerSection = prisonerSection.gsub( /Detention date:/, '</span>\\0<span class="date-of-arrest">')
+    prisonerSection = prisonerSection.gsub(
+        /<b>\s*#{prisNum}\./,
+        '<span class="prisoner-name">\\0'
+    )
+
+    arrestRegexPatterns = ['Date of arrest:', 'Date of arrest\s*<\/b>:']
+
+    arrestRegexPatterns.each do |pattern|
+        prisonerSection = prisonerSection.gsub(
+            /#{pattern}/,
+            '</span>\\0<span class="date-of-arrest">'
+        )
+    end
+
+    detentionRegexPatterns = ['Detention date:', 'Date of Detention:', 'Date of detention:', 'Date of Detention</b>:']
+
+    detentionRegexPatterns.each do |pattern|
+        prisonerSection = prisonerSection.gsub(
+            /#{pattern}/,
+            '</span>\\0<span class="date-of-detention">'
+        )
+    end
+
+    prisonerSection = prisonerSection.gsub(
+        /(<b>The\s*)?Charge(.*):/,
+        '</span>\\0<span class="charges">'
+    )
 
     return prisonerSection
 end
 
-def cleanValue( name, prisNum )
-    name = name.to_s
+def cleanValue( value )
+    value = value.to_s
 
-    ## Remove everything in tags
-    name = name.gsub(/<(.|\n)*?>/, '')
+    ## Remove all tags
+    value = value.gsub(/<(.|\n)*?>/, '')
+    value = value.strip()
+
+    return value
+end
+
+def cleanName( name, prisNum )
+    name = name.to_s
 
     ## Remove numbers
     name = name.gsub(/#{prisNum}\./, '')
-    name = name.strip()
+
+    name = cleanValue( name )
+
     return name
 end
 
@@ -190,6 +226,24 @@ def getPrisonerType( prisTypeNum )
     end
 end
 
+def pushDateAndDateType( row, prisonerSection)
+    dateOfArrest = prisonerSection.css('.date-of-arrest')
+    dateOfDetention = prisonerSection.css('.date-of-detention')
+
+    if !dateOfArrest.empty?
+        row.push( cleanValue(dateOfArrest))
+        row.push( 'Arrest' )
+        return row
+    elsif !dateOfDetention.empty?
+        row.push( cleanValue(dateOfDetention))
+        row.push( 'Detention' )
+        return row
+    end
+
+    return row
+
+end
+
 def getRowsFromPrisonerSections( prisonerSectionsByType )
     rows = []
     prisTypeNum = 1
@@ -199,19 +253,25 @@ def getRowsFromPrisonerSections( prisonerSectionsByType )
         prisonerSectionsOneType.each do |prisonerSection|
             row = []
 
+            if prisNum == 78
+                puts prisonerSection
+            end
+
             prisonerSection = wrapDataValues( prisNum, prisonerSection )
             prisonerSection = Nokogiri::HTML( prisonerSection )
+            prisonerSection.encoding = 'utf-8'
 
-            #if prisNum == 85
-            #    puts prisonerSection
-            #end
+            row.push(prisNum)
 
-
-            name = cleanValue(prisonerSection.css('.prisoner-name'), prisNum)
+            name = cleanName(prisonerSection.css('.prisoner-name'), prisNum)
             row.push(name)
             row.push( getPrisonerType( prisTypeNum ))
 
+            row = pushDateAndDateType( row, prisonerSection )
+
+
             rows.push(row)
+
             prisNum+=1
         end
         prisTypeNum+=1
@@ -222,7 +282,7 @@ end
 
 def writeRowsToOutput( rows, output_path )
     CSV.open( output_path, 'wb') do |csv|
-        csv << ['Name', 'Type of Prisoner', 'Date of Arrest', 'Charges', 'Place of Detention', 'Background Description', 'Picture']
+        csv << ['ID', 'Name', 'Type of Prisoner', 'Date', 'Type of Date','Charges', 'Place of Detention', 'Background Description', 'Picture']
 
         rows.each do |row|
             csv << row

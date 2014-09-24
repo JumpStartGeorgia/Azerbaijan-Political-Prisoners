@@ -172,12 +172,23 @@ def wrapDataValues( prisNum, prisonerSection )
 
     detentionRegexPatterns = ['Detention date:', 'Date of Detention:', 'Date of detention:', 'Date of Detention</b>:']
 
-    detentionRegexPatterns.each do |pattern|
-        prisonerSection = prisonerSection.gsub(
-            /#{pattern}/,
-            '</span>\\0<span class="date-of-detention">'
-        )
+    if !prisonerSection.scan('detention decision was made on').empty?
+        detentionRegexPatterns.each do |pattern|
+            prisonerSection = prisonerSection.gsub(
+                /#{pattern}/,
+                '</span>\\0<span class="date-of-pretrial-detention">'
+            )
+        end
+    else
+        detentionRegexPatterns.each do |pattern|
+            prisonerSection = prisonerSection.gsub(
+                /#{pattern}/,
+                '</span>\\0<span class="date-of-detention">'
+            )
+        end
     end
+
+
 
     prisonerSection = prisonerSection.gsub(
         /(<b>The\s*)?Charge(.*):/,
@@ -229,6 +240,7 @@ end
 def pushDateAndDateType( row, prisonerSection)
     dateOfArrest = prisonerSection.css('.date-of-arrest')
     dateOfDetention = prisonerSection.css('.date-of-detention')
+    dateOfPretrialDetention = prisonerSection.css('.date-of-pretrial-detention')
 
     if !dateOfArrest.empty?
         row.push( cleanValue(dateOfArrest))
@@ -237,6 +249,10 @@ def pushDateAndDateType( row, prisonerSection)
     elsif !dateOfDetention.empty?
         row.push( cleanValue(dateOfDetention))
         row.push( 'Detention' )
+        return row
+    elsif !dateOfPretrialDetention.empty?
+        row.push( cleanValue(dateOfPretrialDetention))
+        row.push( 'Pretrial Detention' )
         return row
     end
 
@@ -253,13 +269,15 @@ def getRowsFromPrisonerSections( prisonerSectionsByType )
         prisonerSectionsOneType.each do |prisonerSection|
             row = []
 
-            if prisNum == 78
-                puts prisonerSection
-            end
+
 
             prisonerSection = wrapDataValues( prisNum, prisonerSection )
             prisonerSection = Nokogiri::HTML( prisonerSection )
             prisonerSection.encoding = 'utf-8'
+
+            if prisNum == 84
+                puts prisonerSection
+            end
 
             row.push(prisNum)
 

@@ -1,10 +1,38 @@
 require 'Nokogiri'
 require 'csv'
 
-def prepareList( input_path )
-    list = Nokogiri::HTML( open(input_path).read )
-    list.encoding = 'utf-8'
+def removePageRelatedTags( list )
+    (1..92).each do |i|
+        pageRegex = '<a name=' + i.to_s + '><\/a>(?:' + i.to_s + ')?'
+
+        regexArray = list.scan(/#{pageRegex}/)
+
+        if (!regexArray.empty?)
+            list = list.gsub(/#{pageRegex}/, '')
+        else
+            raise 'Did not find tags related to page #' + i.to_s + ' to remove from list. Regex search: \n' + pageRegex
+        end
+    end
+
+    return list
+end
+
+def removeUnnecessaryTags( list )
     list.xpath('//br').remove()
+    list.xpath('//hr').remove()
+end
+
+def prepareList( input_path )
+    file = File.open(input_path, "rb")
+    list = file.read
+    file.close
+
+    list = removePageRelatedTags( list )
+
+    puts list
+
+    list = Nokogiri::HTML( list )
+    list.encoding = 'utf-8'
 
     return list
 end
@@ -114,15 +142,19 @@ def wrapDataValues( prisNum, prisonerSection )
     end
 
     prisonerSection = prisonerSection.gsub(
-        /(<b>The\s*)?Charge(s)?(d)?(<\/b>)?:/,
+        /(<b>The\s*)?Charge(:)?(s)?(d)?(<\/b>)?:/,
         '</span>\\0<span class="charges">'
     )
 
-    #prisonerSection = prisonerSection.gsub(
-    #    /Place of detention:/,
-    #    '</span>\\0<span class="place-of-detention">'
-    #)
+    prisonerSection = prisonerSection.gsub(
+        /Place(.*)of(.*)[dD].*etention(<\/b>)?:/m,
+        '</span>\\0<span class="place-of-detention">'
+    )
 
+    prisonerSection = prisonerSection.gsub(
+        /(Case\s*)?(b)?(B)?ackground(<\/b>)?:/,
+        '</span>\\0<span class="background">'
+    )
 
     return prisonerSection
 end
@@ -135,6 +167,16 @@ def cleanValue( value )
     value = value.strip()
 
     return value
+end
+
+def cleanCharges ( charges )
+    charges = charges.to_s
+
+    ## Remove all tags
+    charges = charges.gsub(/<(.|\n)*?>/, '')
+    charges = charges.strip()
+
+    return charges
 end
 
 def cleanDate( date )
@@ -203,15 +245,13 @@ end
 def getRowFromPrisonerSection( prisonerSection, prisNum, prisTypeNum )
     row = []
 
-
-
     prisonerSection = wrapDataValues( prisNum, prisonerSection )
+
+    #Remove tags within spans
+    prisonerSection = prisonerSection.gsub(/<span class="charges"><\/b>/, '<span class="charges">')
+
     prisonerSection = Nokogiri::HTML( prisonerSection )
     prisonerSection.encoding = 'utf-8'
-
-    if prisNum == 6
-        puts prisonerSection
-    end
 
     row.push(prisNum)
 
@@ -219,7 +259,7 @@ def getRowFromPrisonerSection( prisonerSection, prisNum, prisTypeNum )
     row.push(name)
     row.push( getPrisonerType( prisTypeNum ))
     row = pushDateAndDateType( row, prisonerSection )
-    row.push( prisonerSection.css('.charges'))
+    row.push( cleanCharges( prisonerSection.css('.charges')))
 
     return row;
 end

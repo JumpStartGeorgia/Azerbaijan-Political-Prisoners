@@ -8,7 +8,7 @@ def removePageRelatedTags( list )
         list = list.gsub!(/#{pageRegex}/, '')
 
         if (!list)
-            raise 'Did not find tags related to page #' + i.to_s + ' to remove from list. Regex search: \n' + pageRegex
+            raise 'Did not find tags related to page #' + i.to_s + ' to remove from list. Regex search: ' + pageRegex
         end
     end
 
@@ -32,8 +32,6 @@ def prepareList( input_path )
     list = Nokogiri::HTML( list )
     list.encoding = 'utf-8'
     list = removeUnnecessaryTags( list )
-
-    puts list
 
     return list
 end

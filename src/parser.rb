@@ -5,11 +5,9 @@ def removePageRelatedTags( list )
     (1..92).each do |i|
         pageRegex = '<a name=' + i.to_s + '><\/a>(?:' + i.to_s + ')?'
 
-        regexArray = list.scan(/#{pageRegex}/)
+        list = list.gsub!(/#{pageRegex}/, '')
 
-        if (!regexArray.empty?)
-            list = list.gsub(/#{pageRegex}/, '')
-        else
+        if (!list)
             raise 'Did not find tags related to page #' + i.to_s + ' to remove from list. Regex search: \n' + pageRegex
         end
     end
@@ -20,6 +18,8 @@ end
 def removeUnnecessaryTags( list )
     list.xpath('//br').remove()
     list.xpath('//hr').remove()
+
+    return list
 end
 
 def prepareList( input_path )
@@ -29,10 +29,11 @@ def prepareList( input_path )
 
     list = removePageRelatedTags( list )
 
-    puts list
-
     list = Nokogiri::HTML( list )
     list.encoding = 'utf-8'
+    list = removeUnnecessaryTags( list )
+
+    puts list
 
     return list
 end

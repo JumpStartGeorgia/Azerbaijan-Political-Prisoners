@@ -113,12 +113,16 @@ def wrapDataValues( prisNum, prisonerSection )
         end
     end
 
-
-
     prisonerSection = prisonerSection.gsub(
-        /(34 https)?(<b>The\s*)?Charge(.*):/,
+        /(<b>The\s*)?Charge(s)?(d)?(<\/b>)?:/,
         '</span>\\0<span class="charges">'
     )
+
+    #prisonerSection = prisonerSection.gsub(
+    #    /Place of detention:/,
+    #    '</span>\\0<span class="place-of-detention">'
+    #)
+
 
     return prisonerSection
 end
@@ -136,7 +140,9 @@ end
 def cleanDate( date )
     date = date.to_s
 
-    date = date.gsub(/<a(.*)<\/a>/, '')
+    ## Remove incomplete tag and page number in prisoner ID 36
+    date = date.gsub(/<a(.*)47/m, '')
+
     date = cleanValue(date)
 
     return date
@@ -194,6 +200,30 @@ def pushDateAndDateType( row, prisonerSection)
 
 end
 
+def getRowFromPrisonerSection( prisonerSection, prisNum, prisTypeNum )
+    row = []
+
+
+
+    prisonerSection = wrapDataValues( prisNum, prisonerSection )
+    prisonerSection = Nokogiri::HTML( prisonerSection )
+    prisonerSection.encoding = 'utf-8'
+
+    if prisNum == 6
+        puts prisonerSection
+    end
+
+    row.push(prisNum)
+
+    name = cleanName(prisonerSection.css('.prisoner-name'), prisNum)
+    row.push(name)
+    row.push( getPrisonerType( prisTypeNum ))
+    row = pushDateAndDateType( row, prisonerSection )
+    row.push( prisonerSection.css('.charges'))
+
+    return row;
+end
+
 def getRowsFromPrisonerSections( prisonerSectionsByType )
     rows = []
     prisTypeNum = 1
@@ -201,29 +231,7 @@ def getRowsFromPrisonerSections( prisonerSectionsByType )
 
     prisonerSectionsByType.each do |prisonerSectionsOneType|
         prisonerSectionsOneType.each do |prisonerSection|
-            row = []
-
-            if prisNum == 36
-                puts prisonerSection
-            end
-
-            prisonerSection = wrapDataValues( prisNum, prisonerSection )
-            prisonerSection = Nokogiri::HTML( prisonerSection )
-            prisonerSection.encoding = 'utf-8'
-
-
-
-            row.push(prisNum)
-
-            name = cleanName(prisonerSection.css('.prisoner-name'), prisNum)
-            row.push(name)
-            row.push( getPrisonerType( prisTypeNum ))
-
-            row = pushDateAndDateType( row, prisonerSection )
-
-
-            rows.push(row)
-
+            rows.push( getRowFromPrisonerSection( prisonerSection, prisNum, prisTypeNum ))
             prisNum+=1
         end
         prisTypeNum+=1

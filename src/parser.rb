@@ -303,4 +303,7 @@ output_path = File.dirname(__FILE__) + '/../output/output.csv'
 
 outputDataFromHtmlList( input_path, output_path )
 
+require_relative 'prisonerSection.rb'
 
+prisoner1 = PrisonerSection.new('hello')
+puts prisoner1.getTextSection

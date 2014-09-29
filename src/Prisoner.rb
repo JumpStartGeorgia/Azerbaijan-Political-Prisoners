@@ -1,18 +1,42 @@
 require 'Nokogiri'
 
+require_relative 'clean.rb'
+
 class Prisoner
+    def initializeDate
+        wholeText = self.getWholeTextAsNokogiri
+
+        dateOfArrest = wholeText.css('.date-of-arrest')
+        dateOfDetention = wholeText.css('.date-of-detention')
+        dateOfPretrialDetention = wholeText.css('.date-of-pretrial-detention')
+
+        if !dateOfArrest.empty?
+            date = dateOfArrest
+        elsif !dateOfDetention.empty?
+            date = dateOfDetention
+        elsif !dateOfPretrialDetention.empty?
+            date = dateOfPretrialDetention
+        end
+
+        date = cleanDate(date)
+
+        return date
+    end
+
     def initializeData
         wholeText = self.getWholeTextAsNokogiri
 
         name = cleanName(wholeText.css('.prisoner-name'))
+        date = self.initializeDate
+        charges = cleanCharges( wholeText.css('.charges'))
 
-        @name = name
+        return name, date, charges
     end
 
     def initialize(id, wholeText)
         @id = id
         @wholeText = wrapDataValues( wholeText )
-        self.initializeData
+        @name, @date, @charges = self.initializeData
     end
 
     def to_s
@@ -20,6 +44,12 @@ class Prisoner
         puts ''
         puts 'Whole Text: '
         puts @wholeText
+        puts ''
+        puts 'ID: ' + @id.to_s
+        puts 'Name: ' + @name
+        puts 'Date: ' + @date
+        puts 'Date Type: ' + @dateType
+        puts 'Charges: ' + @charges
         puts ''
         puts ''
     end
@@ -40,8 +70,8 @@ class Prisoner
         return @name
     end
 
-    def setName=(name)
-        @name = name
+    def getDate
+        return @date
     end
 
     def getDateType
@@ -52,15 +82,8 @@ class Prisoner
         @dateType = dateType
     end
 
-    def cleanName(name)
-        name = name.to_s
-
-        ## Remove numbers
-        name = name.gsub(/#{@id}\./, '')
-
-        name = cleanValue( name )
-
-        return name
+    def getCharges
+        return @charges
     end
 
     def getWholeTextAsNokogiri

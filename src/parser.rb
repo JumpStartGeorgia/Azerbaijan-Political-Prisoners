@@ -110,37 +110,6 @@ def getPrisonerSections( prisonerTypeSections )
     return prisonerSections
 end
 
-def cleanValue( value )
-    value = value.to_s
-
-    ## Remove all tags
-    value = value.gsub(/<(.|\n)*?>/, '')
-    value = value.strip()
-
-    return value
-end
-
-def cleanCharges ( charges )
-    charges = charges.to_s
-
-    ## Remove all tags
-    charges = charges.gsub(/<(.|\n)*?>/, '')
-    charges = charges.strip()
-
-    return charges
-end
-
-def cleanDate( date )
-    date = date.to_s
-
-    ## Remove incomplete tag and page number in prisoner ID 36
-    date = date.gsub(/<a(.*)47/m, '')
-
-    date = cleanValue(date)
-
-    return date
-end
-
 def getPrisonerType( prisTypeNum )
     if prisTypeNum == 1
         return 'Journalists and Bloggers'
@@ -159,31 +128,6 @@ def getPrisonerType( prisTypeNum )
     end
 end
 
-def pushDateAndDateType( row, prisonerSection)
-    prisonerText = prisonerSection.getWholeTextAsNokogiri
-
-    dateOfArrest = prisonerText.css('.date-of-arrest')
-    dateOfDetention = prisonerText.css('.date-of-detention')
-    dateOfPretrialDetention = prisonerText.css('.date-of-pretrial-detention')
-
-    if !dateOfArrest.empty?
-        row.push( cleanDate(dateOfArrest))
-        row.push prisonerSection.getDateType
-        return row
-    elsif !dateOfDetention.empty?
-        row.push( cleanDate(dateOfDetention))
-        row.push prisonerSection.getDateType
-        return row
-    elsif !dateOfPretrialDetention.empty?
-        row.push( cleanDate(dateOfPretrialDetention))
-        row.push prisonerSection.getDateType
-        return row
-    end
-
-    return row
-
-end
-
 def getRowFromPrisonerSection( prisonerSection, prisTypeNum )
     row = []
 
@@ -200,8 +144,9 @@ def getRowFromPrisonerSection( prisonerSection, prisTypeNum )
 
     row.push(prisonerSection.getName)
     row.push( getPrisonerType( prisTypeNum ))
-    row = pushDateAndDateType( row, prisonerSection )
-    row.push( cleanCharges( prisonerText.css('.charges')))
+    row.push(prisonerSection.getDate)
+    row.push(prisonerSection.getDateType)
+    row.push(prisonerSection.getCharges)
 
     return row
 end

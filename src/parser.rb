@@ -168,17 +168,14 @@ def pushDateAndDateType( row, prisonerSection)
 
     if !dateOfArrest.empty?
         row.push( cleanDate(dateOfArrest))
-        prisonerSection.setDateType=('Arrest')
         row.push prisonerSection.getDateType
         return row
     elsif !dateOfDetention.empty?
         row.push( cleanDate(dateOfDetention))
-        prisonerSection.setDateType=('Detention')
         row.push prisonerSection.getDateType
         return row
     elsif !dateOfPretrialDetention.empty?
         row.push( cleanDate(dateOfPretrialDetention))
-        prisonerSection.setDateType=('Pretrial Detention')
         row.push prisonerSection.getDateType
         return row
     end

@@ -67,38 +67,52 @@ class Prisoner
         return Nokogiri::HTML(@wholeText)
     end
 
+    def wrapDate( wholeText )
+        arrestRegexPatterns = ['Date of arrest:', 'Date of arrest\s*<\/b>:']
+        detentionRegexPatterns = ['Detention date:', 'Date of Detention:', 'Date of detention:', 'Date of Detention</b>:']
+
+        arrestRegexPatterns.each do |pattern|
+            textMarkedWithDate = wholeText.gsub!(
+                /#{pattern}/,
+                '</span>\\0<span class="date-of-arrest">'
+            )
+
+            if (textMarkedWithDate)
+                self.setDateType=('Arrest')
+                return textMarkedWithDate
+            end
+        end
+
+        detentionRegexPatterns.each do |pattern|
+            if !wholeText.scan(/#{pattern}/).empty?
+                if !wholeText.scan('detention decision was made on').empty?
+                    self.setDateType=('Pretrial Detention')
+
+                    return wholeText.gsub(
+                        /#{pattern}/,
+                        '</span>\\0<span class="date-of-pretrial-detention">'
+                    )
+                else
+                    self.setDateType=('Detention')
+
+                    return wholeText.gsub(
+                        /#{pattern}/,
+                        '</span>\\0<span class="date-of-detention">'
+                    )
+                end
+            end
+        end
+
+        return wholeText
+    end
+
     def wrapDataValues( wholeText )
         wholeText = wholeText.gsub(
             /<b>\s*#{@id}\./,
             '<span class="prisoner-name">\\0'
         )
 
-        arrestRegexPatterns = ['Date of arrest:', 'Date of arrest\s*<\/b>:']
-
-        arrestRegexPatterns.each do |pattern|
-            wholeText = wholeText.gsub(
-                /#{pattern}/,
-                '</span>\\0<span class="date-of-arrest">'
-            )
-        end
-
-        detentionRegexPatterns = ['Detention date:', 'Date of Detention:', 'Date of detention:', 'Date of Detention</b>:']
-
-        if !wholeText.scan('detention decision was made on').empty?
-            detentionRegexPatterns.each do |pattern|
-                wholeText = wholeText.gsub(
-                    /#{pattern}/,
-                    '</span>\\0<span class="date-of-pretrial-detention">'
-                )
-            end
-        else
-            detentionRegexPatterns.each do |pattern|
-                wholeText = wholeText.gsub(
-                    /#{pattern}/,
-                    '</span>\\0<span class="date-of-detention">'
-                )
-            end
-        end
+        wholeText = wrapDate( wholeText )
 
         wholeText = wholeText.gsub(
             /(<b>The\s*)?Charge(:)?(s)?(d)?(<\/b>)?:/,

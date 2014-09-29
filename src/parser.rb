@@ -110,59 +110,6 @@ def getPrisonerSections( prisonerTypeSections )
     return prisonerSections
 end
 
-def wrapDataValues( prisonerSection )
-    prisonerText = prisonerSection.getWholeText()
-
-    prisonerText = prisonerText.gsub(
-        /<b>\s*#{prisonerSection.getId()}\./,
-        '<span class="prisoner-name">\\0'
-    )
-
-    arrestRegexPatterns = ['Date of arrest:', 'Date of arrest\s*<\/b>:']
-
-    arrestRegexPatterns.each do |pattern|
-        prisonerText = prisonerText.gsub(
-            /#{pattern}/,
-            '</span>\\0<span class="date-of-arrest">'
-        )
-    end
-
-    detentionRegexPatterns = ['Detention date:', 'Date of Detention:', 'Date of detention:', 'Date of Detention</b>:']
-
-    if !prisonerText.scan('detention decision was made on').empty?
-        detentionRegexPatterns.each do |pattern|
-            prisonerText = prisonerText.gsub(
-                /#{pattern}/,
-                '</span>\\0<span class="date-of-pretrial-detention">'
-            )
-        end
-    else
-        detentionRegexPatterns.each do |pattern|
-            prisonerText = prisonerText.gsub(
-                /#{pattern}/,
-                '</span>\\0<span class="date-of-detention">'
-            )
-        end
-    end
-
-    prisonerText = prisonerText.gsub(
-        /(<b>The\s*)?Charge(:)?(s)?(d)?(<\/b>)?:/,
-        '</span>\\0<span class="charges">'
-    )
-
-    prisonerText = prisonerText.gsub(
-        /Place(.*)of(.*)[dD].*etention(<\/b>)?:/m,
-        '</span>\\0<span class="place-of-detention">'
-    )
-
-    prisonerText = prisonerText.gsub(
-        /(Case\s*)?(b)?(B)?ackground(<\/b>)?:/,
-        '</span>\\0<span class="background">'
-    )
-
-    return prisonerText
-end
-
 def cleanValue( value )
     value = value.to_s
 
@@ -243,11 +190,11 @@ end
 def getRowFromPrisonerSection( prisonerSection, prisTypeNum )
     row = []
 
-    prisonerSection.setWholeText=( wrapDataValues( prisonerSection ))
     prisonerText = prisonerSection.getWholeText
 
-    #Remove tags within spans
-    prisonerText = prisonerText.gsub(/<span class="charges"><\/b>/, '<span class="charges">')
+    if prisonerSection.getId == 1
+        puts prisonerSection
+    end
 
     prisonerText = Nokogiri::HTML( prisonerText )
     prisonerText.encoding = 'utf-8'

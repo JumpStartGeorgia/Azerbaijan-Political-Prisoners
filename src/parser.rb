@@ -1,6 +1,6 @@
 require 'Nokogiri'
 require 'csv'
-require_relative 'prisonerSection.rb'
+require_relative 'Prisoner.rb'
 
 def removePageRelatedTags( list )
     (1..92).each do |i|
@@ -201,7 +201,6 @@ def getRowFromPrisonerSection( prisonerSection, prisTypeNum )
 
     row.push(prisonerSection.getId())
 
-    prisonerSection.cleanAndSetName(prisonerText.css('.prisoner-name'))
     row.push(prisonerSection.getName)
     row.push( getPrisonerType( prisTypeNum ))
     row = pushDateAndDateType( row, prisonerSection )

@@ -1,11 +1,18 @@
 require 'Nokogiri'
 
 class Prisoner
+    def initializeData
+        wholeText = self.getWholeTextAsNokogiri
+
+        name = cleanName(wholeText.css('.prisoner-name'))
+
+        @name = name
+    end
+
     def initialize(id, wholeText)
         @id = id
-
-        wrappedText = wrapDataValues( wholeText )
-        @wholeText = wrappedText
+        @wholeText = wrapDataValues( wholeText )
+        self.initializeData
     end
 
     def to_s
@@ -45,7 +52,7 @@ class Prisoner
         @dateType = dateType
     end
 
-    def cleanAndSetName(name)
+    def cleanName(name)
         name = name.to_s
 
         ## Remove numbers
@@ -53,7 +60,7 @@ class Prisoner
 
         name = cleanValue( name )
 
-        self.setName=(name)
+        return name
     end
 
     def getWholeTextAsNokogiri

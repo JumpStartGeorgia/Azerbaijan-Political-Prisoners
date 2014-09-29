@@ -3,7 +3,7 @@ require 'Nokogiri'
 require_relative 'clean.rb'
 
 class Prisoner
-    def initializeDate
+    def initializeDateAndDateType
         wholeText = self.getWholeTextAsNokogiri
 
         dateOfArrest = wholeText.css('.date-of-arrest')
@@ -12,31 +12,34 @@ class Prisoner
 
         if !dateOfArrest.empty?
             date = dateOfArrest
+            dateType = 'Arrest'
         elsif !dateOfDetention.empty?
             date = dateOfDetention
+            dateType = 'Detention'
         elsif !dateOfPretrialDetention.empty?
             date = dateOfPretrialDetention
+            dateType = 'Pretrial Detention'
         end
 
         date = cleanDate(date)
 
-        return date
+        return date, dateType
     end
 
     def initializeData
         wholeText = self.getWholeTextAsNokogiri
 
         name = cleanName(wholeText.css('.prisoner-name'))
-        date = self.initializeDate
+        date, dateType = self.initializeDateAndDateType
         charges = cleanCharges( wholeText.css('.charges'))
 
-        return name, date, charges
+        return name, date, dateType, charges
     end
 
     def initialize(id, wholeText)
         @id = id
         @wholeText = wrapDataValues( wholeText )
-        @name, @date, @charges = self.initializeData
+        @name, @date, @dateType, @charges = self.initializeData
     end
 
     def to_s
@@ -78,10 +81,6 @@ class Prisoner
         return @dateType
     end
 
-    def setDateType=(dateType)
-        @dateType = dateType
-    end
-
     def getCharges
         return @charges
     end
@@ -94,6 +93,8 @@ class Prisoner
         arrestRegexPatterns = ['Date of arrest:', 'Date of arrest\s*<\/b>:']
         detentionRegexPatterns = ['Detention date:', 'Date of Detention:', 'Date of detention:', 'Date of Detention</b>:']
 
+
+        #Check for arrest date
         arrestRegexPatterns.each do |pattern|
             textMarkedWithDate = wholeText.gsub!(
                 /#{pattern}/,
@@ -101,23 +102,19 @@ class Prisoner
             )
 
             if (textMarkedWithDate)
-                self.setDateType=('Arrest')
                 return textMarkedWithDate
             end
         end
 
+        #Check for detention date
         detentionRegexPatterns.each do |pattern|
             if !wholeText.scan(/#{pattern}/).empty?
                 if !wholeText.scan('detention decision was made on').empty?
-                    self.setDateType=('Pretrial Detention')
-
                     return wholeText.gsub(
                         /#{pattern}/,
                         '</span>\\0<span class="date-of-pretrial-detention">'
                     )
                 else
-                    self.setDateType=('Detention')
-
                     return wholeText.gsub(
                         /#{pattern}/,
                         '</span>\\0<span class="date-of-detention">'
@@ -152,7 +149,7 @@ class Prisoner
             '</span>\\0<span class="background">'
         )
 
-        #Remove tags within spans
+        #Remove incomplete tags within charges span
         wholeText = wholeText.gsub(/<span class="charges"><\/b>/, '<span class="charges">')
 
         return wholeText

@@ -1,5 +1,6 @@
 require 'Nokogiri'
 require 'csv'
+require_relative 'prisonerSection.rb'
 
 def removePageRelatedTags( list )
     (1..92).each do |i|
@@ -96,8 +97,10 @@ def getPrisonerSections( prisonerTypeSections )
         prisonerTypeSection.encoding = 'utf-8'
 
         (1..98).each do |j|
-            prisonerSection = prisonerTypeSection.css('#prisoner-' + j.to_s).to_s
-            if prisonerSection.length != 0
+            prisonerSectionText = prisonerTypeSection.css('#prisoner-' + j.to_s).to_s
+            if prisonerSectionText.length != 0
+                prisonerSection = PrisonerSection.new( j, prisonerSectionText )
+
                 prisonerSectionsOfThisType.push( prisonerSection )
             end
         end
@@ -107,16 +110,18 @@ def getPrisonerSections( prisonerTypeSections )
     return prisonerSections
 end
 
-def wrapDataValues( prisNum, prisonerSection )
-    prisonerSection = prisonerSection.gsub(
-        /<b>\s*#{prisNum}\./,
+def wrapDataValues( prisonerSection )
+    prisonerText = prisonerSection.getWholeSection()
+
+    prisonerText = prisonerText.gsub(
+        /<b>\s*#{prisonerSection.getId()}\./,
         '<span class="prisoner-name">\\0'
     )
 
     arrestRegexPatterns = ['Date of arrest:', 'Date of arrest\s*<\/b>:']
 
     arrestRegexPatterns.each do |pattern|
-        prisonerSection = prisonerSection.gsub(
+        prisonerText = prisonerText.gsub(
             /#{pattern}/,
             '</span>\\0<span class="date-of-arrest">'
         )
@@ -124,38 +129,38 @@ def wrapDataValues( prisNum, prisonerSection )
 
     detentionRegexPatterns = ['Detention date:', 'Date of Detention:', 'Date of detention:', 'Date of Detention</b>:']
 
-    if !prisonerSection.scan('detention decision was made on').empty?
+    if !prisonerText.scan('detention decision was made on').empty?
         detentionRegexPatterns.each do |pattern|
-            prisonerSection = prisonerSection.gsub(
+            prisonerText = prisonerText.gsub(
                 /#{pattern}/,
                 '</span>\\0<span class="date-of-pretrial-detention">'
             )
         end
     else
         detentionRegexPatterns.each do |pattern|
-            prisonerSection = prisonerSection.gsub(
+            prisonerText = prisonerText.gsub(
                 /#{pattern}/,
                 '</span>\\0<span class="date-of-detention">'
             )
         end
     end
 
-    prisonerSection = prisonerSection.gsub(
+    prisonerText = prisonerText.gsub(
         /(<b>The\s*)?Charge(:)?(s)?(d)?(<\/b>)?:/,
         '</span>\\0<span class="charges">'
     )
 
-    prisonerSection = prisonerSection.gsub(
+    prisonerText = prisonerText.gsub(
         /Place(.*)of(.*)[dD].*etention(<\/b>)?:/m,
         '</span>\\0<span class="place-of-detention">'
     )
 
-    prisonerSection = prisonerSection.gsub(
+    prisonerText = prisonerText.gsub(
         /(Case\s*)?(b)?(B)?ackground(<\/b>)?:/,
         '</span>\\0<span class="background">'
     )
 
-    return prisonerSection
+    return prisonerText
 end
 
 def cleanValue( value )
@@ -241,37 +246,35 @@ def pushDateAndDateType( row, prisonerSection)
 
 end
 
-def getRowFromPrisonerSection( prisonerSection, prisNum, prisTypeNum )
+def getRowFromPrisonerSection( prisonerSection, prisTypeNum )
     row = []
 
-    prisonerSection = wrapDataValues( prisNum, prisonerSection )
+    prisonerText = wrapDataValues( prisonerSection )
 
     #Remove tags within spans
-    prisonerSection = prisonerSection.gsub(/<span class="charges"><\/b>/, '<span class="charges">')
+    prisonerText = prisonerText.gsub(/<span class="charges"><\/b>/, '<span class="charges">')
 
-    prisonerSection = Nokogiri::HTML( prisonerSection )
-    prisonerSection.encoding = 'utf-8'
+    prisonerText = Nokogiri::HTML( prisonerText )
+    prisonerText.encoding = 'utf-8'
 
-    row.push(prisNum)
+    row.push(prisonerSection.getId())
 
-    name = cleanName(prisonerSection.css('.prisoner-name'), prisNum)
+    name = cleanName(prisonerText.css('.prisoner-name'), prisonerSection.getId())
     row.push(name)
     row.push( getPrisonerType( prisTypeNum ))
-    row = pushDateAndDateType( row, prisonerSection )
-    row.push( cleanCharges( prisonerSection.css('.charges')))
+    row = pushDateAndDateType( row, prisonerText )
+    row.push( cleanCharges( prisonerText.css('.charges')))
 
-    return row;
+    return row
 end
 
 def getRowsFromPrisonerSections( prisonerSectionsByType )
     rows = []
     prisTypeNum = 1
-    prisNum = 1
 
     prisonerSectionsByType.each do |prisonerSectionsOneType|
         prisonerSectionsOneType.each do |prisonerSection|
-            rows.push( getRowFromPrisonerSection( prisonerSection, prisNum, prisTypeNum ))
-            prisNum+=1
+            rows.push( getRowFromPrisonerSection( prisonerSection, prisTypeNum ))
         end
         prisTypeNum+=1
     end
@@ -303,7 +306,4 @@ output_path = File.dirname(__FILE__) + '/../output/output.csv'
 
 outputDataFromHtmlList( input_path, output_path )
 
-require_relative 'prisonerSection.rb'
 
-prisoner1 = PrisonerSection.new('hello')
-puts prisoner1.getTextSection

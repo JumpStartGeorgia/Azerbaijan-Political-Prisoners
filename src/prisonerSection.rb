@@ -1,9 +1,13 @@
 class PrisonerSection
-    def initialize(textSection)
-        @textSection = textSection
+    def initialize(id, wholeSection)
+        @id, @wholeSection = id, wholeSection
     end
 
-    def getTextSection
-        return @textSection
+    def getId
+        return @id
+    end
+
+    def getWholeSection
+        return @wholeSection
     end
 end

@@ -99,7 +99,7 @@ def getPrisonerSections( prisonerTypeSections )
         (1..98).each do |j|
             prisonerSectionText = prisonerTypeSection.css('#prisoner-' + j.to_s).to_s
             if prisonerSectionText.length != 0
-                prisonerSection = PrisonerSection.new( j, prisonerSectionText )
+                prisonerSection = Prisoner.new( j, prisonerSectionText )
 
                 prisonerSectionsOfThisType.push( prisonerSection )
             end
@@ -259,8 +259,8 @@ def getRowFromPrisonerSection( prisonerSection, prisTypeNum )
 
     row.push(prisonerSection.getId())
 
-    name = cleanName(prisonerText.css('.prisoner-name'), prisonerSection.getId())
-    row.push(name)
+    prisonerSection.setName=(cleanName(prisonerText.css('.prisoner-name'), prisonerSection.getId()))
+    row.push(prisonerSection.getName)
     row.push( getPrisonerType( prisTypeNum ))
     row = pushDateAndDateType( row, prisonerText )
     row.push( cleanCharges( prisonerText.css('.charges')))

@@ -194,17 +194,6 @@ def cleanDate( date )
     return date
 end
 
-def cleanName( name, prisNum )
-    name = name.to_s
-
-    ## Remove numbers
-    name = name.gsub(/#{prisNum}\./, '')
-
-    name = cleanValue( name )
-
-    return name
-end
-
 def getPrisonerType( prisTypeNum )
     if prisTypeNum == 1
         return 'Journalists and Bloggers'
@@ -259,7 +248,7 @@ def getRowFromPrisonerSection( prisonerSection, prisTypeNum )
 
     row.push(prisonerSection.getId())
 
-    prisonerSection.setName=(cleanName(prisonerText.css('.prisoner-name'), prisonerSection.getId()))
+    prisonerSection.cleanAndSetName(prisonerText.css('.prisoner-name'))
     row.push(prisonerSection.getName)
     row.push( getPrisonerType( prisTypeNum ))
     row = pushDateAndDateType( row, prisonerText )

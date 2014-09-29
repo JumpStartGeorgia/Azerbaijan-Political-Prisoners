@@ -15,13 +15,18 @@ class Prisoner
         return @name
     end
 
-    def setName=(uncleanName)
-        @name = cleanName(uncleanName)
+    def setName=(name)
+        @name = name
     end
 
-    def cleanName(name)
+    def cleanAndSetName(name)
+        name = name.to_s
 
+        ## Remove numbers
+        name = name.gsub(/#{@id}\./, '')
 
-        return name;
+        name = cleanValue( name )
+
+        self.setName=(name)
     end
 end

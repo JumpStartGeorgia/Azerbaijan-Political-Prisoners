@@ -111,7 +111,7 @@ def getPrisonerSections( prisonerTypeSections )
 end
 
 def wrapDataValues( prisonerSection )
-    prisonerText = prisonerSection.getWholeSection()
+    prisonerText = prisonerSection.getWholeText()
 
     prisonerText = prisonerText.gsub(
         /<b>\s*#{prisonerSection.getId()}\./,
@@ -213,21 +213,26 @@ def getPrisonerType( prisTypeNum )
 end
 
 def pushDateAndDateType( row, prisonerSection)
-    dateOfArrest = prisonerSection.css('.date-of-arrest')
-    dateOfDetention = prisonerSection.css('.date-of-detention')
-    dateOfPretrialDetention = prisonerSection.css('.date-of-pretrial-detention')
+    prisonerText = prisonerSection.getWholeTextAsNokogiri
+
+    dateOfArrest = prisonerText.css('.date-of-arrest')
+    dateOfDetention = prisonerText.css('.date-of-detention')
+    dateOfPretrialDetention = prisonerText.css('.date-of-pretrial-detention')
 
     if !dateOfArrest.empty?
         row.push( cleanDate(dateOfArrest))
-        row.push( 'Arrest' )
+        prisonerSection.setDateType=('Arrest')
+        row.push prisonerSection.getDateType
         return row
     elsif !dateOfDetention.empty?
         row.push( cleanDate(dateOfDetention))
-        row.push( 'Detention' )
+        prisonerSection.setDateType=('Detention')
+        row.push prisonerSection.getDateType
         return row
     elsif !dateOfPretrialDetention.empty?
         row.push( cleanDate(dateOfPretrialDetention))
-        row.push( 'Pretrial Detention' )
+        prisonerSection.setDateType=('Pretrial Detention')
+        row.push prisonerSection.getDateType
         return row
     end
 
@@ -238,7 +243,8 @@ end
 def getRowFromPrisonerSection( prisonerSection, prisTypeNum )
     row = []
 
-    prisonerText = wrapDataValues( prisonerSection )
+    prisonerSection.setWholeText=( wrapDataValues( prisonerSection ))
+    prisonerText = prisonerSection.getWholeText
 
     #Remove tags within spans
     prisonerText = prisonerText.gsub(/<span class="charges"><\/b>/, '<span class="charges">')
@@ -251,7 +257,7 @@ def getRowFromPrisonerSection( prisonerSection, prisTypeNum )
     prisonerSection.cleanAndSetName(prisonerText.css('.prisoner-name'))
     row.push(prisonerSection.getName)
     row.push( getPrisonerType( prisTypeNum ))
-    row = pushDateAndDateType( row, prisonerText )
+    row = pushDateAndDateType( row, prisonerSection )
     row.push( cleanCharges( prisonerText.css('.charges')))
 
     return row

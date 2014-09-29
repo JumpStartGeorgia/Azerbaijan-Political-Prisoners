@@ -1,14 +1,20 @@
+require 'Nokogiri'
+
 class Prisoner
-    def initialize(id, wholeSection)
-        @id, @wholeSection = id, wholeSection
+    def initialize(id, wholeText)
+        @id, @wholeText = id, wholeText
     end
 
     def getId
         return @id
     end
 
-    def getWholeSection
-        return @wholeSection
+    def getWholeText
+        return @wholeText
+    end
+
+    def setWholeText=(wholeText)
+        @wholeText = wholeText
     end
 
     def getName
@@ -17,6 +23,14 @@ class Prisoner
 
     def setName=(name)
         @name = name
+    end
+
+    def getDateType
+        return @dateType
+    end
+
+    def setDateType=(dateType)
+        @dateType = dateType
     end
 
     def cleanAndSetName(name)
@@ -28,5 +42,9 @@ class Prisoner
         name = cleanValue( name )
 
         self.setName=(name)
+    end
+
+    def getWholeTextAsNokogiri
+        return Nokogiri::HTML(@wholeText)
     end
 end

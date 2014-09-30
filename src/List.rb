@@ -4,7 +4,21 @@ class List
     def initialize(input_path, output_path)
         contents = openListFromPath(input_path)
         @input_path, @output_path, @contents = input_path, output_path, prepareContents(contents)
-        @prisonerTypes = findPrisonerTypes()
+    end
+
+    def getPrisonerTypes
+        return @prisonerTypes
+    end
+
+    def findPrisonerTypes
+        contents = getContentsAsNokogiri()
+
+        prisonerTypes = []
+        ('A'..'G').each do |letter|
+            prisonerType = PrisonerType.new( contents.css( '#' + letter + '-prisoner-type' ).to_s, letter )
+            prisonerTypes.push( prisonerType )
+        end
+        @prisonerTypes = prisonerTypes
     end
 
     def getContentsAsNokogiri
@@ -66,17 +80,6 @@ class List
         end
 
         return contents
-    end
-
-    def findPrisonerTypes
-        contents = getContentsAsNokogiri()
-
-        prisonerTypes = []
-        ('A'..'G').each do |letter|
-            prisonerType = PrisonerType.new( contents.css( '#' + letter + '-prisoner-type' ).to_s, letter )
-            prisonerTypes.push( prisonerType )
-        end
-        return prisonerTypes
     end
 
     def writePrisonerValuesToOutput

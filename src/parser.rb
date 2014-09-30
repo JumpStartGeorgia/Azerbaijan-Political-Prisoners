@@ -1,6 +1,7 @@
 require 'Nokogiri'
 require 'csv'
 require_relative 'Prisoner.rb'
+require_relative 'PrisonerType.rb'
 
 def removePageRelatedTags( list )
     (1..92).each do |i|
@@ -37,7 +38,7 @@ def prepareList( input_path )
     return list
 end
 
-def wrapPrisonerTypeSections( list )
+def wrapPrisonerTypes( list )
     ('A'..'G').each do |letter|
         if letter == 'A'
             list = list.gsub( /<b>#{letter}\./, '<div id="' + letter + '-prisoner-type"> \\0' )
@@ -52,52 +53,53 @@ def wrapPrisonerTypeSections( list )
     return list
 end
 
-def getPrisonerTypeSections( list )
+def getPrisonerTypes( list )
     list = list.to_s
-    list = wrapPrisonerTypeSections( list )
+    list = wrapPrisonerTypes( list )
     list = Nokogiri::HTML( list )
     list.encoding = 'utf-8'
 
-
-    prisonerTypeSections = []
+    prisonerTypes = []
     ('A'..'G').each do |letter|
-        prisonerTypeSections.push( list.css( '#' + letter + '-prisoner-type' ).to_s );
+        prisonerType = PrisonerType.new( list.css( '#' + letter + '-prisoner-type' ).to_s )
+        prisonerTypes.push( prisonerType );
     end
-    return prisonerTypeSections
+    return prisonerTypes
 end
 
-def wrapPrisonerSections( prisonerTypeSection )
+def wrapPrisoners( prisonerType )
     firstPrisonerAlreadyFound = false
 
     (1..98).each do |prisNum|
-        regex = prisonerTypeSection.scan( /<b>\s*#{prisNum}\./ )
+        regex = prisonerType.scan( /<b>\s*#{prisNum}\./ )
 
         if !regex.empty?
             if (!firstPrisonerAlreadyFound)
-                prisonerTypeSection = prisonerTypeSection.gsub( /<b>\s*#{prisNum}\./, '<div id="prisoner-' + prisNum.to_s + '"> \\0')
+                prisonerType = prisonerType.gsub( /<b>\s*#{prisNum}\./, '<div id="prisoner-' + prisNum.to_s + '"> \\0')
                 firstPrisonerAlreadyFound = true
             else
-                prisonerTypeSection = prisonerTypeSection.gsub( /<b>\s*#{prisNum}\./, '</div><div id="prisoner-' + prisNum.to_s + '"> \\0')
+                prisonerType = prisonerType.gsub( /<b>\s*#{prisNum}\./, '</div><div id="prisoner-' + prisNum.to_s + '"> \\0')
             end
         end
     end
 
-    prisonerTypeSection = prisonerTypeSection + '</div>'
+    prisonerType = prisonerType + '</div>'
 
-    return prisonerTypeSection
+    return prisonerType
 end
 
-def getPrisonerSections( prisonerTypeSections )
+def getPrisoners( prisonerTypes )
     prisonerSections = []
 
-    prisonerTypeSections.each do |prisonerTypeSection|
+    prisonerTypes.each do |prisonerType|
         prisonerSectionsOfThisType = []
-        prisonerTypeSection = wrapPrisonerSections( prisonerTypeSection )
-        prisonerTypeSection = Nokogiri::HTML( prisonerTypeSection )
-        prisonerTypeSection.encoding = 'utf-8'
+        prisonerTypeText = prisonerType.getWholeText
+        prisonerTypeText = wrapPrisoners( prisonerTypeText )
+        prisonerTypeText = Nokogiri::HTML( prisonerTypeText )
+        prisonerTypeText.encoding = 'utf-8'
 
         (1..98).each do |j|
-            prisonerSectionText = prisonerTypeSection.css('#prisoner-' + j.to_s).to_s
+            prisonerSectionText = prisonerTypeText.css('#prisoner-' + j.to_s).to_s
             if prisonerSectionText.length != 0
                 prisonerSection = Prisoner.new( j, prisonerSectionText )
 
@@ -129,8 +131,6 @@ def getPrisonerType( prisTypeNum )
 end
 
 def getRowFromPrisonerSection( prisonerSection, prisTypeNum )
-    prisonerText = prisonerSection.getWholeTextAsNokogiri
-
     row = []
     row.push(prisonerSection.getId)
     row.push(prisonerSection.getName)
@@ -168,8 +168,8 @@ end
 
 def outputDataFromHtmlList(input_path, output_path)
     list = prepareList( input_path )
-    prisonerTypeSections = getPrisonerTypeSections( list )
-    prisonerSections = getPrisonerSections( prisonerTypeSections )
+    prisonerTypeSections = getPrisonerTypes( list )
+    prisonerSections = getPrisoners( prisonerTypeSections )
     rows = getRowsFromPrisonerSections( prisonerSections )
 
     writeRowsToOutput( rows, output_path )

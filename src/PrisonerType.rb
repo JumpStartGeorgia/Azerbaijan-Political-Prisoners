@@ -1,6 +1,7 @@
 class PrisonerType
     def initialize(wholeText, letter)
         @wholeText, @name = wrapPrisoners(wholeText), setNameFromLetter(letter)
+        @prisoners = setPrisonersFromWholeText()
     end
 
     def getWholeText
@@ -9,6 +10,10 @@ class PrisonerType
 
     def getName
         return @name
+    end
+
+    def getPrisoners
+        return @prisoners
     end
 
     def getWholeTextAsNokogiri
@@ -58,5 +63,19 @@ class PrisonerType
         return wholeText
     end
 
+    def setPrisonersFromWholeText()
+        prisoners = []
+        prisonerTypeText = self.getWholeTextAsNokogiri
+
+        (1..98).each do |j|
+            prisonerText = prisonerTypeText.css('#prisoner-' + j.to_s).to_s
+            if prisonerText.length != 0
+                prisoner = Prisoner.new( j, self, prisonerText )
+                prisoners.push( prisoner )
+            end
+        end
+
+        return prisoners
+    end
 
 end

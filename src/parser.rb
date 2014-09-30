@@ -3,6 +3,14 @@ require 'csv'
 require_relative 'Prisoner.rb'
 require_relative 'PrisonerType.rb'
 
+def openList( input_path )
+    file = File.open(input_path, "rb")
+    list = file.read
+    file.close
+
+    return list;
+end
+
 def removePageRelatedTags( list )
     (1..92).each do |i|
         pageRegex = '<a name=' + i.to_s + '><\/a>(?:' + i.to_s + ')?'
@@ -18,9 +26,13 @@ def removePageRelatedTags( list )
 end
 
 def removeUnnecessaryTags( list )
+    list = Nokogiri::HTML( list )
+    list.encoding = 'utf-8'
+
     list.xpath('//br').remove()
     list.xpath('//hr').remove()
 
+    list = list.to_s
     return list
 end
 
@@ -40,25 +52,18 @@ def wrapPrisonerTypes( list )
 end
 
 def prepareList( input_path )
-    file = File.open(input_path, "rb")
-    list = file.read
-    file.close
-
+    list = openList(input_path)
     list = removePageRelatedTags( list )
-
-    list = Nokogiri::HTML( list )
-    list.encoding = 'utf-8'
     list = removeUnnecessaryTags( list )
-
-    list = list.to_s
     list = wrapPrisonerTypes( list )
-    list = Nokogiri::HTML( list )
-    list.encoding = 'utf-8'
 
     return list
 end
 
 def getPrisonerTypes( list )
+    list = Nokogiri::HTML( list )
+    list.encoding = 'utf-8'
+
     prisonerTypes = []
     ('A'..'G').each do |letter|
         prisonerType = PrisonerType.new( list.css( '#' + letter + '-prisoner-type' ).to_s, letter )
@@ -71,15 +76,7 @@ def getPrisoners( prisonerTypes )
     prisoners = []
 
     prisonerTypes.each do |prisonerType|
-        prisonerTypeText = prisonerType.getWholeTextAsNokogiri
-
-        (1..98).each do |j|
-            prisonerText = prisonerTypeText.css('#prisoner-' + j.to_s).to_s
-            if prisonerText.length != 0
-                prisoner = Prisoner.new( j, prisonerType, prisonerText )
-                prisoners.push( prisoner )
-            end
-        end
+        prisoners.concat(prisonerType.getPrisoners)
     end
 
     return prisoners

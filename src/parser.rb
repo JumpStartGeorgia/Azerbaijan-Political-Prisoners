@@ -67,36 +67,14 @@ def getPrisonerTypes( list )
     return prisonerTypes
 end
 
-def wrapPrisoners( prisonerType )
-    firstPrisonerAlreadyFound = false
 
-    (1..98).each do |prisNum|
-        regex = prisonerType.scan( /<b>\s*#{prisNum}\./ )
-
-        if !regex.empty?
-            if (!firstPrisonerAlreadyFound)
-                prisonerType = prisonerType.gsub( /<b>\s*#{prisNum}\./, '<div id="prisoner-' + prisNum.to_s + '"> \\0')
-                firstPrisonerAlreadyFound = true
-            else
-                prisonerType = prisonerType.gsub( /<b>\s*#{prisNum}\./, '</div><div id="prisoner-' + prisNum.to_s + '"> \\0')
-            end
-        end
-    end
-
-    prisonerType = prisonerType + '</div>'
-
-    return prisonerType
-end
 
 def getPrisoners( prisonerTypes )
     prisonerSections = []
 
     prisonerTypes.each do |prisonerType|
         prisonerSectionsOfThisType = []
-        prisonerTypeText = prisonerType.getWholeText
-        prisonerTypeText = wrapPrisoners( prisonerTypeText )
-        prisonerTypeText = Nokogiri::HTML( prisonerTypeText )
-        prisonerTypeText.encoding = 'utf-8'
+        prisonerTypeText = prisonerType.getWholeTextAsNokogiri
 
         (1..98).each do |j|
             prisonerSectionText = prisonerTypeText.css('#prisoner-' + j.to_s).to_s

@@ -38,7 +38,7 @@ class Prisoner
 
     def initialize(id, wholeText)
         @id = id
-        @wholeText = wrapDataValues( wholeText )
+        @wholeText = wrapValues( wholeText )
         @name, @date, @dateType, @charges = self.initializeData
     end
 
@@ -128,7 +128,7 @@ class Prisoner
         return wholeText
     end
 
-    def wrapDataValues( wholeText )
+    def wrapValues( wholeText )
         wholeText = wholeText.gsub(
             /<b>\s*#{@id}\./,
             '<span class="prisoner-name">\\0'

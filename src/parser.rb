@@ -71,41 +71,37 @@ def getPrisoners( prisonerTypes )
     prisoners = []
 
     prisonerTypes.each do |prisonerType|
-        prisonersOfThisType = []
         prisonerTypeText = prisonerType.getWholeTextAsNokogiri
 
         (1..98).each do |j|
             prisonerText = prisonerTypeText.css('#prisoner-' + j.to_s).to_s
             if prisonerText.length != 0
                 prisoner = Prisoner.new( j, prisonerType, prisonerText )
-                prisonersOfThisType.push( prisoner )
+                prisoners.push( prisoner )
             end
         end
-        prisoners.push( prisonersOfThisType )
     end
 
     return prisoners
 end
 
-def getRowFromPrisonerSection( prisonerSection )
+def getRowFromPrisoner( prisoner )
     row = []
-    row.push(prisonerSection.getId)
-    row.push(prisonerSection.getName)
-    row.push(prisonerSection.getPrisonerType.getName)
-    row.push(prisonerSection.getDate)
-    row.push(prisonerSection.getDateType)
-    row.push(prisonerSection.getCharges)
+    row.push(prisoner.getId)
+    row.push(prisoner.getName)
+    row.push(prisoner.getPrisonerType.getName)
+    row.push(prisoner.getDate)
+    row.push(prisoner.getDateType)
+    row.push(prisoner.getCharges)
 
     return row
 end
 
-def getRowsFromPrisonerSections( prisonerSectionsByType )
+def getRowsfromPrisoners( prisoners )
     rows = []
 
-    prisonerSectionsByType.each do |prisonerSectionsOneType|
-        prisonerSectionsOneType.each do |prisonerSection|
-            rows.push( getRowFromPrisonerSection( prisonerSection ))
-        end
+    prisoners.each do |prisoner|
+        rows.push( getRowFromPrisoner( prisoner ))
     end
 
     return rows
@@ -123,10 +119,9 @@ end
 
 def outputDataFromHtmlList(input_path, output_path)
     list = prepareList( input_path )
-    prisonerTypeSections = getPrisonerTypes( list )
-    prisonerSections = getPrisoners( prisonerTypeSections )
-    rows = getRowsFromPrisonerSections( prisonerSections )
-
+    prisonerTypes = getPrisonerTypes( list )
+    prisoners = getPrisoners( prisonerTypes )
+    rows = getRowsfromPrisoners( prisoners )
     writeRowsToOutput( rows, output_path )
 end
 

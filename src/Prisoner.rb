@@ -1,4 +1,3 @@
-require 'Nokogiri'
 require_relative 'clean.rb'
 
 class Prisoner

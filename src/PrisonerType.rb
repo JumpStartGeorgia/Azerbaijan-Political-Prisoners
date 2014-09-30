@@ -1,3 +1,5 @@
+require_relative 'Prisoner.rb'
+
 class PrisonerType
     def initialize(wholeText, letter)
         @wholeText, @name = wrapPrisoners(wholeText), setNameFromLetter(letter)

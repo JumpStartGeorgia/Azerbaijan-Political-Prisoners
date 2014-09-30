@@ -36,8 +36,8 @@ class Prisoner
         return name, date, dateType, charges
     end
 
-    def initialize(id, wholeText)
-        @id = id
+    def initialize(id, prisonerType, wholeText)
+        @id, @prisonerType = id, prisonerType
         @wholeText = wrapValues( wholeText )
         @name, @date, @dateType, @charges = self.initializeData
     end
@@ -59,6 +59,10 @@ class Prisoner
 
     def getId
         return @id
+    end
+
+    def getPrisonerType
+        return @prisonerType
     end
 
     def getWholeText

@@ -61,58 +61,37 @@ def getPrisonerTypes( list )
 
     prisonerTypes = []
     ('A'..'G').each do |letter|
-        prisonerType = PrisonerType.new( list.css( '#' + letter + '-prisoner-type' ).to_s )
-        prisonerTypes.push( prisonerType );
+        prisonerType = PrisonerType.new( list.css( '#' + letter + '-prisoner-type' ).to_s, letter )
+        prisonerTypes.push( prisonerType )
     end
     return prisonerTypes
 end
 
-
-
 def getPrisoners( prisonerTypes )
-    prisonerSections = []
+    prisoners = []
 
     prisonerTypes.each do |prisonerType|
-        prisonerSectionsOfThisType = []
+        prisonersOfThisType = []
         prisonerTypeText = prisonerType.getWholeTextAsNokogiri
 
         (1..98).each do |j|
-            prisonerSectionText = prisonerTypeText.css('#prisoner-' + j.to_s).to_s
-            if prisonerSectionText.length != 0
-                prisonerSection = Prisoner.new( j, prisonerSectionText )
-
-                prisonerSectionsOfThisType.push( prisonerSection )
+            prisonerText = prisonerTypeText.css('#prisoner-' + j.to_s).to_s
+            if prisonerText.length != 0
+                prisoner = Prisoner.new( j, prisonerType, prisonerText )
+                prisonersOfThisType.push( prisoner )
             end
         end
-        prisonerSections.push( prisonerSectionsOfThisType )
+        prisoners.push( prisonersOfThisType )
     end
 
-    return prisonerSections
-end
-
-def getPrisonerType( prisTypeNum )
-    if prisTypeNum == 1
-        return 'Journalists and Bloggers'
-    elsif prisTypeNum == 2
-        return 'Human Rights Defenders'
-    elsif prisTypeNum == 3
-        return 'Youth Activists'
-    elsif prisTypeNum == 4
-        return 'Politicians'
-    elsif prisTypeNum == 5
-        return 'Religious Activists'
-    elsif prisTypeNum == 6
-        return 'Lifetime Prisoners'
-    elsif prisTypeNum == 7
-        return'Other Cases'
-    end
+    return prisoners
 end
 
 def getRowFromPrisonerSection( prisonerSection, prisTypeNum )
     row = []
     row.push(prisonerSection.getId)
     row.push(prisonerSection.getName)
-    row.push( getPrisonerType( prisTypeNum ))
+    row.push(prisonerSection.getPrisonerType.getName)
     row.push(prisonerSection.getDate)
     row.push(prisonerSection.getDateType)
     row.push(prisonerSection.getCharges)

@@ -87,7 +87,7 @@ def getPrisoners( prisonerTypes )
     return prisoners
 end
 
-def getRowFromPrisonerSection( prisonerSection, prisTypeNum )
+def getRowFromPrisonerSection( prisonerSection )
     row = []
     row.push(prisonerSection.getId)
     row.push(prisonerSection.getName)
@@ -101,13 +101,11 @@ end
 
 def getRowsFromPrisonerSections( prisonerSectionsByType )
     rows = []
-    prisTypeNum = 1
 
     prisonerSectionsByType.each do |prisonerSectionsOneType|
         prisonerSectionsOneType.each do |prisonerSection|
-            rows.push( getRowFromPrisonerSection( prisonerSection, prisTypeNum ))
+            rows.push( getRowFromPrisonerSection( prisonerSection ))
         end
-        prisTypeNum+=1
     end
 
     return rows

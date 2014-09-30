@@ -85,34 +85,12 @@ def getPrisoners( prisonerTypes )
     return prisoners
 end
 
-def getRowFromPrisoner( prisoner )
-    row = []
-    row.push(prisoner.getId)
-    row.push(prisoner.getName)
-    row.push(prisoner.getPrisonerType.getName)
-    row.push(prisoner.getDate)
-    row.push(prisoner.getDateType)
-    row.push(prisoner.getCharges)
-
-    return row
-end
-
-def getRowsfromPrisoners( prisoners )
-    rows = []
-
-    prisoners.each do |prisoner|
-        rows.push( getRowFromPrisoner( prisoner ))
-    end
-
-    return rows
-end
-
-def writeRowsToOutput( rows, output_path )
+def writePrisonerValuesToOutput( prisoners, output_path )
     CSV.open( output_path, 'wb') do |csv|
         csv << ['ID', 'Name', 'Type of Prisoner', 'Date', 'Type of Date','Charges', 'Place of Detention', 'Background Description', 'Picture']
 
-        rows.each do |row|
-            csv << row
+        prisoners.each do |prisoner|
+            csv << [prisoner.getId, prisoner.getName, prisoner.getPrisonerType.getName, prisoner.getDate, prisoner.getDateType, prisoner.getCharges]
         end
     end
 end
@@ -121,8 +99,7 @@ def outputDataFromHtmlList(input_path, output_path)
     list = prepareList( input_path )
     prisonerTypes = getPrisonerTypes( list )
     prisoners = getPrisoners( prisonerTypes )
-    rows = getRowsfromPrisoners( prisoners )
-    writeRowsToOutput( rows, output_path )
+    writePrisonerValuesToOutput( prisoners, output_path )
 end
 
 input_path = File.dirname(__FILE__) + '/../input/list.html'

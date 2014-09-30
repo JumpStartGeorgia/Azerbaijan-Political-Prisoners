@@ -86,7 +86,9 @@ class Prisoner
     end
 
     def getWholeTextAsNokogiri
-        return Nokogiri::HTML(@wholeText)
+        nokogiri_text = Nokogiri::HTML(@wholeText)
+        nokogiri_text.encoding = 'utf-8'
+        return nokogiri_text
     end
 
     def wrapDate( wholeText )

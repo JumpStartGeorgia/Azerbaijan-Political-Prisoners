@@ -129,19 +129,10 @@ def getPrisonerType( prisTypeNum )
 end
 
 def getRowFromPrisonerSection( prisonerSection, prisTypeNum )
+    prisonerText = prisonerSection.getWholeTextAsNokogiri
+
     row = []
-
-    prisonerText = prisonerSection.getWholeText
-
-    if prisonerSection.getId == 1
-        puts prisonerSection
-    end
-
-    prisonerText = Nokogiri::HTML( prisonerText )
-    prisonerText.encoding = 'utf-8'
-
-    row.push(prisonerSection.getId())
-
+    row.push(prisonerSection.getId)
     row.push(prisonerSection.getName)
     row.push( getPrisonerType( prisTypeNum ))
     row.push(prisonerSection.getDate)

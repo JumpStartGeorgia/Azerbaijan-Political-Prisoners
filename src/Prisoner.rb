@@ -1,5 +1,4 @@
 require 'Nokogiri'
-
 require_relative 'clean.rb'
 
 class Prisoner
@@ -145,6 +144,9 @@ class Prisoner
             '</span>\\0<span class="charges">'
         )
 
+        #Remove incomplete tags within charges span
+        wholeText = wholeText.gsub(/<span class="charges"><\/b>/, '<span class="charges">')
+
         wholeText = wholeText.gsub(
             /Place(.*)of(.*)[dD].*etention(<\/b>)?:/m,
             '</span>\\0<span class="place-of-detention">'
@@ -154,9 +156,6 @@ class Prisoner
             /(Case\s*)?(b)?(B)?ackground(<\/b>)?:/,
             '</span>\\0<span class="background">'
         )
-
-        #Remove incomplete tags within charges span
-        wholeText = wholeText.gsub(/<span class="charges"><\/b>/, '<span class="charges">')
 
         return wholeText
     end

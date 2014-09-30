@@ -24,20 +24,6 @@ def removeUnnecessaryTags( list )
     return list
 end
 
-def prepareList( input_path )
-    file = File.open(input_path, "rb")
-    list = file.read
-    file.close
-
-    list = removePageRelatedTags( list )
-
-    list = Nokogiri::HTML( list )
-    list.encoding = 'utf-8'
-    list = removeUnnecessaryTags( list )
-
-    return list
-end
-
 def wrapPrisonerTypes( list )
     ('A'..'G').each do |letter|
         if letter == 'A'
@@ -53,12 +39,26 @@ def wrapPrisonerTypes( list )
     return list
 end
 
-def getPrisonerTypes( list )
+def prepareList( input_path )
+    file = File.open(input_path, "rb")
+    list = file.read
+    file.close
+
+    list = removePageRelatedTags( list )
+
+    list = Nokogiri::HTML( list )
+    list.encoding = 'utf-8'
+    list = removeUnnecessaryTags( list )
+
     list = list.to_s
     list = wrapPrisonerTypes( list )
     list = Nokogiri::HTML( list )
     list.encoding = 'utf-8'
 
+    return list
+end
+
+def getPrisonerTypes( list )
     prisonerTypes = []
     ('A'..'G').each do |letter|
         prisonerType = PrisonerType.new( list.css( '#' + letter + '-prisoner-type' ).to_s, letter )

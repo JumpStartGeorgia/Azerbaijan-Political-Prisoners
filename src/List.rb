@@ -1,9 +1,9 @@
 require_relative 'PrisonerType.rb'
 
 class List
-    def initialize(input_path, output_path)
+    def initialize(input_path)
         contents = openListFromPath(input_path)
-        @input_path, @output_path, @contents = input_path, output_path, prepareContents(contents)
+        @input_path, @contents = input_path, prepareContents(contents)
     end
 
     def getPrisonerTypes
@@ -82,8 +82,8 @@ class List
         return contents
     end
 
-    def writePrisonerValuesToOutput
-        CSV.open( @output_path, 'wb') do |csv|
+    def writePrisonerValuesToOutput( output_path )
+        CSV.open( output_path, 'wb') do |csv|
             csv << ['ID', 'Name', 'Type of Prisoner', 'Date', 'Type of Date','Charges', 'Place of Detention', 'Background Description', 'Picture']
 
             @prisonerTypes.each do |prisonerType|

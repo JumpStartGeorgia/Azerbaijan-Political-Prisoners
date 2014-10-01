@@ -11,7 +11,7 @@ class List
     end
 
     def findPrisonerTypes
-        contents = getContentsAsNokogiri()
+        contents = getContentsAsNokogiri( @contents )
 
         prisonerTypes = []
         ('A'..'G').each do |letter|
@@ -21,8 +21,8 @@ class List
         @prisonerTypes = prisonerTypes
     end
 
-    def getContentsAsNokogiri
-        nokogiriContents = Nokogiri::HTML(@contents)
+    def getContentsAsNokogiri( contents )
+        nokogiriContents = Nokogiri::HTML(contents)
         nokogiriContents.encoding = 'utf-8'
         return nokogiriContents
     end
@@ -36,16 +36,15 @@ class List
     end
 
     def prepareContents(contents)
-        contents = removePageRelatedTags( contents )
         contents = removeUnnecessaryTags( contents )
+        contents = removePageRelatedTags( contents )
         contents = wrapPrisonerTypes( contents )
         return contents
     end
 
     def removePageRelatedTags( contents )
         (1..92).each do |i|
-            pageRegex = '<a name=' + i.to_s + '><\/a>(?:' + i.to_s + ')?'
-
+            pageRegex = '<a name="' + i.to_s + '"><\/a>(?:<img src="list-'+ i.to_s + '_1.jpg">)?(?:\n)?(?:<img src="list-'+ i.to_s + '_2.jpg">)?(?:\n)?(?:' + i.to_s + ')?'
             contents = contents.gsub!(/#{pageRegex}/, '')
 
             if (!contents)
@@ -57,8 +56,7 @@ class List
     end
 
     def removeUnnecessaryTags( contents )
-        contents = Nokogiri::HTML( contents )
-        contents.encoding = 'utf-8'
+        contents = getContentsAsNokogiri( contents )
 
         contents.xpath('//br').remove()
         contents.xpath('//hr').remove()
@@ -95,7 +93,7 @@ class List
                 #'Background Description',
                 'Picture'
             ]
-            printPrisoners = [48, 73]
+            printPrisoners = [60]
             @prisonerTypes.each do |prisonerType|
                 prisoners = prisonerType.getPrisoners
                 prisoners.each do |prisoner|

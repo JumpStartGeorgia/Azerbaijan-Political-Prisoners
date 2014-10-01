@@ -89,7 +89,11 @@ class List
             @prisonerTypes.each do |prisonerType|
                 prisoners = prisonerType.getPrisoners
                 prisoners.each do |prisoner|
-                    csv << [prisoner.getId, prisoner.getName, prisonerType.getName, prisoner.getDate, prisoner.getDateType, prisoner.getCharges]
+                    #if prisoner.getId == 5
+                    #    puts prisoner
+                    #end
+
+                    csv << [prisoner.getId, prisoner.getName, prisonerType.getName, prisoner.getDate, prisoner.getDateType, prisoner.getCharges, prisoner.getPlaceOfDetention, prisoner.getBackground]
                 end
             end
         end

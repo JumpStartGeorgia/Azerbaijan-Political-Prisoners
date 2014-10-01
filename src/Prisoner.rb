@@ -30,14 +30,16 @@ class Prisoner
         name = cleanName(wholeText.css('.prisoner-name'))
         date, dateType = self.initializeDateAndDateType
         charges = cleanCharges( wholeText.css('.charges'))
+        placeOfDetention = wholeText.css('.place-of-detention')
+        background = wholeText.css('.background')
 
-        return name, date, dateType, charges
+        return name, date, dateType, charges, placeOfDetention, background
     end
 
     def initialize(id, prisonerType, wholeText)
         @id, @prisonerType = id, prisonerType
-        @wholeText = wrapValues( wholeText )
-        @name, @date, @dateType, @charges = self.initializeData
+        @wholeText = prepareText( wholeText )
+        @name, @date, @dateType, @charges, @placeOfDetention, @background = self.initializeData
     end
 
     def to_s
@@ -87,6 +89,14 @@ class Prisoner
         return @charges
     end
 
+    def getPlaceOfDetention
+        return @placeOfDetention
+    end
+
+    def getBackground
+        return @background
+    end
+
     def getWholeTextAsNokogiri
         nokogiri_text = Nokogiri::HTML(@wholeText)
         nokogiri_text.encoding = 'utf-8'
@@ -96,7 +106,6 @@ class Prisoner
     def wrapDate( wholeText )
         arrestRegexPatterns = ['Date of arrest:', 'Date of arrest\s*<\/b>:']
         detentionRegexPatterns = ['Detention date:', 'Date of Detention:', 'Date of detention:', 'Date of Detention</b>:']
-
 
         #Check for arrest date
         arrestRegexPatterns.each do |pattern|
@@ -155,6 +164,16 @@ class Prisoner
             /(Case\s*)?(b)?(B)?ackground(<\/b>)?:/,
             '</span>\\0<span class="background">'
         )
+
+        wholeText = wholeText + '</span>'
+
+        return wholeText
+    end
+
+    def prepareText( wholeText )
+        wholeText = wholeText.gsub(/<div id="prisoner-#{@id}">/, '')
+        wholeText = wholeText.gsub(/<\/div>/, '')
+        wholeText = wrapValues(wholeText)
 
         return wholeText
     end

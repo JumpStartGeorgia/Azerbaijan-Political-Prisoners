@@ -84,16 +84,35 @@ class List
 
     def writePrisonerValuesToOutput( output_path )
         CSV.open( output_path, 'wb') do |csv|
-            csv << ['ID', 'Name', 'Type of Prisoner', 'Date', 'Type of Date','Charges', 'Place of Detention', 'Background Description', 'Picture']
-
+            csv << [
+                'ID',
+                'Name',
+                'Type of Prisoner',
+                'Date',
+                'Type of Date',
+                #'Charges',
+                'Place of Detention',
+                #'Background Description',
+                'Picture'
+            ]
+            printPrisoners = [48, 73]
             @prisonerTypes.each do |prisonerType|
                 prisoners = prisonerType.getPrisoners
                 prisoners.each do |prisoner|
-                    #if prisoner.getId == 5
-                    #    puts prisoner
-                    #end
+                    if printPrisoners.include? prisoner.getId
+                        puts prisoner
+                    end
 
-                    csv << [prisoner.getId, prisoner.getName, prisonerType.getName, prisoner.getDate, prisoner.getDateType, prisoner.getCharges, prisoner.getPlaceOfDetention, prisoner.getBackground]
+                    csv << [
+                        prisoner.getId,
+                        prisoner.getName,
+                        prisonerType.getName,
+                        prisoner.getDate,
+                        prisoner.getDateType,
+                        #prisoner.getCharges,
+                        prisoner.getPlaceOfDetention,
+                        #prisoner.getBackground
+                    ]
                 end
             end
         end

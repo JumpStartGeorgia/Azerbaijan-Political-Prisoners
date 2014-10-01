@@ -27,11 +27,20 @@ class Prisoner
     def initializeData
         wholeText = self.getWholeTextAsNokogiri
 
-        name = cleanName(wholeText.css('.prisoner-name'))
+        name = cleanName(wholeText.css('.prisoner-name').to_s)
         date, dateType = self.initializeDateAndDateType
-        charges = cleanCharges( wholeText.css('.charges'))
-        placeOfDetention = wholeText.css('.place-of-detention')
-        background = wholeText.css('.background')
+        charges = cleanCharges( wholeText.css('.charges').to_s)
+
+        placeOfDetention = cleanPlaceOfDetention( wholeText.css('.place-of-detention').to_s)
+        if placeOfDetention.length == 0
+            placeOfDetention = 'Not Listed'
+        end
+
+        background = cleanBackground( wholeText.css('.background').to_s )
+        if background.length == 0
+            #Background is not listed for prisoners 35-49 and 87-89
+            background = 'Not Listed'
+        end
 
         return name, date, dateType, charges, placeOfDetention, background
     end
@@ -43,16 +52,28 @@ class Prisoner
     end
 
     def to_s
-        puts 'Prisoner ID: ' + @id.to_s
+        puts '_________________________________________________________________________________________________________________________________________________________________________________________________________________________________'
+        puts 'ID: ' + @id.to_s
         puts ''
-        puts 'Whole Text: '
-        puts @wholeText
+        puts 'Whole Text: ' + @wholeText
         puts ''
         puts 'ID: ' + @id.to_s
+        puts ''
         puts 'Name: ' + @name
+        puts ''
         puts 'Date: ' + @date
+        puts ''
         puts 'Date Type: ' + @dateType
+        puts ''
         puts 'Charges: ' + @charges
+        if (@placeOfDetention)
+            puts ''
+            puts 'Place of Detention: ' + @placeOfDetention
+        end
+        if (@background)
+            puts ''
+            puts 'Background: ' + @background
+        end
         puts ''
         puts ''
     end
@@ -139,6 +160,26 @@ class Prisoner
         return wholeText
     end
 
+    def wrapBackground( wholeText )
+        regexForBackgroundLabel = [
+            '(Case\s*)?(b)?(B)?ackground(<\/b>)?:',
+            '<b>Brief\s*Summary\s*of\s*the\s*Case:',
+            #For prisoner ID 30
+            'Background of person:'
+        ]
+
+        regexForBackgroundLabel.each do |regex|
+            wholeText = wholeText.gsub(
+                /#{regex}/,
+                '</span>\\0<span class="background">'
+            )
+        end
+
+        wholeText = wholeText + '</span>'
+
+        return wholeText
+    end
+
     def wrapValues( wholeText )
         wholeText = wholeText.gsub(
             /<b>\s*#{@id}\./,
@@ -152,20 +193,16 @@ class Prisoner
             '</span>\\0<span class="charges">'
         )
 
-        #Remove incomplete tags within charges span
-        wholeText = wholeText.gsub(/<span class="charges"><\/b>/, '<span class="charges">')
-
         wholeText = wholeText.gsub(
             /Place(.*)of(.*)[dD].*etention(<\/b>)?:/m,
             '</span>\\0<span class="place-of-detention">'
         )
 
-        wholeText = wholeText.gsub(
-            /(Case\s*)?(b)?(B)?ackground(<\/b>)?:/,
-            '</span>\\0<span class="background">'
-        )
+        wholeText = wrapBackground(wholeText)
 
-        wholeText = wholeText + '</span>'
+        #Remove closing </b> tag after opening span tag
+        wholeText = wholeText.gsub(/<span class="charges"><\/b>/, '<span class="charges">')
+        wholeText = wholeText.gsub(/<span class="place-of-detention">\s*<\/b>/, '<span class="place-of-detention">')
 
         return wholeText
     end

@@ -3,8 +3,6 @@ def removeAllTags(value)
 end
 
 def cleanName(name)
-    name = name.to_s
-
     ## Remove numbers
     name = name.gsub(/#{@id}\./, '')
 
@@ -27,11 +25,21 @@ def cleanDate( date )
 end
 
 def cleanCharges ( charges )
-    charges = charges.to_s
-
     charges = removeAllTags(charges)
     charges = charges.strip()
 
     return charges
 end
 
+def cleanPlaceOfDetention ( placeOfDetention )
+    placeOfDetention = removeAllTags(placeOfDetention)
+    placeOfDetention = placeOfDetention.strip()
+
+    return placeOfDetention
+end
+
+def cleanBackground( background )
+    background = background.strip()
+
+    return background
+end

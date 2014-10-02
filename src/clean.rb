@@ -2,12 +2,18 @@ def removeAllTags(value)
     return value.gsub(/<(.|\n)*?>/, '')
 end
 
+def cleanValue(value)
+    value = removeAllTags(value)
+    value = value.strip()
+
+    return value
+end
+
 def cleanName(name)
     ## Remove numbers
     name = name.gsub(/#{@id}\./, '')
 
-    name = removeAllTags(name)
-    name = name.strip()
+    name = cleanValue ( name )
 
     return name
 end
@@ -18,22 +24,21 @@ def cleanDate( date )
     ## Remove incomplete tag and page number in prisoner ID 36
     date = date.gsub(/<a(.*)47/m, '')
 
-    date = removeAllTags(date)
-    date = date.strip()
+    date = cleanValue( date )
 
     return date
 end
 
 def cleanCharges ( charges )
-    charges = removeAllTags(charges)
-    charges = charges.strip()
+    charges = cleanValue( charges )
+    charges = charges.gsub(/\n/, '')
+    charges = charges.squeeze(' ')
 
     return charges
 end
 
 def cleanPlaceOfDetention ( placeOfDetention )
-    placeOfDetention = removeAllTags(placeOfDetention)
-    placeOfDetention = placeOfDetention.strip()
+    placeOfDetention = cleanValue( placeOfDetention )
 
     return placeOfDetention
 end

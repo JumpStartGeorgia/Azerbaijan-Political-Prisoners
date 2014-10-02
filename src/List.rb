@@ -105,13 +105,16 @@ class List
         removeRegexes = [
             '46 http://bit.ly/1myxEK1',
             '<img src="list-67_1.jpg">40 http://bit.ly/1hEhLL3',
-            '49(?:\n*\s*)?<a href="http:\/\/1.usa.gov\/18BOn4u">49 http:\/\/1.usa.gov\/18BOn4u <\/a>'
+            '49(?:\n*\s*)?<a href="http://1.usa.gov/18BOn4u">49 http://1.usa.gov/18BOn4u </a>',
+            '34 https://search.wikileaks.org/plusd/cables/08BAKU383_a.html',
+            '37 http://1.usa.gov/18BOn4u',
+            '<a href="http://1.usa.gov/18BOn4u"> </a>'
         ]
 
         removeRegexes.each do |removeRegex|
             contents = contents.gsub!(/#{removeRegex}/, '')
             if contents == nil
-                raise 'Did not find one of the bad content regexes in removeLeftoverBadContent'
+                raise 'Pattern not removed from list: ' + removeRegex
             end
         end
 
@@ -131,15 +134,17 @@ class List
                 #'Background Description',
                 'Picture'
             ]
-            printPrisoners = []
+            printPrisoners = [83]
             @prisonerTypes.each do |prisonerType|
                 prisoners = prisonerType.getPrisoners
                 prisoners.each do |prisoner|
-                    if printPrisoners.include? prisoner.getId
-                        puts prisoner
-                    end
-
-
+                    #if printPrisoners.include? prisoner.getId
+                    #    puts prisoner
+                    #end
+                    #
+                    #if prisoner.getWholeText.include? 'http://'
+                    #    puts prisoner
+                    #end
 
                     csv << [
                         prisoner.getId,
@@ -147,7 +152,7 @@ class List
                         prisonerType.getName,
                         prisoner.getDate,
                         prisoner.getDateType,
-                        #prisoner.getCharges,
+                        prisoner.getCharges,
                         prisoner.getPlaceOfDetention,
                         #prisoner.getBackground
                     ]

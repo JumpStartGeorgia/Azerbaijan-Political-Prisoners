@@ -32,34 +32,54 @@ class List
         list = file.read
         file.close
 
-        return list;
+        return list
     end
 
     def prepareContents(contents)
-        contents = removeUnnecessaryTags( contents )
+        contents = removeSingleTagElements( contents )
         contents = removePageRelatedTags( contents )
+        contents = removeBitLyLinks( contents )
+        contents = removeLeftoverBadContent( contents )
+        puts contents
         contents = wrapPrisonerTypes( contents )
         return contents
     end
 
+    def removeSingleTagElements( contents )
+        contents = getContentsAsNokogiri( contents )
+
+        contents.xpath('//br').remove()
+        contents.xpath('//hr').remove()
+
+        contents = contents.to_s
+        return contents
+    end
+
     def removePageRelatedTags( contents )
+        removeRegex = ''
+        contents = contents.gsub!(/#{removeRegex}/, '')
+
         (1..92).each do |i|
-            pageRegex = '<a name="' + i.to_s + '"><\/a>(?:<img src="list-'+ i.to_s + '_1.jpg">)?(?:\n)?(?:<img src="list-'+ i.to_s + '_2.jpg">)?(?:\n)?(?:' + i.to_s + ')?'
-            contents = contents.gsub!(/#{pageRegex}/, '')
+            removeRegex = '<a name="' + i.to_s + '"><\/a>(?:<img src="list-'+ i.to_s + '_1.jpg">)?(?:\n)?(?:<img src="list-'+ i.to_s + '_2.jpg">)?(?:\n)?(?:' + i.to_s + ')?'
+            contents = contents.gsub!(/#{removeRegex}/, '')
 
             if (!contents)
-                raise 'Did not find tags related to page #' + i.to_s + ' to remove from list. Regex search: ' + pageRegex
+                raise 'Did not find tags related to page #' + i.to_s + ' to remove from list. Regex search: ' + removeRegex
             end
         end
 
         return contents
     end
 
-    def removeUnnecessaryTags( contents )
+    # Removes this sort of <a> tag:
+    #<a href="http://bit.ly/1hiq3vA">38 http://bit.ly/1hiq3vA </a>
+    #<a href="http://bit.ly/1f0C3kt">39 http://bit.ly/1f0C3kt </a>
+    #<a href="http://bit.ly/1mb5UIx">45 http://bit.ly/1mb5UIx<i><b> </b></i></a>
+    def removeBitLyLinks( contents )
         contents = getContentsAsNokogiri( contents )
-
-        contents.xpath('//br').remove()
-        contents.xpath('//hr').remove()
+        contents.search('//a[contains(@href,"http://bit.ly")]').each do |node|
+            node.remove
+        end
 
         contents = contents.to_s
         return contents
@@ -80,6 +100,24 @@ class List
         return contents
     end
 
+    def removeLeftoverBadContent( contents )
+
+        removeRegexes = [
+            '46 http://bit.ly/1myxEK1',
+            '<img src="list-67_1.jpg">40 http://bit.ly/1hEhLL3',
+            '49(?:\n*\s*)?<a href="http:\/\/1.usa.gov\/18BOn4u">49 http:\/\/1.usa.gov\/18BOn4u <\/a>'
+        ]
+
+        removeRegexes.each do |removeRegex|
+            contents = contents.gsub!(/#{removeRegex}/, '')
+            if contents == nil
+                raise 'Did not find one of the bad content regexes in removeLeftoverBadContent'
+            end
+        end
+
+        return contents
+    end
+
     def writePrisonerValuesToOutput( output_path )
         CSV.open( output_path, 'wb') do |csv|
             csv << [
@@ -93,13 +131,15 @@ class List
                 #'Background Description',
                 'Picture'
             ]
-            printPrisoners = [60]
+            printPrisoners = []
             @prisonerTypes.each do |prisonerType|
                 prisoners = prisonerType.getPrisoners
                 prisoners.each do |prisoner|
                     if printPrisoners.include? prisoner.getId
                         puts prisoner
                     end
+
+
 
                     csv << [
                         prisoner.getId,

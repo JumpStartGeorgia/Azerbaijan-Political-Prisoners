@@ -1,4 +1,6 @@
+
 require_relative 'PrisonerType.rb'
+
 
 class List
     def initialize(input_path)
@@ -40,7 +42,6 @@ class List
         contents = removePageRelatedTags( contents )
         contents = removeBitLyLinks( contents )
         contents = removeLeftoverBadContent( contents )
-        puts contents
         contents = wrapPrisonerTypes( contents )
         return contents
     end
@@ -121,6 +122,26 @@ class List
         return contents
     end
 
+    def printPrisoner( prisoner )
+        prisonerIdsToPrint = []
+
+        if prisonerIdsToPrint.include? prisoner.getId
+            puts prisoner
+        end
+
+        #If a prisoner text contains the pattern http:// and is not approved, prints it out
+        scanString = 'http://'
+        numberHttpStrings = prisoner.getWholeText.scan(/#{scanString}/).length
+        approvedHttpPrisoners = [83]
+
+        if numberHttpStrings > 0
+            if !approvedHttpPrisoners.include? prisoner.getId
+                puts prisoner
+                puts 'Prisoner #' + prisoner.getId.to_s + ' has ' + numberHttpStrings.to_s + ' http:// patterns'
+            end
+        end
+    end
+
     def writePrisonerValuesToOutput( output_path )
         CSV.open( output_path, 'wb') do |csv|
             csv << [
@@ -134,17 +155,10 @@ class List
                 #'Background Description',
                 'Picture'
             ]
-            printPrisoners = [83]
             @prisonerTypes.each do |prisonerType|
                 prisoners = prisonerType.getPrisoners
                 prisoners.each do |prisoner|
-                    #if printPrisoners.include? prisoner.getId
-                    #    puts prisoner
-                    #end
-                    #
-                    #if prisoner.getWholeText.include? 'http://'
-                    #    puts prisoner
-                    #end
+                    #printPrisoner( prisoner )
 
                     csv << [
                         prisoner.getId,

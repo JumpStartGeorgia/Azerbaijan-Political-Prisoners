@@ -28,6 +28,10 @@ class Prisoner
         wholeText = self.getWholeTextAsNokogiri
 
         name = cleanName(wholeText.css('.prisoner-name').to_s)
+        if name.length == 0
+            raise 'Prisoner ID ' + @id + ' name not found'
+        end
+
         date, dateType = self.initializeDateAndDateType
         charges = cleanCharges( wholeText.css('.charges').to_s)
 
@@ -53,6 +57,7 @@ class Prisoner
 
     def to_s
         puts '_________________________________________________________________________________________________________________________________________________________________________________________________________________________________'
+        puts ''
         puts 'ID: ' + @id.to_s
         puts ''
         puts 'Whole Text: ' + @wholeText
@@ -75,7 +80,7 @@ class Prisoner
             puts 'Background: ' + @background
         end
         puts ''
-        puts ''
+        puts '_________________________________________________________________________________________________________________________________________________________________________________________________________________________________'
     end
 
     def getId

@@ -30,19 +30,35 @@ class List
     end
 
     def openListFromPath( input_path )
-        file = File.open(input_path, "rb")
+        file = File.open(input_path, "rb", encoding: 'UTF-8')
         list = file.read
         file.close
-
         return list
     end
 
     def prepareContents(contents)
+        contents = removeFootnoteNumbers( contents )
         contents = removeSingleTagElements( contents )
         contents = removePageRelatedTags( contents )
         contents = removeBitLyLinks( contents )
         contents = removeLeftoverBadContent( contents )
         contents = wrapPrisonerTypes( contents )
+        return contents
+    end
+
+    def removeFootnoteNumbers( contents )
+        (1..49).each do |footnoteNum|
+            regex = '\.(?:”)?' + footnoteNum.to_s
+            scanned = contents.scan(/#{regex}/)
+            if scanned.length == 0
+                raise 'Regex ' + regex + ' for footnote numbers gets 0 results for footnote ' + footnoteNum.to_s
+            elsif scanned.length > 1
+                puts 'Number of results: ' + scanned.length.to_s
+                puts scanned
+                raise 'Regex ' + regex + ' for footnote numbers gets more than one result (' + scanned.length.to_s + ' results) for footnote ' + footnoteNum.to_s
+            end
+        end
+
         return contents
     end
 

@@ -96,7 +96,7 @@ class Prisoner
     end
 
     def getPrisonerSubtypeName
-        if @prisonerSubtype == 'None'
+        if @prisonerSubtype == 'No Subtype'
             return @prisonerSubtype
         else
             return @prisonerSubtype.getName
@@ -104,7 +104,7 @@ class Prisoner
     end
 
     def getPrisonerSubtypeDescription
-        if @prisonerSubtype == 'None'
+        if @prisonerSubtype == 'No Subtype'
             return @prisonerSubtype
         else
             return @prisonerSubtype.getDescription

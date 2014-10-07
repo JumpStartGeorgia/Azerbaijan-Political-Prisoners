@@ -22,7 +22,16 @@ class PrisonerSubtype
     end
 
     def findDescription
-        @description = self.getWholeTextAsNokogiri.css('.subtypeDescription')[0].content.to_s
+        description = self.getWholeTextAsNokogiri.css('.subtypeDescription')[0].content.to_s
+        description = description.strip()
+
+        if @prisonerType.getName == 'Human Rights Defenders'
+            puts @wholeText
+        end
+        if description == ''
+            description = 'No Subtype Description'
+        end
+        @description = description
     end
 
     def getPrisoners
@@ -48,7 +57,17 @@ class PrisonerSubtype
     end
 
     def findPrisoners
+        wholeText = getWholeTextAsNokogiri()
+
         prisoners = []
+        (1..98).each do |j|
+            prisonerText = wholeText.css('#prisoner-' + j.to_s).to_s
+            if prisonerText.length != 0
+                prisoner = Prisoner.new( j, self, self, prisonerText )
+                prisoners.push( prisoner )
+            end
+        end
+
         @prisoners = prisoners
     end
 

@@ -31,7 +31,7 @@ class PrisonerType
             if subtypeText.length != 0
                 subtype = PrisonerSubtype.new(subtypeText, letter, self)
                 subtypes.push(subtype)
-                puts subtype.getName
+                #puts subtype.getName
             end
         end
 
@@ -60,7 +60,7 @@ class PrisonerType
             if !prisonerAlreadyFound
                 prisonerText = prisonerTypeText.css('#prisoner-' + j.to_s).to_s
                 if prisonerText.length != 0
-                    prisoner = Prisoner.new( j, self, 'None', prisonerText )
+                    prisoner = Prisoner.new( j, self, 'No Subtype', prisonerText )
                     prisoners.push( prisoner )
                 end
             end
@@ -130,8 +130,6 @@ class PrisonerType
 
     def wrapPrisoners( wholeText )
         if @subtypes.empty?
-            puts 'PRISONER TYPE ' + @name + ' WRAPPING PRISONERS'
-
             (1..98).each do |prisNum|
                 firstPrisonerAlreadyFound = false
                 regex = wholeText.scan( /<b>\s*#{prisNum}\./ )

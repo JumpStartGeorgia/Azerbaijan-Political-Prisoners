@@ -25,9 +25,6 @@ class PrisonerSubtype
         description = self.getWholeTextAsNokogiri.css('.subtypeDescription')[0].content.to_s
         description = description.strip()
 
-        if @prisonerType.getName == 'Human Rights Defenders'
-            puts @wholeText
-        end
         if description == ''
             description = 'No Subtype Description'
         end
@@ -94,6 +91,9 @@ class PrisonerSubtype
         # Human Rights Defenders Section b has no bold tag, so special case must be included in order to find it
         if @prisonerType.getName == 'Human Rights Defenders' and letter == 'b'
             wholeText = wholeText.gsub( /b.  Other cases/, '<span class="subtypeName">\\0</span>')
+        # Religious Activists Section b has a bold tag in the name, so special case must be included in order not to cut off the end of the name
+        elsif @prisonerType.getName == 'Religious Activists' and letter == 'e'
+            wholeText = wholeText.gsub( /<b>e.  Cases of those detained in connection with the “Freedom for hijab” protest held on <\/b>\n<i><b>5 October 2012/, '<span class="subtypeName">\\0</span>')
         else
             wholeText = wholeText.gsub( /<b>\s*#{letter}\.(.*?)<\/b>/, '<span class="subtypeName">\\0</span>')
         end
@@ -102,7 +102,7 @@ class PrisonerSubtype
     end
 
     def wrapDescription(wholeText)
-        wholeText = wholeText.gsub( /<span class="subtypeName">(.*?)<\/span>/, '\\0<span class="subtypeDescription">')
+        wholeText = wholeText.gsub( /<span class="subtypeName">(.*?)<\/span>/m, '\\0<span class="subtypeDescription">')
         wholeText = wholeText.sub( /<div id="prisoner-/, '</span>\\0')
 
         return wholeText

@@ -115,7 +115,21 @@ class PrisonerType
     end
 
     def wrapSubtypes( wholeText )
+        puts 'Wrapping prisoner type ' + @name + ':'
 
+        #Wrap Human Rights Defenders Section 'b.  Other cases' manually (it is not contained in a bold tag)
+        if @name == 'Human Rights Defenders'
+            wholeText = wholeText.gsub(/b\.  Other cases/, '<div id="subtype-b"> \\0')
+        end
+
+        ('a'..'g').each do |letter|
+            wholeText = wholeText.gsub(/<b>\s*#{letter}\./, '<div id="subtype-' + letter + '"> \\0')
+            if wholeText.include? '<div id="subtype-' + letter + '">'
+                puts 'found letter ' + letter
+            end
+        end
+
+        puts ''
 
         return wholeText
     end

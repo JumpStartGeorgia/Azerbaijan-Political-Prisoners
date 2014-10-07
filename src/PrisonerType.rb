@@ -1,8 +1,11 @@
 require_relative 'Prisoner.rb'
+require_relative 'PrisonerSubtype.rb'
 
 class PrisonerType
     def initialize(wholeText, letter)
-        @wholeText, @name = wrapPrisoners(wholeText), setNameFromLetter(letter)
+        @name = setNameFromLetter(letter)
+        wholeText = wrapPrisoners(wholeText)
+        @wholeText = wrapSubtypes(wholeText)
     end
 
     def getWholeText
@@ -17,15 +20,47 @@ class PrisonerType
         return @prisoners
     end
 
+    def findSubtypes
+        subtypes = []
+        prisonerTypeText = self.getWholeTextAsNokogiri
+
+        ('a'..'g').each do |letter|
+            subtypeText = prisonerTypeText.css('#subtype-' + letter).to_s
+
+            if subtypeText.length != 0
+                subtype = PrisonerSubtype.new(subtypeText)
+                subtypes.push(subtype)
+            end
+        end
+
+        @subtypes = subtypes
+    end
+
     def findPrisoners
         prisoners = []
         prisonerTypeText = self.getWholeTextAsNokogiri
 
+        #Find the prisoners contained in subtypes
+        @subtypes.each do |subtype|
+            subtype.findPrisoners
+            prisoners.concat(subtype.getPrisoners)
+        end
+
+        #If a prisoner is not in a subtype, then look for it in the whole text of the prisonerType
         (1..98).each do |j|
-            prisonerText = prisonerTypeText.css('#prisoner-' + j.to_s).to_s
-            if prisonerText.length != 0
-                prisoner = Prisoner.new( j, self, prisonerText )
-                prisoners.push( prisoner )
+            prisonerAlreadyFound = false
+            prisoners.each do |prisoner|
+                if j == prisoner.getId
+                    prisonerAlreadyFound = true
+                end
+            end
+
+            if !prisonerAlreadyFound
+                prisonerText = prisonerTypeText.css('#prisoner-' + j.to_s).to_s
+                if prisonerText.length != 0
+                    prisoner = Prisoner.new( j, self, 'None', prisonerText )
+                    prisoners.push( prisoner )
+                end
             end
         end
 
@@ -75,6 +110,12 @@ class PrisonerType
         end
 
         wholeText = wholeText + '</div>'
+
+        return wholeText
+    end
+
+    def wrapSubtypes( wholeText )
+
 
         return wholeText
     end

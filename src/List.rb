@@ -193,8 +193,6 @@ class List
             contents = replaceSpecificPatternInString(contents, removeRegex, '')
         end
 
-        puts contents
-
         return contents
     end
 
@@ -224,6 +222,8 @@ class List
                 'ID',
                 'Name',
                 'Type of Prisoner',
+                'Subtype of Prisoner',
+                'Subtype Description',
                 'Date',
                 'Type of Date',
                 #'Charges',
@@ -240,9 +240,11 @@ class List
                         prisoner.getId,
                         prisoner.getName,
                         prisonerType.getName,
+                        prisoner.getPrisonerSubtypeName,
+                        prisoner.getPrisonerSubtypeDescription,
                         prisoner.getDate,
                         prisoner.getDateType,
-                        prisoner.getCharges,
+                        #prisoner.getCharges,
                         prisoner.getPlaceOfDetention,
                         #prisoner.getBackground
                     ]

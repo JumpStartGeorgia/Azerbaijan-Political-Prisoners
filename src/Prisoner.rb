@@ -49,8 +49,8 @@ class Prisoner
         return name, date, dateType, charges, placeOfDetention, background
     end
 
-    def initialize(id, prisonerType, wholeText)
-        @id, @prisonerType = id, prisonerType
+    def initialize(id, prisonerType, prisonerSubtype, wholeText)
+        @id, @prisonerType, @prisonerSubtype = id, prisonerType, prisonerSubtype
         @wholeText = prepareText( wholeText )
         @name, @date, @dateType, @charges, @placeOfDetention, @background = self.initializeData
     end
@@ -89,6 +89,26 @@ class Prisoner
 
     def getPrisonerType
         return @prisonerType
+    end
+
+    def getPrisonerSubtype
+        return @prisonerSubtype
+    end
+
+    def getPrisonerSubtypeName
+        if @prisonerSubtype == 'None'
+            return @prisonerSubtype
+        else
+            return @prisonerSubtype.getName
+        end
+    end
+
+    def getPrisonerSubtypeDescription
+        if @prisonerSubtype == 'None'
+            return @prisonerSubtype
+        else
+            return @prisonerSubtype.getDescription
+        end
     end
 
     def getWholeText

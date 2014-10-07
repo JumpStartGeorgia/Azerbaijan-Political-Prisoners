@@ -11,7 +11,6 @@ list.findPrisonerTypes
 
 #Find the prisoners in each of those sections
 list.getPrisonerTypes.each do |prisonerType|
-    prisonerType.findSubtypes
     prisonerType.findPrisoners
 end
 

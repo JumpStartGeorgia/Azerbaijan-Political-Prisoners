@@ -18,43 +18,37 @@ def cleanName(name)
     return name
 end
 
-def cleanDate( date, prisId )
-    date = date.to_s
+def convertMonthToNum(month)
+    monthNameNumPairs = [
+        ['January', '1'],
+        ['February', '2'],
+        ['March', '3'],
+        ['April', '4'],
+        ['May', '5'],
+        ['June', '6'],
+        ['July', '7'],
+        ['August', '8'],
+        ['September', '9'],
+        ['October', '10'],
+        ['November', '11'],
+        ['December', '12'],
+    ]
 
-    ## Remove incomplete tag and page number in prisoner ID 36
-    date = date.gsub(/<a(.*)47/m, '')
-
-    date = cleanValue( date )
-
-    removePatterns = ['Pretrial detention decision was made on ', 'pretrial detention decision was made on ', '.', ',']
-    removePatterns.each do |pattern|
-        date = date.gsub(pattern, '')
+    monthNameNumPairs.each do |monthPair|
+        if month == monthPair[0]
+            return monthPair[1]
+        end
     end
 
-    #Specific case for prisoner 22: Correct day number, which is incorrectly listed twice
-    if prisId == 22
-        date = date.gsub('August 2', 'August')
-    end
+    raise 'Failed month conversion from name to number'
+end
+
+def formatDate( date, prisId )
+    originalDate = date
 
     month = false
     day = false
     year = false
-
-    puts 'date: ' + date
-
-    #Convert days formatted with letters attached to just numbers, i.e. 23rd -> 23; 14th -> 14; 1st -> 1
-    date_scan = date.scan(/[0-9]+[a-z]+/)
-    if date_scan.length > 0
-        replaceString = date_scan[0].gsub(/[a-z]/, '')
-        #puts 'Before: ' + date
-        #puts 'Part to replace: ' + date_scan[0]
-        #puts 'Replace string: ' + replaceString
-        date = date.gsub(/[0-9]+[a-z]+/, replaceString)
-        #puts 'After: ' + date
-    end
-
-    date = date.gsub('March13', 'March 13')
-
 
     dateParts = date.split()
     dateParts.each do |part|
@@ -74,7 +68,6 @@ def cleanDate( date, prisId )
         end
     end
 
-
     if (!month)
         raise 'Did not find month for prisoner ' + prisId.to_s
     elsif (!day)
@@ -83,9 +76,41 @@ def cleanDate( date, prisId )
         raise 'Did not find year for prisoner ' + prisId.to_s
     end
 
-    date = month + '/' + day + '/' + year
+    month = convertMonthToNum(month)
 
+    date = day + '/' + month + '/' + year
     return date
+end
+
+def cleanDate( date, prisId )
+    date = date.to_s
+
+    ## Remove incomplete tag and page number in prisoner ID 36
+    date = date.gsub(/<a(.*)47/m, '')
+
+    date = cleanValue( date )
+
+    removePatterns = ['Pretrial detention decision was made on ', 'pretrial detention decision was made on ', '.', ',']
+    removePatterns.each do |pattern|
+        date = date.gsub(pattern, '')
+    end
+
+    #Specific case for prisoner 22: Correct day number, which is incorrectly listed twice
+    if prisId == 22
+        date = date.gsub('August 2', 'August')
+    end
+
+    #Specific case: March13 -> March 13
+    date = date.gsub('March13', 'March 13')
+
+    #Convert days formatted with letters attached to just numbers, i.e. 23rd -> 23; 14th -> 14; 1st -> 1
+    date_scan = date.scan(/[0-9]+[a-z]+/)
+    if date_scan.length > 0
+        replaceString = date_scan[0].gsub(/[a-z]/, '')
+        date = date.gsub(/[0-9]+[a-z]+/, replaceString)
+    end
+
+    return formatDate( date, prisId )
 end
 
 def cleanCharges ( charges )

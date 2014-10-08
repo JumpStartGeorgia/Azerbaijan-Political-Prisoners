@@ -203,7 +203,7 @@ class List
     end
 
     def printPrisoner( prisoner )
-        prisonerIdsToPrint = [22]
+        prisonerIdsToPrint = []
 
         if prisonerIdsToPrint.include? prisoner.getId
             puts prisoner

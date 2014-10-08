@@ -31,7 +31,6 @@ class PrisonerType
             if subtypeText.length != 0
                 subtype = PrisonerSubtype.new(subtypeText, letter, self)
                 subtypes.push(subtype)
-                #puts subtype.getName
             end
         end
 
@@ -96,7 +95,6 @@ class PrisonerType
     end
 
     def wrapSubtypes( wholeText )
-        #puts 'Wrapping prisoner type ' + @name + ':'
         hasSubtypes = false
 
         #Wrap Human Rights Defenders Section 'b.  Other cases' manually (it is not contained in a bold tag)
@@ -113,31 +111,24 @@ class PrisonerType
 
             if wholeText.include? '<div id="subtype-' + letter + '">'
                 hasSubtypes = true
-                #puts 'found letter ' + letter
             end
         end
 
         if hasSubtypes
             wholeText = wholeText + '</div>'
         end
-        #
-        #puts ''
-        #puts 'Prisoner Type whole text: ' + wholeText
-        #puts ''
 
         return wholeText
     end
 
     def wrapPrisoners( wholeText )
         if @subtypes.empty?
+            firstPrisoner = true
             (1..98).each do |prisNum|
-                firstPrisonerAlreadyFound = false
-                regex = wholeText.scan( /<b>\s*#{prisNum}\./ )
-
-                if !regex.empty?
-                    if (!firstPrisonerAlreadyFound)
+                if !wholeText.scan( /<b>\s*#{prisNum}\./ ).empty?
+                    if (firstPrisoner)
                         wholeText = wholeText.gsub( /<b>\s*#{prisNum}\./, '<div id="prisoner-' + prisNum.to_s + '"> \\0')
-                        firstPrisonerAlreadyFound = true
+                        firstPrisoner = false
                     else
                         wholeText = wholeText.gsub( /<b>\s*#{prisNum}\./, '</div><div id="prisoner-' + prisNum.to_s + '"> \\0')
                     end

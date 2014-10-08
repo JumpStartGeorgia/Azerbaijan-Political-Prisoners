@@ -203,17 +203,17 @@ class List
             puts prisoner
         end
 
-        #If a prisoner text contains the pattern http:// and is not approved, prints it out
-        scanString = 'http://'
-        numberHttpStrings = prisoner.getWholeText.scan(/#{scanString}/).length
-        approvedHttpPrisoners = [83]
-
-        if numberHttpStrings > 0
-            if !approvedHttpPrisoners.include? prisoner.getId
-                puts prisoner
-                puts 'Prisoner #' + prisoner.getId.to_s + ' has ' + numberHttpStrings.to_s + ' http:// patterns'
-            end
-        end
+        ##If a prisoner text contains the pattern http:// and is not approved, prints it out
+        #scanString = 'http://'
+        #numberHttpStrings = prisoner.getWholeText.scan(/#{scanString}/).length
+        #approvedHttpPrisoners = [83]
+        #
+        #if numberHttpStrings > 0
+        #    if !approvedHttpPrisoners.include? prisoner.getId
+        #        puts prisoner
+        #        puts 'Prisoner #' + prisoner.getId.to_s + ' has ' + numberHttpStrings.to_s + ' http:// patterns'
+        #    end
+        #end
     end
 
     def writePrisonerValuesToOutput( output_path )
@@ -223,30 +223,30 @@ class List
                 'Name',
                 'Type of Prisoner',
                 'Subtype of Prisoner',
-                'Subtype Description',
+                #'Subtype Description',
                 'Date',
                 'Type of Date',
                 #'Charges',
                 'Place of Detention',
-                #'Background Description',
+                'Background Description',
                 'Picture'
             ]
             @prisonerTypes.each do |prisonerType|
                 prisoners = prisonerType.getPrisoners
                 prisoners.each do |prisoner|
-                    #printPrisoner( prisoner )
+                    printPrisoner( prisoner )
 
                     csv << [
                         prisoner.getId,
                         prisoner.getName,
                         prisonerType.getName,
                         prisoner.getPrisonerSubtypeName,
-                        prisoner.getPrisonerSubtypeDescription,
+                        #prisoner.getPrisonerSubtypeDescription,
                         prisoner.getDate,
                         prisoner.getDateType,
                         #prisoner.getCharges,
                         prisoner.getPlaceOfDetention,
-                        #prisoner.getBackground
+                        prisoner.getBackground
                     ]
                 end
             end

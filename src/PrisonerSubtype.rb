@@ -69,15 +69,13 @@ class PrisonerSubtype
     end
 
     def wrapPrisoners(wholeText)
-        firstPrisonerAlreadyFound = false
+        firstPrisoner = true
 
         (1..98).each do |prisNum|
-            regex = wholeText.scan( /<b>\s*#{prisNum}\./ )
-
-            if !regex.empty?
-                if (!firstPrisonerAlreadyFound)
+            if !wholeText.scan( /<b>\s*#{prisNum}\./ ).empty?
+                if (firstPrisoner)
                     wholeText = wholeText.gsub( /<b>\s*#{prisNum}\./, '<div id="prisoner-' + prisNum.to_s + '"> \\0')
-                    firstPrisonerAlreadyFound = true
+                    firstPrisoner = false
                 else
                     wholeText = wholeText.gsub( /<b>\s*#{prisNum}\./, '</div><div id="prisoner-' + prisNum.to_s + '"> \\0')
                 end

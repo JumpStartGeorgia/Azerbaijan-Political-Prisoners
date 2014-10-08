@@ -38,19 +38,17 @@ class List
 
     def prepareContents(contents)
         contents = removeFootnoteNumbers( contents )
+        contents = removeFootnotes( contents )
         contents = removeSingleTagElements( contents )
         contents = removePageRelatedTags( contents )
-        contents = removeBitLyLinks( contents )
-        contents = removeLeftoverBadContent( contents )
         contents = wrapPrisonerTypes( contents )
         return contents
     end
 
     def replaceSpecificPatternInString( string, pattern, replacementPattern )
-
         string = string.gsub!(pattern, replacementPattern )
         if string == nil
-            raise 'Pattern not removed from list: ' + removeRegex
+            raise 'Pattern not removed from list: ' + pattern
         end
 
         return string
@@ -123,6 +121,44 @@ class List
         return contents
     end
 
+    # Removes the footnotes at the bottom of the page
+    # Strategy: Tries using three general regex to match the footnote, and includes specific cases for the exceptions that don't match these cases
+    ### Examples of removed footnotes:
+    #<br/>1<a href="http://bit.ly/P8Z2Qy"> http://bit.ly/P8Z2Qy </a> <br/>2<a href="http://bit.ly/1piq992"> http://bit.ly/1piq992  </a><br/>
+    #<br/>12 Additional information has been replaced about Leyla Yunus’s arrest in the report. <br/>
+    #<br/><a href="https://www.facebook.com/HAQQINqulu777">13 https://www.facebook.com/HAQQINqulu777 <br/></a><a href="http://bit.ly/1jYMJQI">14 http://bit.ly/1jYMJQI <br/></a> <br/>
+    def removeFootnotes( contents )
+        (1..49).each do |footnoteNum|
+            footnoteRemoved = false
+            footnoteNumString = footnoteNum.to_s
+            patterns = [
+                #Specific cases
+                '<br/>' + footnoteNumString + ' Additional information has been replaced about Leyla Yunus’s arrest in the report. <br/>',
+                '<br/>' + footnoteNumString + 'http://www.epde.org/tl_files/EPDE/EPDE%20PRESS%20RELEASES/EMDS_ICV_2%20Interim%20Rep_2013_AZ.pdf <br/>',
+                '</a>' + footnoteNumString + ' http://www.bbc.co.uk/azeri/azerbaijan/2014/06/140630_aliabbas_rustamov_arrest.shtml <br/>',
+                '<br/><img src="list-67_1.jpg">' + footnoteNumString + ' http://bit.ly/1hEhLL3 <br/></a>',
+                #General cases
+                '<a href="http.*?">' + footnoteNumString + ' .*?</a>',
+                footnoteNumString + '<a href="http.*?">.*?</a>',
+                '<br/>' + footnoteNumString + ' .*?<br/>'
+            ]
+
+            patterns.each do |pattern|
+                scan = contents.scan(/#{pattern}/)
+                if scan.length == 1
+                    contents = contents.gsub(/#{pattern}/, '')
+                    footnoteRemoved = true
+                    break
+                end
+            end
+
+            if (!footnoteRemoved)
+                raise 'Footnote #' + footnoteNumString + ' not found and not removed'
+            end
+        end
+        return contents
+    end
+
     def removeSingleTagElements( contents )
         contents = getContentsAsNokogiri( contents )
 
@@ -149,20 +185,6 @@ class List
         return contents
     end
 
-    # Removes this sort of <a> tag:
-    #<a href="http://bit.ly/1hiq3vA">38 http://bit.ly/1hiq3vA </a>
-    #<a href="http://bit.ly/1f0C3kt">39 http://bit.ly/1f0C3kt </a>
-    #<a href="http://bit.ly/1mb5UIx">45 http://bit.ly/1mb5UIx<i><b> </b></i></a>
-    def removeBitLyLinks( contents )
-        contents = getContentsAsNokogiri( contents )
-        contents.search('//a[contains(@href,"http://bit.ly")]').each do |node|
-            node.remove
-        end
-
-        contents = contents.to_s
-        return contents
-    end
-
     def wrapPrisonerTypes( contents )
         ('A'..'G').each do |letter|
             if letter == 'A'
@@ -173,24 +195,6 @@ class List
             else
                 contents = contents.gsub( /<b>#{letter}\./, '</div><div id="' + letter + '-prisoner-type"> \\0' )
             end
-        end
-
-        return contents
-    end
-
-    def removeLeftoverBadContent( contents )
-
-        removeRegexes = [
-            '46 http://bit.ly/1myxEK1',
-            '<img src="list-67_1.jpg">40 http://bit.ly/1hEhLL3',
-            '<a href="http://1.usa.gov/18BOn4u">49 http://1.usa.gov/18BOn4u </a>',
-            '34 https://search.wikileaks.org/plusd/cables/08BAKU383_a.html',
-            '37 http://1.usa.gov/18BOn4u',
-            '<a href="http://1.usa.gov/18BOn4u"> </a>'
-        ]
-
-        removeRegexes.each do |removeRegex|
-            contents = replaceSpecificPatternInString(contents, removeRegex, '')
         end
 
         return contents

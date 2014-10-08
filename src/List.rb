@@ -173,12 +173,14 @@ class List
         removeRegex = ''
         contents = contents.gsub!(/#{removeRegex}/, '')
 
-        (1..92).each do |i|
-            removeRegex = '<a name="' + i.to_s + '"><\/a>(?:<img src="list-'+ i.to_s + '_1.jpg">)?(?:\n)?(?:<img src="list-'+ i.to_s + '_2.jpg">)?(?:\n)?(?:' + i.to_s + ')?'
-            contents = contents.gsub!(/#{removeRegex}/, '')
-
-            if (!contents)
-                raise 'Did not find tags related to page #' + i.to_s + ' to remove from list. Regex search: ' + removeRegex
+        (1..92).each do |pageNum|
+            pageNumString = pageNum.to_s
+            removeRegex = '<a name="' + pageNumString + '"><\/a>(?:<img src="list-'+ pageNumString + '_1.jpg">)?(?:\n)?(?:<img src="list-'+ pageNumString + '_2.jpg">)?(?:\n)?(?:' + pageNumString + ')?'
+            scan = contents.scan(/#{removeRegex}/)
+            if scan.length == 1
+                contents = contents.gsub!(/#{removeRegex}/, '')
+            else
+                raise 'Found more or less than one tag related to page #' + pageNumString + ' with pattern: ' + removeRegex
             end
         end
 

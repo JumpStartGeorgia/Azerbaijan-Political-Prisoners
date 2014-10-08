@@ -19,7 +19,7 @@ class Prisoner
             dateType = 'Pretrial Detention'
         end
 
-        date = cleanDate(date)
+        date = cleanDate(date, @id)
 
         return date, dateType
     end

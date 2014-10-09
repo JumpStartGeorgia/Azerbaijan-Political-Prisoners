@@ -60,6 +60,7 @@ class Prisoner
         @id, @prisonerType, @prisonerSubtype = id, prisonerType, prisonerSubtype
         @wholeText = prepareText( wholeText )
         @name, @date, @dateType, @charges, @placeOfDetention, @background = self.initializeData
+        approveHttpPattern()
     end
 
     def to_s
@@ -245,5 +246,19 @@ class Prisoner
         wholeText = wrapValues(wholeText)
 
         return wholeText
+    end
+
+    def approveHttpPattern
+        #If a prisoner text contains the pattern http:// and is not approved, prints it out
+        pattern = 'http'
+        numberHttpStrings = @wholeText.scan(/#{pattern}/).length
+        approvedHttpPrisoners = [3, 4, 5, 6, 83]
+
+        if numberHttpStrings > 0
+            if !approvedHttpPrisoners.include? @id
+                puts self
+                puts 'Prisoner #' + @id.to_s + ' has ' + numberHttpStrings.to_s + ' "' + pattern + '" patterns'
+            end
+        end
     end
 end

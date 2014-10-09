@@ -208,18 +208,6 @@ class List
         if prisonerIdsToPrint.include? prisoner.getId
             puts prisoner
         end
-
-        ##If a prisoner text contains the pattern http:// and is not approved, prints it out
-        #scanString = 'http://'
-        #numberHttpStrings = prisoner.getWholeText.scan(/#{scanString}/).length
-        #approvedHttpPrisoners = [83]
-        #
-        #if numberHttpStrings > 0
-        #    if !approvedHttpPrisoners.include? prisoner.getId
-        #        puts prisoner
-        #        puts 'Prisoner #' + prisoner.getId.to_s + ' has ' + numberHttpStrings.to_s + ' http:// patterns'
-        #    end
-        #end
     end
 
     def writePrisonerValuesToOutput( output_path )

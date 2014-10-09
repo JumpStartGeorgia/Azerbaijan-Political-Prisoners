@@ -24,6 +24,18 @@ class Prisoner
         return date, dateType
     end
 
+    def checkNotListedValue(value, notListedArray, label)
+        if value.length == 0
+            if notListedArray.include? @id
+                value = 'Not Listed'
+            else
+                raise 'Prisoner ' + @id.to_s + ' has no ' + label + ' (not in approved array)'
+            end
+        end
+
+        return value
+    end
+
     def initializeData
         wholeText = self.getWholeTextAsNokogiri
 
@@ -36,15 +48,10 @@ class Prisoner
         charges = cleanCharges( wholeText.css('.charges').to_s)
 
         placeOfDetention = cleanPlaceOfDetention( wholeText.css('.place-of-detention').to_s, @id)
-        if placeOfDetention.length == 0
-            placeOfDetention = 'Not Listed'
-        end
+        placeOfDetention = checkNotListedValue(placeOfDetention, [27, 78, 79, 80, 81], 'place of detention')
 
-        background = cleanBackground( wholeText.css('.background').to_s )
-        if background.length == 0
-            #Background is not listed for prisoners 35-49 and 87-89
-            background = 'Not Listed'
-        end
+        background = cleanBackground( wholeText.css('.value').to_s )
+        background = checkNotListedValue(background, (35..49).to_a.concat((87..89).to_a), 'background' )
 
         return name, date, dateType, charges, placeOfDetention, background
     end
@@ -196,7 +203,7 @@ class Prisoner
         regexForBackgroundLabel.each do |regex|
             wholeText = wholeText.gsub(
                 /#{regex}/,
-                '</span>\\0<span class="background">'
+                '</span>\\0<span class="value">'
             )
         end
 

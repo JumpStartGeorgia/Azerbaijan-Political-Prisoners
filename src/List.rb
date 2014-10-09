@@ -228,14 +228,14 @@ class List
                 'ID',
                 'Name',
                 'Type of Prisoner',
-                'Subtype of Prisoner',
+                #'Subtype of Prisoner',
                 #'Subtype Description',
                 'Date',
                 'Type of Date',
                 #'Charges',
                 'Place of Detention',
-                'Background Description',
-                'Picture'
+                #'Background Description',
+                #'Picture'
             ]
             @prisonerTypes.each do |prisonerType|
                 prisoners = prisonerType.getPrisoners

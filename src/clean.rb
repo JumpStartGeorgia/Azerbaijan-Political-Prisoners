@@ -44,8 +44,6 @@ def convertMonthToNum(month)
 end
 
 def formatDate( date, prisId )
-    originalDate = date
-
     month = false
     day = false
     year = false
@@ -110,7 +108,7 @@ def cleanDate( date, prisId )
         date = date.gsub(/[0-9]+[a-z]+/, replaceString)
     end
 
-    return formatDate( date, prisId )
+    return date
 end
 
 def cleanCharges ( charges )
@@ -121,9 +119,32 @@ def cleanCharges ( charges )
     return charges
 end
 
-def cleanPlaceOfDetention ( placeOfDetention )
-    placeOfDetention = cleanValue( placeOfDetention )
+def capitalizePlaceOfDetention( placeOfDetention )
+    noCapitalize = ['of', 'the']
+    placeOfDetention.split.each do |word|
+        word = word.scan(/\w*/)[0].to_s
+        if !noCapitalize.include? word
+            wordReplacement = word.capitalize
+            placeOfDetention = placeOfDetention.gsub(word, wordReplacement)
+        end
+    end
 
+    return placeOfDetention
+end
+
+def cleanPlaceOfDetention ( placeOfDetention, prisId )
+    placeOfDetention = cleanValue( placeOfDetention )
+    placeOfDetention = placeOfDetention.gsub(/\n/, '')
+    placeOfDetention = placeOfDetention.squeeze(' ')
+
+    placeOfDetention = placeOfDetention.gsub('№', 'No.')
+    placeOfDetention = placeOfDetention.gsub('#', 'No.')
+    placeOfDetention.scan(/No.[0-9]/).each do |scanned|
+        replacementPattern = scanned.gsub(/[0-9]/, ' \\0')
+        placeOfDetention = placeOfDetention.gsub(/No.[0-9]/, replacementPattern)
+    end
+
+    placeOfDetention = capitalizePlaceOfDetention( placeOfDetention )
     return placeOfDetention
 end
 

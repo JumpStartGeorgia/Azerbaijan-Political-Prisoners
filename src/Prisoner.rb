@@ -19,7 +19,7 @@ class Prisoner
             dateType = 'Pretrial Detention'
         end
 
-        date = cleanDate(date, @id)
+        date = formatDate( cleanDate(date, @id), @id)
 
         return date, dateType
     end
@@ -35,7 +35,7 @@ class Prisoner
         date, dateType = self.initializeDateAndDateType
         charges = cleanCharges( wholeText.css('.charges').to_s)
 
-        placeOfDetention = cleanPlaceOfDetention( wholeText.css('.place-of-detention').to_s)
+        placeOfDetention = cleanPlaceOfDetention( wholeText.css('.place-of-detention').to_s, @id)
         if placeOfDetention.length == 0
             placeOfDetention = 'Not Listed'
         end

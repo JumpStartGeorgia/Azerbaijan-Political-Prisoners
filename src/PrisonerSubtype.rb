@@ -1,5 +1,6 @@
 class PrisonerSubtype
-    def initialize(wholeText, letter, prisonerType)
+    def initialize(id, wholeText, letter, prisonerType)
+        @id = id
         @prisonerType = prisonerType
         wholeText = wrapPrisoners(wholeText)
         wholeText = wrapName(wholeText, letter)
@@ -7,6 +8,10 @@ class PrisonerSubtype
 
         @name = findName()
         @description = findDescription()
+    end
+
+    def getId
+        return @id
     end
 
     def getName

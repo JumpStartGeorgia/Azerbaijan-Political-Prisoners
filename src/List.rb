@@ -14,11 +14,13 @@ class List
 
     def findPrisonerTypes
         contents = getContentsAsNokogiri( @contents )
+        subtypeIdIterator = 1
 
         prisonerTypes = []
         ('A'..'G').each do |letter|
-            prisonerType = PrisonerType.new( contents.css( '#' + letter + '-prisoner-type' ).to_s, letter )
+            prisonerType = PrisonerType.new( contents.css( '#' + letter + '-prisoner-type' ).to_s, letter, subtypeIdIterator )
             prisonerTypes.push( prisonerType )
+            subtypeIdIterator += prisonerType.getSubtypes.length
         end
         @prisonerTypes = prisonerTypes
     end
@@ -210,7 +212,7 @@ class List
         end
     end
 
-    def writePrisonerValuesToOutput( output_path )
+    def outputPrisoners( output_path )
         CSV.open( output_path, 'wb') do |csv|
             csv << [
                 'ID',
@@ -226,8 +228,7 @@ class List
                 #'Picture'
             ]
             @prisonerTypes.each do |prisonerType|
-                prisoners = prisonerType.getPrisoners
-                prisoners.each do |prisoner|
+                prisonerType.getPrisoners.each do |prisoner|
                     printPrisoner( prisoner )
 
                     csv << [
@@ -241,6 +242,21 @@ class List
                         #prisoner.getCharges,
                         prisoner.getPlaceOfDetention,
                         prisoner.getBackground
+                    ]
+                end
+            end
+        end
+    end
+
+    def outputPrisonerSubtypes( output_path )
+        CSV.open( output_path, 'wb' ) do |csv|
+            csv << [
+                'ID'
+            ]
+            @prisonerTypes.each do |prisonerType|
+                prisonerType.getSubtypes.each do |subtype|
+                    csv << [
+                        subtype.getId
                     ]
                 end
             end

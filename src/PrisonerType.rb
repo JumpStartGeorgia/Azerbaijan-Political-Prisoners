@@ -2,10 +2,10 @@ require_relative 'Prisoner.rb'
 require_relative 'PrisonerSubtype.rb'
 
 class PrisonerType
-    def initialize(wholeText, letter)
+    def initialize(wholeText, letter, subtypeIdIterator)
         @name = setNameFromLetter(letter)
         wholeText = wrapSubtypes(wholeText)
-        @subtypes = findSubtypes(wholeText)
+        @subtypes = findSubtypes(wholeText, subtypeIdIterator)
         @wholeText = wrapPrisoners(wholeText)
     end
 
@@ -21,7 +21,11 @@ class PrisonerType
         return @prisoners
     end
 
-    def findSubtypes(wholeText)
+    def getSubtypes
+        return @subtypes
+    end
+
+    def findSubtypes(wholeText, subtypeIdIterator)
         subtypes = []
         prisonerTypeText = self.getWholeTextAsNokogiri(wholeText)
 
@@ -29,7 +33,8 @@ class PrisonerType
             subtypeText = prisonerTypeText.css('#subtype-' + letter).to_s
 
             if subtypeText.length != 0
-                subtype = PrisonerSubtype.new(subtypeText, letter, self)
+                subtype = PrisonerSubtype.new(subtypeIdIterator, subtypeText, letter, self)
+                subtypeIdIterator += 1
                 subtypes.push(subtype)
             end
         end

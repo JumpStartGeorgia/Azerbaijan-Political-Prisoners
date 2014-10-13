@@ -18,6 +18,4 @@ end
 prisonersOutputPath = File.dirname(__FILE__) + '/../output/prisoners.csv'
 subtypesOutputPath = File.dirname(__FILE__) + '/../output/subtypes.csv'
 list.outputPrisoners(prisonersOutputPath)
-list.outputPrisonerSubtypes(subtypesOutputPath)
-
-
+list.outputSubtypes(subtypesOutputPath)

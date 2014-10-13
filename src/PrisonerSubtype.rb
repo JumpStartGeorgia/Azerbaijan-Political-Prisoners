@@ -65,6 +65,7 @@ class PrisonerSubtype
         (1..98).each do |j|
             prisonerText = wholeText.css('#prisoner-' + j.to_s).to_s
             if prisonerText.length != 0
+
                 prisoner = Prisoner.new( j, self, self, prisonerText )
                 prisoners.push( prisoner )
             end

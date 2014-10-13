@@ -15,7 +15,7 @@ list.getPrisonerTypes.each do |prisonerType|
 end
 
 #Output values to CSV
-output_path = File.dirname(__FILE__) + '/../output/output.csv'
+output_path = File.dirname(__FILE__) + '/../output/prisoners.csv'
 list.writePrisonerValuesToOutput(output_path)
 
 

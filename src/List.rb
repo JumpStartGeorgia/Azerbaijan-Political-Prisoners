@@ -266,4 +266,23 @@ class List
             end
         end
     end
+
+    def outputPrisonerSubtypes( output_path )
+        CSV.open( output_path, 'wb' ) do |csv|
+            csv << [
+                'Prisoner',
+                'Subtype'
+            ]
+            getPrisonerTypes.each do |prisonerType|
+                prisonerType.getSubtypes.each do |subtype|
+                    subtype.getPrisoners.each do |prisoner|
+                        csv << [
+                            prisoner.getId,
+                            subtype.getId
+                        ]
+                    end
+                end
+            end
+        end
+    end
 end

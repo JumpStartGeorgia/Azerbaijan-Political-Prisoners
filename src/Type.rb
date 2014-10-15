@@ -1,5 +1,5 @@
 require_relative 'Prisoner.rb'
-require_relative 'PrisonerSubtype.rb'
+require_relative 'Subtype.rb'
 
 class PrisonerType
     def initialize(wholeText, letter, subtypeIdIterator)

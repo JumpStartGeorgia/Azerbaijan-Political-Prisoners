@@ -144,6 +144,9 @@ def cleanPlaceOfDetention ( placeOfDetention, prisId )
         placeOfDetention = placeOfDetention.gsub(/No.[0-9]/, replacementPattern)
     end
 
+    #Fixed Prisoner 98 typo: "Baki" --> "Baku"
+    placeOfDetention = placeOfDetention.gsub(/Baki/, 'Baku')
+
     placeOfDetention = capitalizePlaceOfDetention( placeOfDetention )
     return placeOfDetention
 end

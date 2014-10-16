@@ -53,8 +53,6 @@ class Prisoner
         puts '______________________'
         puts 'Prisoner #' + @id.to_s
         puts ''
-        puts 'Whole text: ' + @wholeText
-        puts ''
         background = cleanBackground( wholeText.css('.background').to_s )
         puts ''
         puts '______________________'

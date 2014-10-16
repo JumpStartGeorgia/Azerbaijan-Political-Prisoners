@@ -29,7 +29,7 @@ class Prisoner
             if notListedArray.include? @id
                 value = 'Not Listed'
             else
-                raise 'Prisoner ' + @id.to_s + ' has no ' + label + ' (not in approved array)'
+                raise 'Prisoner ' + @id.to_s + ' has no ' + label + ' (not in approved array of prisoners with no ' + label + ')'
             end
         end
 
@@ -50,7 +50,14 @@ class Prisoner
         placeOfDetention = cleanPlaceOfDetention( wholeText.css('.place-of-detention').to_s, @id)
         placeOfDetention = checkNotListedValue(placeOfDetention, [27, 78, 79, 80, 81], 'place of detention')
 
-        background = cleanBackground( wholeText.css('.value').to_s )
+        puts '______________________'
+        puts 'Prisoner #' + @id.to_s
+        puts ''
+        puts 'Whole text: ' + @wholeText
+        puts ''
+        background = cleanBackground( wholeText.css('.background').to_s )
+        puts ''
+        puts '______________________'
         background = checkNotListedValue(background, (35..49).to_a.concat((87..89).to_a), 'background' )
 
         return name, date, dateType, charges, placeOfDetention, background
@@ -195,8 +202,8 @@ class Prisoner
 
     def wrapBackground( wholeText )
         regexForBackgroundLabel = [
-            '(Case\s*)?(b)?(B)?ackground(<\/b>)?:',
-            '<b>Brief\s*Summary\s*of\s*the\s*Case:',
+            '(Case\s*)?(b)?(B)?ackground(<\/b>)?:(\s*)?(<\/b>)?',
+            '<b>Brief\s*Summary\s*of\s*the\s*Case:(\s*)?(<\/b>)?',
             #For prisoner ID 30
             'Background of person:'
         ]
@@ -204,7 +211,7 @@ class Prisoner
         regexForBackgroundLabel.each do |regex|
             wholeText = wholeText.gsub(
                 /#{regex}/,
-                '</span>\\0<span class="value">'
+                '</span>\\0<span class="background">'
             )
         end
 

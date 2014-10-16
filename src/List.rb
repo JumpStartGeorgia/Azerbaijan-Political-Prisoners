@@ -12,6 +12,18 @@ class List
         return @prisonerTypes
     end
 
+    def getPrisoners
+        prisoners = []
+
+        @prisonerTypes.each do |prisonerType|
+            prisonerType.getPrisoners.each do |prisoner|
+                prisoners.push(prisoner)
+            end
+        end
+
+        return prisoners
+    end
+
     def findPrisonerTypes
         contents = getContentsAsNokogiri( @contents )
         subtypeIdIterator = 1
@@ -278,6 +290,27 @@ class List
                         ]
                     end
                 end
+            end
+        end
+    end
+
+    def outputPlacesOfDetention( output_path )
+        CSV.open( output_path, 'wb' ) do |csv|
+            csv << [
+                'Place of Detention'
+            ]
+            uniquePrisons = []
+
+            getPrisoners().each do |prisoner|
+                if !uniquePrisons.include? prisoner.getPlaceOfDetention
+                    uniquePrisons.push(prisoner.getPlaceOfDetention)
+                end
+            end
+
+            uniquePrisons.each do |prison|
+                csv << [
+                    prison
+                ]
             end
         end
     end

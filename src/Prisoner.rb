@@ -50,12 +50,7 @@ class Prisoner
         placeOfDetention = cleanPlaceOfDetention( wholeText.css('.place-of-detention').to_s, @id)
         placeOfDetention = checkNotListedValue(placeOfDetention, [27, 78, 79, 80, 81], 'place of detention')
 
-        puts '______________________'
-        puts 'Prisoner #' + @id.to_s
-        puts ''
-        background = cleanBackground( wholeText.css('.background').to_s )
-        puts ''
-        puts '______________________'
+        background = cleanBackground( wholeText.css('.background').to_s, @id )
         background = checkNotListedValue(background, (35..49).to_a.concat((87..89).to_a), 'background' )
 
         return name, date, dateType, charges, placeOfDetention, background

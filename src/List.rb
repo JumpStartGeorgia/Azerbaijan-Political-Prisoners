@@ -41,8 +41,8 @@ class List
     def prepareContents(contents)
         contents = removeFootnoteNumbers( contents )
         contents = removeFootnotes( contents )
-        contents = removeSingleTagElements( contents )
         contents = removePageRelatedTags( contents )
+        contents = removeSingleTagElements( contents )
         contents = wrapPrisonerTypes( contents )
         return contents
     end
@@ -161,31 +161,44 @@ class List
         return contents
     end
 
+    def checkNoImgTags(contents)
+        scan = contents.scan(/<img src="list-\d+_\d+.jpg"(?:\/)?>/)
+        if scan.length > 0
+            puts scan
+            raise 'Forbidden image tags found'
+        end
+
+        return contents
+    end
+
+    # Removes tags related to the page breaks in the PDF, such as:
+    #<a name=1></a> <br/><b> </b><br/>
+    #<a name=2></a>2 <br/>(NEW LINE)<br/>
+    # <a name=66></a>66 <br/>(NEW LINE)<br/>
+    # <a name=67></a><img src="list-67_1.jpg"/><br/>(NEW LINE)67 <br/>(NEW LINE)<br/>
+    #<a name=70></a><img src="list-70_1.jpg"/><br/>(NEW LINE)<img src="list-70_2.jpg"/><br/>(NEW LINE)70 <br/>(NEW LINE)<br/>
+    def removePageRelatedTags( contents )
+        regex = '(?:<br\/>\n)?(?:<hr\/>\n)?<a name=\d+><\/a>(<img src="list-\d+_\d+.jpg"\/?><br\/>\n)*\d*(?:\s<br\/>\n\s<br\/>)?\n*'
+        scan = contents.scan(/#{regex}/m)
+
+        if scan.length == 92
+            contents = contents.gsub(/#{regex}/m, '')
+        else
+            raise 'Did not find 92 page tags'
+        end
+        checkNoImgTags(contents)
+
+        return contents
+    end
+
     def removeSingleTagElements( contents )
+        contents = contents.gsub(/<br\/>\s<br\/>/, "\n\n")
         contents = getContentsAsNokogiri( contents )
 
         contents.xpath('//br').remove()
         contents.xpath('//hr').remove()
 
         contents = contents.to_s
-        return contents
-    end
-
-    def removePageRelatedTags( contents )
-        removeRegex = ''
-        contents = contents.gsub!(/#{removeRegex}/, '')
-
-        (1..92).each do |pageNum|
-            pageNumString = pageNum.to_s
-            removeRegex = '<a name="' + pageNumString + '"><\/a>(?:<img src="list-'+ pageNumString + '_1.jpg">)?(?:\n)?(?:<img src="list-'+ pageNumString + '_2.jpg">)?(?:\n)?(?:' + pageNumString + ')?'
-            scan = contents.scan(/#{removeRegex}/)
-            if scan.length == 1
-                contents = contents.gsub!(/#{removeRegex}/, '')
-            else
-                raise 'Found more or less than one tag related to page #' + pageNumString + ' with pattern: ' + removeRegex
-            end
-        end
-
         return contents
     end
 

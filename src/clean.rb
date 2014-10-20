@@ -151,10 +151,17 @@ def cleanPlaceOfDetention ( placeOfDetention, prisId )
     return placeOfDetention
 end
 
-def cleanBackground( background )
+def cleanBackground( background, id )
     background = background.gsub(/<span class="background">(.*)<\/span>/m, '\1')
     background = background.strip()
-    puts 'Background: ' + background
+    background = background.gsub(/(\s+\n+)/, "\n\n")
+
+    #puts '______________________'
+    #puts 'Prisoner #' + id.to_s
+    #puts ''
+    #puts 'Background: ' + background
+    #puts ''
+    #puts '______________________'
 
     return background
 end

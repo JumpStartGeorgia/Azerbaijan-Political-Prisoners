@@ -155,13 +155,14 @@ def cleanBackground( background, id )
     background = background.gsub(/<span class="background">(.*)<\/span>/m, '\1')
     background = background.strip()
     background = background.gsub(/(\s+\n+)/, "\n\n")
+    background = background.squeeze(' ')
 
-    #puts '______________________'
-    #puts 'Prisoner #' + id.to_s
-    #puts ''
-    #puts 'Background: ' + background
-    #puts ''
-    #puts '______________________'
+    puts '______________________'
+    puts 'Prisoner #' + id.to_s
+    puts ''
+    puts 'Background: ' + background
+    puts ''
+    puts '______________________'
 
     return background
 end

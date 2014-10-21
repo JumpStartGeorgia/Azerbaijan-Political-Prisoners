@@ -98,12 +98,12 @@ class PrisonerSubtype
     def wrapName(wholeText, letter)
         # Human Rights Defenders Section b has no bold tag, so special case must be included in order to find it
         if @prisonerType.getName == 'Human Rights Defenders' and letter == 'b'
-            wholeText = wholeText.gsub( /b.  Other cases/, '<span class="subtypeName">\\0</span>')
+            wholeText = wholeText.gsub( /b.  (Other cases)/, '<span class="subtypeName">\\1</span>')
         # Religious Activists Section b has a bold tag in the name, so special case must be included in order not to cut off the end of the name
         elsif @prisonerType.getName == 'Religious Activists' and letter == 'e'
-            wholeText = wholeText.gsub( /<b>e.  Cases of those detained in connection with the “Freedom for hijab” protest held on <\/b>\n<i><b>5 October 2012/, '<span class="subtypeName">\\0</span>')
+            wholeText = wholeText.gsub( /<b>e.  (Cases of those detained in connection with the “Freedom for hijab” protest held on <\/b>\n<i><b>5 October 2012)/, '<span class="subtypeName">\\1</span>')
         else
-            wholeText = wholeText.gsub( /<b>\s*#{letter}\.(.*?)<\/b>/, '<span class="subtypeName">\\0</span>')
+            wholeText = wholeText.gsub( /<b>\s*#{letter}\.(.*?)<\/b>/, '<span class="subtypeName">\\1</span>')
         end
 
         return wholeText

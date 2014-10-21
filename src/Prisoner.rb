@@ -103,6 +103,14 @@ class Prisoner
         return @prisonerSubtype
     end
 
+    def getPrisonerSubtypeId
+        if @prisonerSubtype == 'No Subtype'
+            return @prisonerSubtype
+        else
+            return @prisonerSubtype.getId
+        end
+    end
+
     def getPrisonerSubtypeName
         if @prisonerSubtype == 'No Subtype'
             return @prisonerSubtype

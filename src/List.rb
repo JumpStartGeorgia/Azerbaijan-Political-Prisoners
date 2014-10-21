@@ -231,11 +231,12 @@ class List
                 'ID',
                 'Name',
                 'Type of Prisoner',
+                'Subtype ID',
                 'Date',
                 'Type of Date',
                 #'Charges',
                 'Place of Detention',
-                #'Background Description',
+                'Background Description',
                 #'Picture'
             ]
             @prisonerTypes.each do |prisonerType|
@@ -246,6 +247,7 @@ class List
                         prisoner.getId,
                         prisoner.getName,
                         prisonerType.getName,
+                        prisoner.getPrisonerSubtypeId,
                         prisoner.getDate,
                         prisoner.getDateType,
                         #prisoner.getCharges,
@@ -271,25 +273,6 @@ class List
                         subtype.getName,
                         subtype.getDescription
                     ]
-                end
-            end
-        end
-    end
-
-    def outputPrisonerSubtypes( output_path )
-        CSV.open( output_path, 'wb' ) do |csv|
-            csv << [
-                'Prisoner',
-                'Subtype'
-            ]
-            getPrisonerTypes.each do |prisonerType|
-                prisonerType.getSubtypes.each do |subtype|
-                    subtype.getPrisoners.each do |prisoner|
-                        csv << [
-                            prisoner.getId,
-                            subtype.getId
-                        ]
-                    end
                 end
             end
         end

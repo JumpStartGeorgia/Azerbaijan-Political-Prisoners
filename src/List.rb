@@ -264,6 +264,7 @@ class List
             csv << [
                 'ID',
                 'Name',
+                'Parent Type',
                 'Description'
             ]
             @prisonerTypes.each do |prisonerType|
@@ -271,6 +272,7 @@ class List
                     csv << [
                         subtype.getId,
                         subtype.getName,
+                        subtype.getPrisonerType.getName,
                         subtype.getDescription
                     ]
                 end

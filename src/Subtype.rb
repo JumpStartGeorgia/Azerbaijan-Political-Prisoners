@@ -18,6 +18,10 @@ class PrisonerSubtype
         return @name
     end
 
+    def getPrisonerType
+        return @prisonerType
+    end
+
     def getDescription
         return @description
     end

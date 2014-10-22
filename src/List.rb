@@ -300,10 +300,15 @@ class List
             uniquePrisons = []
 
             getPrisoners().each do |prisoner|
-                if !uniquePrisons.include? prisoner.getPlaceOfDetention
-                    uniquePrisons.push(prisoner.getPlaceOfDetention)
+                placeOfDetention = prisoner.getPlaceOfDetention
+                if placeOfDetention != 'Not Listed'
+                    if !uniquePrisons.include? placeOfDetention
+                        uniquePrisons.push(placeOfDetention)
+                    end
                 end
             end
+
+            uniquePrisons =  uniquePrisons.sort_by{|word| word}
 
             uniquePrisons.each do |prison|
                 csv << [

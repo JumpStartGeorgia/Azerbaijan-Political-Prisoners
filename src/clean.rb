@@ -151,8 +151,22 @@ def cleanPlaceOfDetention ( placeOfDetention, prisId )
     return placeOfDetention
 end
 
-def cleanBackground( background )
+def cleanBackground( background, id )
+    background = background.gsub(/<span class="background">(.*)<\/span>/m, '\1')
     background = background.strip()
+    background = background.gsub(/(\s+\n+)/, "\n\n")
+
+    #Delete extra line breaks in Prisoner 3 background
+    sentenceRegex = 'He is an expert on the legal and human rights.*?organization\.'
+    background.scan(/#{sentenceRegex}/m).each do |scan|
+        replacement = scan.gsub(/\n/, "\s")
+        background = background.gsub(/#{sentenceRegex}/m, replacement)
+    end
+
+    background = background.squeeze(' ')
+    background = background.gsub(/<i>\s*\n*<\/i>/, '')
+    background = background.gsub(/<b>\s*\n*<\/b>/, '')
+    background = background.gsub(/<i>\s*\n*<\/i>/, '')
 
     return background
 end

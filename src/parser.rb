@@ -17,9 +17,7 @@ end
 #Output values to CSV
 prisonersOutputPath = File.dirname(__FILE__) + '/../output/prisoners.csv'
 subtypesOutputPath = File.dirname(__FILE__) + '/../output/subtypes.csv'
-prisonerSubtypesOutputPath = File.dirname(__FILE__) + '/../output/prisonerSubtypes.csv'
 placesOfDetentionOutputPath = File.dirname(__FILE__) + '/../output/placesOfDetention.csv'
 list.outputPrisoners(prisonersOutputPath)
 list.outputSubtypes(subtypesOutputPath)
-list.outputPrisonerSubtypes(prisonerSubtypesOutputPath)
 list.outputPlacesOfDetention(placesOfDetentionOutputPath)

@@ -132,6 +132,26 @@ def capitalizePlaceOfDetention( placeOfDetention )
     return placeOfDetention
 end
 
+def combineDifferentValuesForSamePrisons( placeOfDetention )
+    kurdakhaniPrison = 'Kurdakhani Pre-trial Detention Center (Baku Investigative Prison No. 1)'
+    placeOfDetention = placeOfDetention.gsub('Baku Investigative Prison No. 1 (Kurdakhani Pre-trial Detention Center)', kurdakhaniPrison)
+    placeOfDetention = placeOfDetention.gsub('Baku Investigative Prison (Kurdakhani Pre-trial Detention Center)', kurdakhaniPrison)
+    placeOfDetention = placeOfDetention.gsub('Baku Investigative Prison (Kurdakhani Detention Center)', kurdakhaniPrison)
+    placeOfDetention = placeOfDetention.gsub('Baku Investigative Prison (Kurdakhani Prison)', kurdakhaniPrison)
+    placeOfDetention = placeOfDetention.gsub('Baku Detention Facility (Kurdakhani Prison)', kurdakhaniPrison)
+    placeOfDetention = placeOfDetention.gsub('Baku Detention Facility', kurdakhaniPrison)
+    placeOfDetention = placeOfDetention.gsub('Baku Investigative Facility (Kurdakhani Prison)', kurdakhaniPrison)
+
+    shuvalanPrison = 'Shuvalan Pre-trial Detention Center (Investigative Prison No. 3)'
+    placeOfDetention = placeOfDetention.gsub('Investigative Prison No. 3 (Shuvalan Pre-trial Detention Center)', shuvalanPrison)
+    placeOfDetention = placeOfDetention.gsub('Investigative Prison No. 3 (Shuvelan Prison)', shuvalanPrison)
+
+    placeOfDetention = placeOfDetention.gsub('Sheki Penitentiary Institution', 'Sheki Penitentiary')
+    placeOfDetention = placeOfDetention.gsub('Penitentiary Institution No. 14', 'Prison No. 14')
+
+    return placeOfDetention
+end
+
 def cleanPlaceOfDetention ( placeOfDetention, prisId )
     placeOfDetention = cleanValue( placeOfDetention )
     placeOfDetention = placeOfDetention.gsub(/\n/, '')
@@ -148,6 +168,7 @@ def cleanPlaceOfDetention ( placeOfDetention, prisId )
     placeOfDetention = placeOfDetention.gsub(/Baki/, 'Baku')
 
     placeOfDetention = capitalizePlaceOfDetention( placeOfDetention )
+    placeOfDetention = combineDifferentValuesForSamePrisons( placeOfDetention )
     return placeOfDetention
 end
 

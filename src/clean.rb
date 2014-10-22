@@ -148,6 +148,7 @@ def combineDifferentValuesForSamePrisons( placeOfDetention )
 
     placeOfDetention = placeOfDetention.gsub('Sheki Penitentiary Institution', 'Sheki Penitentiary')
     placeOfDetention = placeOfDetention.gsub('Penitentiary Institution No. 14', 'Prison No. 14')
+    placeOfDetention = placeOfDetention.gsub('Gobustan Prison', 'Gobustan Closed Prison')
 
     return placeOfDetention
 end

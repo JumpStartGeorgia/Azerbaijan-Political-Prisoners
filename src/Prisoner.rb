@@ -249,29 +249,40 @@ class Prisoner
         return wholeText
     end
 
-    def separateCharges( chargesUnedited )
-        #splitCharges = charges.split(';')
-        #splitCharges.each_with_index do |charge, index|
-        #    if charge.scan(/([0-9]|[\.\-])+[0-9]/).length != 1
-        #        puts 'Charge #' + (index + 1).to_s + ': ' + charge
-        #        puts ''
-        #    end
-        #end
-        charges = []
+    def editChargesText( chargesText, regexArticleNumber )
+        chargesText = chargesText.gsub('Criminal Code (of 1960) ', '')
+        #Remove 'of the Criminal Code' when it occurs between a number and an opening parenthesis
+        chargesText = chargesText.gsub(/(#{regexArticleNumber}) of the Criminal Code (\()/, '\\1 \\2')
+
+        return chargesText
+    end
+
+    def separateCharges( chargesText )
         if (87..89).to_a.include? @id
             criminalCode = '1960'
         else
             criminalCode = 'Current'
         end
 
+        # Matches article numbers, including 167.2.2.1; 313; 28; 220-1
+        regexArticleNumber = '(?:[0-9]|[\.\-])*[0-9]'
+
         puts '______________'
         puts 'Prisoner #' + @id.to_s
         puts ''
-        puts 'CHARGES WHOLE TEXT: ' + chargesUnedited
+        puts 'CHARGES UNEDITED TEXT: ' + chargesText
         puts ''
-        separatedCharges = chargesUnedited.scan(/(?:[0-9]|[\.\-])+[0-9]/)
+
+        chargesText = editChargesText( chargesText, regexArticleNumber )
+
+        puts 'CHARGES EDITED TEXT: ' + chargesText
+        puts ''
+        separatedCharges = chargesText.scan(/(#{regexArticleNumber}) \(/)
+
+        charges = []
         separatedCharges.each_with_index do |articleNumber, index|
-            puts 'Article #' + (index + 1).to_s + ': ' + articleNumber.to_s
+            articleNumber = articleNumber[0].to_s
+            puts 'ARTICLE #' + (index + 1).to_s + ': ' + articleNumber
             charges.push(Article.new(criminalCode, articleNumber))
         end
         puts ''

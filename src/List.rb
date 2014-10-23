@@ -293,26 +293,63 @@ class List
     end
 
     def outputPlacesOfDetention( output_path )
+        uniquePrisons = []
+
+        getPrisoners().each do |prisoner|
+            placeOfDetention = prisoner.getPlaceOfDetention
+            if placeOfDetention != 'Not Listed'
+                if !uniquePrisons.include? placeOfDetention
+                    uniquePrisons.push(placeOfDetention)
+                end
+            end
+        end
+
+        uniquePrisons =  uniquePrisons.sort_by{|word| word}
+
         CSV.open( output_path, 'wb' ) do |csv|
             csv << [
                 'Place of Detention'
             ]
-            uniquePrisons = []
-
-            getPrisoners().each do |prisoner|
-                placeOfDetention = prisoner.getPlaceOfDetention
-                if placeOfDetention != 'Not Listed'
-                    if !uniquePrisons.include? placeOfDetention
-                        uniquePrisons.push(placeOfDetention)
-                    end
-                end
-            end
-
-            uniquePrisons =  uniquePrisons.sort_by{|word| word}
 
             uniquePrisons.each do |prison|
                 csv << [
                     prison
+                ]
+            end
+        end
+    end
+
+    def outputArticles( output_path )
+        uniqueArticles = []
+
+        getPrisoners().each do |prisoner|
+            charges = prisoner.getCharges
+            charges.each do |charge|
+                chargeNotStoredYet = true
+                uniqueArticles.each do |uniqueArticle|
+                    if uniqueArticle.getNumber == charge.getNumber and uniqueArticle.getCriminalCode == charge.getCriminalCode
+                        chargeNotStoredYet = false
+                    end
+                end
+
+                if chargeNotStoredYet
+                    uniqueArticles.push(charge)
+                end
+            end
+        end
+
+        CSV.open( output_path, 'wb' ) do |csv|
+            csv << [
+                'Number',
+                'Criminal Code',
+                'Description'
+            ]
+
+            uniqueArticles.each do |article|
+                csv << [
+                    article.getNumber,
+                    article.getCriminalCode,
+                    article.getDescription
                 ]
             end
         end

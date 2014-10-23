@@ -1,4 +1,5 @@
 require_relative 'clean.rb'
+require_relative 'Article.rb'
 
 class Prisoner
     def initializeDateAndDateType
@@ -45,7 +46,7 @@ class Prisoner
         end
 
         date, dateType = self.initializeDateAndDateType
-        charges = cleanCharges( wholeText.css('.charges').to_s)
+        charges = separateCharges(cleanCharges( wholeText.css('.charges').to_s))
 
         placeOfDetention = cleanPlaceOfDetention( wholeText.css('.place-of-detention').to_s, @id)
         placeOfDetention = checkNotListedValue(placeOfDetention, [27, 78, 79, 80, 81], 'place of detention')
@@ -246,6 +247,37 @@ class Prisoner
         wholeText = wholeText.gsub(/<span class="place-of-detention">\s*<\/b>/, '<span class="place-of-detention">')
 
         return wholeText
+    end
+
+    def separateCharges( chargesUnedited )
+        #splitCharges = charges.split(';')
+        #splitCharges.each_with_index do |charge, index|
+        #    if charge.scan(/([0-9]|[\.\-])+[0-9]/).length != 1
+        #        puts 'Charge #' + (index + 1).to_s + ': ' + charge
+        #        puts ''
+        #    end
+        #end
+        charges = []
+        if (87..89).to_a.include? @id
+            criminalCode = '1960'
+        else
+            criminalCode = 'Current'
+        end
+
+        puts '______________'
+        puts 'Prisoner #' + @id.to_s
+        puts ''
+        puts 'CHARGES WHOLE TEXT: ' + chargesUnedited
+        puts ''
+        separatedCharges = chargesUnedited.scan(/(?:[0-9]|[\.\-])+[0-9]/)
+        separatedCharges.each_with_index do |articleNumber, index|
+            puts 'Article #' + (index + 1).to_s + ': ' + articleNumber.to_s
+            charges.push(Article.new(criminalCode, articleNumber))
+        end
+        puts ''
+        puts '______________'
+
+        return charges
     end
 
     def prepareText( wholeText )

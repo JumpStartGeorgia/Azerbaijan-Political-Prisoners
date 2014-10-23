@@ -18,6 +18,8 @@ end
 prisonersOutputPath = File.dirname(__FILE__) + '/../output/prisoners.csv'
 subtypesOutputPath = File.dirname(__FILE__) + '/../output/subtypes.csv'
 placesOfDetentionOutputPath = File.dirname(__FILE__) + '/../output/placesOfDetention.csv'
+articlesOutputPath = File.dirname(__FILE__) + '/../output/articles.csv'
 list.outputPrisoners(prisonersOutputPath)
 list.outputSubtypes(subtypesOutputPath)
 list.outputPlacesOfDetention(placesOfDetentionOutputPath)
+list.outputArticles(articlesOutputPath)

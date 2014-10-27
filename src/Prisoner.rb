@@ -254,10 +254,45 @@ class Prisoner
         #Remove 'of the Criminal Code' when it occurs between a number and an opening parenthesis
         chargesText = chargesText.gsub(/(#{regexArticleNumber}) of the Criminal Code (\()/, '\\1 \\2')
 
+        #Charges of prisoners 87-89 are formatted differently, using the words 'Article', 'Part' and 'Item'
+        if (87..89).to_a.include? @id
+            #Remove occurrence of 'Items' so that Articles and Parts only need to be combined
+            chargesText = chargesText.gsub(/Article 145, Part 2, Items 1, 2, 5 and 6 .*?personal property\);/, 'Article 145.2.1 (); Article 145.2.2 (); Article 145.2.5 (); Article 145.2.6 ();')
+
+            #Remove this exception to formatting
+            chargesText = chargesText.gsub('Part 3 of Article 220-1', 'Article 220-1, Part 3')
+
+            chargesText = chargesText + ';'
+            articleSections = chargesText.scan(/Article #{regexArticleNumber}.*?;/)
+
+            articleSections.each do |articleSection|
+                originalSection = articleSection.to_s
+                articleNumber = articleSection.scan(/Article (#{regexArticleNumber})/)[0][0].to_s
+                articleSection = articleSection.gsub(/Article #{regexArticleNumber}/, '')
+                articleSection = articleSection.gsub(/#{regexArticleNumber} \(/, articleNumber + '.\\0')
+                articleSection = 'Article ' + articleNumber + articleSection
+
+                chargesText = chargesText.gsub(originalSection, articleSection)
+
+                #puts ''
+                #puts 'Original section: ' + originalSection
+                #puts ''
+                #puts 'Article section: ' + articleSection
+                #puts ''
+            end
+
+            #labeledSections = chargesText.scan(/(?=((?:Article|Parts?) #{regexArticleNumber}.*?)(?:(?:Article|Parts?) #{regexArticleNumber}|;))/)
+        end
+
         return chargesText
     end
 
     def separateCharges( chargesText )
+        print = false
+        if (87..89).to_a.include? @id
+            print = true
+        end
+
         if (87..89).to_a.include? @id
             criminalCode = '1960'
         else
@@ -267,26 +302,35 @@ class Prisoner
         # Matches article numbers, including 167.2.2.1; 313; 28; 220-1
         regexArticleNumber = '(?:[0-9]|[\.\-])*[0-9]'
 
-        puts '______________'
-        puts 'Prisoner #' + @id.to_s
-        puts ''
-        puts 'CHARGES UNEDITED TEXT: ' + chargesText
-        puts ''
+        if print
+            puts '______________'
+            puts 'Prisoner #' + @id.to_s
+            puts ''
+            puts 'CHARGES UNEDITED TEXT: ' + chargesText
+            puts ''
+        end
 
         chargesText = editChargesText( chargesText, regexArticleNumber )
 
-        puts 'CHARGES EDITED TEXT: ' + chargesText
-        puts ''
+        if print
+            puts ''
+            puts 'CHARGES EDITED TEXT: ' + chargesText
+            puts ''
+        end
         separatedCharges = chargesText.scan(/(#{regexArticleNumber}) \(/)
 
         charges = []
         separatedCharges.each_with_index do |articleNumber, index|
             articleNumber = articleNumber[0].to_s
-            puts 'ARTICLE #' + (index + 1).to_s + ': ' + articleNumber
+            if print
+                puts 'ARTICLE #' + (index + 1).to_s + ': ' + articleNumber
+            end
             charges.push(Article.new(criminalCode, articleNumber))
         end
-        puts ''
-        puts '______________'
+        if print
+            puts ''
+            puts '______________'
+        end
 
         return charges
     end

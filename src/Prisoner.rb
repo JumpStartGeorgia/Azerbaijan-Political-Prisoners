@@ -300,8 +300,6 @@ class Prisoner
     end
 
     def separateCharges( chargesText )
-        print = true
-
         if (87..89).to_a.include? @id
             criminalCode = '1960'
         else
@@ -311,25 +309,12 @@ class Prisoner
         # Matches article numbers, including 167.2.2.1; 313; 28; 220-1
         regexArticleNumber = '(?:[0-9]|[\.\-])*[0-9]'
 
-        if print
-            puts '______________'
-            puts 'Prisoner #' + @id.to_s
-            puts ''
-            puts 'CHARGES UNEDITED TEXT: ' + chargesText
-            puts ''
-        end
-
         chargesText = editChargesText( chargesText, regexArticleNumber )
 
-        #if print
-        #    puts ''
-        #    puts 'CHARGES EDITED TEXT: ' + chargesText
-        #    puts ''
-        #end
         separatedCharges = chargesText.scan(/(#{regexArticleNumber}) \(/)
 
         charges = []
-        separatedCharges.each_with_index do |articleNumber, index|
+        separatedCharges.each_with_index do |articleNumber|
             articleNumber = articleNumber[0].to_s
             multipleOccurrencesOfSameCharge = false
 
@@ -342,18 +327,7 @@ class Prisoner
 
             if !multipleOccurrencesOfSameCharge
                 charges.push(Article.new(criminalCode, articleNumber))
-                if print
-                    puts 'Added Article: ' + (index + 1).to_s + ': ' + articleNumber
-                end
-            else
-                if print
-                    puts 'DID NOT ADD DUPLICATE Article: ' + articleNumber
-                end
             end
-        end
-        if print
-            puts ''
-            puts '______________'
         end
 
         return charges

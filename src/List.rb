@@ -246,7 +246,7 @@ class List
                 'Subtype ID',
                 'Date',
                 'Type of Date',
-                #'Charges',
+                'Charges',
                 'Place of Detention',
                 'Background Description',
                 #'Picture'
@@ -255,6 +255,15 @@ class List
                 prisonerType.getPrisoners.each do |prisoner|
                     printPrisoner( prisoner )
 
+                    chargeNumbers = ''
+                    prisoner.getCharges.each do |charge|
+                        if chargeNumbers == ''
+                            chargeNumbers = chargeNumbers + charge.getNumber
+                        else
+                            chargeNumbers = chargeNumbers + ',' + charge.getNumber
+                        end
+                    end
+
                     csv << [
                         prisoner.getId,
                         prisoner.getName,
@@ -262,7 +271,7 @@ class List
                         prisoner.getPrisonerSubtypeId,
                         prisoner.getDate,
                         prisoner.getDateType,
-                        #prisoner.getCharges,
+                        chargeNumbers,
                         prisoner.getPlaceOfDetention,
                         prisoner.getBackground
                     ]

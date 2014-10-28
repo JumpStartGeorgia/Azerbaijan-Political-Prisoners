@@ -304,7 +304,7 @@ class List
             end
         end
 
-        uniquePrisons =  uniquePrisons.sort_by{|word| word}
+        uniquePrisons = uniquePrisons.sort_by{|word| word}
 
         CSV.open( output_path, 'wb' ) do |csv|
             csv << [
@@ -337,6 +337,8 @@ class List
                 end
             end
         end
+
+        uniqueArticles = uniqueArticles.sort_by{|article| article.getNumber}
 
         CSV.open( output_path, 'wb' ) do |csv|
             csv << [

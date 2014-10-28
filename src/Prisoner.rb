@@ -281,6 +281,9 @@ class Prisoner
         #Remove 'of the Criminal Code' when it occurs between a number and an opening parenthesis
         chargesText = chargesText.gsub(/(#{regexArticleNumber}) of the Criminal Code\s?(\()/, '\\1 \\2')
 
+        #Prisoners 35-37 remove extra -ci on the end of article 278
+        chargesText = chargesText.gsub('278-ci', '278')
+
         #Prisoner 40 formatting exception
         chargesText = chargesText.gsub('274(', '274 (')
         chargesText = chargesText.gsub('278(', '278 (')

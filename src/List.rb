@@ -343,15 +343,13 @@ class List
         CSV.open( output_path, 'wb' ) do |csv|
             csv << [
                 'Number',
-                'Criminal Code',
-                'Description'
+                'Criminal Code'
             ]
 
             uniqueArticles.each do |article|
                 csv << [
                     article.getNumber,
-                    article.getCriminalCode,
-                    article.getDescription
+                    article.getCriminalCode
                 ]
             end
         end

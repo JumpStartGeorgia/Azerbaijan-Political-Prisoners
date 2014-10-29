@@ -1,0 +1,22 @@
+Azeri Political Prisoners PDF Parser
+
+Purpose: To extract the data contained in the Azeri Political Prisoners PDF and organize it in a computer-readable spreadsheets (.csv format).
+
+Instructions:
+1) Clone the repository.
+2) Navigate to the scripts/prisonersPdfParser/src directory and run the command "ruby parser.rb"
+3) Check scripts/prisonersPdfParser/output directory for output spreadsheets
+
+
+    Descriptions of output files
+
+articles.csv: List of the articles that prisoners have been charged with, along with their corresponding criminal codes.
+placesOfDetention.csv: List of the prisons where prisoners are being kept.
+prisoners.csv: This is the primary spreadsheet, containing the data that belongs to each prisoner.
+subtypes.csv: A list of prisoner subtypes (ex. Theologians section under Religious Activists) and their descriptions.
+
+
+    Not retrieved from PDF
+
+Footnotes: Unable to retrieve the footnotes at the bottom of many of the pages.
+Charge Descriptions: Since the descriptions of articles in the PDF are not consistent, decided to leave descriptions for a later date.

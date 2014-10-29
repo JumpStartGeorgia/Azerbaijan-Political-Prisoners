@@ -1,22 +1,36 @@
 Azeri Political Prisoners PDF Parser
 
-Purpose: To extract the data contained in the Azeri Political Prisoners PDF and organize it in a computer-readable spreadsheets (.csv format).
+    Purpose
 
-Instructions:
+To extract the data contained in the August 2014 version of the Azeri Political Prisoners PDF and organize it in computer-readable spreadsheets (.csv format).
+
+
+    Instructions
+
 1) Clone the repository.
-2) Navigate to the scripts/prisonersPdfParser/src directory and run the command "ruby parser.rb"
-3) Check scripts/prisonersPdfParser/output directory for output spreadsheets
+2) Run command "bundler update" in root directory (same directory as Gemfile). Must have bundler installed.
+3) Navigate to the scripts/prisonersPdfParser/src directory and run the command "ruby parser.rb".
+4) Check scripts/prisonersPdfParser/output directory for output spreadsheets.
+
+
+    Descriptions of input files
+
+- azeriPoliticalPrisoners.pdf: The original pdf, found at http://www.esiweb.org/pdf/THE%20LIST%20-%2098%20political%20prisoners%20in%20Azerbaijan%20-%20August%202014.pdf as of 10/29/14
+- list.html: An html document converted from the PDF using a pdf2html tool. This file has not been edited at all--all mistakes are corrected by the parser itself.
 
 
     Descriptions of output files
 
-articles.csv: List of the articles that prisoners have been charged with, along with their corresponding criminal codes.
-placesOfDetention.csv: List of the prisons where prisoners are being kept.
-prisoners.csv: This is the primary spreadsheet, containing the data that belongs to each prisoner.
-subtypes.csv: A list of prisoner subtypes (ex. Theologians section under Religious Activists) and their descriptions.
+- articles.csv: List of the articles that prisoners have been charged with, along with their corresponding criminal codes.
+- placesOfDetention.csv: List of the prisons where prisoners are being kept.
+- prisoners.csv: This is the primary spreadsheet, containing the data that belongs to each prisoner.
+- subtypes.csv: A list of prisoner subtypes (ex. Theologians section under Religious Activists) and their descriptions.
 
 
     Not retrieved from PDF
 
-Footnotes: Unable to retrieve the footnotes at the bottom of many of the pages.
-Charge Descriptions: Since the descriptions of articles in the PDF are not consistent, decided to leave descriptions for a later date.
+- Footnotes: Unable to retrieve the footnotes at the bottom of many of the pages.
+- Charge Descriptions: Since the descriptions of articles in the PDF are inconsistent (identical article numbers often have different descriptions), decided not to retrieve them with the parser.
+
+
+Note about input/portraits: The pdf2html tool made a separate directory containing the pictures in azeriPoliticalPrisoners.pdf, which are all mini portraits of the prisoners. For these pictures to be useful, they need to be labeled according to the prisoner which they depict. However, it would have been impossible to retrieve that information from the PDF itself, so the portraits have been manually labeled with their corresponding prisoner instead.

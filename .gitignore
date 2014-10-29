@@ -2,3 +2,4 @@
 .idea/*
 azeriPrisonersVis.iml
 scripts/prisonersPdfParser/output/*
+!scripts/prisonersPdfParser/output/.gitkeep

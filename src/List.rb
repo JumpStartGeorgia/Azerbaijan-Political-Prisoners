@@ -244,12 +244,10 @@ class List
                 'Name',
                 'Type of Prisoner',
                 'Subtype',
-                'Date',
-                'Type of Date',
+                'Date of Arrest',
                 'Charges',
                 'Place of Detention',
-                'Background Description',
-                #'Picture'
+                'Background Description'
             ]
             @prisonerTypes.each do |prisonerType|
                 prisonerType.getPrisoners.each do |prisoner|
@@ -270,7 +268,6 @@ class List
                         prisonerType.getName,
                         prisoner.getPrisonerSubtypeName,
                         prisoner.getDate,
-                        prisoner.getDateType,
                         chargeNumbers,
                         prisoner.getPlaceOfDetention,
                         prisoner.getBackground

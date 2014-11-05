@@ -19,5 +19,5 @@
 
 
 # ADDED FOR lib/prisonersPdfParser
-lib/prisonersPdfParser/output/*
-!lib/prisonersPdfParser/output/.gitkeep
+lib/aug2014PdfParser/output/*
+!lib/aug2014PdfParser/output/.gitkeep

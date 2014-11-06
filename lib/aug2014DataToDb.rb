@@ -1,13 +1,27 @@
 require 'csv'
 
 module Aug2014DataToDb
-    def self.migratePrisoners
-        Prisoner.destroy_all
+    def self.migrateData
+        self.destroyData
 
         CSV.foreach("#{Rails.root}/lib/aug2014PdfParser/output/prisoners.csv", "r") do |row|
             if $. != 1
                 Prisoner.create(name: row[1])
             end
         end
+
+        CSV.foreach("#{Rails.root}/lib/aug2014PdfParser/output/articles.csv", "r") do |row|
+            if $. != 1
+                Charge.create(
+                    number: row[0],
+                    criminal_code: row[1]
+                )
+            end
+        end
+    end
+
+    def self.destroyData
+        Prisoner.destroy_all
+        Charge.destroy_all
     end
 end

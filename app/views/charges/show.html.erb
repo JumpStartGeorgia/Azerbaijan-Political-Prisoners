@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Number:</strong>
+  <%= @charge.number %>
+</p>
+
+<p>
+  <strong>Criminal code:</strong>
+  <%= @charge.criminal_code %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @charge.description %>
+</p>
+
+<%= link_to 'Edit', edit_charge_path(@charge) %> |
+<%= link_to 'Back', charges_path %>

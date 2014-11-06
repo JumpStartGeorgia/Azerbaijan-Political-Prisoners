@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :subtypes
+
   resources :types
 
   resources :prisons

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141106083452) do
+ActiveRecord::Schema.define(version: 20141106085750) do
 
   create_table "charges", force: true do |t|
     t.string   "number"
@@ -32,6 +32,16 @@ ActiveRecord::Schema.define(version: 20141106083452) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "subtypes", force: true do |t|
+    t.string   "name"
+    t.integer  "type_id"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "subtypes", ["type_id"], name: "index_subtypes_on_type_id"
 
   create_table "types", force: true do |t|
     t.string   "name"

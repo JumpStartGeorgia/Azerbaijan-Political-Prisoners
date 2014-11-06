@@ -18,10 +18,17 @@ module Aug2014DataToDb
                 )
             end
         end
+
+        CSV.foreach("#{Rails.root}/lib/aug2014PdfParser/output/placesOfDetention.csv", "r") do |row|
+            if $. != 1
+                Prison.create(name: row[0])
+            end
+        end
     end
 
     def self.destroyData
         Prisoner.destroy_all
         Charge.destroy_all
+        Prison.destroy_all
     end
 end

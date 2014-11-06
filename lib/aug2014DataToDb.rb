@@ -4,9 +4,17 @@ module Aug2014DataToDb
     def self.migrateData
         self.destroyData
 
+        outputTypes = []
+
         CSV.foreach("#{Rails.root}/lib/aug2014PdfParser/output/prisoners.csv", "r") do |row|
             if $. != 1
                 Prisoner.create(name: row[1])
+
+                type = row[2]
+                if !outputTypes.include? type
+                    outputTypes.push(type)
+                    Type.create(name: type)
+                end
             end
         end
 
@@ -30,5 +38,6 @@ module Aug2014DataToDb
         Prisoner.destroy_all
         Charge.destroy_all
         Prison.destroy_all
+        Type.destroy_all
     end
 end

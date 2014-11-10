@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Prisoner:</strong>
+  <%= @incident.prisoner %>
+</p>
+
+<p>
+  <strong>Date of arrest:</strong>
+  <%= @incident.date_of_arrest %>
+</p>
+
+<p>
+  <strong>Description of arrest:</strong>
+  <%= @incident.description_of_arrest %>
+</p>
+
+<p>
+  <strong>Prison:</strong>
+  <%= @incident.prison %>
+</p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @incident.type %>
+</p>
+
+<p>
+  <strong>Subtype:</strong>
+  <%= @incident.subtype %>
+</p>
+
+<p>
+  <strong>Date of release:</strong>
+  <%= @incident.date_of_release %>
+</p>
+
+<p>
+  <strong>Description of release:</strong>
+  <%= @incident.description_of_release %>
+</p>
+
+<%= link_to 'Edit', edit_incident_path(@incident) %> |
+<%= link_to 'Back', incidents_path %>

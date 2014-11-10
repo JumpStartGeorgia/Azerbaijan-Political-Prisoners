@@ -1,0 +1,39 @@
+<h1>Listing incidents</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Prisoner</th>
+      <th>Date of arrest</th>
+      <th>Description of arrest</th>
+      <th>Prison</th>
+      <th>Type</th>
+      <th>Subtype</th>
+      <th>Date of release</th>
+      <th>Description of release</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @incidents.each do |incident| %>
+      <tr>
+        <td><%= incident.prisoner %></td>
+        <td><%= incident.date_of_arrest %></td>
+        <td><%= incident.description_of_arrest %></td>
+        <td><%= incident.prison %></td>
+        <td><%= incident.type %></td>
+        <td><%= incident.subtype %></td>
+        <td><%= incident.date_of_release %></td>
+        <td><%= incident.description_of_release %></td>
+        <td><%= link_to 'Show', incident %></td>
+        <td><%= link_to 'Edit', edit_incident_path(incident) %></td>
+        <td><%= link_to 'Destroy', incident, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Incident', new_incident_path %>

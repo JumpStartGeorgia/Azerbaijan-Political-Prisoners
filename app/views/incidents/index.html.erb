@@ -18,7 +18,7 @@
   <tbody>
     <% @incidents.each do |incident| %>
       <tr>
-        <td><%= incident.prisoner %></td>
+        <td><%= link_to incident.prisoner.name, incident.prisoner %></td>
         <td><%= incident.date_of_arrest %></td>
         <td><%= incident.description_of_arrest %></td>
         <td><%= incident.prison %></td>

@@ -20,10 +20,16 @@
       <tr>
         <td><%= link_to incident.prisoner.name, incident.prisoner %></td>
         <td><%= incident.date_of_arrest %></td>
-        <td><%= incident.description_of_arrest %></td>
-        <td><%= incident.prison %></td>
-        <td><%= incident.type %></td>
-        <td><%= incident.subtype %></td>
+        <td><%= if incident.description_of_arrest
+                    incident.description_of_arrest
+                end %></td>
+        <td><%= if incident.prison
+                    link_to incident.prison.name, incident.prison
+                end %></td>
+        <td><%= link_to incident.type.name, incident.type %></td>
+        <td><%= if incident.subtype
+                    link_to incident.subtype.name, incident.subtype
+                end %></td>
         <td><%= incident.date_of_release %></td>
         <td><%= incident.description_of_release %></td>
         <td><%= link_to 'Show', incident %></td>

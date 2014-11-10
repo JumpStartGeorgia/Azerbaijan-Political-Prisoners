@@ -1,7 +1,7 @@
 require 'csv'
 
 module Aug2014DataToDb
-    def self.migrateData
+    def self.migrate
         self.destroyData
 
         outputTypes = []
@@ -46,9 +46,20 @@ module Aug2014DataToDb
 
         CSV.foreach("#{Rails.root}/lib/aug2014PdfParser/output/prisoners.csv", "r") do |row|
             if $. != 1
-                Incident.create(
-                    prisoner: Prisoner.where(name: row[1]).first
-                )
+                incident = Incident.new
+                incident.prisoner = Prisoner.where(name: row[1]).first
+                incident.date_of_arrest = row[4]
+                if row[7] != 'Not Listed'
+                    incident.description_of_arrest = row[7]
+                end
+                incident.prison = Prison.where(name: row[6]).first
+                incident.type = Type.where(name: row[2]).first
+
+                if row[3] != 'No Subtype'
+                    incident.subtype = Subtype.where(name: row[3], type: incident.type).first
+                end
+
+                incident.save
             end
         end
     end
@@ -59,5 +70,6 @@ module Aug2014DataToDb
         Prison.destroy_all
         Type.destroy_all
         Subtype.destroy_all
+        Incident.destroy_all
     end
 end

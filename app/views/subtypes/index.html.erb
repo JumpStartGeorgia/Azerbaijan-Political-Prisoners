@@ -14,7 +14,7 @@
     <% @subtypes.each do |subtype| %>
       <tr>
         <td><%= subtype.name %></td>
-        <td><%= subtype.type %></td>
+        <td><%= link_to subtype.type.name, subtype.type %></td>
         <td><%= subtype.description %></td>
         <td><%= link_to 'Show', subtype %></td>
         <td><%= link_to 'Edit', edit_subtype_path(subtype) %></td>

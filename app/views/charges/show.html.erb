@@ -2,12 +2,12 @@
 
 <p>
   <strong>Incident:</strong>
-  <%= @charge.incident %>
+  <%= link_to @charge.incident.prisoner.name + ' ' + @charge.incident.date_of_arrest, @charge.incident %>
 </p>
 
 <p>
   <strong>Article:</strong>
-  <%= @charge.article %>
+  <%= link_to @charge.article.number, @charge.article %>
 </p>
 
 <%= link_to 'Edit', edit_charge_path(@charge) %> |

@@ -2,7 +2,7 @@
 
 <p>
   <strong>Prisoner:</strong>
-  <%= @incident.prisoner %>
+  <%= link_to @incident.prisoner.name, @incident.prisoner %>
 </p>
 
 <p>
@@ -17,17 +17,17 @@
 
 <p>
   <strong>Prison:</strong>
-  <%= @incident.prison %>
+  <%= link_to @incident.prison.name, @incident.prison %>
 </p>
 
 <p>
   <strong>Type:</strong>
-  <%= @incident.type %>
+  <%= link_to @incident.type.name, @incident.type %>
 </p>
 
 <p>
   <strong>Subtype:</strong>
-  <%= @incident.subtype %>
+  <%= link_to @incident.subtype.name, @incident.subtype %>
 </p>
 
 <p>

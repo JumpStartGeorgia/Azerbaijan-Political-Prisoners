@@ -40,11 +40,13 @@ module Aug2014DataToDb
 
         CSV.foreach("#{Rails.root}/lib/aug2014PdfParser/output/subtypes.csv", "r") do |row|
             if $. != 1
-                Subtype.create(
-                    name: row[1],
-                    type: Type.where(name: row[2]).first,
-                    description: row[3]
-                )
+                subtype = Subtype.new
+                subtype.name = row[1]
+                subtype.type = Type.where(name: row[2]).first
+                if row[3] != 'No Subtype Description'
+                    subtype.description = row[3]
+                end
+                subtype.save
             end
         end
 

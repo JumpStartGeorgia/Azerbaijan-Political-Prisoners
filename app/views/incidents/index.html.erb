@@ -6,6 +6,7 @@
       <th>Prisoner</th>
       <th>Date of arrest</th>
       <th>Description of arrest</th>
+      <th>Charges</th>
       <th>Prison</th>
       <th>Type</th>
       <th>Subtype</th>
@@ -23,6 +24,9 @@
         <td><%= if incident.description_of_arrest
                     incident.description_of_arrest
                 end %></td>
+        <td><% incident.charges.each do |charge| %>
+            <%= link_to charge.article.number, charge %>
+            <% end %></td>
         <td><%= if incident.prison
                     link_to incident.prison.name, incident.prison
                 end %></td>

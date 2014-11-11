@@ -2,10 +2,10 @@
 
 one:
   number: MyString
-  criminal_code: MyString
+  criminal_code_id: 
   description: MyText
 
 two:
   number: MyString
-  criminal_code: MyString
+  criminal_code_id: 
   description: MyText

@@ -21,9 +21,13 @@ module Aug2014DataToDb
 
         CSV.foreach("#{Rails.root}/lib/aug2014PdfParser/output/articles.csv", "r") do |row|
             if $. != 1
-                Charge.create(
+                if !CriminalCode.exists?(name: row[1])
+                    CriminalCode.create(name: row[1])
+                end
+
+                Article.create(
                     number: row[0],
-                    criminal_code: row[1]
+                    criminal_code: CriminalCode.where(name: row[1]).first
                 )
             end
         end
@@ -66,7 +70,8 @@ module Aug2014DataToDb
 
     def self.destroyData
         Prisoner.destroy_all
-        Charge.destroy_all
+        Article.destroy_all
+        CriminalCode.destroy_all
         Prison.destroy_all
         Type.destroy_all
         Subtype.destroy_all

@@ -11,19 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141110073612) do
+ActiveRecord::Schema.define(version: 20141111065809) do
 
-  create_table "charges", force: true do |t|
+  create_table "articles", force: true do |t|
     t.string   "number"
-    t.string   "criminal_code"
+    t.integer  "criminal_code_id"
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "articles", ["criminal_code_id"], name: "index_articles_on_criminal_code_id"
+
   create_table "charges_incidents", id: false, force: true do |t|
     t.integer "charge_id"
     t.integer "incident_id"
+  end
+
+  create_table "criminal_codes", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "incidents", force: true do |t|

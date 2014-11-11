@@ -1,10 +1,10 @@
-<%= form_for(@charge) do |f| %>
-  <% if @charge.errors.any? %>
+<%= form_for(@article) do |f| %>
+  <% if @article.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@charge.errors.count, "error") %> prohibited this charge from being saved:</h2>
+      <h2><%= pluralize(@article.errors.count, "error") %> prohibited this article from being saved:</h2>
 
       <ul>
-      <% @charge.errors.full_messages.each do |message| %>
+      <% @article.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
@@ -16,8 +16,8 @@
     <%= f.text_field :number %>
   </div>
   <div class="field">
-    <%= f.label :criminal_code %><br>
-    <%= f.text_field :criminal_code %>
+    <%= f.label :criminal_code_id %><br>
+    <%= f.text_field :criminal_code_id %>
   </div>
   <div class="field">
     <%= f.label :description %><br>

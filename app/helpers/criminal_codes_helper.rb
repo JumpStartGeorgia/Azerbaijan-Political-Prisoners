@@ -1,0 +1,2 @@
+module CriminalCodesHelper
+end

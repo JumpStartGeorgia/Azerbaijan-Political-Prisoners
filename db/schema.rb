@@ -33,11 +33,6 @@ ActiveRecord::Schema.define(version: 20141111072801) do
   add_index "charges", ["article_id"], name: "index_charges_on_article_id"
   add_index "charges", ["incident_id"], name: "index_charges_on_incident_id"
 
-  create_table "charges_incidents", id: false, force: true do |t|
-    t.integer "charge_id"
-    t.integer "incident_id"
-  end
-
   create_table "criminal_codes", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -46,12 +41,12 @@ ActiveRecord::Schema.define(version: 20141111072801) do
 
   create_table "incidents", force: true do |t|
     t.integer  "prisoner_id"
-    t.string   "date_of_arrest"
+    t.date     "date_of_arrest"
     t.text     "description_of_arrest"
     t.integer  "prison_id"
     t.integer  "type_id"
     t.integer  "subtype_id"
-    t.string   "date_of_release"
+    t.date     "date_of_release"
     t.text     "description_of_release"
     t.datetime "created_at"
     t.datetime "updated_at"

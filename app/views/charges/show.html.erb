@@ -2,7 +2,7 @@
 
 <p>
   <strong>Incident:</strong>
-  <%= link_to @charge.incident.prisoner.name + ' ' + @charge.incident.date_of_arrest, @charge.incident %>
+  <%= link_to @charge.incident.prisoner.name + ' ' + @charge.incident.date_of_arrest.to_s, @charge.incident %>
 </p>
 
 <p>

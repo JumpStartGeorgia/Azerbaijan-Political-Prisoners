@@ -1,4 +1,5 @@
 require 'csv'
+require 'date'
 
 module Aug2014DataToDb
     def self.migrate
@@ -61,7 +62,7 @@ module Aug2014DataToDb
     def self.createIncident(row)
         incident = Incident.new
         incident.prisoner = Prisoner.where(name: row[1]).first
-        incident.date_of_arrest = row[4]
+        incident.date_of_arrest = Date.strptime(row[4], '%d/%m/%Y')
         if row[7] != 'Not Listed'
             incident.description_of_arrest = row[7]
         end

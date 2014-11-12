@@ -21,7 +21,7 @@
       <tr>
         <td><%= link_to incident.prisoner.name, incident.prisoner %></td>
         <td><%= incident.date_of_arrest %></td>
-        <td><%= incident.description_of_arrest %></td>
+        <td><%= simple_format(incident.description_of_arrest) %></td>
         <td><% incident.charges.each do |charge| %>
             <%= link_to charge.article.number, charge %>
             <% end %></td>

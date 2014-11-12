@@ -10,10 +10,10 @@
   <%= @incident.date_of_arrest %>
 </p>
 
-<p>
+<div>
   <strong>Description of arrest:</strong>
-  <%= @incident.description_of_arrest %>
-</p>
+  <%= simple_format(@incident.description_of_arrest) %>
+</div>
 
 <p>
     <strong>Charges:</strong>

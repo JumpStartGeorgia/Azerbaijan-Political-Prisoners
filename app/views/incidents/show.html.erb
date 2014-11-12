@@ -17,9 +17,7 @@
 
 <p>
     <strong>Charges:</strong>
-    <% @incident.charges.each do |charge| %>
-        <%= link_to charge.article.number, charge %>
-    <% end %>
+    <%= displayCharges(@incident.charges) %>
 </p>
 
 <p>

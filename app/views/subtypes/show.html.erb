@@ -12,7 +12,7 @@
 
 <p>
   <strong>Description:</strong>
-  <%= @subtype.description %>
+  <%= simple_format(@subtype.description) %>
 </p>
 
 <%= link_to 'Edit', edit_subtype_path(@subtype) %> |

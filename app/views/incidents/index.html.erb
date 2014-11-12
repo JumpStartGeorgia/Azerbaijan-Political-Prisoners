@@ -33,7 +33,7 @@
                     link_to incident.subtype.name, incident.subtype
                 end %></td>
         <td><%= incident.date_of_release %></td>
-        <td><%= incident.description_of_release %></td>
+        <td><%= simple_format(incident.description_of_release) %></td>
         <td><%= link_to 'Show', incident %></td>
         <td><%= link_to 'Edit', edit_incident_path(incident) %></td>
         <td><%= link_to 'Destroy', incident, method: :delete, data: { confirm: 'Are you sure?' } %></td>

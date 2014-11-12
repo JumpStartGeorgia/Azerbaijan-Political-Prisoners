@@ -48,7 +48,7 @@
 
 <p>
   <strong>Description of release:</strong>
-  <%= @incident.description_of_release %>
+  <%= simple_format(@incident.description_of_release) %>
 </p>
 
 <%= link_to 'Edit', edit_incident_path(@incident) %> |

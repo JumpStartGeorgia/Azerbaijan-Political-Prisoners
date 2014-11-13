@@ -5,5 +5,57 @@
   <%= @prisoner.name %>
 </p>
 
+<div id="incidents">
+    <% @prisoner.incidents.each_with_index do |incident, index| %>
+        <div class="incident">
+            <h3>Incident #<%= index + 1 %></h3>
+
+            <p>
+                <strong>Date of arrest:</strong>
+                <%= incident.date_of_arrest %>
+            </p>
+
+            <div>
+                <strong>Description of arrest:</strong>
+                <%= simple_format(incident.description_of_arrest) %>
+            </div>
+
+            <p>
+                <strong>Charges:</strong>
+                <%= displayCharges(incident.charges) %>
+            </p>
+
+            <p>
+                <strong>Prison:</strong>
+                <%= if incident.prison
+                        link_to incident.prison.name, incident.prison
+                    end %>
+            </p>
+
+            <p>
+                <strong>Type:</strong>
+                <%= link_to incident.type.name, incident.type %>
+            </p>
+
+            <p>
+                <strong>Subtype:</strong>
+                <%= if incident.subtype
+                        link_to incident.subtype.name, incident.subtype
+                    end %>
+            </p>
+
+            <p>
+                <strong>Date of release:</strong>
+                <%= incident.date_of_release %>
+            </p>
+
+            <p>
+                <strong>Description of release:</strong>
+                <%= simple_format(incident.description_of_release) %>
+            </p>
+        </div>
+    <% end %>
+</div>
+
 <%= link_to 'Edit', edit_prisoner_path(@prisoner) %> |
 <%= link_to 'Back', prisoners_path %>

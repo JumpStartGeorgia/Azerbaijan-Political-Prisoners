@@ -1,0 +1,34 @@
+<div class="nested-fields">
+    <h3>Arrest - <%= link_to_remove_association "Remove", f %></h3>
+    <div class="field">
+        <%= f.label :date_of_arrest %><br>
+        <%= f.text_field :date_of_arrest %>
+    </div>
+    <div class="field">
+        <%= f.label :description_of_arrest %><br>
+        <%= f.text_area :description_of_arrest %>
+    </div>
+    <div class="field">
+        <%= f.label :prison_id %><br>
+        <%= f.text_field :prison_id %>
+    </div>
+    <div class="field">
+        <%= f.label :type_id %><br>
+        <%= f.text_field :type_id %>
+    </div>
+    <div class="field">
+        <%= f.label :subtype_id %><br>
+        <%= f.text_field :subtype_id %>
+    </div>
+    <div class="field">
+        <%= f.label :date_of_release %><br>
+        <%= f.text_field :date_of_release %>
+    </div>
+    <div class="field">
+        <%= f.label :description_of_release %><br>
+        <%= f.text_area :description_of_release %>
+    </div>
+    <div class="actions">
+        <%= f.submit %>
+    </div>
+</div>

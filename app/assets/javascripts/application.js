@@ -14,3 +14,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+
+// ADDED FOR CUSTOM RAILS APP
+//= require cocoon

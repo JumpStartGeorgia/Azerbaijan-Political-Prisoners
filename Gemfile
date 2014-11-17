@@ -39,6 +39,9 @@ gem 'spring',        group: :development
 # gem 'debugger', group: [:development, :test]
 
 
+### ADDED FOR Custom Rails App
+gem 'cocoon'
+
 
 ### ADDED FOR lib/prisonersPdfParser
 gem 'nokogiri'

@@ -5,4 +5,6 @@ class Incident < ActiveRecord::Base
   belongs_to :subtype
   has_many :charges
   has_many :articles, through: :charges
+
+  validates :prisoner_id, :date_of_arrest, :prison_id, :type_id, presence: true
 end

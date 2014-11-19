@@ -14,7 +14,7 @@
     </div>
     <div class="field">
         <%= f.label :type_id %><br>
-        <%= f.collection_select(:type_id, Type.all, :id, :name, prompt: true) %>
+        <%= f.collection_select(:type_id, Type.all, :id, :name, {prompt: true}, {class: 'type_select'}) %>
     </div>
     <div class="field">
         <%= f.label :subtype_id %><br>

@@ -1,5 +1,5 @@
 <div class="nested-fields">
-    <h3>Arrest - <%= link_to_remove_association "Remove", f %></h3>
+    <h3>Arrest <%= f.object.date_of_arrest %> - <%= link_to_remove_association "Remove", f %></h3>
     <div class="field">
         <%= f.label :date_of_arrest %><br>
         <%= f.text_field :date_of_arrest %>

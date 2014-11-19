@@ -73,9 +73,9 @@ class PrisonersController < ApplicationController
           [:id,
            :date_of_arrest,
            :description_of_arrest,
-           :prison,
-           :type,
-           :subtype,
+           :prison_id,
+           :type_id,
+           :subtype_id,
            :date_of_release,
            :description_of_release,
            :_destroy])

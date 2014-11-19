@@ -10,7 +10,7 @@
     </div>
     <div class="field">
         <%= f.label :prison_id %><br>
-        <%= f.text_field :prison_id %>
+        <%= f.collection_select(:prison_id, Prison.all, :id, :name, prompt: true) %>
     </div>
     <div class="field">
         <%= f.label :type_id %><br>
@@ -18,7 +18,7 @@
     </div>
     <div class="field">
         <%= f.label :subtype_id %><br>
-        <%= f.text_field :subtype_id %>
+        <%= f.collection_select(:subtype_id, Subtype.where(type: f.object.type), :id, :name, prompt: true) %>
     </div>
     <div class="field">
         <%= f.label :date_of_release %><br>

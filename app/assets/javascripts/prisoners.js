@@ -1,8 +1,9 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
 
-// When a new Type is selected, populate the Subtype select with that Type's Subtypes
 $(document).ready(function() {
+
+    // When a new Type is selected, populate the Subtype select with that Type's Subtypes
     $('#incidents').on('change', '.type_select', function( event ) {
         var new_type_id = $(event.target).val();
         var subtype_select = $(event.target).parent().next().children('select');

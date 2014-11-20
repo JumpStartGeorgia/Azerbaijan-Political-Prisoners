@@ -19,6 +19,7 @@ class PrisonersController < ApplicationController
 
   # GET /prisoners/1/edit
   def edit
+    gon.subtypeMap = Subtype.all.map{|s| {id: s.id, type_id: s.type_id, name: s.name}}
   end
 
   # POST /prisoners

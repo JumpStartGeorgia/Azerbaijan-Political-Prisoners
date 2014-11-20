@@ -12,7 +12,11 @@ $(document).ready(function() {
         subtype_select.find('option').remove();
 
         // Add subtypes of new type to subtype select options
-
+        $.each(gon.subtypeMap, function( index, value) {
+            if (parseInt(new_type_id) === value.type_id ) {
+                subtype_select.append('<option value="' + value.id + '">' + value.name + '</option>')
+            }
+        });
     });
 });
 

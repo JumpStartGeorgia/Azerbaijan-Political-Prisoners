@@ -15,11 +15,13 @@
     <%= f.label :name %><br>
     <%= f.text_field :name %>
   </div>
-  <h3 id="incidents">Incidents</h3>
+  <h3>Incidents</h3>
+  <div id="incidents">
     <%= f.fields_for :incidents do |incident| %>
       <%= render "incident_fields", f: incident %>
       <div class="links"><%= link_to_add_association 'Add New Incident', f, :incidents %></div>
     <% end %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

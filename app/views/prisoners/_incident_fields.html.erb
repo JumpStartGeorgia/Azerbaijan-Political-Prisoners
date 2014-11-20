@@ -18,7 +18,7 @@
     </div>
     <div class="field">
         <%= f.label :subtype_id %><br>
-        <%= f.collection_select(:subtype_id, Subtype.where(type: f.object.type), :id, :name, prompt: true) %>
+        <%= f.collection_select(:subtype_id, Subtype.where(type: f.object.type), :id, :name) %>
     </div>
     <div class="field">
         <%= f.label :date_of_release %><br>

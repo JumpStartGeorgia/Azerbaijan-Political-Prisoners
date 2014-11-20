@@ -1,5 +1,6 @@
 class PrisonersController < ApplicationController
   before_action :set_prisoner, only: [:show, :edit, :update, :destroy]
+  before_action :set_subtype_map, only: [:new, :edit, :update]
 
   # GET /prisoners
   # GET /prisoners.json
@@ -19,7 +20,6 @@ class PrisonersController < ApplicationController
 
   # GET /prisoners/1/edit
   def edit
-    gon.subtypeMap = Subtype.all.map{|s| {id: s.id, type_id: s.type_id, name: s.name}}
   end
 
   # POST /prisoners
@@ -66,6 +66,10 @@ class PrisonersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_prisoner
       @prisoner = Prisoner.find(params[:id])
+    end
+
+    def set_subtype_map
+      gon.subtype_map = Subtype.all.map{|s| {id: s.id, type_id: s.type_id, name: s.name}}
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

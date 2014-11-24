@@ -44,7 +44,6 @@ gem 'cocoon'
 gem 'gon', '~> 5.2.3'
 gem 'paperclip'
 gem 'tinymce-rails'
-gem 'ckeditor'
 
 ### ADDED FOR lib/prisonersPdfParser
 gem 'nokogiri'

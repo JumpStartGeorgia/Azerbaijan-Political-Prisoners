@@ -29,9 +29,6 @@ GEM
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
     builder (3.2.2)
-    ckeditor (4.1.0)
-      mime-types
-      orm_adapter (~> 0.5.0)
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cocaine (0.5.4)
@@ -68,7 +65,6 @@ GEM
     multi_json (1.10.1)
     nokogiri (1.6.4)
       mini_portile (~> 0.6.0)
-    orm_adapter (0.5.0)
     paperclip (4.2.0)
       activemodel (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -133,7 +129,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  ckeditor
   cocoon
   coffee-rails (~> 4.0.0)
   gon (~> 5.2.3)

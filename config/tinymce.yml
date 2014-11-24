@@ -1,0 +1,4 @@
+default:
+  menubar: false
+  toolbar:
+    - styleselect | bold italic | undo redo | alignleft aligncenter alignright | link

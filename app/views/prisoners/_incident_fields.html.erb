@@ -6,7 +6,7 @@
     </div>
     <div class="field">
         <%= f.label :description_of_arrest %><br>
-        <%= f.cktext_area :description_of_arrest %>
+        <%= f.text_area :description_of_arrest, class: 'tinymce', rows: '20' %>
     </div>
     <div class="field">
         <%= f.label :prison_id %><br>
@@ -26,6 +26,8 @@
     </div>
     <div class="field">
         <%= f.label :description_of_release %><br>
-        <%= f.cktext_area :description_of_release %>
+        <%= f.text_area :description_of_release, class: 'tinymce', rows: '20' %>
     </div>
 </div>
+
+<%= tinymce %>

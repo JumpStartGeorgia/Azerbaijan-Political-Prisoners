@@ -2,7 +2,7 @@
     <h3>Arrest <%= f.object.date_of_arrest %> - <%= link_to_remove_association "Remove", f %></h3>
     <div class="field">
         <%= f.label :date_of_arrest %><br>
-        <%= f.text_field :date_of_arrest %>
+        <%= f.date_select :date_of_arrest, {start_year: Time.now.year - 50, end_year: Time.now.year} %>
     </div>
     <div class="field">
         <%= f.label :description_of_arrest %><br>
@@ -22,7 +22,7 @@
     </div>
     <div class="field">
         <%= f.label :date_of_release %><br>
-        <%= f.text_field :date_of_release %>
+        <%= f.date_select :date_of_release, {start_year: Time.now.year - 50, end_year: Time.now.year, prompt: true} %>
     </div>
     <div class="field">
         <%= f.label :description_of_release %><br>

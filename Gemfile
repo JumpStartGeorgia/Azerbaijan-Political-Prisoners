@@ -42,6 +42,7 @@ gem 'spring',        group: :development
 ### ADDED FOR Custom Rails App
 gem 'cocoon'
 gem 'gon', '~> 5.2.3'
+gem 'ckeditor'
 
 ### ADDED FOR lib/prisonersPdfParser
 gem 'nokogiri'

@@ -18,3 +18,4 @@
 
 // ADDED FOR CUSTOM RAILS APP
 //= require cocoon
+//= require ckeditor/init

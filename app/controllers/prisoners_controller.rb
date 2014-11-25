@@ -83,6 +83,8 @@ class PrisonersController < ApplicationController
            :subtype_id,
            :date_of_release,
            :description_of_release,
-           :_destroy])
+           :_destroy,
+           :article_ids => []
+      ])
     end
 end

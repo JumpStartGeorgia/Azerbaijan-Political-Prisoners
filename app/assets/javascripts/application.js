@@ -19,3 +19,4 @@
 // ADDED FOR CUSTOM RAILS APP
 //= require cocoon
 //= require tinymce
+//= require select2.min

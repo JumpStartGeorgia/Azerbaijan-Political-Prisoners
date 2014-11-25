@@ -17,6 +17,11 @@ var ready = function() {
             }
         });
     });
+
+    $('#prisoner_incidents_attributes_0_charges').select2({
+        placeholder: 'Select Charges',
+        width: '110px'
+    });
 }
 
 $(document).on('page:load', ready);

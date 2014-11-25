@@ -13,3 +13,7 @@
  *= require_tree .
  *= require_self
  */
+
+/* ADDED FOR Custom Rails App
+*= require select2
+*/

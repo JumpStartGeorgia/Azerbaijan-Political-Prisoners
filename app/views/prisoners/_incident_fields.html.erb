@@ -10,7 +10,7 @@
     </div>
     <div class="field">
         <%= f.label :article_ids, 'Charges' %><br>
-        <%= f.collection_select(:article_ids, Article.all, :id, :number, {}, multiple: true) %>
+        <%= f.grouped_collection_select(:article_ids, CriminalCode.all, :articles, :name_with_model_name, :id, :number, {}, multiple: true) %>
     </div>
     <div class="field">
         <%= f.label :prison_id %><br>

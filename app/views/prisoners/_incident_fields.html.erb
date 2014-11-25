@@ -9,6 +9,10 @@
         <%= f.text_area :description_of_arrest, class: 'tinymce', rows: '20' %>
     </div>
     <div class="field">
+        <%= f.label :charges %><br>
+        <%= f.collection_select(:charges, Article.all, :id, :number, {}, multiple: true) %>
+    </div>
+    <div class="field">
         <%= f.label :prison_id %><br>
         <%= f.collection_select(:prison_id, Prison.all, :id, :name, prompt: true) %>
     </div>

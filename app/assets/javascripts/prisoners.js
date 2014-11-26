@@ -1,8 +1,8 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
 
-var ready = function() {
-    // When a new Type is selected, populate the Subtype select with that Type's Subtypes
+// When a new Type is selected, populate the Subtype select with that Type's Subtypes
+var populateSubtypes = function() {
     $('#incidents').on('change', '.type_select', function( event ) {
         var new_type_id = $(event.target).val();
         var subtype_select = $(event.target).parent().next().children('select');
@@ -17,12 +17,29 @@ var ready = function() {
             }
         });
     });
+}
 
-    $('#prisoner_incidents_attributes_0_article_ids').select2({
+// Add jQuery Select2 extra functionality to Charges multiple select
+var addSelect2 = function() {
+    $('select.charges_select').select2({
         placeholder: 'Select Charges',
         width: '110px'
     });
 }
 
+var main = function() {
+    populateSubtypes();
+    addSelect2();
+}
+
+var ready = function() {
+    $('#links').on('cocoon:after-insert', function(e, insertedItem) {
+        addSelect2();
+    });
+
+    main();
+}
+
 $(document).on('page:load', ready);
 $(document).ready(ready);
+

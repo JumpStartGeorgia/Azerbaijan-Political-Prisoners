@@ -1,6 +1,9 @@
+require 'yaml'
+
 class PrisonersController < ApplicationController
   before_action :set_prisoner, only: [:show, :edit, :update, :destroy]
   before_action :set_subtype_map, only: [:new, :edit, :update]
+  before_action :set_tinymce_config, only: [:new, :edit, :update]
 
   # GET /prisoners
   # GET /prisoners.json
@@ -70,6 +73,10 @@ class PrisonersController < ApplicationController
 
     def set_subtype_map
       gon.subtype_map = Subtype.all.map{|s| {id: s.id, type_id: s.type_id, name: s.name}}
+    end
+
+    def set_tinymce_config
+      gon.tinymce_config = YAML.load_file("config/tinymce.yml")
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

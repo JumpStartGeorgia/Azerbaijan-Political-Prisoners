@@ -27,17 +27,28 @@ var addSelect2 = function() {
     });
 }
 
-var main = function() {
-    populateSubtypes();
+var loadTinymce = function() {
+    var tinymceOptions = {selector: "textarea.tinymce"};
+    var tinymceDefaultConfig = gon.tinymce_config.default;
+
+    // Add default config attributes to tinymce options
+    for (var attrname in tinymceDefaultConfig) { tinymceOptions[attrname] = tinymceDefaultConfig[attrname]; }
+
+    tinyMCE.init(tinymceOptions);
+}
+
+var initialAndCocoonCode = function() {
     addSelect2();
+    loadTinymce();
 }
 
 var ready = function() {
-    $('#links').on('cocoon:after-insert', function(e, insertedItem) {
-        addSelect2();
-    });
+    populateSubtypes();
+    initialAndCocoonCode();
 
-    main();
+    $('#links').on('cocoon:after-insert', function(e, insertedItem) {
+        initialAndCocoonCode();
+    });
 }
 
 $(document).on('page:load', ready);

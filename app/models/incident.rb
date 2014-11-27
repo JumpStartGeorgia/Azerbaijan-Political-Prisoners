@@ -6,5 +6,5 @@ class Incident < ActiveRecord::Base
   has_many :charges
   has_many :articles, through: :charges
 
-  validates :prisoner, :date_of_arrest, :prison, :type, presence: true
+  validates :prisoner, :date_of_arrest, :prison_id, :type_id, presence: true
 end

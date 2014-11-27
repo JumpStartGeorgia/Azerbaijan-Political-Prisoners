@@ -19,8 +19,8 @@
   <div id="incidents">
     <%= f.fields_for :incidents do |incident| %>
       <%= render "incident_fields", f: incident %>
-      <div id="links"><%= link_to_add_association 'Add New Incident', f, :incidents %></div>
     <% end %>
+    <div id="links"><%= link_to_add_association 'Add New Incident', f, :incidents %></div>
   </div>
   <div class="actions">
     <%= f.submit %>

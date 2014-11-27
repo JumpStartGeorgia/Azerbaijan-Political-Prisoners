@@ -1,4 +1,4 @@
-<div class="nested-fields">
+<div class="nested-fields" style="display: <%= f.object.marked_for_destruction? ? 'none' : 'block' %>">
     <h3>Arrest <%= f.object.date_of_arrest %> - <%= link_to_remove_association "Remove", f %></h3>
     <div class="field">
         <%= f.label :date_of_arrest %><br>

@@ -37,20 +37,13 @@ var loadTinymce = function() {
     tinyMCE.init(tinymceOptions);
 }
 
-var initialAndCocoonCode = function() {
+$(document).ready(function() {
+    populateSubtypes();
     addSelect2();
     loadTinymce();
-}
-
-var ready = function() {
-    populateSubtypes();
-    initialAndCocoonCode();
 
     $('#links').on('cocoon:after-insert', function(e, insertedItem) {
-        initialAndCocoonCode();
+        addSelect2();
+        loadTinymce();
     });
-}
-
-$(document).on('page:load', ready);
-$(document).ready(ready);
-
+});

@@ -44,6 +44,7 @@ gem 'cocoon'
 gem 'gon', '~> 5.2.3'
 gem 'paperclip'
 gem 'tinymce-rails'
+gem 'jquery-turbolinks'
 
 ### ADDED FOR lib/prisonersPdfParser
 gem 'nokogiri'

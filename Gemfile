@@ -45,6 +45,7 @@ gem 'gon', '~> 5.2.3'
 gem 'paperclip'
 gem 'tinymce-rails'
 gem 'jquery-turbolinks'
+gem 'quiet_assets', group: :development
 
 ### ADDED FOR lib/prisonersPdfParser
 gem 'nokogiri'

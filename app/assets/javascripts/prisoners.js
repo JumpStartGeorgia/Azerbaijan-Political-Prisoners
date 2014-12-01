@@ -37,6 +37,10 @@ var loadTinymce = function() {
     tinyMCE.init(tinymceOptions);
 }
 
+$(document).on('page:receive', function() {
+    tinymce.remove();
+});
+
 $(document).ready(function() {
     populateSubtypes();
     addSelect2();

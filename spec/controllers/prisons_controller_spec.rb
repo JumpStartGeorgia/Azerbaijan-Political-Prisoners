@@ -23,12 +23,12 @@ RSpec.describe PrisonsController, :type => :controller do
   # This should return the minimal set of attributes required to create a valid
   # Prison. As you add validations to Prison, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { {
-      name: 'MyName'
-  } }
+  let(:valid_attributes) { FactoryGirl.attributes_for(:prison) }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {
+        telephone: '123'
+    }
   }
 
   # This should return the minimal set of values that should be in the session
@@ -103,14 +103,13 @@ RSpec.describe PrisonsController, :type => :controller do
   describe "PUT update" do
     describe "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        FactoryGirl.attributes_for(:prison, {name: 'NewName'})
       }
 
       it "updates the requested prison" do
         prison = Prison.create! valid_attributes
         put :update, {:id => prison.to_param, :prison => new_attributes}, valid_session
         prison.reload
-        skip("Add assertions for updated state")
       end
 
       it "assigns the requested prison as @prison" do

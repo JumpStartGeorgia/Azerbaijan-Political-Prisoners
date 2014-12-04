@@ -24,13 +24,13 @@ RSpec.describe ArticlesController, :type => :controller do
   # Article. As you add validations to Article, be sure to
   # adjust the attributes here as well.
 
-  #let(:criminal_code) {FactoryGirl.create(:criminal_code, name: 'Current')}
+  let(:criminal_code) {FactoryGirl.create(:criminal_code, name: 'Current')}
   let(:valid_attributes) {
-    FactoryGirl.attributes_for(:article)
+    FactoryGirl.build(:article, number: '202.101', criminal_code: criminal_code).attributes
   }
 
   let(:invalid_attributes) {
-    FactoryGirl.attributes_for(:article, number: '')
+    FactoryGirl.build(:article, number: '', criminal_code: criminal_code).attributes
   }
 
   # This should return the minimal set of values that should be in the session

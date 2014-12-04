@@ -3,5 +3,5 @@ class Article < ActiveRecord::Base
   has_many :charges
   has_many :incidents, through: :charges
 
-  validates :number, presence: true
+  validates :number, :criminal_code, presence: true
 end

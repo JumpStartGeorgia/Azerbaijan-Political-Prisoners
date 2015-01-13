@@ -24,7 +24,6 @@ RSpec.describe IncidentsController, :type => :controller do
   # Incident. As you add validations to Incident, be sure to
   # adjust the attributes here as well.
 
-  #let(:prisoner) {FactoryGirl.build(:prisoner_with_incidents)}
   let(:valid_attributes) {
     FactoryGirl.build(:incident).attributes
   }

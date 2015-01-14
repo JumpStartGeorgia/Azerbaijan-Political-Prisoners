@@ -6,10 +6,5 @@ class Incident < ActiveRecord::Base
   has_many :charges, dependent: :destroy
   has_many :articles, through: :charges
 
-  validates :prisoner_id, :date_of_arrest, :article_ids, :prison_id, :type_id, presence: true
-  validate :check_validating
-
-  def check_validating
-    Rails.logger.debug('Validating Incident ——————————————————————————————————————————————————————————————— Validating Incident')
-  end
+  validates :prisoner_id, :date_of_arrest, :prison_id, :type_id, presence: true
 end

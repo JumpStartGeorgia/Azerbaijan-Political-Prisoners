@@ -2,12 +2,14 @@ FactoryGirl.define do
   factory :prisoner do
     name 'MyName'
 
-    transient do
-      incidents_count 1
-    end
+    factory :prisoner_with_incidents do
+      transient do
+        incidents_count 1
+      end
 
-    after :build do |prisoner, evaluator|
-      prisoner.incidents << FactoryGirl.build_list(:incident, evaluator.incidents_count, prisoner: prisoner)
+      after :create do |prisoner, evaluator|
+        create_list(:incident, evaluator.incidents_count, prisoner: prisoner)
+      end
     end
   end
 end

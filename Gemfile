@@ -46,6 +46,13 @@ gem 'paperclip'
 gem 'tinymce-rails'
 gem 'jquery-turbolinks'
 gem 'quiet_assets', group: :development
+gem 'database_cleaner', '~> 1.3.0'
+
+group :development, :test do
+  gem 'rspec-rails', '~> 3.1.0'
+  gem 'factory_girl_rails', '~> 4.5.0'
+end
 
 ### ADDED FOR lib/prisonersPdfParser
 gem 'nokogiri'
+

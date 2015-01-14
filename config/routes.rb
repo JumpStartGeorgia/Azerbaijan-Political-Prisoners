@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :prisons
+
   resources :charges
 
   resources :criminal_codes
@@ -10,8 +12,6 @@ Rails.application.routes.draw do
   resources :subtypes
 
   resources :types
-
-  resources :prisons
 
   resources :prisoners
 

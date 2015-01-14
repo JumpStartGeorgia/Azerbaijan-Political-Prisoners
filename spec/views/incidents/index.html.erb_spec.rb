@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe "incidents/index", :type => :view do
   before(:each) do
     assign(:incidents, [
-      Incident.create!(),
-      Incident.create!()
+      FactoryGirl.create(:incident),
+      FactoryGirl.create(:incident)
     ])
   end
 

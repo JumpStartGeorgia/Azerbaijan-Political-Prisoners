@@ -24,10 +24,6 @@ RSpec.describe IncidentsController, :type => :controller do
   # Incident. As you add validations to Incident, be sure to
   # adjust the attributes here as well.
 
-  let(:prison) {
-    FactoryGirl.create(:prison)
-  }
-
   let(:type) {
     FactoryGirl.create(:type)
   }
@@ -37,11 +33,11 @@ RSpec.describe IncidentsController, :type => :controller do
   }
 
   let(:valid_attributes) {
-    FactoryGirl.build(:incident, date_of_arrest: Date.new(2009, 9, 9), prison: prison, type: type, prisoner: prisoner).attributes
+    FactoryGirl.build(:incident, date_of_arrest: Date.new(2009, 9, 9), type: type, prisoner: prisoner).attributes
   }
 
   let(:invalid_attributes) {
-    FactoryGirl.build(:incident, date_of_arrest: nil, prison: prison, type: type, prisoner: prisoner).attributes
+    FactoryGirl.build(:incident, date_of_arrest: nil, type: type, prisoner: prisoner).attributes
   }
 
   # This should return the minimal set of values that should be in the session
@@ -116,7 +112,7 @@ RSpec.describe IncidentsController, :type => :controller do
   describe "PUT update" do
     describe "with valid params" do
       let(:new_attributes) {
-        FactoryGirl.build(:incident, date_of_arrest: Date.new(2000, 9, 9), prison: prison, type: type, prisoner: prisoner).attributes
+        FactoryGirl.build(:incident, date_of_arrest: Date.new(2000, 9, 9), type: type, prisoner: prisoner).attributes
       }
 
       it "updates the requested incident" do

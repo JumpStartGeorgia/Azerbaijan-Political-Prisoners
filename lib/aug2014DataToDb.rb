@@ -66,7 +66,11 @@ module Aug2014DataToDb
         if row[7] != 'Not Listed'
             incident.description_of_arrest = row[7]
         end
-        incident.prison = Prison.where(name: row[6]).first
+
+        if row[6] != 'Not Listed'
+            incident.prison = Prison.where(name: row[6]).first
+        end
+
         incident.type = Type.where(name: row[2]).first
 
         if row[3] != 'No Subtype'

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "prisoners/new", :type => :view do
   before(:each) do
-    assign(:prisoner, Prisoner.new())
+    assign(:prisoner, FactoryGirl.build(:prisoner))
   end
 
   it "renders new prisoner form" do

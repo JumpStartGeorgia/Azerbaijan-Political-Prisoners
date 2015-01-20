@@ -1,4 +1,5 @@
 require 'rails_helper'
+
 RSpec.describe Incident, :type => :model do
   it 'without Prisoner is invalid' do
     incident = FactoryGirl.build(:incident, prisoner: nil)

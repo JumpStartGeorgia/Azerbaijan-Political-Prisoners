@@ -21,3 +21,4 @@
 //= require cocoon
 //= require tinymce
 //= require select2.min
+//= require jquery-ui

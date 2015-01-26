@@ -37,6 +37,10 @@ var loadTinymce = function() {
     tinyMCE.init(tinymceOptions);
 }
 
+var addDatePickers = function() {
+    $('.date_of_arrest_select').datepicker();
+}
+
 $(document).on('page:receive', function() {
     tinymce.remove();
 });
@@ -45,9 +49,11 @@ $(document).ready(function() {
     populateSubtypes();
     addSelect2();
     loadTinymce();
+    addDatePickers();
 
     $('#links').on('cocoon:after-insert', function(e, insertedItem) {
         addSelect2();
         loadTinymce();
+        addDatePickers();
     });
 });

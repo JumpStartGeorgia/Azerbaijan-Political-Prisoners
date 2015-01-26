@@ -14,6 +14,10 @@
  *= require_self
  */
 
-/* ADDED FOR Custom Rails App
+/* ADDED FOR Custom Rails App */
+/*
 *= require select2
 */
+/*
+ *= require jquery-ui
+ */

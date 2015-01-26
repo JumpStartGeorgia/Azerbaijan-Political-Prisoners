@@ -15,6 +15,10 @@
     <%= f.label :name %><br>
     <%= f.text_field :name %>
   </div>
+  <div class="field">
+      <%= f.label :portrait %><br>
+      <%= f.file_field :portrait %>
+  </div>
   <h3>Incidents</h3>
   <div id="incidents">
     <%= f.fields_for :incidents do |incident| %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141203135349) do
+ActiveRecord::Schema.define(version: 20150126084456) do
 
   create_table "articles", force: true do |t|
     t.string   "number"
@@ -61,6 +61,10 @@ ActiveRecord::Schema.define(version: 20141203135349) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "portrait_file_name"
+    t.string   "portrait_content_type"
+    t.integer  "portrait_file_size"
+    t.datetime "portrait_updated_at"
   end
 
   create_table "prisons", force: true do |t|

@@ -42,12 +42,12 @@ gem 'spring',        group: :development
 ### ADDED FOR Custom Rails App
 gem 'cocoon'
 gem 'gon', '~> 5.2.3'
-gem 'paperclip'
 gem 'tinymce-rails'
 gem 'jquery-turbolinks'
 gem 'quiet_assets', group: :development
 gem 'database_cleaner', '~> 1.3.0'
 gem 'jquery-ui-rails'
+gem "paperclip", "~> 4.2"
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.1.0'

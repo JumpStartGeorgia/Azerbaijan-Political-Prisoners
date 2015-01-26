@@ -169,7 +169,7 @@ DEPENDENCIES
   jquery-turbolinks
   jquery-ui-rails
   nokogiri
-  paperclip
+  paperclip (~> 4.2)
   quiet_assets
   rails (= 4.1.6)
   rspec-rails (~> 3.1.0)

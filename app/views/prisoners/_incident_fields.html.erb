@@ -26,7 +26,7 @@
     </div>
     <div class="field">
         <%= f.label :date_of_release %><br>
-        <%= f.date_select :date_of_release, {start_year: Time.now.year - 50, end_year: Time.now.year, prompt: true} %>
+        <%= f.text_field :date_of_release, {class: 'date_of_release_select'} %>
     </div>
     <div class="field">
         <%= f.label :description_of_release %><br>

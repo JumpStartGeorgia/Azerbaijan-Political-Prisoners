@@ -38,7 +38,7 @@ var loadTinymce = function() {
 }
 
 var addDatePickers = function() {
-    $('.date_of_arrest_select').datepicker();
+    $('.date_of_arrest_select, .date_of_release_select').datepicker();
 }
 
 $(document).on('page:receive', function() {

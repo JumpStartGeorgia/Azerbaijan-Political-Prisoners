@@ -17,7 +17,10 @@
   </div>
   <div class="field">
       <%= f.label :portrait %><br>
-      <%= f.file_field :portrait %>
+      <%= f.file_field :portrait %><br>
+      <%= if @prisoner.has_attribute?(:portrait_file_name)
+        image_tag @prisoner.portrait.url
+      end %>
   </div>
   <h3>Incidents</h3>
   <div id="incidents">

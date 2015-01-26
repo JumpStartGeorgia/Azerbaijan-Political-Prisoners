@@ -81,7 +81,7 @@ class PrisonersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def prisoner_params
-      params.require(:prisoner).permit(:name, incidents_attributes:
+      params.require(:prisoner).permit(:name, :portrait, incidents_attributes:
           [:id,
            :date_of_arrest,
            :description_of_arrest,

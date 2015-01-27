@@ -19,7 +19,7 @@
       <%= f.label :portrait %><br>
       <%= f.file_field :portrait %><br>
       <%= if @prisoner.has_attribute?(:portrait_file_name)
-        image_tag @prisoner.portrait.url
+        image_tag @prisoner.portrait.url(:medium)
       end %>
   </div>
   <h3>Incidents</h3>

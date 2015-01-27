@@ -7,8 +7,6 @@ Rails.application.routes.draw do
 
   resources :articles
 
-  resources :incidents
-
   resources :subtypes
 
   resources :types

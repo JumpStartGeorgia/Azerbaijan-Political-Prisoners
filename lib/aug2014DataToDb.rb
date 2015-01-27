@@ -9,9 +9,17 @@ module Aug2014DataToDb
 
         CSV.foreach("#{Rails.root}/lib/aug2014PdfParser/output/prisoners.csv", "r") do |row|
             if $. != 1
-                portrait = File.open("#{Rails.root}/lib/aug2014PdfParser/input/portraits/list-")
-                Prisoner.create(name: row[1], portrait: portrait)
-                portrait.close
+                prisoner = Prisoner.new
+                prisoner.name = row[1]
+
+                portrait_path = "#{Rails.root}/lib/aug2014PdfParser/portraits/pris" + row[0] + "-portrait1.jpg"
+                if File.file?(portrait_path)
+                  portrait = File.open(portrait_path)
+                  prisoner.portrait = portrait
+                  portrait.close
+                end
+
+                prisoner.save
 
                 type = row[2]
                 #There is no spreadsheet of unique types, so we ensure here that the same type is not created twice

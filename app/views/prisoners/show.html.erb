@@ -3,7 +3,7 @@
 <div>
   <strong>Name:</strong>
   <%= @prisoner.name %><br>
-  <%= image_tag @prisoner.portrait.url %>
+  <%= image_tag @prisoner.portrait.url(:medium) %>
 </div>
 
 <div id="incidents">

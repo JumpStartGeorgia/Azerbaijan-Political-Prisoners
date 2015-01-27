@@ -1,9 +1,10 @@
 <p id="notice"><%= notice %></p>
 
-<p>
+<div>
   <strong>Name:</strong>
-  <%= @prisoner.name %>
-</p>
+  <%= @prisoner.name %><br>
+  <%= image_tag @prisoner.portrait.url %>
+</div>
 
 <div id="incidents">
     <% @prisoner.incidents.each_with_index do |incident, index| %>

@@ -51,6 +51,7 @@ gem "paperclip", "~> 4.2"
 gem 'capybara'
 gem 'launchy', '~> 2.4.3'
 gem 'selenium-webdriver', '~> 2.44.0'
+gem 'capybara-screenshot', :group => :test
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.1.0'

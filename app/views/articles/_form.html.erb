@@ -17,7 +17,7 @@
   </div>
   <div class="field">
     <%= f.label :criminal_code_id %><br>
-    <%= f.text_field :criminal_code_id %>
+    <%= f.collection_select(:criminal_code_id, CriminalCode.all, :id, :name) %>
   </div>
   <div class="field">
     <%= f.label :description %><br>

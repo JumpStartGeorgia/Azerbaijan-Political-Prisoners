@@ -45,7 +45,7 @@ $(document).on('page:receive', function() {
     tinymce.remove();
 });
 
-$(document).ready(function() {
+$('.prisoners').ready(function() {
     populateSubtypes();
     addSelect2();
     loadTinymce();

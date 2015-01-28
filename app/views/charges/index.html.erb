@@ -12,7 +12,7 @@
   <tbody>
     <% @charges.each do |charge| %>
       <tr>
-        <td><%= link_to charge.incident.prisoner.name + ' ' + charge.incident.date_of_arrest.to_s, prisoner_path(charge.incident.prisoner, anchor: 'incident-' + charge.incident.date_of_arrest.to_s) %></td>
+        <td><%= linkToIncident(charge) %></td>
         <td><%= link_to charge.article.number, charge.article %></td>
         <td><%= link_to 'Show', charge %></td>
         <td><%= link_to 'Edit', edit_charge_path(charge) %></td>

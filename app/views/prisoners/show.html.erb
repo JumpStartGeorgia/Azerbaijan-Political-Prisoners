@@ -8,7 +8,7 @@
 
 <div id="incidents">
     <% @prisoner.incidents.each_with_index do |incident, index| %>
-        <div class="incident">
+        <div id="incident-<%= incident.date_of_arrest %>" class="incident">
             <h3>Incident #<%= index + 1 %>: <%= incident.date_of_arrest %></h3>
 
             <p>

@@ -7,7 +7,7 @@
 <p>
   <strong>Prisoners:</strong>
     <ul>
-        <% Prisoner.by_type(@type).each do |prisoner| %>
+        <% @type_prisoners.each do |prisoner| %>
           <li><%= link_to prisoner.name, prisoner %></li>
         <% end %>
     </ul>

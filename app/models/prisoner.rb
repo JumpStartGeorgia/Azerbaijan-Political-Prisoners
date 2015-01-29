@@ -6,14 +6,7 @@ class Prisoner < ActiveRecord::Base
   validates :name, presence: true
 
   def self.by_type(type)
-    prisoners = []
-    incidents = Incident.where(type: type)
-    incidents.each do |incident|
-      if !prisoners.include? incident.prisoner
-        prisoners.append(incident.prisoner)
-      end
-    end
-
-    return prisoners
+    return Prisoner.joins(:incidents).where(incidents:{type_id: type.id})
   end
 end
+

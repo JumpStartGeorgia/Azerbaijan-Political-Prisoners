@@ -1,6 +1,6 @@
 class TypesController < ApplicationController
   before_action :set_type, only: [:show, :edit, :update, :destroy]
-
+  before_action :set_type_prisoners, only: [:show]
   # GET /types
   # GET /types.json
   def index
@@ -65,6 +65,10 @@ class TypesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_type
       @type = Type.find(params[:id])
+    end
+
+    def set_type_prisoners
+      @type_prisoners = Prisoner.by_type(@type)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

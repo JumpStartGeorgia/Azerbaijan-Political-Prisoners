@@ -1,5 +1,6 @@
 class SubtypesController < ApplicationController
   before_action :set_subtype, only: [:show, :edit, :update, :destroy]
+  before_action :set_subtype_prisoners, only: [:show]
   before_action :set_gon_variables
 
   # GET /subtypes
@@ -66,6 +67,10 @@ class SubtypesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_subtype
       @subtype = Subtype.find(params[:id])
+    end
+
+    def set_subtype_prisoners
+      @subtype_prisoners = Prisoner.by_subtype(@subtype)
     end
 
     def set_gon_variables

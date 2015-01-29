@@ -8,5 +8,9 @@ class Prisoner < ActiveRecord::Base
   def self.by_type(type)
     return Prisoner.joins(:incidents).where(incidents:{type_id: type.id})
   end
+
+  def self.by_subtype(subtype)
+    return Prisoner.joins(:incidents).where(incidents:{subtype_id: subtype.id})
+  end
 end
 

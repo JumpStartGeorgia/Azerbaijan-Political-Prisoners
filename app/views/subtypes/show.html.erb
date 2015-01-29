@@ -15,5 +15,14 @@
   <%= simple_format(@subtype.description) %>
 </p>
 
+<div>
+    <strong>Prisoners:</strong>
+    <ol>
+        <% @subtype_prisoners.each do |prisoner| %>
+          <li><%= link_to prisoner.name, prisoner %></li>
+        <% end %>
+    </ol>
+</div>
+
 <%= link_to 'Edit', edit_subtype_path(@subtype) %> |
 <%= link_to 'Back', subtypes_path %>

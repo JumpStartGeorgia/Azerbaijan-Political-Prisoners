@@ -1,6 +1,7 @@
 class TypesController < ApplicationController
   before_action :set_type, only: [:show, :edit, :update, :destroy]
   before_action :set_type_prisoners, only: [:show]
+  before_action :set_type_subtypes, only: [:show]
   # GET /types
   # GET /types.json
   def index
@@ -69,6 +70,10 @@ class TypesController < ApplicationController
 
     def set_type_prisoners
       @type_prisoners = Prisoner.by_type(@type)
+    end
+
+    def set_type_subtypes
+      @type_subtypes = @type.subtypes
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

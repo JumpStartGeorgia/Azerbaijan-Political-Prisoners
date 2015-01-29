@@ -15,19 +15,18 @@
 <% if !@type.subtypes.empty? %>
   <div>
     <strong>Prisoners by Subtype:</strong>
-    <% @type.subtypes.each do |subtype| %>
+    <% @type_subtypes.each do |subtype| %>
       <div>
-          <p><%= subtype.name %></p>
-          <ol>
-              <% Prisoner.by_subtype(subtype).each do |prisoner| %>
-                <li><%= link_to prisoner.name, prisoner %></li>
-              <% end %>
-          </ol>
+        <p><%= link_to subtype.name, subtype %></p>
+        <ol>
+          <% Prisoner.by_subtype(subtype).each do |prisoner| %>
+            <li><%= link_to prisoner.name, prisoner %></li>
+          <% end %>
+        </ol>
       </div>
     <% end %>
   </div>
 <% end %>
-
 
 <%= link_to 'Edit', edit_type_path(@type) %> |
 <%= link_to 'Back', types_path %>

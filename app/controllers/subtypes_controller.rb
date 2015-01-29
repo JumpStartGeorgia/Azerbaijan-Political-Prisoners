@@ -1,5 +1,6 @@
 class SubtypesController < ApplicationController
   before_action :set_subtype, only: [:show, :edit, :update, :destroy]
+  before_action :set_gon_variables
 
   # GET /subtypes
   # GET /subtypes.json
@@ -65,6 +66,10 @@ class SubtypesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_subtype
       @subtype = Subtype.find(params[:id])
+    end
+
+    def set_gon_variables
+      gon.tinymce_config = YAML.load_file("config/tinymce.yml")
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

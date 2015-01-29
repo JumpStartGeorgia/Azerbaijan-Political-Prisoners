@@ -27,16 +27,6 @@ var addSelect2 = function() {
     });
 }
 
-var loadTinymce = function() {
-    var tinymceOptions = {selector: "textarea.tinymce"};
-    var tinymceDefaultConfig = gon.tinymce_config.default;
-
-    // Add default config attributes to tinymce options
-    for (var attrname in tinymceDefaultConfig) { tinymceOptions[attrname] = tinymceDefaultConfig[attrname]; }
-
-    tinyMCE.init(tinymceOptions);
-}
-
 var addDatePickers = function() {
     $('.date_of_arrest_select, .date_of_release_select').datepicker();
 }

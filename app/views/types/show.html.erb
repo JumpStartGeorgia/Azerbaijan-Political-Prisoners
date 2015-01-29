@@ -4,6 +4,14 @@
   <strong>Name:</strong>
   <%= @type.name %>
 </p>
+<p>
+  <strong>Prisoners:</strong>
+    <ul>
+        <% Prisoner.by_type(@type).each do |prisoner| %>
+          <li><%= link_to prisoner.name, prisoner %></li>
+        <% end %>
+    </ul>
+</p>
 
 <%= link_to 'Edit', edit_type_path(@type) %> |
 <%= link_to 'Back', types_path %>

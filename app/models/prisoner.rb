@@ -4,4 +4,16 @@ class Prisoner < ActiveRecord::Base
   validates_attachment :portrait, content_type: { content_type: /\Aimage\/.*\Z/ }
   accepts_nested_attributes_for :incidents, :allow_destroy => true
   validates :name, presence: true
+
+  def self.by_type(type)
+    prisoners = []
+    incidents = Incident.where(type: type)
+    incidents.each do |incident|
+      if !prisoners.include? incident.prisoner
+        prisoners.append(incident.prisoner)
+      end
+    end
+
+    return prisoners
+  end
 end

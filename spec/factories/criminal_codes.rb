@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :criminal_code do
-    name "MyString"
+    sequence(:name) { |n| "name#{n}"}
   end
 
 end

@@ -5,13 +5,29 @@
   <%= @type.name %>
 </p>
 <div>
-  <strong>Prisoners:</strong>
+    <strong>All Prisoners:</strong>
     <ol>
         <% @type_prisoners.each do |prisoner| %>
           <li><%= link_to prisoner.name, prisoner %></li>
         <% end %>
     </ol>
 </div>
+<% if !@type.subtypes.empty? %>
+  <div>
+    <strong>Prisoners by Subtype:</strong>
+    <% @type.subtypes.each do |subtype| %>
+      <div>
+          <p><%= subtype.name %></p>
+          <ol>
+              <% Prisoner.by_subtype(subtype).each do |prisoner| %>
+                <li><%= link_to prisoner.name, prisoner %></li>
+              <% end %>
+          </ol>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
 
 <%= link_to 'Edit', edit_type_path(@type) %> |
 <%= link_to 'Back', types_path %>

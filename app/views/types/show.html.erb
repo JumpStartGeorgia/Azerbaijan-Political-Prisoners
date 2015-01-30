@@ -12,7 +12,7 @@
         <% end %>
     </ol>
 </div>
-<% if !@type.subtypes.empty? %>
+<% if @type.subtypes.present? %>
   <div>
     <strong>Prisoners by Subtype:</strong>
     <% @type_subtypes.each do |subtype| %>

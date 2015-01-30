@@ -5,5 +5,14 @@
   <%= @prison.name %>
 </p>
 
+<div>
+    <strong>Prisoners:</strong>
+    <ol>
+        <% @prisoners_in_prison.each do |prisoner| %>
+        <li><%= link_to prisoner.name, prisoner %></li>
+        <% end %>
+    </ol>
+</div>
+
 <%= link_to 'Edit', edit_prison_path(@prison) %> |
 <%= link_to 'Back', prisons_path %>

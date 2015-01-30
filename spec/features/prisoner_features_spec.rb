@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "The prisoner new page", :type => :feature do
+RSpec.describe "The prisoner new view", :type => :feature do
   describe "with one added incident" do
     it "loads two TinyMCE editors", :js => true do
       visit '/prisoners/new'

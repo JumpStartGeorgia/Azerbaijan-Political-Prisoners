@@ -1,5 +1,6 @@
 class PrisonsController < ApplicationController
   before_action :set_prison, only: [:show, :edit, :update, :destroy]
+  before_action :set_prisoners_in_prison, only: [:show]
 
   # GET /prisons
   # GET /prisons.json
@@ -65,6 +66,10 @@ class PrisonsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_prison
       @prison = Prison.find(params[:id])
+    end
+
+    def set_prisoners_in_prison
+      @prisoners_in_prison = Prisoner.by_prison(@prison)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

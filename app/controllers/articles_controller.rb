@@ -70,7 +70,7 @@ class ArticlesController < ApplicationController
     end
 
     def set_prisoners_with_article
-      @prisoners_with_article = Prisoner.by_article(@article)
+      @prisoners_with_article = Prisoner.by_article(@article.id)
     end
 
     def set_gon_variables

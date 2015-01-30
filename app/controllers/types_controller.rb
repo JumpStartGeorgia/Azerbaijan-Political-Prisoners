@@ -69,7 +69,7 @@ class TypesController < ApplicationController
     end
 
     def set_type_prisoners
-      @type_prisoners = Prisoner.by_type(@type)
+      @type_prisoners = Prisoner.by_type(@type.id)
     end
 
     def set_type_subtypes

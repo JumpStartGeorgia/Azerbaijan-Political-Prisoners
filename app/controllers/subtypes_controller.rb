@@ -70,7 +70,7 @@ class SubtypesController < ApplicationController
     end
 
     def set_subtype_prisoners
-      @subtype_prisoners = Prisoner.by_subtype(@subtype)
+      @subtype_prisoners = Prisoner.by_subtype(@subtype.id)
     end
 
     def set_gon_variables

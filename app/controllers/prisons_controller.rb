@@ -69,7 +69,7 @@ class PrisonsController < ApplicationController
     end
 
     def set_prisoners_in_prison
-      @prisoners_in_prison = Prisoner.by_prison(@prison)
+      @prisoners_in_prison = Prisoner.by_prison(@prison.id)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

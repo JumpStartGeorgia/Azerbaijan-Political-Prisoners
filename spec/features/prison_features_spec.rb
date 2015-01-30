@@ -8,7 +8,7 @@ RSpec.describe "The prison show view", :type => :feature do
     FactoryGirl.create(:incident, prisoner: prisoner1, prison: prison)
     FactoryGirl.create(:incident, prisoner: prisoner2, prison: prison)
 
-    visit "/prisons/#{prison.id}"
+    visit(prison_path(prison))
     expect(page).to have_text('pris#1')
     expect(page).to have_text('pris#2')
   end

@@ -4,5 +4,5 @@ class Article < ActiveRecord::Base
   has_many :incidents, through: :charges
 
   validates :number, :criminal_code, presence: true
-  validates_uniqueness_of :number, :scope => :criminal_code
+  validates_uniqueness_of :number, :scope => :criminal_code, :message => "already exists for selected Criminal Code. Enter new Number or select different Criminal Code"
 end

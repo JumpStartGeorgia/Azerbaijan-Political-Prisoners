@@ -16,5 +16,9 @@ class Prisoner < ActiveRecord::Base
   def self.by_prison(prison)
     return Prisoner.joins(:incidents).where(incidents:{prison_id: prison.id})
   end
+
+  def self.by_article(article)
+    return Prisoner.joins(:incidents => :charges).where(charges:{article_id: article.id})
+  end
 end
 

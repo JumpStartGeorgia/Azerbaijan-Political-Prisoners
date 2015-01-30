@@ -1,5 +1,6 @@
 class ArticlesController < ApplicationController
   before_action :set_article, only: [:show, :edit, :update, :destroy]
+  before_action :set_prisoners_with_article, only: [:show]
   before_action :set_gon_variables
 
   # GET /articles
@@ -66,6 +67,10 @@ class ArticlesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_article
       @article = Article.find(params[:id])
+    end
+
+    def set_prisoners_with_article
+      @prisoners_with_article = Prisoner.by_article(@article)
     end
 
     def set_gon_variables

@@ -15,5 +15,14 @@
   <%= @article.description %>
 </p>
 
+<div>
+    <strong>Prisoners:</strong>
+    <ol>
+        <% @prisoners_with_article.each do |prisoner| %>
+        <li><%= link_to prisoner.name, prisoner %></li>
+        <% end %>
+    </ol>
+</div>
+
 <%= link_to 'Edit', edit_article_path(@article) %> |
 <%= link_to 'Back', articles_path %>

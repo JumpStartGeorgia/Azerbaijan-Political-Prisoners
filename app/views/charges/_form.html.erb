@@ -1,25 +1,5 @@
-<%= form_for(@charge) do |f| %>
-  <% if @charge.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@charge.errors.count, "error") %> prohibited this charge from being saved:</h2>
-
-      <ul>
-      <% @charge.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :incident_id %><br>
-    <%= f.text_field :incident_id %>
-  </div>
-  <div class="field">
-    <%= f.label :article_id %><br>
-    <%= f.text_field :article_id %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+<%= semantic_form_for(@charge) do |f| %>
+  <%= f.semantic_errors *f.object.errors.keys %>
+  <%= f.inputs :incident_id, :article_id %>
+  <%= f.actions :submit %>
 <% end %>

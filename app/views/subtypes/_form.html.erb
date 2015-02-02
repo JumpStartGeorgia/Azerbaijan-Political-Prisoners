@@ -1,29 +1,9 @@
-<%= form_for(@subtype) do |f| %>
-  <% if @subtype.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@subtype.errors.count, "error") %> prohibited this subtype from being saved:</h2>
-
-      <ul>
-      <% @subtype.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
+<%= semantic_form_for(@subtype) do |f| %>
+  <%= f.semantic_errors *f.object.errors.keys %>
+  <%= f.inputs do %>
+    <%= f.input :name %>
+    <%= f.input :type %>
+    <%= f.input :description, input_html: { class: 'tinymce' }%>
   <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :type_id %><br>
-    <%= f.collection_select(:type_id, Type.all, :id, :name) %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_area :description, class: 'tinymce', rows: '20' %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  <%= f.actions :submit %>
 <% end %>

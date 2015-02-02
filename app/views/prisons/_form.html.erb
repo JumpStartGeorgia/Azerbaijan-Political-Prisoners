@@ -1,21 +1,10 @@
-<%= form_for(@prison) do |f| %>
+<%= semantic_form_for @prison do |f| %>
   <% if @prison.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@prison.errors.count, "error") %> prohibited this prison from being saved:</h2>
-
-      <ul>
-      <% @prison.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
+    <%= f.semantic_errors :name %>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  <%= f.inputs do %>
+    <%= f.input :name %>
+  <% end %>
+  <%= f.actions :submit %>
 <% end %>

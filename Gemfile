@@ -48,6 +48,7 @@ gem 'quiet_assets', group: :development
 gem 'database_cleaner', '~> 1.3.0'
 gem 'jquery-ui-rails'
 gem "paperclip", "~> 4.2"
+gem 'formtastic', "~> 3.1.3"
 gem 'capybara'
 gem 'launchy', '~> 2.4.3'
 gem 'selenium-webdriver', '~> 2.44.0'

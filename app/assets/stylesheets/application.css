@@ -21,3 +21,9 @@
 /*
  *= require jquery-ui
  */
+
+/*
+# app/assets/stylesheets/application.css
+*= require formtastic
+*= require my_formtastic_changes
+*/

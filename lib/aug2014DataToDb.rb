@@ -6,6 +6,7 @@ module Aug2014DataToDb
         self.destroyData
 
         outputTypes = []
+        outputTags = []
 
         CSV.foreach("#{Rails.root}/lib/aug2014PdfParser/output/prisoners.csv", "r") do |row|
             if $. != 1
@@ -20,6 +21,10 @@ module Aug2014DataToDb
                 end
 
                 prisoner.save
+
+                tag = row[2]
+                #
+
 
                 type = row[2]
                 #There is no spreadsheet of unique types, so we ensure here that the same type is not created twice
@@ -105,6 +110,7 @@ module Aug2014DataToDb
         Article.destroy_all
         CriminalCode.destroy_all
         Prison.destroy_all
+        Tag.destroy_all
         Type.destroy_all
         Subtype.destroy_all
         Incident.destroy_all

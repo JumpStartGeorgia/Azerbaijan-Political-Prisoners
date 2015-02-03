@@ -25,6 +25,11 @@ var addSelect2 = function() {
         placeholder: 'Select Charges',
         width: '110px'
     });
+
+    $('select.tags_select').select2({
+        placeholder: 'Select Tags',
+        width: '300px'
+    });
 }
 
 var addDatePickers = function() {

@@ -87,7 +87,8 @@ class PrisonersController < ApplicationController
            :date_of_release,
            :description_of_release,
            :_destroy,
-           :article_ids => []
+           :article_ids => [],
+           :tag_ids => []
       ])
     end
 end

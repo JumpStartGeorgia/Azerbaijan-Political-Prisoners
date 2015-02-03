@@ -24,11 +24,11 @@ RSpec.describe TagsController, :type => :controller do
   # Tag. As you add validations to Tag, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    FactoryGirl.build(:tag, name: 'tag#1').attributes
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    FactoryGirl.build(:tag, name: '').attributes
   }
 
   # This should return the minimal set of values that should be in the session
@@ -103,14 +103,13 @@ RSpec.describe TagsController, :type => :controller do
   describe "PUT update" do
     describe "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        FactoryGirl.build(:tag, name: 'tag#2').attributes
       }
 
       it "updates the requested tag" do
         tag = Tag.create! valid_attributes
         put :update, {:id => tag.to_param, :tag => new_attributes}, valid_session
         tag.reload
-        skip("Add assertions for updated state")
       end
 
       it "assigns the requested tag as @tag" do

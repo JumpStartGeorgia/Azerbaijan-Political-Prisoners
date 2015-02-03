@@ -5,14 +5,6 @@ class Prisoner < ActiveRecord::Base
   accepts_nested_attributes_for :incidents, :allow_destroy => true
   validates :name, presence: true
 
-  def self.by_type(type_id)
-    return Prisoner.joins(:incidents).where(incidents:{type_id: type_id})
-  end
-
-  def self.by_subtype(subtype_id)
-    return Prisoner.joins(:incidents).where(incidents:{subtype_id: subtype_id})
-  end
-
   def self.by_tag(tag_id)
     return Prisoner.joins(:incidents => :tags).where(tags:{id: tag_id})
   end

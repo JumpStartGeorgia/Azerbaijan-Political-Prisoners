@@ -81,25 +81,9 @@ ActiveRecord::Schema.define(version: 20150203080914) do
     t.datetime "updated_at"
   end
 
-  create_table "subtypes", force: true do |t|
-    t.string   "name"
-    t.integer  "type_id"
-    t.text     "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "subtypes", ["type_id"], name: "index_subtypes_on_type_id"
-
   create_table "tags", force: true do |t|
     t.string   "name"
     t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "types", force: true do |t|
-    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

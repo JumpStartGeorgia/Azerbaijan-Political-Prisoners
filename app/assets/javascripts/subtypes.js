@@ -1,3 +1,0 @@
-$('.subtypes').ready(function() {
-    loadTinymce();
-});

@@ -1,9 +1,0 @@
-<%= semantic_form_for(@subtype) do |f| %>
-  <%= f.semantic_errors *f.object.errors.keys %>
-  <%= f.inputs do %>
-    <%= f.input :name %>
-    <%= f.input :type %>
-    <%= f.input :description, input_html: { class: 'tinymce' }%>
-  <% end %>
-  <%= f.actions :submit %>
-<% end %>

@@ -71,7 +71,6 @@ class PrisonersController < ApplicationController
     end
 
     def set_gon_variables
-      gon.subtype_map = Subtype.all.map{|s| {id: s.id, type_id: s.type_id, name: s.name}}
       gon.tinymce_config = YAML.load_file("config/tinymce.yml")
     end
 
@@ -82,8 +81,6 @@ class PrisonersController < ApplicationController
            :date_of_arrest,
            :description_of_arrest,
            :prison_id,
-           :type_id,
-           :subtype_id,
            :date_of_release,
            :description_of_release,
            :_destroy,

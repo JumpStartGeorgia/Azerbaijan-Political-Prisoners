@@ -25,25 +25,5 @@ RSpec.describe "Prisoner display", :type => :feature do
       expect(page).to have_text('pris#1')
       expect(page).to have_text('pris#2')
     end
-
-    it "on the subtype show view who have incidents that have the subtype" do
-      subtype = FactoryGirl.create(:subtype)
-      FactoryGirl.create(:incident, prisoner: prisoner1, subtype: subtype)
-      FactoryGirl.create(:incident, prisoner: prisoner2, subtype: subtype)
-
-      visit(subtype_path(subtype))
-      expect(page).to have_text('pris#1')
-      expect(page).to have_text('pris#2')
-    end
-
-    it "on the type show view who have incidents that have the type" do
-      type = FactoryGirl.create(:type)
-      FactoryGirl.create(:incident, prisoner: prisoner1, type: type)
-      FactoryGirl.create(:incident, prisoner: prisoner2, type: type)
-
-      visit(type_path(type))
-      expect(page).to have_text('pris#1')
-      expect(page).to have_text('pris#2')
-    end
   end
 end

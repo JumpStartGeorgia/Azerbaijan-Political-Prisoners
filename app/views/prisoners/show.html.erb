@@ -43,18 +43,6 @@
             </p>
 
             <p>
-                <strong>Type:</strong>
-                <%= link_to incident.type.name, incident.type %>
-            </p>
-
-            <p>
-                <strong>Subtype:</strong>
-                <%= if incident.subtype
-                        link_to incident.subtype.name, incident.subtype
-                    end %>
-            </p>
-
-            <p>
                 <strong>Date of release:</strong>
                 <%= incident.date_of_release %>
             </p>

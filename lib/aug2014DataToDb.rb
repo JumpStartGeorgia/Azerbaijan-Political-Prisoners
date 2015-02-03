@@ -5,7 +5,6 @@ module Aug2014DataToDb
     def self.migrate
         self.destroyData
 
-        outputTypes = []
         outputTags = []
 
         CSV.foreach("#{Rails.root}/lib/aug2014PdfParser/output/prisoners.csv", "r") do |row|
@@ -27,14 +26,6 @@ module Aug2014DataToDb
                 if !outputTags.include? type_name and type_name != 'Other Cases'
                   outputTags.push(type_name)
                   Tag.create(name: type_name)
-                end
-
-
-                type = row[2]
-                #There is no spreadsheet of unique types, so we ensure here that the same type is not created twice
-                if !outputTypes.include? type
-                    outputTypes.push(type)
-                    Type.create(name: type)
                 end
             end
         end
@@ -72,18 +63,6 @@ module Aug2014DataToDb
           end
         end
 
-        CSV.foreach("#{Rails.root}/lib/aug2014PdfParser/output/subtypes.csv", "r") do |row|
-            if $. != 1
-                subtype = Subtype.new
-                subtype.name = row[1]
-                subtype.type = Type.where(name: row[2]).first
-                if row[3] != 'No Subtype Description'
-                    subtype.description = row[3]
-                end
-                subtype.save
-            end
-        end
-
         CSV.foreach("#{Rails.root}/lib/aug2014PdfParser/output/prisoners.csv", "r") do |row|
             if $. != 1
                 incident = self.createIncident(row)
@@ -102,12 +81,6 @@ module Aug2014DataToDb
 
         if row[6] != 'Not Listed'
             incident.prison = Prison.where(name: row[6]).first
-        end
-
-        incident.type = Type.where(name: row[2]).first
-
-        if row[3] != 'No Subtype'
-            incident.subtype = Subtype.where(name: row[3], type: incident.type).first
         end
 
         if row[2] != 'Other Cases'
@@ -138,8 +111,6 @@ module Aug2014DataToDb
         CriminalCode.destroy_all
         Prison.destroy_all
         Tag.destroy_all
-        Type.destroy_all
-        Subtype.destroy_all
         Incident.destroy_all
         Charge.destroy_all
     end

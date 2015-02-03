@@ -10,9 +10,4 @@ RSpec.describe Incident, :type => :model do
     incident = FactoryGirl.build(:incident, date_of_arrest: nil)
     expect { incident.save! }.to raise_error
   end
-
-  it 'without Type is invalid' do
-    incident = FactoryGirl.build(:incident, type: nil)
-    expect { incident.save! }.to raise_error
-  end
 end

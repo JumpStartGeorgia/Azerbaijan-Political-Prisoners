@@ -1,35 +1,14 @@
 <div class="nested-fields" style="display: <%= f.object.marked_for_destruction? ? 'none' : 'block' %>">
     <h3>Arrest <%= f.object.date_of_arrest %> - <%= link_to_remove_association "Remove", f %></h3>
-    <div class="field">
-        <%= f.label :date_of_arrest %><br>
-        <%= f.text_field :date_of_arrest, {class: 'date_of_arrest_select'} %>
-    </div>
-    <div class="field">
-        <%= f.label :description_of_arrest %><br>
-        <%= f.text_area :description_of_arrest, class: 'tinymce', rows: '20' %>
-    </div>
-    <div class="field">
-        <%= f.label :article_ids, 'Charges' %><br>
-        <%= f.grouped_collection_select(:article_ids, CriminalCode.all, :articles, :name_with_model_name, :id, :number, {}, {multiple: true, class: 'charges_select'}) %>
-    </div>
-    <div class="field">
-        <%= f.label :prison_id %><br>
-        <%= f.collection_select(:prison_id, Prison.all, :id, :name, prompt: true) %>
-    </div>
-    <div class="field">
-        <%= f.label :type_id %><br>
-        <%= f.collection_select(:type_id, Type.all, :id, :name, {prompt: true}, {class: 'type_select'}) %>
-    </div>
-    <div class="field">
-        <%= f.label :subtype_id %><br>
-        <%= f.collection_select(:subtype_id, Subtype.where(type: f.object.type), :id, :name) %>
-    </div>
-    <div class="field">
-        <%= f.label :date_of_release %><br>
-        <%= f.text_field :date_of_release, {class: 'date_of_release_select'} %>
-    </div>
-    <div class="field">
-        <%= f.label :description_of_release %><br>
-        <%= f.text_area :description_of_release, class: 'tinymce', rows: '20' %>
-    </div>
+    <%= f.input :date_of_arrest, as: :string, input_html: { class: 'date_of_arrest_select' } %>
+    <%= f.input :description_of_arrest, input_html: { class: 'tinymce' } %>
+
+    <%= f.input :articles, as: :select, collection: option_groups_from_collection_for_select(CriminalCode.all, :articles, :name_with_model_name, :id, :number, f.object.articles), input_html: { class: 'charges_select', multiple: true } %>
+        <!--f.grouped_collection_select(:article_ids, CriminalCode.all, :articles, :name_with_model_name, :id, :number, {}, {multiple: true, class: 'charges_select'})-->
+
+    <%= f.input :prison %>
+    <%= f.input :type, prompt: true, input_html: {class: 'type_select'} %>
+    <%= f.input :subtype, collection: Subtype.where(type: f.object.type) %>
+    <%= f.input :date_of_release, as: :string, input_html: { class: 'date_of_release_select' } %>
+    <%= f.input :description_of_release, input_html: { class: 'tinymce' } %>
 </div>

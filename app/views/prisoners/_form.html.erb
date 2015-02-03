@@ -9,7 +9,7 @@
 
     <h3>Incidents</h3>
     <div id="incidents">
-        <%= f.fields_for :incidents do |incident| %>
+        <%= f.semantic_fields_for :incidents do |incident| %>
           <%= render "incident_fields", f: incident %>
         <% end %>
         <div id="links"><%= link_to_add_association 'Add New Incident', f, :incidents %></div>

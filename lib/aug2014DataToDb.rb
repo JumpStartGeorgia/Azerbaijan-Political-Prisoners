@@ -22,8 +22,12 @@ module Aug2014DataToDb
 
                 prisoner.save
 
-                tag = row[2]
-                #
+                type_name = row[2]
+                #There is no spreadsheet of unique types, so this ensures that the same type is not created as a tag twice
+                if !outputTags.include? type_name and type_name != 'Other Cases'
+                  outputTags.push(type_name)
+                  Tag.create(name: type_name)
+                end
 
 
                 type = row[2]
@@ -52,6 +56,20 @@ module Aug2014DataToDb
             if $. != 1
                 Prison.create(name: row[0])
             end
+        end
+
+        CSV.foreach("#{Rails.root}/lib/aug2014PdfParser/output/subtypes.csv", "r") do |row|
+          if $. != 1
+            tag_name = row[1].strip
+            if tag_name != 'Other cases'
+              tag = Tag.new
+              tag.name = tag_name
+              if row[3] != 'No Subtype Description'
+                  tag.description = row[3]
+              end
+              tag.save
+            end
+          end
         end
 
         CSV.foreach("#{Rails.root}/lib/aug2014PdfParser/output/subtypes.csv", "r") do |row|
@@ -90,6 +108,15 @@ module Aug2014DataToDb
 
         if row[3] != 'No Subtype'
             incident.subtype = Subtype.where(name: row[3], type: incident.type).first
+        end
+
+        if row[2] != 'Other Cases'
+          incident.tags << Tag.where(name: row[2]).first
+        end
+
+        tag_name = row[3].strip
+        if tag_name != 'No Subtype' and tag_name != 'Other cases'
+          incident.tags << Tag.where(name: tag_name).first
         end
 
         incident.save

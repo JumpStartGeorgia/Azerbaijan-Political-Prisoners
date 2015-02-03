@@ -7,8 +7,17 @@
 
 <p>
     <strong>Description:</strong>
-    <%= @tag.description %>
+    <%= simple_format @tag.description %>
 </p>
+
+<div>
+    <strong>Prisoners:</strong>
+    <ul>
+        <% @tag.incidents.each do |incident| %>
+          <li><%= link_to incident.prisoner.name, incident.prisoner %></li>
+        <% end %>
+    </ul>
+</div>
 
 <%= link_to 'Edit', edit_tag_path(@tag) %> |
 <%= link_to 'Back', tags_path %>

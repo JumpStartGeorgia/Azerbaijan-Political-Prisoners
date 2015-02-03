@@ -13,6 +13,10 @@ class Prisoner < ActiveRecord::Base
     return Prisoner.joins(:incidents).where(incidents:{subtype_id: subtype_id})
   end
 
+  def self.by_tag(tag_id)
+    return Prisoner.joins(:incidents => :tags).where(tags:{id: tag_id})
+  end
+
   def self.by_prison(prison_id)
     return Prisoner.joins(:incidents).where(incidents:{prison_id: prison_id})
   end

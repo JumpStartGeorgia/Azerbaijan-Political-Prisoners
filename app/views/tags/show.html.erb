@@ -13,8 +13,8 @@
 <div>
     <strong>Prisoners:</strong>
     <ul>
-        <% @tag.incidents.each do |incident| %>
-          <li><%= link_to incident.prisoner.name, incident.prisoner %></li>
+        <% @prisoners_with_tag.each do |prisoner| %>
+          <li><%= link_to prisoner.name, prisoner %></li>
         <% end %>
     </ul>
 </div>

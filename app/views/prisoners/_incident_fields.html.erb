@@ -3,7 +3,7 @@
     <%= f.input :date_of_arrest, as: :string, input_html: { class: 'date_of_arrest_select' } %>
     <%= f.input :description_of_arrest, input_html: { class: 'tinymce' } %>
     <%= f.input :tags, as: :select, input_html: { class: 'tags_select', multiple: true } %>
-    <%= f.input :articles, as: :select, collection: option_groups_from_collection_for_select(CriminalCode.all, :articles, :name_with_model_name, :id, :number, f.object.articles), input_html: { class: 'charges_select', multiple: true } %>
+    <%= f.input :articles, as: :select, label: 'Charges', collection: option_groups_from_collection_for_select(CriminalCode.all, :articles, :name_with_model_name, :id, :number, f.object.article_ids), input_html: { class: 'charges_select', multiple: true } %>
     <%= f.input :prison %>
     <%= f.input :type, prompt: true, input_html: {class: 'type_select'} %>
     <%= f.input :subtype, collection: Subtype.where(type: f.object.type) %>

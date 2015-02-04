@@ -13,17 +13,15 @@
 //= require jquery
 //= require jquery.turbolinks
 //= require jquery_ujs
+//= require twitter/bootstrap
 //= require turbolinks
 //= require jquery-readyselector
-//= require_tree .
-
-
-// ADDED FOR CUSTOM RAILS APP
 //= require cocoon
 //= require tinymce
 //= require select2.min
 //= require jquery-ui
-
+//= require bootstrap
+//= require_tree .
 
 var loadTinymce = function() {
     var tinymceOptions = {selector: "textarea.tinymce"};

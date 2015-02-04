@@ -10,20 +10,12 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
+
+ *= require select2
+ *= require jquery-ui
+ *= require formtastic
+ *= require my_formtastic_changes
+ *= require bootstrap_and_overrides
  *= require_tree .
  *= require_self
  */
-
-/* ADDED FOR Custom Rails App */
-/*
-*= require select2
-*/
-/*
- *= require jquery-ui
- */
-
-/*
-# app/assets/stylesheets/application.css
-*= require formtastic
-*= require my_formtastic_changes
-*/

@@ -3,8 +3,6 @@ Rails.application.routes.draw do
 
   resources :prisons
 
-  resources :charges
-
   resources :criminal_codes
 
   resources :articles

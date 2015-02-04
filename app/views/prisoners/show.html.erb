@@ -17,22 +17,26 @@
             </p>
 
             <div>
-                <strong>Tags:</strong>
-                <ul>
-                    <% incident.tags.each do |tag| %>
-                    <li><%= link_to tag.name, tag %></li>
-                    <% end %>
-                </ul>
-            </div>
-
-            <div>
                 <strong>Description of arrest:</strong>
                 <%= simple_format(incident.description_of_arrest) %>
             </div>
 
+            <div>
+                <strong>Tags:</strong>
+                <ul>
+                    <% incident.tags.each do |tag| %>
+                      <li><%= link_to tag.name, tag %></li>
+                    <% end %>
+                </ul>
+            </div>
+
             <p>
                 <strong>Charges:</strong>
-                <%= displayCharges(incident.charges) %>
+                <ul>
+                    <% incident.articles.each do |article| %>
+                    <li><%= link_to article.number, article %></li>
+                    <% end %>
+                </ul>
             </p>
 
             <p>

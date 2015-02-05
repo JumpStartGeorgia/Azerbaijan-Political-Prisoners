@@ -22,14 +22,16 @@ $(document).on('page:receive', function() {
     tinymce.remove();
 });
 
-$('.prisoners').ready(function() {
-    addSelect2();
-    loadTinymce();
-    addDatePickers();
-
-    $('#links').on('cocoon:after-insert', function(e, insertedItem) {
+$(document).ready(function() {
+    if ($('body').hasClass('prisoners')) {
         addSelect2();
         loadTinymce();
         addDatePickers();
-    });
+
+        $('#links').on('cocoon:after-insert', function(e, insertedItem) {
+            addSelect2();
+            loadTinymce();
+            addDatePickers();
+        });
+    }
 });

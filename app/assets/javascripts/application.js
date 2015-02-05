@@ -15,11 +15,10 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require turbolinks
-//= require jquery-readyselector
+//= require jquery-ui
 //= require cocoon
 //= require tinymce
 //= require select2.min
-//= require jquery-ui
 //= require bootstrap
 //= require_tree .
 

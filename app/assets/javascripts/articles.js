@@ -1,3 +1,5 @@
-$('.articles').ready(function() {
-    loadTinymce();
+$(document).ready(function() {
+    if ($('body').hasClass('articles')) {
+        loadTinymce();
+    }
 });

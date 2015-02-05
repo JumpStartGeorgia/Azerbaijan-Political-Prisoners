@@ -14,6 +14,7 @@
  *= require select2
  *= require jquery-ui
  *= require formtastic
+ *= require formtastic-bootstrap
  *= require my_formtastic_changes
  *= require bootstrap_and_overrides
  *= require_tree .

@@ -52,6 +52,7 @@ gem 'formtastic', "~> 3.1.3"
 gem 'therubyracer'
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
+gem 'formtastic-bootstrap', '~> 3.1.0'
 
 gem 'capybara'
 gem 'launchy', '~> 2.4.3'

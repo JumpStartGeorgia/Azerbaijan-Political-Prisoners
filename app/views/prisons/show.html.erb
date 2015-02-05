@@ -1,18 +1,19 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Name:</strong>
-  <%= @prison.name %>
-</p>
-
-<div>
-    <strong>Prisoners:</strong>
-    <ol>
-        <% @prisoners_in_prison.each do |prisoner| %>
-        <li><%= link_to prisoner.name, prisoner %></li>
-        <% end %>
-    </ol>
+<%- model_class = Prison -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
 </div>
 
-<%= link_to 'Edit', edit_prison_path(@prison) %> |
-<%= link_to 'Back', prisons_path %>
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
+  <dd><%= @prison.name %></dd>
+</dl>
+
+<%= link_to t('.back', :default => t("helpers.links.back")),
+              prisons_path, :class => 'btn btn-default'  %>
+<%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_prison_path(@prison), :class => 'btn btn-default' %>
+<%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              prison_path(@prison),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>

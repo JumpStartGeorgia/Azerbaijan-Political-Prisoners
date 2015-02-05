@@ -15,7 +15,7 @@
     <% @tags.each do |tag| %>
       <tr>
         <td><%= link_to tag.id, tag_path(tag) %></td>
-        <td><%= tag.name %></td>
+        <td><%= link_to tag.name, tag_path(tag) %></td>
         <td><%=l tag.created_at %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),

@@ -15,7 +15,7 @@
     <% @criminal_codes.each do |criminal_code| %>
       <tr>
         <td><%= link_to criminal_code.id, criminal_code_path(criminal_code) %></td>
-        <td><%= criminal_code.name %></td>
+        <td><%= link_to criminal_code.name, criminal_code_path(criminal_code) %></td>
         <td><%=l criminal_code.created_at %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),

@@ -15,8 +15,8 @@
     <% @prisoners.each do |prisoner| %>
       <tr>
         <td><%= link_to prisoner.id, prisoner_path(prisoner) %></td>
-        <td><%= prisoner.name %></td>
-        <td><%=l prisoner.created_at %></td>
+        <td><%= link_to prisoner.name, prisoner_path(prisoner) %></td>
+        <td><%= prisoner.created_at %></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_prisoner_path(prisoner), :class => 'btn btn-default btn-xs' %>

@@ -13,7 +13,7 @@
       <h2>Incident #<%= index + 1 %></h2>
       <dl class="dl-horizontal">
           <dt><strong><%= model_class.human_attribute_name(:date_of_arrest) %>:</strong></dt>
-          <dd><%= incident.date_of_arrest %></dd>
+          <dd><%= incident.date_of_arrest.strftime('%B %d, %Y') %></dd>
           <dt><strong><%= model_class.human_attribute_name(:description_of_arrest) %>:</strong></dt>
           <dd><%= simple_format(incident.description_of_arrest) %></dd>
           <dt><strong><%= model_class.human_attribute_name(:tags) %>:</strong></dt>
@@ -39,7 +39,11 @@
                   end %>
           </dd>
           <dt><strong><%= model_class.human_attribute_name(:date_of_release) %>:</strong></dt>
-          <dd><%= incident.date_of_release %></dd>
+          <dd>
+              <%= if incident.date_of_release
+                    incident.date_of_release.strftime('%B %d, %Y')
+                  end %>
+          </dd>
           <dt><strong><%= model_class.human_attribute_name(:description_of_release) %>:</strong></dt>
           <dd><%= simple_format(incident.description_of_release) %></dd>
       </dl>

@@ -1,63 +1,58 @@
-<p id="notice"><%= notice %></p>
-
-<div>
-  <strong>Name:</strong>
-  <%= @prisoner.name %><br>
-  <%= image_tag @prisoner.portrait.url(:medium) %>
+<%- model_class = Prisoner -%>
+<div class="page-header">
+  <h1>
+      <%=t '.title', :default => model_class.model_name.human.titleize %>: <%= @prisoner.name.titleize %>
+      <br>
+      <%= image_tag @prisoner.portrait.url(:medium) %>
+  </h1>
 </div>
 
 <div id="incidents">
-    <% @prisoner.incidents.each_with_index do |incident, index| %>
-        <div id="incident-<%= incident.date_of_arrest %>" class="incident">
-            <h3>Incident #<%= index + 1 %>: <%= incident.date_of_arrest %></h3>
-
-            <p>
-                <strong>Date of arrest:</strong>
-                <%= incident.date_of_arrest %>
-            </p>
-
-            <div>
-                <strong>Description of arrest:</strong>
-                <%= simple_format(incident.description_of_arrest) %>
-            </div>
-
-            <div>
-                <strong>Tags:</strong>
-                <ul>
-                    <% incident.tags.each do |tag| %>
-                      <li><%= link_to tag.name, tag %></li>
-                    <% end %>
-                </ul>
-            </div>
-
-            <p>
-                <strong>Charges:</strong>
-                <ul>
-                    <% incident.articles.each do |article| %>
-                    <li><%= link_to article.number, article %></li>
-                    <% end %>
-                </ul>
-            </p>
-
-            <p>
-                <strong>Prison:</strong>
-                <%= if incident.prison
-                        link_to incident.prison.name, incident.prison
-                    end %>
-            </p>
-
-            <p>
-                <strong>Date of release:</strong>
-                <%= incident.date_of_release %>
-            </p>
-
-            <p>
-                <strong>Description of release:</strong>
-                <%= simple_format(incident.description_of_release) %>
-            </p>
-        </div>
-    <% end %>
+  <% @prisoner.incidents.each_with_index do |incident, index| %>
+    <div id="incident-<%= incident.date_of_arrest %>" class="incident">
+      <h2>Incident #<%= index + 1 %></h2>
+      <dl class="dl-horizontal">
+          <dt><strong><%= model_class.human_attribute_name(:date_of_arrest) %>:</strong></dt>
+          <dd><%= incident.date_of_arrest %></dd>
+          <dt><strong><%= model_class.human_attribute_name(:description_of_arrest) %>:</strong></dt>
+          <dd><%= simple_format(incident.description_of_arrest) %></dd>
+          <dt><strong><%= model_class.human_attribute_name(:tags) %>:</strong></dt>
+          <dd>
+            <ul>
+              <% incident.tags.each do |tag| %>
+                <li><%= link_to tag.name, tag %></li>
+              <% end %>
+            </ul>
+          </dd>
+          <dt><strong><%= model_class.human_attribute_name(:charges) %>:</strong></dt>
+          <dd>
+            <ul>
+              <% incident.articles.each do |article| %>
+                <li><%= link_to article.number, article %></li>
+              <% end %>
+            </ul>
+          </dd>
+          <dt><strong><%= model_class.human_attribute_name(:prison) %>:</strong></dt>
+          <dd>
+              <%= if incident.prison
+                    link_to incident.prison.name, incident.prison
+                  end %>
+          </dd>
+          <dt><strong><%= model_class.human_attribute_name(:date_of_release) %>:</strong></dt>
+          <dd><%= incident.date_of_release %></dd>
+          <dt><strong><%= model_class.human_attribute_name(:description_of_release) %>:</strong></dt>
+          <dd><%= simple_format(incident.description_of_release) %></dd>
+      </dl>
+    </div>
+<% end %>
 </div>
 
-<%= link_to 'Edit', edit_prisoner_path(@prisoner) %> |
-<%= link_to 'Back', prisoners_path %>
+<%= link_to t('.back', :default => t("helpers.links.back")),
+              prisoners_path, :class => 'btn btn-default'  %>
+<%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_prisoner_path(@prisoner), :class => 'btn btn-default' %>
+<%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              prisoner_path(@prisoner),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>

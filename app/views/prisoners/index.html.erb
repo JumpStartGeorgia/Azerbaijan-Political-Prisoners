@@ -1,25 +1,36 @@
-<h1>Listing prisoners</h1>
-
-<table>
+<%- model_class = Prisoner -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
   <thead>
     <tr>
-      <th>Name</th>
-      <th colspan="3"></th>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
-
   <tbody>
     <% @prisoners.each do |prisoner| %>
       <tr>
+        <td><%= link_to prisoner.id, prisoner_path(prisoner) %></td>
         <td><%= prisoner.name %></td>
-        <td><%= link_to 'Show', prisoner %></td>
-        <td><%= link_to 'Edit', edit_prisoner_path(prisoner) %></td>
-        <td><%= link_to 'Destroy', prisoner, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%=l prisoner.created_at %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_prisoner_path(prisoner), :class => 'btn btn-default btn-xs' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      prisoner_path(prisoner),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-xs btn-danger' %>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
-
-<%= link_to 'New Prisoner', new_prisoner_path %>
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_prisoner_path,
+            :class => 'btn btn-primary' %>

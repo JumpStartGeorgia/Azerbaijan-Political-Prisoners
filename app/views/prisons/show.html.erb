@@ -6,7 +6,9 @@
 <dl class="dl-horizontal">
   <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
   <dd><%= @prison.name %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:prisoners) %>:</strong></dt>
+  <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
+  <dd><%= @prison.description %></dd>  <dt>
+  <strong><%= model_class.human_attribute_name(:prisoners) %>:</strong></dt>
   <dd>
     <ol>
       <% @prisoners_in_prison.each do |prisoner| %>

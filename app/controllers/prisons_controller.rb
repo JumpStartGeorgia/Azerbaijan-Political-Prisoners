@@ -1,6 +1,7 @@
 class PrisonsController < ApplicationController
   before_action :set_prison, only: [:show, :edit, :update, :destroy]
   before_action :set_prisoners_in_prison, only: [:show]
+  before_action :set_gon_variables
 
   # GET /prisons
   # GET /prisons.json
@@ -72,8 +73,12 @@ class PrisonsController < ApplicationController
       @prisoners_in_prison = Prisoner.by_prison(@prison.id)
     end
 
+    def set_gon_variables
+      gon.tinymce_config = YAML.load_file("config/tinymce.yml")
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def prison_params
-      params.require(:prison).permit(:name)
+      params.require(:prison).permit(:name, :description)
     end
 end

@@ -1,5 +1,8 @@
 <%= semantic_form_for @prison do |f| %>
   <%= f.semantic_errors *f.object.errors.keys %>
-  <%= f.inputs :name %>
+  <%= f.inputs do %>
+    <%= f.input :name %>
+    <%= f.input :description, input_html: { class: 'tinymce' } %>
+  <% end %>
   <%= f.actions :submit %>
 <% end %>

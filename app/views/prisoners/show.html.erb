@@ -1,11 +1,5 @@
 <%- model_class = Prisoner -%>
-<div class="page-header">
-  <h1>
-      <%=t '.title', :default => model_class.model_name.human.titleize %>: <%= @prisoner.name.titleize %>
-      <br>
-      <%= image_tag @prisoner.portrait.url(:medium) %>
-  </h1>
-</div>
+<% page_title (model_class.model_name.human.titleize + ': ' + @prisoner.name + '<br>' + image_tag(@prisoner.portrait.url(:medium))) %>
 
 <div id="incidents">
   <% @prisoner.incidents.each_with_index do |incident, index| %>

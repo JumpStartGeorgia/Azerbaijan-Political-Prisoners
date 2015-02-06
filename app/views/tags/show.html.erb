@@ -1,11 +1,7 @@
 <%- model_class = Tag -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
-</div>
+<% page_title model_class.model_name.human.titleize + ': ' + @tag.name %>
 
 <dl class="dl-horizontal">
-  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
-  <dd><%= @tag.name %></dd>
   <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
   <dd><%= simple_format(@tag.description) %></dd>
   <dt><strong><%= model_class.human_attribute_name(:prisoners) %>:</strong></dt>

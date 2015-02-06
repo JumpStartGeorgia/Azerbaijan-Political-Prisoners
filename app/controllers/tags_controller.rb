@@ -1,6 +1,7 @@
 class TagsController < ApplicationController
   before_action :set_tag, only: [:show, :edit, :update, :destroy]
   before_action :set_prisoners_with_tag, only: [:show]
+  before_action :set_gon_variables
 
   # GET /tags
   # GET /tags.json
@@ -70,6 +71,10 @@ class TagsController < ApplicationController
 
     def set_prisoners_with_tag
       @prisoners_with_tag = Prisoner.by_tag(@tag.id)
+    end
+
+    def set_gon_variables
+      gon.tinymce_config = YAML.load_file("config/tinymce.yml")
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

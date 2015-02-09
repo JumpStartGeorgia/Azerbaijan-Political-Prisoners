@@ -41,8 +41,6 @@
 </head>
 <body class="<%= controller_name %> <%= action_name %>">
 <%= include_gon %>
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
 
 <div class="navbar navbar-default navbar-static-top">
     <div class="container">
@@ -59,6 +57,17 @@
                 <li><%= link_to "Articles", articles_path  %></li>
                 <li><%= link_to "Tags", tags_path  %></li>
                 <li><%= link_to "Criminal Codes", criminal_codes_path  %></li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <% if admin_signed_in? %>
+                  <li class="navbar-text">Logged in as <strong><%= current_admin.email %></strong>.</li>
+                  <li><%= link_to 'Edit profile', edit_admin_registration_path %></li>
+                  <li><%= link_to "Logout", destroy_admin_session_path, method: :delete %></li>
+                <% else %>
+                  <li><%= link_to "Sign up", new_admin_registration_path %></li>
+                  <li><%= link_to "Login", new_admin_session_path %></li>
+                <% end %>
             </ul>
         </div>
     </div>

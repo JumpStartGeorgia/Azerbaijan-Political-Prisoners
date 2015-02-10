@@ -54,6 +54,7 @@ gem 'less-rails'
 gem 'twitter-bootstrap-rails'
 gem 'formtastic-bootstrap', '~> 3.1.0'
 gem 'devise', '~> 3.4.1'
+gem 'cancancan', '~> 1.10.1'
 
 gem 'capybara'
 gem 'launchy', '~> 2.4.3'

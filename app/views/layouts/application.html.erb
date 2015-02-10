@@ -59,10 +59,10 @@
                 <li><%= link_to "Criminal Codes", criminal_codes_path  %></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <% if admin_signed_in? %>
-                  <li class="navbar-text">Logged in as <strong><%= current_admin.email %></strong>.</li>
-                  <li><%= link_to 'Edit profile', edit_admin_registration_path %></li>
-                  <li><%= link_to "Logout", destroy_admin_session_path, method: :delete %></li>
+                <% if user_signed_in? %>
+                  <li class="navbar-text">Logged in as <strong><%= current_user.email %></strong>.</li>
+                  <li><%= link_to 'Edit profile', edit_user_registration_path %></li>
+                  <li><%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
                 <% end %>
             </ul>
         </div>

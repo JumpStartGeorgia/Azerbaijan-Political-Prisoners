@@ -19,6 +19,12 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe PrisonersController, :type => :controller do
+  let(:user_manager_role) { FactoryGirl.create(:role, name: 'user_manager') }
+  let(:user) { FactoryGirl.create(:user, role: user_manager_role) }
+
+  before(:example) do
+    sign_in :user, user
+  end
 
   # This should return the minimal set of attributes required to create a valid
   # Prisoner. As you add validations to Prisoner, be sure to

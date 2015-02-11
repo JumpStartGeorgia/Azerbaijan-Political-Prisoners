@@ -1,4 +1,6 @@
 class ArticlesController < ApplicationController
+  load_and_authorize_resource
+
   before_action :set_article, only: [:show, :edit, :update, :destroy]
   before_action :set_prisoners_with_article, only: [:show]
   before_action :set_gon_variables

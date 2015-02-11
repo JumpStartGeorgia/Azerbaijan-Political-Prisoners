@@ -1,17 +1,16 @@
 Rails.application.routes.draw do
 
   devise_for :users
-  authenticate :user do
-    resources :tags
 
-    resources :prisons
+  resources :tags
 
-    resources :criminal_codes
+  resources :prisons
 
-    resources :articles
+  resources :criminal_codes
 
-    resources :prisoners
-  end
+  resources :articles
+
+  resources :prisoners
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -1,4 +1,6 @@
 class PrisonsController < ApplicationController
+  load_and_authorize_resource
+
   before_action :set_prison, only: [:show, :edit, :update, :destroy]
   before_action :set_prisoners_in_prison, only: [:show]
   before_action :set_gon_variables

@@ -1,4 +1,6 @@
 class CriminalCodesController < ApplicationController
+  load_and_authorize_resource
+
   before_action :set_criminal_code, only: [:show, :edit, :update, :destroy]
 
   # GET /criminal_codes

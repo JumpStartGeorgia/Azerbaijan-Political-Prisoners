@@ -5,4 +5,12 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   belongs_to :role
+
+  def is? ( requested_role )
+    if (self.role)
+      self.role.name == requested_role
+    else
+      return false
+    end
+  end
 end

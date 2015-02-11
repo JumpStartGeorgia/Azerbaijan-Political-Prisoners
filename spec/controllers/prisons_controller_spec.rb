@@ -20,6 +20,13 @@ require 'rails_helper'
 
 RSpec.describe PrisonsController, :type => :controller do
 
+  let(:user_manager_role) { FactoryGirl.create(:role, name: 'user_manager') }
+  let(:user) { FactoryGirl.create(:user, role: user_manager_role) }
+
+  before(:example) {
+    sign_in :user, user
+  }
+
   # This should return the minimal set of attributes required to create a valid
   # Prison. As you add validations to Prison, be sure to
   # adjust the attributes here as well.

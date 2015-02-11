@@ -15,13 +15,6 @@ RSpec.describe "prisoners/edit", :type => :view do
       @prisoner = assign(:prisoner, FactoryGirl.create(:prisoner_with_incidents, incidents_count: 2))
     end
 
-    it "renders the edit prisoner form" do
-      render
-
-      assert_select "form[action=?][method=?]", prisoner_path(@prisoner), "post" do
-      end
-    end
-
     it "renders _incident_fields partial for both incidents, plus one time in cocoon's data-association-insertion-template attribute" do
       render
 

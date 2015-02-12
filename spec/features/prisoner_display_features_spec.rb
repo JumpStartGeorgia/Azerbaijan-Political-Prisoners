@@ -6,7 +6,7 @@ RSpec.describe "Prisoner display", :type => :feature do
     let(:prisoner1) { FactoryGirl.create(:prisoner, name: 'pris#1') }
     let(:prisoner2) { FactoryGirl.create(:prisoner, name: 'pris#2') }
 
-    it "on the prison show view who have incidents that belong to the prison" do
+    it "that belong to the prison on the prison's show view" do
       prison = FactoryGirl.create(:prison)
       FactoryGirl.create(:incident, prisoner: prisoner1, prison: prison)
       FactoryGirl.create(:incident, prisoner: prisoner2, prison: prison)
@@ -16,10 +16,12 @@ RSpec.describe "Prisoner display", :type => :feature do
       expect(page).to have_text('pris#2')
     end
 
-    it "on the article show view who have incidents that have the article" do
+    it "that belong to an article on the article's show view" do
       article = FactoryGirl.create(:article)
-      FactoryGirl.create(:incident, prisoner: prisoner1, articles: [article])
-      FactoryGirl.create(:incident, prisoner: prisoner2, articles: [article])
+      incident1 = FactoryGirl.create(:incident, prisoner: prisoner1)
+      incident1.articles << article
+      incident2 = FactoryGirl.create(:incident, prisoner: prisoner2)
+      incident2.articles << article
 
       visit(article_path(article))
       expect(page).to have_text('pris#1')

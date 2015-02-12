@@ -87,6 +87,10 @@ RSpec.configure do |config|
 
   config.include Devise::TestHelpers, type: :controller
 
+  # Warden is used to stub authentication in feature specs: https://github.com/plataformatec/devise/wiki/How-To:-Test-with-Capybara
+  config.include Warden::Test::Helpers
+  Warden.test_mode!
+
   config.before(:suite) do
     begin
       FactoryGirl.lint
@@ -98,11 +102,11 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
   end
 
-  config.before(:each) do
+  config.before(:example) do
     DatabaseCleaner.start
   end
 
-  config.after(:each) do
+  config.after(:example) do
     DatabaseCleaner.clean
   end
 

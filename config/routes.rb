@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  post '/users', to: 'users#create'
   devise_for :users, controllers: { confirmations: "users/confirmations", omniauth: "users/omniauth", passwords: "users/passwords", registrations: "users/registrations", sessions: "users/sessions", unlocks: "users/unlocks" }
 
   resources :tags

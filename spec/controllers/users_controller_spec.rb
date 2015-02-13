@@ -21,10 +21,10 @@ require 'rails_helper'
 RSpec.describe UsersController, :type => :controller do
 
   let(:user_manager_role) { FactoryGirl.create(:role, name: 'user_manager') }
-  let(:user) { FactoryGirl.create(:user, role: user_manager_role) }
+  let(:user_manager_user) { FactoryGirl.create(:user, role: user_manager_role) }
 
   before(:example) {
-    sign_in :user, user
+    sign_in :user, user_manager_user
   }
 
   # This should return the minimal set of attributes required to create a valid
@@ -47,7 +47,7 @@ RSpec.describe UsersController, :type => :controller do
     it "assigns all users as @users" do
       user = FactoryGirl.create(:user, valid_attributes)
       get :index, {}, valid_session
-      expect(assigns(:users)).to eq([user])
+      expect(assigns(:users)).to eq([user_manager_user, user])
     end
   end
 

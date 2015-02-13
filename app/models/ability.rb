@@ -4,14 +4,19 @@ class Ability
   def initialize(user)
     user ||= User.new
 
+    content_resources = [Article, CriminalCode, Prisoner, Prison, Tag]
     if user.is? 'super_admin'
       can :manage, :all
     elsif user.is? 'site_admin'
-      can :manage, :all
+      can :manage, content_resources
+      can :read, User
+      can :new, User
+      can [:edit, :create, :update, :destroy], User, role: { name: 'user_manager' }
     elsif user.is? 'user_manager'
-      can :manage, :all
+      can :manage, content_resources
+      can :read, User
     else
-      can :read, :all
+      can :read, content_resources
     end
     # Define abilities for the passed in user here. For example:
     #

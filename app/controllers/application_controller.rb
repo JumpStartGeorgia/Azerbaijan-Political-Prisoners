@@ -4,10 +4,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   rescue_from CanCan::AccessDenied do |exception|
-    not_found
-  end
-
-  def not_found
     if user_signed_in?
       redirect_to :back, alert: "You are not authorized to perform that action."
     else

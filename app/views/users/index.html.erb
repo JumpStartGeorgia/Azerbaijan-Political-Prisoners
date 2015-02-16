@@ -7,7 +7,7 @@
       <th><%= model_class.human_attribute_name(:email) %></th>
       <th><%= model_class.human_attribute_name(:role_id) %></th>
       <th><%= model_class.human_attribute_name(:last_sign_in_at) %></th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+      <% if_can_edit_or_destroy?(User) { %><th><%=t '.actions', :default => t("helpers.actions") %></th><% } %>
     </tr>
   </thead>
   <tbody>
@@ -17,20 +17,28 @@
         <td><%= link_to user.email, user_path(user) %></td>
         <td><%= user.role.name if user.role.present? %></td>
         <td><%= user.last_sign_in_at %></td>
-        <td>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_user_path(user), :class => 'btn btn-default btn-xs' %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+        <% if_can_edit_or_destroy?(user) { %>
+            <td>
+          <%= if can? :edit, User
+          link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_user_path(user), :class => 'btn btn-default btn-xs'
+          end %>
+          <%= if can? :destroy, User
+                link_to t('.destroy', :default => t("helpers.links.destroy")),
                       user_path(user),
                       :method => :delete,
                       :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-xs btn-danger' %>
+                      :class => 'btn btn-xs btn-danger'
+          end %>
         </td>
+            <% } %>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<%= link_to t('.new', :default => t("helpers.links.new")),
+<%= if can? :new, User
+      link_to t('.new', :default => t("helpers.links.new")),
             new_user_path,
-            :class => 'btn btn-primary' %>
+            :class => 'btn btn-primary'
+end %>

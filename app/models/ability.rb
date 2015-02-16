@@ -11,10 +11,13 @@ class Ability
       can :manage, content_resources
       can :read, User
       can :new, User
+      can [:edit, :create, :update, :destroy], User, role: { name: 'site_admin' }
       can [:edit, :create, :update, :destroy], User, role: { name: 'user_manager' }
     elsif user.is? 'user_manager'
       can :manage, content_resources
       can :read, User
+      can :new, User
+      can [:edit, :create, :update, :destroy], User, role: { name: 'user_manager' }
     else
       can :read, content_resources
     end

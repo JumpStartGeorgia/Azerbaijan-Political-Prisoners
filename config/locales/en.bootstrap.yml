@@ -10,7 +10,7 @@ en:
   helpers:
     actions: "Actions"
     links:
-      back: "Back"
+      back: "View All"
       cancel: "Cancel"
       confirm: "Are you sure?"
       destroy: "Delete"

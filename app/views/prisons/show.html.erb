@@ -15,10 +15,14 @@
 
 <%= link_to t('.back', :default => t("helpers.links.back")),
               prisons_path, :class => 'btn btn-default'  %>
-<%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_prison_path(@prison), :class => 'btn btn-default' %>
-<%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+<%= if can? :edit, @prison
+      link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_prison_path(@prison), :class => 'btn btn-default'
+end %>
+<%= if can? :destroy, @prison
+      link_to t('.destroy', :default => t("helpers.links.destroy")),
               prison_path(@prison),
               :method => 'delete',
               :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-              :class => 'btn btn-danger' %>
+              :class => 'btn btn-danger'
+end %>

@@ -5,8 +5,6 @@ module Aug2014DataToDb
     def self.migrate
         self.destroyData
 
-        outputTags = []
-
         CSV.foreach("#{Rails.root}/lib/aug2014PdfParser/output/prisoners.csv", "r") do |row|
             if $. != 1
                 prisoner = Prisoner.new
@@ -23,18 +21,15 @@ module Aug2014DataToDb
 
                 type_name = row[2]
                 #There is no spreadsheet of unique types, so this ensures that the same type is not created as a tag twice
-                if !outputTags.include? type_name and type_name != 'Other Cases'
-                  outputTags.push(type_name)
-                  Tag.create(name: type_name)
+                if type_name != 'Other Cases'
+                  Tag.find_or_create_by(name: type_name)
                 end
             end
         end
 
         CSV.foreach("#{Rails.root}/lib/aug2014PdfParser/output/articles.csv", "r") do |row|
             if $. != 1
-                if !CriminalCode.exists?(name: row[1])
-                    CriminalCode.create(name: row[1])
-                end
+                CriminalCode.find_or_create_by(name: row[1])
 
                 Article.create(
                     number: row[0],

@@ -8,6 +8,10 @@ class ApplicationController < ActionController::Base
   end
 
   def not_found
-    raise ActionController::RoutingError.new('Not Found')
+    if user_signed_in?
+      redirect_to :back, alert: "You are not authorized to perform that action."
+    else
+      raise ActionController::RoutingError.new('Not Found')
+    end
   end
 end

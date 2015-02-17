@@ -85,7 +85,7 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
 
-  config.include Devise::TestHelpers, type: :controller
+  config.include Devise::TestHelpers
 
   # Warden is used to stub authentication in feature specs: https://github.com/plataformatec/devise/wiki/How-To:-Test-with-Capybara
   config.include Warden::Test::Helpers

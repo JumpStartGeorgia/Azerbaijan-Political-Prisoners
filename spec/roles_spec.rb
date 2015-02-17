@@ -43,8 +43,8 @@ describe 'User' do
       expect(ability).not_to be_able_to(:update, super_admin_user)
     end
 
-    it 'cannot update site admin' do
-      expect(ability).not_to be_able_to(:update, site_admin_user)
+    it 'can update site admin' do
+      expect(ability).to be_able_to(:update, site_admin_user)
     end
 
     it 'can update user manager' do
@@ -72,8 +72,8 @@ describe 'User' do
       expect(ability).not_to be_able_to(:update, site_admin_user)
     end
 
-    it 'cannot update user manager' do
-      expect(ability).not_to be_able_to(:update, user_manager_user)
+    it 'can update user manager' do
+      expect(ability).to be_able_to(:update, user_manager_user)
     end
 
     it 'can manage content' do

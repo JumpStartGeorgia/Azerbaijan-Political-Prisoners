@@ -24,7 +24,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-gem 'spring',        group: :development
+gem 'spring', '~> 1.1.3',        group: :development
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -44,7 +44,7 @@ gem 'cocoon', '~> 1.2.6'
 gem 'gon', '~> 5.2.3'
 gem 'tinymce-rails', '~> 4.1.6'
 gem 'jquery-turbolinks', '~> 2.1.0'
-gem 'quiet_assets', '~> 1.1.0', group: :development
+gem 'quiet_assets', '~> 1.0.3', group: :development
 gem 'database_cleaner', '~> 1.3.0'
 gem 'jquery-ui-rails', '~> 5.0.3'
 gem "paperclip", "~> 4.2"
@@ -56,10 +56,11 @@ gem 'formtastic-bootstrap', '~> 3.1.0'
 gem 'devise', '~> 3.4.1'
 gem 'cancancan', '~> 1.10.1'
 
+gem 'rack-test', '0.6.2'
 gem 'capybara', '~> 2.4.4'
 gem 'launchy', '~> 2.4.3'
 gem 'selenium-webdriver', '~> 2.44.0'
-gem 'capybara-screenshot', '~> 1.0.5', :group => :test
+gem 'capybara-screenshot', '1.0.4', :group => :test
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.1.0'

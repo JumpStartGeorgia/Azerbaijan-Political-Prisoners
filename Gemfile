@@ -40,26 +40,26 @@ gem 'spring',        group: :development
 
 
 ### ADDED FOR Custom Rails App
-gem 'cocoon'
+gem 'cocoon', '~> 1.2.6'
 gem 'gon', '~> 5.2.3'
-gem 'tinymce-rails'
-gem 'jquery-turbolinks'
-gem 'quiet_assets', group: :development
+gem 'tinymce-rails', '~> 4.1.6'
+gem 'jquery-turbolinks', '~> 2.1.0'
+gem 'quiet_assets', '~> 1.1.0', group: :development
 gem 'database_cleaner', '~> 1.3.0'
-gem 'jquery-ui-rails'
+gem 'jquery-ui-rails', '~> 5.0.3'
 gem "paperclip", "~> 4.2"
 gem 'formtastic', "~> 3.1.3"
-gem 'therubyracer'
-gem 'less-rails'
-gem 'twitter-bootstrap-rails'
+gem 'therubyracer', '~> 0.12.1'
+gem 'less-rails', '~> 2.6.0'
+gem 'twitter-bootstrap-rails', '~> 3.2.0'
 gem 'formtastic-bootstrap', '~> 3.1.0'
 gem 'devise', '~> 3.4.1'
 gem 'cancancan', '~> 1.10.1'
 
-gem 'capybara'
+gem 'capybara', '~> 2.4.4'
 gem 'launchy', '~> 2.4.3'
 gem 'selenium-webdriver', '~> 2.44.0'
-gem 'capybara-screenshot', :group => :test
+gem 'capybara-screenshot', '~> 1.0.5', :group => :test
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.1.0'
@@ -67,5 +67,5 @@ group :development, :test do
 end
 
 ### ADDED FOR lib/prisonersPdfParser
-gem 'nokogiri'
+gem 'nokogiri', '~> 1.6.4'
 

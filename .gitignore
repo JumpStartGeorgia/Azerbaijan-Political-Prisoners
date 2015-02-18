@@ -22,3 +22,6 @@
 # ADDED FOR lib/prisonersPdfParser
 lib/aug2014PdfParser/output/*
 !lib/aug2014PdfParser/output/.gitkeep
+
+.gems/
+.rbenv-gemset

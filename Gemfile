@@ -68,5 +68,5 @@ group :development, :test do
 end
 
 ### ADDED FOR lib/prisonersPdfParser
-gem 'nokogiri', '1.6.6.2'
+gem 'nokogiri', '~> 1.6.6.2'
 

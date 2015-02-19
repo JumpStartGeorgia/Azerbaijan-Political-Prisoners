@@ -24,4 +24,4 @@ lib/aug2014PdfParser/output/*
 !lib/aug2014PdfParser/output/.gitkeep
 
 .gems/
-.rbenv-gemset
+.rbenv-gemsets

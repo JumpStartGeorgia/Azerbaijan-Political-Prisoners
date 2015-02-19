@@ -47,7 +47,7 @@ gem 'jquery-turbolinks', '~> 2.1.0'
 gem 'quiet_assets', '~> 1.0.3', group: :development
 gem 'database_cleaner', '~> 1.3.0'
 gem 'jquery-ui-rails', '~> 5.0.3'
-gem "paperclip", "4.2.0"
+gem "paperclip", "~> 4.2.0"
 gem 'formtastic', "~> 3.1.3"
 gem 'therubyracer', '~> 0.12.1'
 gem 'less-rails', '~> 2.6.0'

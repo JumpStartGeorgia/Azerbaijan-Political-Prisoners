@@ -109,7 +109,4 @@ RSpec.configure do |config|
   config.after(:example) do
     DatabaseCleaner.clean
   end
-
-
-
 end

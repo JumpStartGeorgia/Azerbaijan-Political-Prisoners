@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Prisoner new view", :type => :feature do
-  before(:context) do
+  before(:example) do
     @role = FactoryGirl.create(:role, name: 'user_manager')
     @user = FactoryGirl.create(:user, role: @role)
   end

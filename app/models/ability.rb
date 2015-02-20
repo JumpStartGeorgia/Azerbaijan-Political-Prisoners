@@ -9,8 +9,7 @@ class Ability
       can :manage, :all
     elsif user.is? 'site_admin'
       can :manage, content_resources
-      can :read, User
-      can :new, User
+      can [:read, :new], User
       can [:edit, :create, :update, :destroy], User, role: { name: 'site_admin' }
       can [:edit, :create, :update, :destroy], User, role: { name: 'user_manager' }
     elsif user.is? 'user_manager'

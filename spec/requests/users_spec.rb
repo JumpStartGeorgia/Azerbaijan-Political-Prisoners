@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Users", :type => :request do
   before(:context) do
     @role = FactoryGirl.create(:role, name: 'user_manager')
-    @user = FactoryGirl.create(:user, email: "a@a.com", password: "12345678", role: @role)
+    @user = FactoryGirl.create(:user, role: @role)
   end
 
   describe "GET /users" do

@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   belongs_to :role
-  validates :email, :password, :role, presence: true
+  validates :email, :role, presence: true
 
   def is? ( requested_role )
     if (self.role)

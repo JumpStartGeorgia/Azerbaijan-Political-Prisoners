@@ -5,17 +5,20 @@ describe 'User' do
 
   let(:super_admin_role) { FactoryGirl.create(:role, name: 'super_admin') }
   let(:super_admin_user) { FactoryGirl.create(:user, role: super_admin_role) }
+  let(:super_admin_user2) { FactoryGirl.create(:user, role: super_admin_role) }
   let(:site_admin_role) { FactoryGirl.create(:role, name: 'site_admin') }
   let(:site_admin_user) { FactoryGirl.create(:user, role: site_admin_role) }
+  let(:site_admin_user2) { FactoryGirl.create(:user, role: site_admin_role) }
   let(:user_manager_role) { FactoryGirl.create(:role, name: 'user_manager') }
   let(:user_manager_user) { FactoryGirl.create(:user, role: user_manager_role) }
+  let(:user_manager_user2) { FactoryGirl.create(:user, role: user_manager_role) }
   let(:visitor) { nil }
 
   describe 'when is super admin' do
     subject(:ability){ Ability.new(super_admin_user) }
 
     it 'can update super admin' do
-      expect(ability).to be_able_to(:update, super_admin_user)
+      expect(ability).to be_able_to(:update, super_admin_user2)
     end
 
     it 'can update site admin' do
@@ -44,7 +47,7 @@ describe 'User' do
     end
 
     it 'can update site admin' do
-      expect(ability).to be_able_to(:update, site_admin_user)
+      expect(ability).to be_able_to(:update, site_admin_user2)
     end
 
     it 'can update user manager' do
@@ -73,7 +76,7 @@ describe 'User' do
     end
 
     it 'can update user manager' do
-      expect(ability).to be_able_to(:update, user_manager_user)
+      expect(ability).to be_able_to(:update, user_manager_user2)
     end
 
     it 'can manage content' do

@@ -48,7 +48,7 @@ RSpec.describe "Role", :type => :feature do
       login_as @site_admin_user, scope: :user
 
       visit new_user_path
-      expect(page).to have_select('Role', options: ['site_admin', 'user_manager'])
+      expect(page).to have_select 'Role', options: [@site_admin_role.name, @user_manager_role.name]
     end
   end
 
@@ -57,7 +57,7 @@ RSpec.describe "Role", :type => :feature do
       login_as @user_manager_user, scope: :user
 
       visit new_user_path
-      expect(page).to have_select('Role', options: ['user_manager'])
+      expect(page).to have_select 'Role', options: [@user_manager_role.name]
     end
   end
 end

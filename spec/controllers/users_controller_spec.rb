@@ -30,12 +30,14 @@ RSpec.describe UsersController, :type => :controller do
   # This should return the minimal set of attributes required to create a valid
   # User. As you add validations to User, be sure to
   # adjust the attributes here as well.
+  let(:role) { FactoryGirl.create(:role) }
+
   let(:valid_attributes) {
-    FactoryGirl.build(:user).attributes
+    FactoryGirl.attributes_for(:user, role_id: role.id)
   }
 
   let(:invalid_attributes) {
-    FactoryGirl.build(:user, email: '').attributes
+    FactoryGirl.attributes_for(:user, email: '', role_id: role.id)
   }
 
   # This should return the minimal set of values that should be in the session

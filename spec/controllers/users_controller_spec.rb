@@ -131,19 +131,6 @@ RSpec.describe UsersController, :type => :controller do
             put :update, {:id => user.to_param, :user => valid_attributes}, valid_session
             expect(response).to redirect_to(user)
           end
-
-          it "fails to update another user manager to super_admin role" do
-            skip()
-          end
-
-          it "fails to update another user manager to site_admin role" do
-            user = FactoryGirl.create(:user, valid_attributes)
-            site_admin_attributes = FactoryGirl.build(:user, valid_attributes)
-            site_admin_attributes.role = Role.find_by_name('site_admin')
-            put :update, {id: user.to_param, user: site_admin_attributes}, valid_session
-            user.reload
-            skip('Should check that the user should NOT reload')
-          end
         end
 
         describe "with invalid params" do
@@ -157,6 +144,18 @@ RSpec.describe UsersController, :type => :controller do
             user = FactoryGirl.create(:user, valid_attributes)
             put :update, {:id => user.to_param, :user => invalid_attributes}, valid_session
             expect(response).to render_template("edit")
+          end
+
+          it "fails to update another user manager to super_admin role" do
+            skip()
+          end
+
+          it "fails to update another user manager to site_admin role" do
+            user = FactoryGirl.create(:user, valid_attributes)
+            site_admin_attributes = valid_attributes
+            site_admin_attributes[:role_id] = Role.find_by_name("site_admin").id
+            put :update, {id: user.to_param, user: site_admin_attributes}, valid_session
+            expect { user.reload }.to raise_error("You are not authorized to perform that action.")
           end
         end
       end

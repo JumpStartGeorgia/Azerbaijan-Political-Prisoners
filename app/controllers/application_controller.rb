@@ -5,10 +5,16 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     if user_signed_in?
-      redirect_to :back, alert: "You are not authorized to perform that action."
+      not_authorized
     else
       not_found
     end
+  end
+
+  def not_authorized
+    redirect_to :back, alert: "You are not authorized to perform that action."
+  rescue ActionController::RedirectBackError
+    redirect_to root_path
   end
 
   def not_found

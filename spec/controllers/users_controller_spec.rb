@@ -175,6 +175,68 @@ RSpec.describe UsersController, :type => :controller do
       end
     end
 
+  describe "super admin" do
+    before(:example) {
+      sign_in :user, super_admin_user
+    }
+
+    it "successfully updates a user manager to super admin role" do
+      user = FactoryGirl.create(:user, valid_attributes)
+      put :update, {id: user.to_param, user: super_admin_attributes}, valid_session
+      user.reload
+      expect(response).to redirect_to(user)
+      expect(user.role.name).to eq("super_admin")
+    end
+
+    it "successfully updates a user manager to site admin role" do
+      user = FactoryGirl.create(:user, valid_attributes)
+      put :update, {id: user.to_param, user: site_admin_attributes}, valid_session
+      user.reload
+      expect(response).to redirect_to(user)
+      expect(user.role.name).to eq("site_admin")
+    end
+
+    it "successfully updates a site admin to super admin role" do
+      user = FactoryGirl.create(:user, site_admin_attributes)
+      put :update, {id: user.to_param, user: super_admin_attributes}, valid_session
+      user.reload
+      expect(response).to redirect_to(user)
+      expect(user.role.name).to eq("super_admin")
+    end
+  end
+
+  describe "site admin" do
+    before(:example) {
+      sign_in :user, site_admin_user
+    }
+
+    it "fails to update another site admin to super admin role" do
+      user = FactoryGirl.create(:user, site_admin_attributes)
+      put :update, {id: user.to_param, user: super_admin_attributes}, valid_session
+      user.reload
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to eq("You are not authorized to perform that action.")
+      expect(user.role.name).to eq("site_admin")
+    end
+
+    it "fails to update a user manager to super admin role" do
+      user = FactoryGirl.create(:user, valid_attributes)
+      put :update, {id: user.to_param, user: super_admin_attributes}, valid_session
+      user.reload
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to eq("You are not authorized to perform that action.")
+      expect(user.role.name).to eq("user_manager")
+    end
+
+    it "successfully updates a user manager to site admin role" do
+      user = FactoryGirl.create(:user, valid_attributes)
+      put :update, {id: user.to_param, user: site_admin_attributes}, valid_session
+      user.reload
+      expect(response).to redirect_to(user)
+      expect(user.role.name).to eq("site_admin")
+    end
+  end
+
   describe "user manager" do
     before(:example) {
       sign_in :user, user_manager_user
@@ -183,6 +245,7 @@ RSpec.describe UsersController, :type => :controller do
     it "fails to update another user manager to super_admin role" do
       user = FactoryGirl.create(:user, valid_attributes)
       put :update, {id: user.to_param, user: super_admin_attributes}, valid_session
+      user.reload
       expect(response).to redirect_to(root_path)
       expect(flash[:alert]).to eq("You are not authorized to perform that action.")
       expect(user.role.name).to eq("user_manager")
@@ -191,10 +254,10 @@ RSpec.describe UsersController, :type => :controller do
     it "fails to update another user manager to site_admin role" do
       user = FactoryGirl.create(:user, valid_attributes)
       put :update, {id: user.to_param, user: site_admin_attributes}, valid_session
+      user.reload
       expect(response).to redirect_to(root_path)
       expect(flash[:alert]).to eq("You are not authorized to perform that action.")
       expect(user.role.name).to eq("user_manager")
     end
   end
-
 end

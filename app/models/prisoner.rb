@@ -16,5 +16,25 @@ class Prisoner < ActiveRecord::Base
   def self.by_article(article_id)
     return Prisoner.joins(:incidents => :charges).where(charges:{article_id: article_id})
   end
+
+  def self.all_currently_imprisoned
+    all_currently_imprisoned = []
+    Prisoner.all.each do |prisoner|
+      if prisoner.currently_imprisoned?
+        all_currently_imprisoned.append(prisoner)
+      end
+    end
+    return all_currently_imprisoned
+  end
+
+  def currently_imprisoned?
+    latest_incident = self.incidents.order("date_of_arrest").last
+
+    if !latest_incident.date_of_release.presence
+      return true
+    else
+      return false
+    end
+  end
 end
 

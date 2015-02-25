@@ -17,6 +17,11 @@ class Prisoner < ActiveRecord::Base
     return Prisoner.joins(:incidents => :charges).where(charges:{article_id: article_id})
   end
 
+  def self.all_currently_imprisoned
+    ids = currently_imprisoned_ids.map { |x| x.prisoner_id }
+    where(id: ids)
+  end
+
   def self.currently_imprisoned_count
     return currently_imprisoned_ids.size
   end

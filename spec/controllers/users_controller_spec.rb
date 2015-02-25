@@ -240,6 +240,14 @@ RSpec.describe UsersController, :type => :controller do
         expect(response).to redirect_to(user)
         expect(user.role.name).to eq("site_admin")
       end
+
+      it "fails to update its own role to super_admin" do
+        put :update, {id: site_admin_user.to_param, user: super_admin_attributes}, valid_session
+        site_admin_user.reload
+        expect(response).to redirect_to(root_path)
+        expect(flash[:alert]).to eq("You are not authorized to perform that action.")
+        expect(site_admin_user.role.name).to eq("site_admin")
+      end
     end
 
     describe "user manager" do
@@ -263,6 +271,22 @@ RSpec.describe UsersController, :type => :controller do
         expect(response).to redirect_to(root_path)
         expect(flash[:alert]).to eq("You are not authorized to perform that action.")
         expect(user.role.name).to eq("user_manager")
+      end
+
+      it "fails to update its own role to site_admin" do
+        put :update, {id: user_manager_user.to_param, user: site_admin_attributes}, valid_session
+        user_manager_user.reload
+        expect(response).to redirect_to(root_path)
+        expect(flash[:alert]).to eq("You are not authorized to perform that action.")
+        expect(user_manager_user.role.name).to eq("user_manager")
+      end
+
+      it "fails to update its own role to super_admin" do
+        put :update, {id: user_manager_user.to_param, user: super_admin_attributes}, valid_session
+        user_manager_user.reload
+        expect(response).to redirect_to(root_path)
+        expect(flash[:alert]).to eq("You are not authorized to perform that action.")
+        expect(user_manager_user.role.name).to eq("user_manager")
       end
     end
   end

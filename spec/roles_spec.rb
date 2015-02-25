@@ -3,15 +3,12 @@ require 'cancan/matchers'
 
 describe 'User' do
 
-  let(:super_admin_role) { FactoryGirl.create(:role, name: 'super_admin') }
-  let(:super_admin_user) { FactoryGirl.create(:user, role: super_admin_role) }
-  let(:super_admin_user2) { FactoryGirl.create(:user, role: super_admin_role) }
-  let(:site_admin_role) { FactoryGirl.create(:role, name: 'site_admin') }
-  let(:site_admin_user) { FactoryGirl.create(:user, role: site_admin_role) }
-  let(:site_admin_user2) { FactoryGirl.create(:user, role: site_admin_role) }
-  let(:user_manager_role) { FactoryGirl.create(:role, name: 'user_manager') }
-  let(:user_manager_user) { FactoryGirl.create(:user, role: user_manager_role) }
-  let(:user_manager_user2) { FactoryGirl.create(:user, role: user_manager_role) }
+  let(:super_admin_user) { FactoryGirl.create(:user, role: Role.find_by_name("super_admin")) }
+  let(:super_admin_user2) { FactoryGirl.create(:user, role: Role.find_by_name("super_admin")) }
+  let(:site_admin_user) { FactoryGirl.create(:user, role: Role.find_by_name("site_admin")) }
+  let(:site_admin_user2) { FactoryGirl.create(:user, role: Role.find_by_name("site_admin")) }
+  let(:user_manager_user) { FactoryGirl.create(:user, role: Role.find_by_name("user_manager")) }
+  let(:user_manager_user2) { FactoryGirl.create(:user, role: Role.find_by_name("user_manager")) }
   let(:visitor) { nil }
 
   describe 'when is super admin' do

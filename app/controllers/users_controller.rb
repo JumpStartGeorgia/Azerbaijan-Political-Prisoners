@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   load_and_authorize_resource
 
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_role_param, only: [:update]
 
   # GET /users
   # GET /users.json
@@ -82,5 +83,11 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:email, :password, :role_id)
+    end
+
+    def authorize_role_param
+      if cannot? :create, User.new(user_params)
+        not_authorized
+      end
     end
 end

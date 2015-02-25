@@ -21,15 +21,19 @@ require 'rails_helper'
 RSpec.describe UsersController, :type => :controller do
 
   let(:user_manager_user) { FactoryGirl.create(:user, role: Role.find_by_name('user_manager')) }
-
-  before(:example) {
-    sign_in :user, user_manager_user
-  }
+  let(:site_admin_user) { FactoryGirl.create(:user, role: Role.find_by_name('site_admin')) }
+  let(:super_admin_user) { FactoryGirl.create(:user, role: Role.find_by_name('super_admin')) }
 
   # This should return the minimal set of attributes required to create a valid
   # User. As you add validations to User, be sure to
   # adjust the attributes here as well.
-  let(:role) { FactoryGirl.create(:role) }
+  let(:super_admin_attributes) {
+    FactoryGirl.attributes_for(:user, role_id: Role.find_by_name('super_admin').id)
+  }
+
+  let(:site_admin_attributes) {
+    FactoryGirl.attributes_for(:user, role_id: Role.find_by_name('site_admin').id)
+  }
 
   let(:valid_attributes) {
     FactoryGirl.attributes_for(:user, role_id: Role.find_by_name('user_manager').id)
@@ -39,13 +43,17 @@ RSpec.describe UsersController, :type => :controller do
     FactoryGirl.attributes_for(:user, email: '', role_id: Role.find_by_name('user_manager').id)
   }
 
+
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # UsersController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "user manager" do
     describe "GET index" do
+      before(:example) {
+        sign_in :user, user_manager_user
+      }
+
       it "assigns all users as @users" do
         user = FactoryGirl.create(:user, valid_attributes)
         get :index, {}, valid_session
@@ -131,6 +139,7 @@ RSpec.describe UsersController, :type => :controller do
             put :update, {:id => user.to_param, :user => valid_attributes}, valid_session
             expect(response).to redirect_to(user)
           end
+
         end
 
         describe "with invalid params" do
@@ -144,18 +153,6 @@ RSpec.describe UsersController, :type => :controller do
             user = FactoryGirl.create(:user, valid_attributes)
             put :update, {:id => user.to_param, :user => invalid_attributes}, valid_session
             expect(response).to render_template("edit")
-          end
-
-          it "fails to update another user manager to super_admin role" do
-            skip()
-          end
-
-          it "fails to update another user manager to site_admin role" do
-            user = FactoryGirl.create(:user, valid_attributes)
-            site_admin_attributes = valid_attributes
-            site_admin_attributes[:role_id] = Role.find_by_name("site_admin").id
-            put :update, {id: user.to_param, user: site_admin_attributes}, valid_session
-            expect { user.reload }.to raise_error("You are not authorized to perform that action.")
           end
         end
       end
@@ -177,5 +174,27 @@ RSpec.describe UsersController, :type => :controller do
         end
       end
     end
+
+  describe "user manager" do
+    before(:example) {
+      sign_in :user, user_manager_user
+    }
+
+    it "fails to update another user manager to super_admin role" do
+      user = FactoryGirl.create(:user, valid_attributes)
+      put :update, {id: user.to_param, user: super_admin_attributes}, valid_session
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to eq("You are not authorized to perform that action.")
+      expect(user.role.name).to eq("user_manager")
+    end
+
+    it "fails to update another user manager to site_admin role" do
+      user = FactoryGirl.create(:user, valid_attributes)
+      put :update, {id: user.to_param, user: site_admin_attributes}, valid_session
+      expect(response).to redirect_to(root_path)
+      expect(flash[:alert]).to eq("You are not authorized to perform that action.")
+      expect(user.role.name).to eq("user_manager")
+    end
   end
+
 end

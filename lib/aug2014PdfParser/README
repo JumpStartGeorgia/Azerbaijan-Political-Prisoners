@@ -8,9 +8,9 @@ To extract the data contained in the August 2014 version of the Azeri Political 
     Instructions
 
 1) Clone the repository.
-2) Run command "bundler update" in root directory (same directory as Gemfile). Must have bundler installed.
-3) Navigate to the scripts/prisonersPdfParser/src directory and run the command "ruby parser.rb".
-4) Check scripts/prisonersPdfParser/output directory for output spreadsheets.
+2) Run "bundler update" in root directory. Must have bundler installed.
+3) Navigate to the lib/aug2014PdfParser/src directory and run the command "ruby parser.rb".
+4) Check lib/aug2014PdfParser/output directory for output spreadsheets.
 
 
     Descriptions of input files
@@ -33,4 +33,4 @@ To extract the data contained in the August 2014 version of the Azeri Political 
 - Charge Descriptions: Since the descriptions of articles in the PDF are inconsistent (identical article numbers often have different descriptions), decided not to retrieve them with the parser.
 
 
-Note about input/portraits: The pdf2html tool made a separate directory containing the pictures in azeriPoliticalPrisoners.pdf, which are all mini portraits of the prisoners. For these pictures to be useful, they need to be labeled according to the prisoner which they depict. However, it would have been impossible to retrieve that information from the PDF itself, so the portraits have been manually labeled with their corresponding prisoner instead.
+Note about portraits: It was impossible to programatically determine which portrait belonged to which prisoner, because the portraits were not organized well in relation to the other data in the PDF. Therefore, the portraits have been manually labeled with their corresponding prisoner and placed in lib/aug2014PdfParser/portraits.

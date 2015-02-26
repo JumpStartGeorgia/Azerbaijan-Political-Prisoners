@@ -1,4 +1,6 @@
 class Prisoner < ActiveRecord::Base
+  after_commit :update_currently_imprisoned
+
   has_many :incidents, inverse_of: :prisoner
   has_attached_file :portrait, :styles => { :medium => "200x200>" }, :default_url => ":style/missing.png"
   validates_attachment :portrait, content_type: { content_type: /\Aimage\/.*\Z/ }
@@ -30,6 +32,16 @@ class Prisoner < ActiveRecord::Base
 
   def self.currently_imprisoned_ids
     return find_by_sql("select prisoner_id, max(date_of_arrest) from incidents where date_of_release is null group by prisoner_id")
+  end
+
+  def update_currently_imprisoned
+    latest_incident = self.incidents.order("date_of_arrest").last
+
+    if latest_incident.date_of_release.present?
+      self.update_column(:currently_imprisoned, false)
+    else
+      self.update_column(:currently_imprisoned, true)
+    end
   end
 end
 

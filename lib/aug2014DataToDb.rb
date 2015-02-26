@@ -89,6 +89,8 @@ module Aug2014DataToDb
 
         incident.save
 
+        incident.prisoner.save
+
         return incident
     end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150226075754) do
+ActiveRecord::Schema.define(version: 20150226085730) do
 
   create_table "articles", force: true do |t|
     t.string   "number"
@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 20150226075754) do
     t.string   "portrait_content_type"
     t.integer  "portrait_file_size"
     t.datetime "portrait_updated_at"
+    t.boolean  "currently_imprisoned"
   end
 
   add_index "prisoners", ["name"], name: "index_prisoners_on_name"

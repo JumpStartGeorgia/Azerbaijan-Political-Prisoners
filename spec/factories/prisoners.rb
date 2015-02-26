@@ -1,10 +1,10 @@
 FactoryGirl.define do
   factory :prisoner do
-    name 'MyName'
+    sequence(:name) { |n| "prisoner##{n}"}
 
     factory :prisoner_with_incidents do
       transient do
-        incidents_count 2
+        incidents_count 1
       end
 
       after :create do |prisoner, evaluator|

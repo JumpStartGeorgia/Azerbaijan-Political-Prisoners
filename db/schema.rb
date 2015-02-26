@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150210094835) do
+ActiveRecord::Schema.define(version: 20150226075754) do
 
   create_table "articles", force: true do |t|
     t.string   "number"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20150210094835) do
   end
 
   add_index "articles", ["criminal_code_id"], name: "index_articles_on_criminal_code_id"
+  add_index "articles", ["number"], name: "index_articles_on_number"
 
   create_table "charges", force: true do |t|
     t.integer  "incident_id"
@@ -52,6 +53,8 @@ ActiveRecord::Schema.define(version: 20150210094835) do
     t.datetime "updated_at"
   end
 
+  add_index "incidents", ["date_of_arrest"], name: "index_incidents_on_date_of_arrest"
+  add_index "incidents", ["date_of_release"], name: "index_incidents_on_date_of_release"
   add_index "incidents", ["prison_id"], name: "index_incidents_on_prison_id"
   add_index "incidents", ["prisoner_id"], name: "index_incidents_on_prisoner_id"
   add_index "incidents", ["subtype_id"], name: "index_incidents_on_subtype_id"
@@ -75,6 +78,8 @@ ActiveRecord::Schema.define(version: 20150210094835) do
     t.datetime "portrait_updated_at"
   end
 
+  add_index "prisoners", ["name"], name: "index_prisoners_on_name"
+
   create_table "prisons", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -82,11 +87,15 @@ ActiveRecord::Schema.define(version: 20150210094835) do
     t.text     "description"
   end
 
+  add_index "prisons", ["name"], name: "index_prisons_on_name"
+
   create_table "roles", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "roles", ["name"], name: "index_roles_on_name"
 
   create_table "tags", force: true do |t|
     t.string   "name"
@@ -94,6 +103,8 @@ ActiveRecord::Schema.define(version: 20150210094835) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "tags", ["name"], name: "index_tags_on_name"
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

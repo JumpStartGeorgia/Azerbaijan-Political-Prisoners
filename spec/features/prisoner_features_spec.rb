@@ -39,5 +39,7 @@ RSpec.describe "Prisoner", :type => :feature do
     end
 
     click_button 'Create Prisoner'
+    expect(page).to have_content('Prisoner was successfully created.')
+
   end
 end

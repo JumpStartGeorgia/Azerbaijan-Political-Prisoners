@@ -5,5 +5,5 @@ class Incident < ActiveRecord::Base
   has_many :charges, dependent: :destroy
   has_many :articles, through: :charges
 
-  validates :prisoner_id, :date_of_arrest, presence: true
+  validates :date_of_arrest, presence: true
 end

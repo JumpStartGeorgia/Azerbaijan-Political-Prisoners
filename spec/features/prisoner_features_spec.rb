@@ -26,6 +26,7 @@ RSpec.describe "Prisoner", :type => :feature do
   end
 
   it "can be created using new form and then updated using edit form", js: true do
+    Rails.logger.debug('failing test!')
     login_as(@user, scope: :user)
 
     visit new_prisoner_path

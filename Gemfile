@@ -61,6 +61,7 @@ gem 'capybara', '~> 2.4.4'
 gem 'launchy', '~> 2.4.3'
 gem 'selenium-webdriver', '~> 2.44.0'
 gem 'capybara-screenshot', '~> 1.0.4', :group => :test
+gem 'thin', '~> 1.6.3'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.1.0'

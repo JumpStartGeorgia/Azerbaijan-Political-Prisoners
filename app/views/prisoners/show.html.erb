@@ -9,7 +9,7 @@
           <dt><strong><%= model_class.human_attribute_name(:date_of_arrest) %>:</strong></dt>
           <dd><%= incident.date_of_arrest.strftime('%B %d, %Y') %></dd>
           <dt><strong><%= model_class.human_attribute_name(:description_of_arrest) %>:</strong></dt>
-          <dd><%= simple_format(incident.description_of_arrest) %></dd>
+          <dd><%= simple_format(incident.description_of_arrest) if incident.description_of_arrest.present? %></dd>
           <dt><strong><%= model_class.human_attribute_name(:tags) %>:</strong></dt>
           <dd>
             <ul>
@@ -39,7 +39,7 @@
                   end %>
           </dd>
           <dt><strong><%= model_class.human_attribute_name(:description_of_release) %>:</strong></dt>
-          <dd><%= simple_format(incident.description_of_release) %></dd>
+          <dd><%= simple_format(incident.description_of_release) if incident.description_of_release.present? %></dd>
       </dl>
     </div>
 <% end %>

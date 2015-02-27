@@ -31,7 +31,7 @@ class Prisoner < ActiveRecord::Base
   private
 
   def self.currently_imprisoned_ids
-    return find_by_sql("select prisoner_id, max(date_of_arrest) from incidents where date_of_release is null group by prisoner_id")
+    return where(currently_imprisoned: true)
   end
 
   def update_currently_imprisoned

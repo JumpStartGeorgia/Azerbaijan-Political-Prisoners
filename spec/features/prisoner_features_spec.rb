@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Prisoner new view", :type => :feature do
+RSpec.describe "Prisoner", :type => :feature do
   before(:example) do
     @role = FactoryGirl.create(:role, name: 'user_manager')
     @user = FactoryGirl.create(:user, role: @role)
@@ -23,5 +23,21 @@ RSpec.describe "Prisoner new view", :type => :feature do
       click_button 'Create Prisoner'
       expect(page).to have_selector('.mce-tinymce', :count => 2)
     end
+  end
+
+  it "can be created using new form and then updated using edit form", js: true do
+    login_as(@user, scope: :user)
+
+    visit new_prisoner_path
+    within('.inputs') do
+      fill_in 'Name', :with => 'Bob Jones'
+    end
+
+    click_link 'Add New Incident'
+    within('.nested-fields') do
+      fill_in 'Date of arrest', :with => '02/09/2015'
+    end
+
+    click_button 'Create Prisoner'
   end
 end

@@ -37,7 +37,7 @@ class Prisoner < ActiveRecord::Base
   def update_currently_imprisoned
     latest_incident = self.incidents.order("date_of_arrest").last
 
-    if !latest_incident.nil? && !latest_incident.empty?
+    if !latest_incident.nil?
       if latest_incident.date_of_release.present?
         self.update_column(:currently_imprisoned, false)
       else

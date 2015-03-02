@@ -26,6 +26,10 @@ RSpec.describe 'Home page', type: :feature do
     p5.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2008, 12, 5), date_of_release: Date.new(2009, 12, 8))
     p5.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2010, 12, 5), date_of_release: Date.new(2013, 12, 8))
     p5.run_callbacks(:commit)
+
+    # Prisoner with no incidents
+    p6 = FactoryGirl.create(:prisoner)
+    p6.run_callbacks(:commit)
   end
 
   it "displays the correct number of currently imprisoned prisoners" do

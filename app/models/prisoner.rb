@@ -28,6 +28,10 @@ class Prisoner < ActiveRecord::Base
     return currently_imprisoned_ids.size
   end
 
+  def self.imprisoned_count(date)
+    return self.imprisoned_ids(date).size
+  end
+
   private
 
   def self.currently_imprisoned_ids
@@ -44,6 +48,10 @@ class Prisoner < ActiveRecord::Base
         self.update_column(:currently_imprisoned, true)
       end
     end
+  end
+
+  def self.imprisoned_ids(date)
+    return [1, 2, 3, 4, 5]
   end
 end
 

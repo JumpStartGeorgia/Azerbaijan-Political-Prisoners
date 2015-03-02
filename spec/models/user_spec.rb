@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe User, :type => :model do
+  it "with non-unique email cannot be saved" do
+    FactoryGirl.create(:user, email: 'unique@azeri.com')
+    user2 = FactoryGirl.build(:user, email: 'unique@azeri.com')
+    expect { user2.save! }.to raise_error
+  end
+
   describe "with email, password and role" do
     it "is valid" do
       user_manager_user = FactoryGirl.build(:user)

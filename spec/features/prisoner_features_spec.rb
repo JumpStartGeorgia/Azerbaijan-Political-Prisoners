@@ -26,7 +26,8 @@ RSpec.describe "Prisoner", :type => :feature do
   end
 
   it "can be created using new form and then updated using edit form", js: true do
-    Rails.logger.debug('failing test!')
+    FactoryGirl.create(:prison, name: 'prison#1')
+
     login_as(@user, scope: :user)
 
     visit new_prisoner_path
@@ -41,6 +42,14 @@ RSpec.describe "Prisoner", :type => :feature do
 
     click_button 'Create Prisoner'
     expect(page).to have_content('Prisoner was successfully created.')
+
+    click_link 'Edit'
+    within('.nested-fields') do
+      select('prison#1', :from => 'Prison')
+      fill_in 'Date of release', with: '02/10/2015'
+    end
+    click_button 'Update Prisoner'
+    expect(page).to have_content("Prisoner was successfully updated.")
 
   end
 end

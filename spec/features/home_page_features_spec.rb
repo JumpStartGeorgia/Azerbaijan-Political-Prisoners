@@ -3,20 +3,20 @@ require 'rails_helper'
 RSpec.describe 'Home page', type: :feature do
   before(:context) do
     # Two prisoners, each with one incident and no date of release
-    p1 = FactoryGirl.create(:prisoner_with_incidents)
+    p1 = FactoryGirl.create(:prisoner_with_incidents, date_of_arrest: Date.new(2012, 1, 1))
     p1.run_callbacks(:commit)
-    p2 = FactoryGirl.create(:prisoner_with_incidents)
+    p2 = FactoryGirl.create(:prisoner_with_incidents, date_of_arrest: Date.new(2012, 1, 1))
     p2.run_callbacks(:commit)
 
     # Prisoner with two incidents, first has date of release and second does not
     p3 = FactoryGirl.create(:prisoner)
-    p3.incidents << FactoryGirl.create(:incident, date_of_release: Date.new(2013, 2, 11))
+    p3.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2011, 3, 4), date_of_release: Date.new(2013, 2, 11))
     p3.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2014, 1, 1))
     p3.run_callbacks(:commit)
 
     # Prisoner with two incidents, both of which have date of release
     p4 = FactoryGirl.create(:prisoner)
-    p4.incidents << FactoryGirl.create(:incident, date_of_release: Date.new(2014, 12, 3))
+    p4.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2009, 8, 5), date_of_release: Date.new(2014, 12, 3))
     p4.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2014, 12, 5), date_of_release: Date.new(2014, 12, 8))
     p4.run_callbacks(:commit)
 

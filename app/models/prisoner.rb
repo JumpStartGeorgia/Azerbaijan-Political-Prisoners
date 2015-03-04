@@ -32,6 +32,16 @@ class Prisoner < ActiveRecord::Base
     return imprisoned_ids(date).size
   end
 
+  def self.imprisoned_counts_over_time
+    all_incident_dates = find_by_sql("select date_of_arrest, date_of_release from incidents")
+    imprisoned_incidents = []
+    (Date.new(2007, 01, 01).to_date..Date.today).each do |date|
+      imprisoned_incidents.append([Time.parse(date.to_s).utc.to_i*1000, all_incident_dates.select{ |x| x.date_of_arrest.to_date < date }.count])
+    end
+
+    return imprisoned_incidents
+  end
+
   private
 
   def self.currently_imprisoned_ids

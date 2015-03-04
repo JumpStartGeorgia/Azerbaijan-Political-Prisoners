@@ -3,26 +3,24 @@ $(document).ready(function() {
         $(function () {
             $('#container').highcharts({
                 chart: {
-                    zoomtype: 'x'
+                    zoomType: 'x'
                 },
                 title: {
                     text: 'Number of People Imprisoned in Azerbaijan for Political Purposes'
                 },
                 xAxis: {
-                    categories: 'datetime'
-
+                    type: 'datetime',
+                    minRange: 14 * 24 * 3600000 // fourteen days
                 },
                 yAxis: {
                     title: {
-                        text: 'Number of Imprisoned'
-                    }
+                        text: 'Number of Political Prisoners'
+                    },
+                    min: 0
                 },
                 series: [{
-                    name: 'Jane',
-                    data: [1, 0, 4]
-                }, {
-                    name: 'John',
-                    data: [5, 7, 3]
+                    name: 'Number of Political Prisoners',
+                    data: gon.imprisoned_counts_over_time
                 }]
             });
         });

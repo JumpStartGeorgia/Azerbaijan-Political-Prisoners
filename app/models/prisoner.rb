@@ -33,11 +33,11 @@ class Prisoner < ActiveRecord::Base
   end
 
   def self.imprisoned_counts_over_time
-    incidents = Incident.select(:date_of_arrest, :date_of_release, :id).map{ |x| [Time.parse(x.date_of_arrest.to_s).utc.to_i*1000, x.date_of_release.nil? ? nil : Time.parse(x.date_of_release.to_s).utc.to_i*1000] }
+    incidents = Incident.select(:date_of_arrest, :date_of_release, :id).map{ |x| [convert_date_to_utc(x.date_of_arrest), x.date_of_release.nil? ? nil : convert_date_to_utc(x.date_of_release)] }
 
     dates_and_counts = []
     (Date.new(2007, 01, 01).to_date..Date.today).each do |date|
-      dates_and_counts.append([Time.parse(date.to_s).utc.to_i*1000, 0])
+      dates_and_counts.append([convert_date_to_utc(date), 0])
     end
 
     incidents.each do |incident|
@@ -61,6 +61,10 @@ class Prisoner < ActiveRecord::Base
   end
 
   private
+
+  def self.convert_date_to_utc date
+    Time.parse(date.to_s).utc.to_i*1000
+  end
 
   def self.currently_imprisoned_ids
     return where(currently_imprisoned: true)

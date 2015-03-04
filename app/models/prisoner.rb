@@ -39,7 +39,7 @@ class Prisoner < ActiveRecord::Base
     imprisoned_count = 0
     arrest_counts_by_day_within_timeline_period = []
 
-    # Deal with arrests before starting date of timeline
+    # Add number of arrests before starting date of timeline to prisoner count
     arrest_counts_by_day.each_with_index do |arrest_day_and_count, index|
       if Date.new(arrest_day_and_count[:year].to_i, arrest_day_and_count[:month].to_i, arrest_day_and_count[:day].to_i) < timeline_starting_date
         imprisoned_count += arrest_day_and_count["count(*)"].to_i

@@ -33,28 +33,33 @@ class Prisoner < ActiveRecord::Base
   end
 
   def self.imprisoned_counts_over_time
-    incidents = Incident.select(:date_of_arrest, :date_of_release, :id).map{ |x| [convert_date_to_utc(x.date_of_arrest), x.date_of_release.nil? ? nil : convert_date_to_utc(x.date_of_release)] }
-
+    arrest_counts_by_day = self.arrest_counts_by_day
+    timeline_starting_date = Date.new(2007,01,01).to_date
     dates_and_counts = []
-    (Date.new(2007, 01, 01).to_date..Date.today).each do |date|
-      dates_and_counts.append([convert_date_to_utc(date), 0])
+    imprisoned_count = 0
+    arrest_counts_by_day_within_timeline_period = []
+
+    # Deal with arrests before starting date of timeline
+    arrest_counts_by_day.each_with_index do |arrest_day_and_count, index|
+      if Date.new(arrest_day_and_count[:year].to_i, arrest_day_and_count[:month].to_i, arrest_day_and_count[:day].to_i) < timeline_starting_date
+        imprisoned_count += arrest_day_and_count["count(*)"].to_i
+      else
+        arrest_counts_by_day_within_timeline_period = arrest_counts_by_day.slice(index, arrest_counts_by_day.size)
+        break
+      end
     end
 
-    incidents.each do |incident|
-      arrest_index = dates_and_counts.index{|date| date[0] == incident[0]}
-      release_index = incident[1].nil? ? nil : dates_and_counts.index{|date| date[0] == incident[1]}
+    # Iterate through all days in timeline. If there were arrests on a certain day, increase the imprisoned count for that day and all following days by that number of arrests
+    (timeline_starting_date..Date.today).each do |date|
+      arrest_day_and_count = arrest_counts_by_day_within_timeline_period[0]
+      arrest_day = arrest_day_and_count.nil? ? nil : Date.new(arrest_day_and_count[:year].to_i, arrest_day_and_count[:month].to_i, arrest_day_and_count[:day].to_i)
 
-      if arrest_index.nil? # If prisoner was arrested before beginning date of timeline
-        arrest_index = 0
+      if arrest_day != nil && arrest_day == date
+        imprisoned_count += arrest_day_and_count["count(*)"].to_i
+        arrest_counts_by_day_within_timeline_period = arrest_counts_by_day_within_timeline_period.drop(1)
       end
 
-      if release_index.nil? # If prisoner has not been released yet
-        release_index = dates_and_counts.size - 1
-      end
-
-      dates_and_counts.slice(arrest_index, release_index + 1).each do |date|
-        date[1] += 1
-      end
+      dates_and_counts.append([convert_date_to_utc(date), imprisoned_count])
     end
 
     return dates_and_counts
@@ -80,6 +85,10 @@ class Prisoner < ActiveRecord::Base
         self.update_column(:currently_imprisoned, true)
       end
     end
+  end
+
+  def self.arrest_counts_by_day
+    return find_by_sql("select strftime('%Y', date_of_arrest) as year, strftime('%m', date_of_arrest) as month, strftime('%d', date_of_arrest) as day, count(*) from incidents group by strftime('%Y', date_of_arrest), strftime('%m', date_of_arrest), strftime('%d', date_of_arrest) order by year, month, day;")
   end
 
   def self.imprisoned_ids(date)

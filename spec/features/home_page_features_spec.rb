@@ -3,9 +3,12 @@ require 'rails_helper'
 RSpec.describe 'Home page', type: :feature do
   before(:context) do
     # Two prisoners, each with one incident and no date of release
-    p1 = FactoryGirl.create(:prisoner_with_incidents, date_of_arrest: Date.new(2012, 1, 1))
+    p1 = FactoryGirl.create(:prisoner)
+    p1.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 1))
     p1.run_callbacks(:commit)
-    p2 = FactoryGirl.create(:prisoner_with_incidents, date_of_arrest: Date.new(2012, 1, 1))
+
+    p2 = FactoryGirl.create(:prisoner)
+    p2.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 1))
     p2.run_callbacks(:commit)
 
     # Prisoner with two incidents, first has date of release and second does not

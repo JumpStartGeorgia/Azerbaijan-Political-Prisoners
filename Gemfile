@@ -55,6 +55,7 @@ gem 'twitter-bootstrap-rails', '~> 3.2.0'
 gem 'formtastic-bootstrap', '~> 3.1.0'
 gem 'devise', '~> 3.4.1'
 gem 'cancancan', '~> 1.10.1'
+gem 'highcharts-rails', '~> 4.0.4'
 
 gem 'rack-test', '0.6.2'
 gem 'capybara', '~> 2.4.4'

@@ -19,6 +19,7 @@
 //= require cocoon
 //= require tinymce
 //= require select2.min
+//= require highcharts
 //= require bootstrap
 //= require_tree .
 

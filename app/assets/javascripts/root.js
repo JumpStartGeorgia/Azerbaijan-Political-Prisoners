@@ -8,6 +8,11 @@ $(document).ready(function() {
                 title: {
                     text: 'Number of People Imprisoned in Azerbaijan for Political Purposes'
                 },
+                subtitle: {
+                    text: document.ontouchstart === undefined ?
+                        'Click and drag in the plot area to zoom in' :
+                        'Pinch the chart to zoom in'
+                },
                 xAxis: {
                     type: 'datetime',
                     minRange: 14 * 24 * 3600000 // fourteen days

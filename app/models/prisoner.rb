@@ -29,7 +29,7 @@ class Prisoner < ActiveRecord::Base
   end
 
   def self.imprisoned_count(date)
-    return self.imprisoned_ids(date).size
+    return imprisoned_ids(date).size
   end
 
   private
@@ -51,7 +51,7 @@ class Prisoner < ActiveRecord::Base
   end
 
   def self.imprisoned_ids(date)
-    return [1, 2, 3, 4, 5]
+    return find_by_sql("select prisoner_id from incidents where date_of_arrest < '" + date.strftime("%Y-%m-%d") + "' group by prisoner_id")
   end
 end
 

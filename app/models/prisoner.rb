@@ -33,13 +33,31 @@ class Prisoner < ActiveRecord::Base
   end
 
   def self.imprisoned_counts_over_time
-    all_incident_dates = find_by_sql("select date_of_arrest, date_of_release from incidents")
-    imprisoned_incidents = []
+    incidents = Incident.select(:date_of_arrest, :date_of_release, :id).map{ |x| [Time.parse(x.date_of_arrest.to_s).utc.to_i*1000, x.date_of_release.nil? ? nil : Time.parse(x.date_of_release.to_s).utc.to_i*1000] }
+
+    dates_and_counts = []
     (Date.new(2007, 01, 01).to_date..Date.today).each do |date|
-      imprisoned_incidents.append([Time.parse(date.to_s).utc.to_i*1000, all_incident_dates.select{ |x| x.date_of_arrest.to_date < date }.count])
+      dates_and_counts.append([Time.parse(date.to_s).utc.to_i*1000, 0])
     end
 
-    return imprisoned_incidents
+    incidents.each do |incident|
+      arrest_index = dates_and_counts.index{|date| date[0] == incident[0]}
+      release_index = incident[1].nil? ? nil : dates_and_counts.index{|date| date[0] == incident[1]}
+
+      if arrest_index.nil? # If prisoner was arrested before beginning date of timeline
+        arrest_index = 0
+      end
+
+      if release_index.nil? # If prisoner has not been released yet
+        release_index = dates_and_counts.size - 1
+      end
+
+      dates_and_counts.slice(arrest_index, release_index + 1).each do |date|
+        date[1] += 1
+      end
+    end
+
+    return dates_and_counts
   end
 
   private

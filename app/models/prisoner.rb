@@ -49,7 +49,7 @@ class Prisoner < ActiveRecord::Base
       end
     end
 
-    # Iterate through all days in timeline. If there were arrests on a certain day, increase the imprisoned count for that day and all following days by that number of arrests
+    # Iterate through all days in timeline. If there are arrests on a certain day, increase the imprisoned count for that day and all following days by that number of arrests
     (timeline_starting_date..Date.today).each do |date|
       if arrest_counts_by_day_within_timeline_period.size > 0
         arrest_day_and_count = arrest_counts_by_day_within_timeline_period[0]

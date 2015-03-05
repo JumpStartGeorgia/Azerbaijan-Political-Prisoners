@@ -37,48 +37,52 @@ class Prisoner < ActiveRecord::Base
     imprisoned_count = 0
 
     arrest_counts_by_day = self.arrest_counts_by_day
-    arrest_counts_by_day_within_timeline_period = []
+    arrest_counts_by_day_within_timeline = []
 
     # Add number of arrests before starting date of timeline to prisoner count
     arrest_counts_by_day.each_with_index do |arrest_day_and_count, index|
-      if Date.new(arrest_day_and_count[:year].to_i, arrest_day_and_count[:month].to_i, arrest_day_and_count[:day].to_i) < timeline_starting_date
+      if create_date_from_hash(arrest_day_and_count) < timeline_starting_date
         imprisoned_count += arrest_day_and_count["count(*)"].to_i
       else
-        arrest_counts_by_day_within_timeline_period = arrest_counts_by_day.slice(index, arrest_counts_by_day.size)
+        arrest_counts_by_day_within_timeline = arrest_counts_by_day.slice(index, arrest_counts_by_day.size)
         break
       end
     end
 
     release_counts_by_day = self.release_counts_by_day
-    release_counts_by_day_within_timeline_period = []
+    release_counts_by_day_within_timeline = []
 
     # Subtract number of arrests before starting date of timeline to prisoner count
     release_counts_by_day.each_with_index do |release_day_and_count, index|
-      release_day = Date.new(release_day_and_count[:year].to_i, release_day_and_count[:month].to_i, release_day_and_count[:day].to_i)
-
-      if release_day < timeline_starting_date
+      if create_date_from_hash(release_day_and_count) < timeline_starting_date
         imprisoned_count -= release_day_and_count["count(*)"].to_i
       else
-        release_counts_by_day_within_timeline_period = release_counts_by_day.slice(index, release_counts_by_day.size)
+        release_counts_by_day_within_timeline = release_counts_by_day.slice(index, release_counts_by_day.size)
         break
       end
     end
 
-
-
-
-
-    # Iterate through all days in timeline. If there are arrests on a certain day, increase the imprisoned count for that day and all following days by that number. If there are releases on a certain day, decrease the imprisoned count for that day and all following days by that number.
-
     dates_and_counts = []
-    (timeline_starting_date..Date.today).each do |date|
-      if arrest_counts_by_day_within_timeline_period.size > 0
-        arrest_day_and_count = arrest_counts_by_day_within_timeline_period[0]
-        arrest_day = Date.new(arrest_day_and_count[:year].to_i, arrest_day_and_count[:month].to_i, arrest_day_and_count[:day].to_i)
 
-        if arrest_day == date
+    # Iterate through all days in timeline.
+    (timeline_starting_date..Date.today).each do |date|
+      # If there are arrests on a certain day, increase the imprisoned count for that day and all following days by that number.
+      if arrest_counts_by_day_within_timeline.size > 0
+        arrest_day_and_count = arrest_counts_by_day_within_timeline[0]
+
+        if create_date_from_hash(arrest_day_and_count) == date
           imprisoned_count += arrest_day_and_count["count(*)"].to_i
-          arrest_counts_by_day_within_timeline_period = arrest_counts_by_day_within_timeline_period.drop(1)
+          arrest_counts_by_day_within_timeline = arrest_counts_by_day_within_timeline.drop(1)
+        end
+      end
+
+      # If there are releases on a certain day, decrease the imprisoned count for that day and all following days by that number.
+      if release_counts_by_day_within_timeline.size > 0
+        release_day_and_count = release_counts_by_day_within_timeline[0]
+
+        if create_date_from_hash(release_day_and_count) == date
+          imprisoned_count -= release_day_and_count["count(*)"].to_i
+          release_counts_by_day_within_timeline = release_counts_by_day_within_timeline.drop(1)
         end
       end
 
@@ -89,6 +93,10 @@ class Prisoner < ActiveRecord::Base
   end
 
   private
+
+  def self.create_date_from_hash hash
+    return Date.new(hash[:year].to_i, hash[:month].to_i, hash[:day].to_i)
+  end
 
   def self.convert_date_to_utc date
     Time.parse(date.to_s).utc.to_i*1000

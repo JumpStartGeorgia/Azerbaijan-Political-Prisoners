@@ -3,7 +3,15 @@ $(document).ready(function() {
         $(function () {
             $('#container').highcharts({
                 chart: {
-                    zoomType: 'x'
+                    zoomType: 'x',
+                    resetZoomButton: {
+                        position: {
+                            align: 'left',
+                            verticalAlign: 'top',
+                            x: 10,
+                            y: 10
+                        }
+                    }
                 },
                 title: {
                     text: 'Number of People Imprisoned in Azerbaijan for Political Purposes'

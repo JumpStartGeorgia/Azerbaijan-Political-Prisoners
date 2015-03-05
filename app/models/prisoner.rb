@@ -32,8 +32,7 @@ class Prisoner < ActiveRecord::Base
     return imprisoned_ids(date).size
   end
 
-  def self.imprisoned_counts_over_time
-    timeline_starting_date = Date.new(2007,01,01).to_date
+  def self.imprisoned_counts_from_date_to_today starting_date
     imprisoned_count = 0
 
     arrest_counts_by_day = self.arrest_counts_by_day
@@ -41,7 +40,7 @@ class Prisoner < ActiveRecord::Base
 
     # Add number of arrests before starting date of timeline to prisoner count
     arrest_counts_by_day.each_with_index do |arrest_day_and_count, index|
-      if create_date_from_hash(arrest_day_and_count) < timeline_starting_date
+      if create_date_from_hash(arrest_day_and_count) < starting_date
         imprisoned_count += arrest_day_and_count["count(*)"].to_i
       else
         arrest_counts_by_day_within_timeline = arrest_counts_by_day.slice(index, arrest_counts_by_day.size)
@@ -54,7 +53,7 @@ class Prisoner < ActiveRecord::Base
 
     # Subtract number of arrests before starting date of timeline to prisoner count
     release_counts_by_day.each_with_index do |release_day_and_count, index|
-      if create_date_from_hash(release_day_and_count) < timeline_starting_date
+      if create_date_from_hash(release_day_and_count) < starting_date
         imprisoned_count -= release_day_and_count["count(*)"].to_i
       else
         release_counts_by_day_within_timeline = release_counts_by_day.slice(index, release_counts_by_day.size)
@@ -65,7 +64,7 @@ class Prisoner < ActiveRecord::Base
     dates_and_counts = []
 
     # Iterate through all days in timeline.
-    (timeline_starting_date..Date.today).each do |date|
+    (starting_date..Date.today).each do |date|
       # If there are arrests on a certain day, increase the imprisoned count for that day and all following days by that number.
       if arrest_counts_by_day_within_timeline.size > 0
         arrest_day_and_count = arrest_counts_by_day_within_timeline[0]

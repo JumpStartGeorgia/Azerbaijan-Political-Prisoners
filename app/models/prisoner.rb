@@ -1,5 +1,6 @@
 class Prisoner < ActiveRecord::Base
   after_commit :update_currently_imprisoned
+  after_commit :delete_imprisoned_count_timeline_json
 
   has_many :incidents, inverse_of: :prisoner
   has_attached_file :portrait, :styles => { :medium => "200x200>" }, :default_url => ":style/missing.png"
@@ -121,6 +122,11 @@ class Prisoner < ActiveRecord::Base
         self.update_column(:currently_imprisoned, true)
       end
     end
+  end
+
+  def delete_imprisoned_count_timeline_json
+    path = Rails.public_path.join("imprisoned_count_timeline.json")
+    File.delete(path) if File.exists?(path)
   end
 
   def self.arrest_counts_by_day

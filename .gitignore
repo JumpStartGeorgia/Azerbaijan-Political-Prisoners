@@ -15,9 +15,9 @@
 /log/*.log
 /tmp
 
-# Ignore prisoner portraits in file system
+# Ignore files in public folder
 /public/system/prisoners/portraits
-
+/public/imprisoned_count_timeline.json
 
 # ADDED FOR lib/prisonersPdfParser
 lib/aug2014PdfParser/output/*

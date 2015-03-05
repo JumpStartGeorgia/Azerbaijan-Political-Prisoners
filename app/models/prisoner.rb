@@ -32,6 +32,12 @@ class Prisoner < ActiveRecord::Base
     return imprisoned_ids(date).size
   end
 
+  def self.generate_imprisoned_count_timeline_json
+    File.open(Rails.public_path.join("imprisoned_count_timeline.json"), "w") do |f|
+      f.write({}.to_json)
+    end
+  end
+
   def self.imprisoned_counts_from_date_to_today starting_date
     imprisoned_count = 0
 

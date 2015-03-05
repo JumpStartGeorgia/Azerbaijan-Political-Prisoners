@@ -15,7 +15,7 @@ var addSelect2 = function() {
 }
 
 var addDatePickers = function() {
-    $('.date_of_arrest_select, .date_of_release_select').datepicker();
+    $('.date_of_arrest_select, .date_of_release_select').datepicker({ dateFormat: 'yy-mm-dd'});
 }
 
 $(document).on('page:receive', function() {

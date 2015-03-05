@@ -33,10 +33,10 @@ class Prisoner < ActiveRecord::Base
   end
 
   def self.imprisoned_counts_over_time
-    arrest_counts_by_day = self.arrest_counts_by_day
     timeline_starting_date = Date.new(2007,01,01).to_date
-    dates_and_counts = []
     imprisoned_count = 0
+
+    arrest_counts_by_day = self.arrest_counts_by_day
     arrest_counts_by_day_within_timeline_period = []
 
     # Add number of arrests before starting date of timeline to prisoner count
@@ -49,7 +49,28 @@ class Prisoner < ActiveRecord::Base
       end
     end
 
-    # Iterate through all days in timeline. If there are arrests on a certain day, increase the imprisoned count for that day and all following days by that number of arrests
+    release_counts_by_day = self.release_counts_by_day
+    release_counts_by_day_within_timeline_period = []
+
+    # Subtract number of arrests before starting date of timeline to prisoner count
+    release_counts_by_day.each_with_index do |release_day_and_count, index|
+      release_day = Date.new(release_day_and_count[:year].to_i, release_day_and_count[:month].to_i, release_day_and_count[:day].to_i)
+
+      if release_day < timeline_starting_date
+        imprisoned_count -= release_day_and_count["count(*)"].to_i
+      else
+        release_counts_by_day_within_timeline_period = release_counts_by_day.slice(index, release_counts_by_day.size)
+        break
+      end
+    end
+
+
+
+
+
+    # Iterate through all days in timeline. If there are arrests on a certain day, increase the imprisoned count for that day and all following days by that number. If there are releases on a certain day, decrease the imprisoned count for that day and all following days by that number.
+
+    dates_and_counts = []
     (timeline_starting_date..Date.today).each do |date|
       if arrest_counts_by_day_within_timeline_period.size > 0
         arrest_day_and_count = arrest_counts_by_day_within_timeline_period[0]
@@ -91,6 +112,14 @@ class Prisoner < ActiveRecord::Base
 
   def self.arrest_counts_by_day
     return find_by_sql("select strftime('%Y', date_of_arrest) as year, strftime('%m', date_of_arrest) as month, strftime('%d', date_of_arrest) as day, count(*) from incidents group by strftime('%Y', date_of_arrest), strftime('%m', date_of_arrest), strftime('%d', date_of_arrest) order by year, month, day;")
+  end
+
+  def self.release_counts_by_day
+    release_counts_by_day = find_by_sql("select strftime('%Y', date_of_release) as year, strftime('%m', date_of_release) as month, strftime('%d', date_of_release) as day, count(*) from incidents group by strftime('%Y', date_of_release), strftime('%m', date_of_release), strftime('%d', date_of_release) order by year, month, day;")
+
+    # If one or more incidents have no dates of release, then the first item in the array will have nil year, nil month and nil day. If that is the case, drop the first item
+    release_counts_by_day = release_counts_by_day[0][:year].nil? ? release_counts_by_day.drop(1) : release_counts_by_day
+    return release_counts_by_day
   end
 
   def self.imprisoned_ids(date)

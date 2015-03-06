@@ -103,11 +103,12 @@ class Prisoner < ActiveRecord::Base
   private
 
   def new_incident_must_follow_release
-    all_incidents_but_last = self.incidents.slice(0, incidents.size - 1)
-    Rails.logger.debug(all_incidents_but_last.size.to_s)
-    all_incidents_but_last.each do |incident|
-      if !incident.date_of_release.present?
-        errors.add(:prisoner_id, ": All incidents but the last must have dates of release.")
+    if self.incidents.present?
+      all_incidents_but_last = self.incidents.slice(0, incidents.size - 1)
+      all_incidents_but_last.each do |incident|
+        if !incident.date_of_release.present?
+          errors.add(:prisoner_id, ": All incidents but the last must have dates of release.")
+        end
       end
     end
   end

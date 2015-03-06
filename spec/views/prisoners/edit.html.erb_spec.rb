@@ -12,7 +12,9 @@ RSpec.describe "prisoners/edit", :type => :view do
 
   describe 'for prisoner with two incidents' do
     before(:each) do
-      @prisoner = assign(:prisoner, FactoryGirl.create(:prisoner_with_incidents, incidents_count: 2))
+      @prisoner = assign(:prisoner, FactoryGirl.create(:prisoner_with_incidents))
+      @prisoner.incidents << FactoryGirl.create(:incident, date_of_release: Date.new(2013, 1, 1))
+      @prisoner.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2014, 1, 1))
     end
 
     it "renders _incident_fields partial for both incidents, plus one time in cocoon's data-association-insertion-template attribute" do

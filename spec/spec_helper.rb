@@ -92,12 +92,6 @@ RSpec.configure do |config|
   Warden.test_mode!
 
   config.before(:suite) do
-    begin
-      FactoryGirl.lint
-    end
-  end
-
-  config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
   end
 
@@ -115,6 +109,15 @@ RSpec.configure do |config|
 
   config.after(:each) do
     DatabaseCleaner.clean
+  end
+
+  config.before(:suite) do
+    begin
+      DatabaseCleaner.start
+      FactoryGirl.lint
+    ensure
+      DatabaseCleaner.clean
+    end
   end
 
   config.before(:suite) do

@@ -121,14 +121,10 @@ class Prisoner < ActiveRecord::Base
       end
 
       # Ensure last date occurs before today
-      if self.incidents.last.date_of_release.present?
-        if self.incidents.last.date_of_release > Date.today
-          errors.add(:date_of_release, "The last incident's date of release must be before today")
-        end
-      else
-        if self.incidents.last.date_of_arrest > Date.today
-          errors.add(:date_of_arrest, "The last incident's date of arrest must be before today")
-        end
+      if self.incidents.last.date_of_release.present? && self.incidents.last.date_of_release > Date.today
+        errors.add(:date_of_release, "The last incident's date of release must be before today")
+      elsif self.incidents.last.date_of_arrest.present? && self.incidents.last.date_of_arrest > Date.today
+        errors.add(:date_of_arrest, "The last incident's date of arrest must be before today")
       end
     end
   end

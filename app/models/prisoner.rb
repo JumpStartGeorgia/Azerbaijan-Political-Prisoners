@@ -7,7 +7,7 @@ class Prisoner < ActiveRecord::Base
   validates_attachment :portrait, content_type: { content_type: /\Aimage\/.*\Z/ }
   accepts_nested_attributes_for :incidents, :allow_destroy => true
   validates :name, presence: true
-  validate :new_incident_must_follow_release
+  validate :all_incidents_released_but_last
 
 
   def self.by_tag(tag_id)
@@ -102,7 +102,7 @@ class Prisoner < ActiveRecord::Base
 
   private
 
-  def new_incident_must_follow_release
+  def all_incidents_released_but_last
     if self.incidents.present?
       all_incidents_but_last = self.incidents.slice(0, incidents.size - 1)
       all_incidents_but_last.each do |incident|

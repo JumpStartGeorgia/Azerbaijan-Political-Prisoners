@@ -37,7 +37,7 @@ RSpec.describe "Prisoner", :type => :feature do
 
     click_link 'Add New Incident'
     within('.nested-fields') do
-      fill_in 'Date of arrest', :with => '02/09/2015'
+      fill_in 'Date of arrest', :with => '2015-02-09'
     end
 
     click_button 'Create Prisoner'
@@ -46,7 +46,7 @@ RSpec.describe "Prisoner", :type => :feature do
     click_link 'Edit'
     within('.nested-fields') do
       select('prison#1', :from => 'Prison')
-      fill_in 'Date of release', with: '02/10/2015'
+      fill_in 'Date of release', with: '2015-02-10'
     end
     click_button 'Update Prisoner'
     expect(page).to have_content("Prisoner was successfully updated.")

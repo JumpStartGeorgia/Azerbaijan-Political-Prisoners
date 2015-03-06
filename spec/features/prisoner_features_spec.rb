@@ -50,6 +50,5 @@ RSpec.describe "Prisoner", :type => :feature do
     end
     click_button 'Update Prisoner'
     expect(page).to have_content("Prisoner was successfully updated.")
-
   end
 end

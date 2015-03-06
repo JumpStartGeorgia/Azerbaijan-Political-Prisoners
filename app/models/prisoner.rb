@@ -8,7 +8,7 @@ class Prisoner < ActiveRecord::Base
   accepts_nested_attributes_for :incidents, :allow_destroy => true
   validates :name, presence: true
   validate :all_incidents_released_but_last
-
+  validate :incident_dates
 
   def self.by_tag(tag_id)
     return Prisoner.joins(:incidents => :tags).where(tags:{id: tag_id})
@@ -102,12 +102,32 @@ class Prisoner < ActiveRecord::Base
 
   private
 
+  def incident_dates
+    if self.incidents.present?
+      self.incidents.each_with_index do |incident, index|
+        if incident.date_of_release.present?
+          if incident.date_of_arrest > incident.date_of_release
+            errors.add(:incident_id, "Date of arrest cannot be after date of release")
+          end
+
+
+          next_incident = self.incidents[index + 1]
+          if !next_incident.nil?
+            if incident.date_of_release > next_incident.date_of_arrest
+              errors.add(:incident_id, "Date of arrest must occur after date of release of previous incident")
+            end
+          end
+        end
+      end
+    end
+  end
+
   def all_incidents_released_but_last
     if self.incidents.present?
       all_incidents_but_last = self.incidents.slice(0, incidents.size - 1)
       all_incidents_but_last.each do |incident|
         if !incident.date_of_release.present?
-          errors.add(:prisoner_id, ": All incidents but the last must have dates of release.")
+          errors.add(:prisoner_id, ": All incidents but the last must have dates of release")
         end
       end
     end
@@ -157,5 +177,6 @@ class Prisoner < ActiveRecord::Base
   def self.imprisoned_ids(date)
     return find_by_sql("select prisoner_id from incidents where date_of_arrest < '" + date.strftime("%Y-%m-%d") + "' group by prisoner_id")
   end
+
 end
 

@@ -8,7 +8,7 @@ class Prisoner < ActiveRecord::Base
   accepts_nested_attributes_for :incidents, :allow_destroy => true
   validates :name, presence: true
   validate :all_incidents_released_but_last
-  validate :incident_dates
+  validate :validate_incident_dates
 
   def self.by_tag(tag_id)
     return Prisoner.joins(:incidents => :tags).where(tags:{id: tag_id})
@@ -102,14 +102,14 @@ class Prisoner < ActiveRecord::Base
 
   private
 
-  def incident_dates
+  def validate_incident_dates
     if self.incidents.present?
+      # Ensure dates are chronological
       self.incidents.each_with_index do |incident, index|
         if incident.date_of_release.present?
           if incident.date_of_arrest > incident.date_of_release
             errors.add(:incident_id, "Date of arrest cannot be after date of release")
           end
-
 
           next_incident = self.incidents[index + 1]
           if !next_incident.nil?
@@ -117,6 +117,17 @@ class Prisoner < ActiveRecord::Base
               errors.add(:incident_id, "Date of arrest must occur after date of release of previous incident")
             end
           end
+        end
+      end
+
+      # Ensure last date occurs before today
+      if self.incidents.last.date_of_release.present?
+        if self.incidents.last.date_of_release > Date.today
+          errors.add(:date_of_release, "The last incident's date of release must be before today")
+        end
+      else
+        if self.incidents.last.date_of_arrest > Date.today
+          errors.add(:date_of_arrest, "The last incident's date of arrest must be before today")
         end
       end
     end

@@ -7,6 +7,8 @@ class Prisoner < ActiveRecord::Base
   validates_attachment :portrait, content_type: { content_type: /\Aimage\/.*\Z/ }
   accepts_nested_attributes_for :incidents, :allow_destroy => true
   validates :name, presence: true
+  validate :new_incident_must_follow_release
+
 
   def self.by_tag(tag_id)
     return Prisoner.joins(:incidents => :tags).where(tags:{id: tag_id})
@@ -99,6 +101,16 @@ class Prisoner < ActiveRecord::Base
   end
 
   private
+
+  def new_incident_must_follow_release
+    all_incidents_but_last = self.incidents.slice(0, incidents.size - 1)
+    Rails.logger.debug(all_incidents_but_last.size.to_s)
+    all_incidents_but_last.each do |incident|
+      if !incident.date_of_release.present?
+        errors.add(:prisoner_id, ": All incidents but the last must have dates of release.")
+      end
+    end
+  end
 
   def self.create_date_from_hash hash
     return Date.new(hash[:year].to_i, hash[:month].to_i, hash[:day].to_i)

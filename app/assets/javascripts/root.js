@@ -56,11 +56,14 @@ $(document).ready(function() {
             },
             yAxis: {
                 title: {
-                    text: 'Article Number'
+                    text: 'Number of Prisoners'
                 }
             },
             xAxis: {
-                categories: gon.categories
+                categories: gon.article_numbers,
+                title: {
+                    text: 'Article Number'
+                }
             },
             series: [{
                 data: gon.data

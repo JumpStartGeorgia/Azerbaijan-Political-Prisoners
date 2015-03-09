@@ -8,7 +8,7 @@ $(document).ready(function() {
                 console.log(response.data)
 
                 $(function () {
-                    $('#container').highcharts({
+                    $('#imprisoned-count-timeline').highcharts({
                         chart: {
                             zoomType: 'x',
                             resetZoomButton: {
@@ -47,6 +47,28 @@ $(document).ready(function() {
             }
         });
 
-
+        $('#top-10-charge-counts').highcharts({
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Top 10 Charges'
+            },
+            yAxis: {
+                title: {
+                    text: 'Article Number'
+                }
+            },
+            series: [{
+                name: 'Year 1800',
+                data: [107, 31, 635, 203, 2]
+            }, {
+                name: 'Year 1900',
+                data: [133, 156, 947, 408, 6]
+            }, {
+                name: 'Year 2008',
+                data: [973, 914, 4054, 732, 34]
+            }]
+        });
     }
 });

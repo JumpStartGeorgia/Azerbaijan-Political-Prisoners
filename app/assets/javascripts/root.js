@@ -59,15 +59,11 @@ $(document).ready(function() {
                     text: 'Article Number'
                 }
             },
+            xAxis: {
+                categories: gon.categories
+            },
             series: [{
-                name: 'Year 1800',
-                data: [107, 31, 635, 203, 2]
-            }, {
-                name: 'Year 1900',
-                data: [133, 156, 947, 408, 6]
-            }, {
-                name: 'Year 2008',
-                data: [973, 914, 4054, 732, 34]
+                data: gon.data
             }]
         });
     }

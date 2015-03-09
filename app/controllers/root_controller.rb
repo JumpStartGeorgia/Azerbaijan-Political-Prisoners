@@ -6,5 +6,10 @@ class RootController < ApplicationController
     if !File.exists?(Rails.public_path.join('imprisoned_count_timeline.json'))
       Prisoner.generate_imprisoned_count_timeline_json
     end
+
+    articles_prisoner_counts = Article.prisoner_counts
+
+    gon.categories = articles_prisoner_counts[:categories]
+    gon.data = articles_prisoner_counts[:data]
   end
 end

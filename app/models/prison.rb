@@ -18,9 +18,6 @@ class Prison < ActiveRecord::Base
       prisoner_counts.append(prison_name_prisoner_count[:prisoner_count])
     end
 
-    Rails.logger.debug(prison_names)
-    Rails.logger.debug(prisoner_counts)
-
     return {prison_names: prison_names, series_data: prisoner_counts}
   end
 

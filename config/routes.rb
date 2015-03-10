@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   post '/users', to: 'users#create'
-  devise_for :users, controllers: { confirmations: "users/confirmations", omniauth: "users/omniauth", passwords: "users/passwords", registrations: "users/registrations", sessions: "users/sessions", unlocks: "users/unlocks" }
+  devise_for :users, controllers: { confirmations: "users/confirmations", omniauth: "users/omniauth", passwords: "users/passwords", registrations: "users/registrations", sessions: "users/sessions", unlocks: "users/unlocks" }, constraints: { format: :html }
 
   resources :tags
 
@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 
   resources :prisoners
 
-  resources :users
+  resources :users, constraints: { format: :html }
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

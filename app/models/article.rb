@@ -48,7 +48,7 @@ class Article < ActiveRecord::Base
   end
 
   def self.generate_highest_incident_counts_chart_json
-    File.open(Rails.public_path.join("highest_incident_counts_chart.json"), "w") do |f|
+    File.open(Rails.public_path.join("chart_data/highest_incident_counts_chart.json"), "w") do |f|
       f.write(highest_incident_counts_chart.to_json)
     end
   end

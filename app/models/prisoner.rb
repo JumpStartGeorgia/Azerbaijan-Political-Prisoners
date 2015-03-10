@@ -37,7 +37,7 @@ class Prisoner < ActiveRecord::Base
   end
 
   def self.generate_imprisoned_count_timeline_json
-    File.open(Rails.public_path.join("imprisoned_count_timeline.json"), "w") do |f|
+    File.open(Rails.public_path.join("chart_data/imprisoned_count_timeline.json"), "w") do |f|
       f.write({data: imprisoned_counts_from_date_to_today(Date.new(2007,01,01))}.to_json)
     end
   end
@@ -166,12 +166,12 @@ class Prisoner < ActiveRecord::Base
   end
 
   def delete_imprisoned_count_timeline_json
-    path = Rails.public_path.join("imprisoned_count_timeline.json")
+    path = Rails.public_path.join("chart_data/imprisoned_count_timeline.json")
     File.delete(path) if File.exists?(path)
   end
 
   def delete_highest_incident_counts_chart_json
-    path = Rails.public_path.join("highest_incident_counts_chart.json")
+    path = Rails.public_path.join("chart_data/highest_incident_counts_chart.json")
     File.delete(path) if File.exists?(path)
   end
 

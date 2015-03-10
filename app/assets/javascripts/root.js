@@ -1,7 +1,7 @@
 $(document).ready(function() {
     if ($('body').hasClass('root')) {
         $.ajax({
-            url: 'imprisoned_count_timeline.json',
+            url: 'chart_data/imprisoned_count_timeline.json',
             async: true,
             dataType: 'json',
             success: function (response) {
@@ -47,7 +47,7 @@ $(document).ready(function() {
         });
 
         $.ajax({
-            url: 'highest_incident_counts_chart.json',
+            url: 'chart_data/highest_incident_counts_chart.json',
             async: true,
             dataType: 'json',
             success: function (response) {

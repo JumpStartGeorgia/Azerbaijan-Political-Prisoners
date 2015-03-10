@@ -17,7 +17,7 @@
 
 # Ignore files in public folder
 /public/system/prisoners/portraits
-/public/imprisoned_count_timeline.json
+/public/chart_data/*
 
 # ADDED FOR lib/prisonersPdfParser
 lib/aug2014PdfParser/output/*

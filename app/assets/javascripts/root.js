@@ -67,9 +67,6 @@ $(document).ready(function() {
                     },
                     xAxis: {
                         categories: response.prison_names,
-                        title: {
-                            text: 'Prison Name'
-                        }
                     },
                     series: [{
                         name: 'Number of Prisoners',

@@ -31,10 +31,16 @@ class Article < ActiveRecord::Base
     series_data = []
 
     (0..(prisoner_counts[:article_prisoner_counts].size - 1)).each do |i|
-      series_data.append([prisoner_counts[:article_criminal_codes][i], prisoner_counts[:article_prisoner_counts][i]])
+      series_data.append({
+                             criminal_code: prisoner_counts[:article_criminal_codes][i],
+                             y: prisoner_counts[:article_prisoner_counts][i]
+                         })
     end
 
-    return {article_numbers: article_numbers, series_data: series_data}
+    return {
+        article_numbers: article_numbers,
+        series_data: series_data
+    }
   end
 
 end

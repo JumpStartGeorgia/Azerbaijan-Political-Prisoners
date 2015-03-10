@@ -64,6 +64,12 @@ $(document).ready(function() {
                     text: 'Article Number'
                 }
             },
+            tooltip: {
+                formatter: function() { return '' +
+                    'Number of Sentences: ' + this.point.y + '<br/>' +
+                    'Criminal Code: ' + this.point.criminal_code
+                }
+            },
             series: [{
                 name: 'Number of Sentences',
                 showInLegend: false,

@@ -46,35 +46,42 @@ $(document).ready(function() {
             }
         });
 
-        $('#top-10-charge-counts').highcharts({
-            chart: {
-                type: 'bar'
-            },
-            title: {
-                text: 'The Ten Charges Used Most Often to Sentence Political Prisoners'
-            },
-            yAxis: {
-                title: {
-                    text: 'Number of Sentences'
-                }
-            },
-            xAxis: {
-                categories: gon.article_highest_incident_counts_chart.article_numbers,
-                title: {
-                    text: 'Article Number'
-                }
-            },
-            tooltip: {
-                formatter: function() { return '' +
-                    'Number of Sentences: ' + this.point.y + '<br/>' +
-                    'Criminal Code: ' + this.point.criminal_code
-                }
-            },
-            series: [{
-                name: 'Number of Sentences',
-                showInLegend: false,
-                data: gon.article_highest_incident_counts_chart.series_data
-            }]
+        $.ajax({
+            url: 'highest_incident_counts_chart.json',
+            async: true,
+            dataType: 'json',
+            success: function (response) {
+                $('#top-10-charge-counts').highcharts({
+                    chart: {
+                        type: 'bar'
+                    },
+                    title: {
+                        text: 'The Ten Charges Used Most Often to Sentence Political Prisoners'
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Number of Sentences'
+                        }
+                    },
+                    xAxis: {
+                        categories: response.article_numbers,
+                        title: {
+                            text: 'Article Number'
+                        }
+                    },
+                    tooltip: {
+                        formatter: function() { return '' +
+                            'Number of Sentences: ' + this.point.y + '<br/>' +
+                            'Criminal Code: ' + this.point.criminal_code
+                        }
+                    },
+                    series: [{
+                        name: 'Number of Sentences',
+                        showInLegend: false,
+                        data: response.series_data
+                    }]
+                });
+            }
         });
     }
 });

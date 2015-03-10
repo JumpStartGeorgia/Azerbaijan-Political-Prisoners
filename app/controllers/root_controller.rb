@@ -7,6 +7,8 @@ class RootController < ApplicationController
       Prisoner.generate_imprisoned_count_timeline_json
     end
 
-    gon.article_highest_incident_counts_chart = Article.highest_incident_counts_chart
+    if !File.exists?(Rails.public_path.join('highest_incident_counts_chart.json'))
+      Article.generate_highest_incident_counts_chart_json
+    end
   end
 end

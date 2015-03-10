@@ -7,6 +7,6 @@ class RootController < ApplicationController
       Prisoner.generate_imprisoned_count_timeline_json
     end
 
-    gon.article_prisoner_counts_chart = Article.prisoner_counts_chart
+    gon.article_highest_incident_counts_chart = Article.highest_incident_counts_chart
   end
 end

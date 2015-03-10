@@ -59,7 +59,7 @@ $(document).ready(function() {
                 }
             },
             xAxis: {
-                categories: gon.article_prisoner_counts_chart.article_numbers,
+                categories: gon.article_highest_incident_counts_chart.article_numbers,
                 title: {
                     text: 'Article Number'
                 }
@@ -73,7 +73,7 @@ $(document).ready(function() {
             series: [{
                 name: 'Number of Sentences',
                 showInLegend: false,
-                data: gon.article_prisoner_counts_chart.series_data
+                data: gon.article_highest_incident_counts_chart.series_data
             }]
         });
     }

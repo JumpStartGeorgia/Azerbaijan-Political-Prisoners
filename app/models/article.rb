@@ -6,34 +6,38 @@ class Article < ActiveRecord::Base
   validates :number, :criminal_code, presence: true
   validates_uniqueness_of :number, :scope => :criminal_code, :message => "already exists for selected Criminal Code. Enter new Number or select different Criminal Code"
 
-  def self.prisoner_counts(limit)
+  def self.incident_counts_ordered(limit)
     if limit.nil?
       articles = find_by_sql('select articles.number, criminal_codes.name, count(*) from incidents inner join charges on incidents.id = charges.incident_id inner join articles on charges.article_id = articles.id inner join criminal_codes on articles.criminal_code_id = criminal_codes.id group by articles.number order by count(*) desc')
     else
       articles = find_by_sql('select articles.number, criminal_codes.name as criminal_code_name, count(*) from incidents inner join charges on incidents.id = charges.incident_id inner join articles on charges.article_id = articles.id inner join criminal_codes on articles.criminal_code_id = criminal_codes.id group by articles.number order by count(*) desc limit ' + limit.to_s)
     end
 
-    data = {article_numbers: [], article_criminal_codes: [], article_prisoner_counts: []}
+    data = {
+        article_numbers: [],
+        article_criminal_codes: [],
+        article_incident_counts: []
+    }
 
     articles.each do |article|
       data[:article_numbers].append(article[:number])
       data[:article_criminal_codes].append(article[:criminal_code_name])
-      data[:article_prisoner_counts].append(article["count(*)"])
+      data[:article_incident_counts].append(article["count(*)"])
     end
 
     return data
   end
 
-  def self.prisoner_counts_chart
-    prisoner_counts = Article.prisoner_counts(10)
+  def self.highest_incident_counts_chart
+    highest_incident_counts = Article.incident_counts_ordered(10)
 
-    article_numbers = prisoner_counts[:article_numbers]
+    article_numbers = highest_incident_counts[:article_numbers]
     series_data = []
 
-    (0..(prisoner_counts[:article_prisoner_counts].size - 1)).each do |i|
+    (0..(highest_incident_counts[:article_incident_counts].size - 1)).each do |i|
       series_data.append({
-                             criminal_code: prisoner_counts[:article_criminal_codes][i],
-                             y: prisoner_counts[:article_prisoner_counts][i]
+                             y: highest_incident_counts[:article_incident_counts][i],
+                             criminal_code: highest_incident_counts[:article_criminal_codes][i]
                          })
     end
 

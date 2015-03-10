@@ -49,6 +49,38 @@ $(document).ready(function() {
 //        });
 
         $.ajax({
+            url: 'chart_data/prison_prisoner_count_chart.json',
+            async: true,
+            dataType: 'json',
+            success: function (response) {
+                $('#prison-prisoner-counts').highcharts({
+                    chart: {
+                        type: 'bar'
+                    },
+                    title: {
+                        text: 'Number of Prisoners by Prison'
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Number of Prisoners'
+                        }
+                    },
+                    xAxis: {
+                        categories: response.prison_names,
+                        title: {
+                            text: 'Prison Name'
+                        }
+                    },
+                    series: [{
+                        name: 'Number of Prisoners',
+                        showInLegend: false,
+                        data: response.series_data
+                    }]
+                });
+            }
+        });
+
+        $.ajax({
             url: 'chart_data/highest_incident_counts_chart.json',
             async: true,
             dataType: 'json',

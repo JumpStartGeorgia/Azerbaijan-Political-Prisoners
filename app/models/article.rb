@@ -24,4 +24,17 @@ class Article < ActiveRecord::Base
     return data
   end
 
+  def self.prisoner_counts_chart
+    prisoner_counts = Article.prisoner_counts(10)
+
+    article_numbers = prisoner_counts[:article_numbers]
+    series_data = []
+
+    (0..(prisoner_counts[:article_prisoner_counts].size - 1)).each do |i|
+      series_data.append([prisoner_counts[:article_criminal_codes][i], prisoner_counts[:article_prisoner_counts][i]])
+    end
+
+    return {article_numbers: article_numbers, series_data: series_data}
+  end
+
 end

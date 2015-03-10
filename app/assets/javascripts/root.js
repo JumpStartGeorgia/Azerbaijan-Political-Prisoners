@@ -5,8 +5,6 @@ $(document).ready(function() {
             async: true,
             dataType: 'json',
             success: function (response) {
-                console.log(response.data)
-
                 $(function () {
                     $('#imprisoned-count-timeline').highcharts({
                         chart: {
@@ -21,7 +19,7 @@ $(document).ready(function() {
                             }
                         },
                         title: {
-                            text: 'Number of People Imprisoned in Azerbaijan for Political Purposes'
+                            text: 'Number of Political Prisoners in Azerbaijan from 2007 through Today'
                         },
                         subtitle: {
                             text: document.ontouchstart === undefined ?
@@ -40,6 +38,7 @@ $(document).ready(function() {
                         },
                         series: [{
                             name: 'Number of Political Prisoners',
+                            showInLegend: false,
                             data: response.data
                         }]
                     });
@@ -52,21 +51,23 @@ $(document).ready(function() {
                 type: 'bar'
             },
             title: {
-                text: 'Top 10 Charges'
+                text: 'The Ten Charges Used Most Often to Sentence Political Prisoners'
             },
             yAxis: {
                 title: {
-                    text: 'Number of Prisoners'
+                    text: 'Number of Sentences'
                 }
             },
             xAxis: {
-                categories: gon.article_numbers,
+                categories: gon.article_prisoner_counts_chart.article_numbers,
                 title: {
                     text: 'Article Number'
                 }
             },
             series: [{
-                data: gon.data
+                name: 'Number of Sentences',
+                showInLegend: false,
+                data: gon.article_prisoner_counts_chart.series_data
             }]
         });
     }

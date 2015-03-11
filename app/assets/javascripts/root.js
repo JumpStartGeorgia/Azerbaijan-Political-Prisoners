@@ -86,7 +86,7 @@ $(document).ready(function() {
         });
 
         $.ajax({
-            url: 'chart_data/highest_incident_counts_chart.json',
+            url: 'chart_data/article_incident_counts_chart.json',
             async: true,
             dataType: 'json',
             success: function (response) {

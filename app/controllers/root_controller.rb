@@ -10,7 +10,7 @@ class RootController < ApplicationController
       Prison.generate_prison_prisoner_count_chart_json
     end
 
-    if !File.exists?(Rails.public_path.join('chart_data/highest_incident_counts_chart.json'))
+    if !File.exists?(Rails.public_path.join('chart_data/article_incident_counts_chart.json'))
       Article.generate_highest_incident_counts_chart_json
     end
   end

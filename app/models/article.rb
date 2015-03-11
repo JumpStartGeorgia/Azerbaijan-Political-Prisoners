@@ -28,7 +28,7 @@ class Article < ActiveRecord::Base
     return data
   end
 
-  def self.highest_incident_counts_chart
+  def self.article_incident_counts_chart
     highest_incident_counts = Article.incident_counts_ordered(10)
     article_numbers_and_links = []
     highest_incident_counts[:article_numbers].each do |number|
@@ -53,8 +53,8 @@ class Article < ActiveRecord::Base
   end
 
   def self.generate_highest_incident_counts_chart_json
-    File.open(Rails.public_path.join("chart_data/highest_incident_counts_chart.json"), "w") do |f|
-      f.write(highest_incident_counts_chart.to_json)
+    File.open(Rails.public_path.join("chart_data/article_incident_counts_chart.json"), "w") do |f|
+      f.write(article_incident_counts_chart.to_json)
     end
   end
 end

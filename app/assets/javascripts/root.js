@@ -67,10 +67,10 @@ $(document).ready(function() {
                         allowDecimals: false
                     },
                     xAxis: {
-                        categories: response.prison_names,
+                        categories: response.prison_names_and_links,
                         labels: {
                             formatter: function() {
-                                return '<a href="#">' + this.value + '</a>'
+                                return '<a href="' + this.value.link + '">' + this.value.name + '</a>'
                             },
                             useHTML: true
                         }
@@ -79,7 +79,7 @@ $(document).ready(function() {
                     series: [{
                         name: 'Number of Prisoners',
                         showInLegend: false,
-                        data: response.series_data
+                        data: response.prisoner_counts
                     }]
                 });
             }

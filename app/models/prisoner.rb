@@ -100,7 +100,9 @@ class Prisoner < ActiveRecord::Base
   end
 
   def self.imprisoned_ids(date)
-    return find_by_sql("select prisoner_id from incidents where date_of_arrest < '" + date.strftime("%Y-%m-%d") + "' group by prisoner_id")
+    date_formatted = date.strftime("%Y-%m-%d")
+    sql = "select prisoner_id from incidents where date_of_arrest < '" + date_formatted + "' group by prisoner_id"
+    return find_by_sql(sql).map { |x| x.attributes["prisoner_id"]}
   end
 
   # Imprisoned count timeline

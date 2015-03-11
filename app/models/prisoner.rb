@@ -7,8 +7,71 @@ class Prisoner < ActiveRecord::Base
   validates_attachment :portrait, content_type: { content_type: /\Aimage\/.*\Z/ }
   accepts_nested_attributes_for :incidents, :allow_destroy => true
   validates :name, presence: true
-  validate :all_incidents_released_but_last
+  validate :validate_all_incidents_released_except_last
   validate :validate_incident_dates
+
+  # Callbacks
+
+  def update_currently_imprisoned
+    latest_incident = self.incidents.order("date_of_arrest").last
+
+    if !latest_incident.nil?
+      if latest_incident.date_of_release.present?
+        self.update_column(:currently_imprisoned, false)
+      else
+        self.update_column(:currently_imprisoned, true)
+      end
+    end
+  end
+
+  def delete_bar_chart_json
+    ["imprisoned_count_timeline", "article_incident_counts_chart", "prison_prisoner_count_chart"].each do |json_data|
+      path = Rails.public_path.join("chart_data/" + json_data + ".json")
+      File.delete(path) if File.exists?(path)
+    end
+  end
+
+  # Validations
+
+  def validate_incident_dates
+    if self.incidents.present?
+      # Ensure dates are chronological
+      self.incidents.each_with_index do |incident, index|
+        if incident.date_of_release.present?
+          if incident.date_of_arrest > incident.date_of_release
+            errors.add(:incident_id, "Date of arrest cannot be after date of release")
+          end
+
+          next_incident = self.incidents[index + 1]
+          if !next_incident.nil?
+            if incident.date_of_release > next_incident.date_of_arrest
+              errors.add(:incident_id, "Date of arrest must occur after date of release of previous incident")
+            end
+          end
+        end
+      end
+
+      # Ensure last date occurs before today
+      if self.incidents.last.date_of_release.present? && self.incidents.last.date_of_release > Date.today
+        errors.add(:date_of_release, "The last incident's date of release must be before today")
+      elsif self.incidents.last.date_of_arrest.present? && self.incidents.last.date_of_arrest > Date.today
+        errors.add(:date_of_arrest, "The last incident's date of arrest must be before today")
+      end
+    end
+  end
+
+  def validate_all_incidents_released_except_last
+    if self.incidents.present?
+      all_incidents_but_last = self.incidents.slice(0, incidents.size - 1)
+      all_incidents_but_last.each do |incident|
+        if !incident.date_of_release.present?
+          errors.add(:prisoner_id, ": All incidents but the last must have dates of release")
+        end
+      end
+    end
+  end
+
+  # Get prisoner by attribute
 
   def self.by_tag(tag_id)
     return Prisoner.joins(:incidents => :tags).where(tags:{id: tag_id})
@@ -22,18 +85,25 @@ class Prisoner < ActiveRecord::Base
     return Prisoner.joins(:incidents => :charges).where(charges:{article_id: article_id})
   end
 
-  def self.all_currently_imprisoned
-    ids = currently_imprisoned_ids.map { |x| x.prisoner_id }
-    where(id: ids)
-  end
+  # Get prisoners by whether they are imprisoned or were imprisoned on a certain date
 
   def self.currently_imprisoned_count
-    return currently_imprisoned_ids.size
+    return currently_imprisoned.size
+  end
+
+  def self.currently_imprisoned
+    return where(currently_imprisoned: true)
   end
 
   def self.imprisoned_count(date)
     return imprisoned_ids(date).size
   end
+
+  def self.imprisoned_ids(date)
+    return find_by_sql("select prisoner_id from incidents where date_of_arrest < '" + date.strftime("%Y-%m-%d") + "' group by prisoner_id")
+  end
+
+  # Imprisoned count timeline
 
   def self.generate_imprisoned_count_timeline_json
     File.open(Rails.public_path.join("chart_data/imprisoned_count_timeline.json"), "w") do |f|
@@ -100,77 +170,6 @@ class Prisoner < ActiveRecord::Base
     return dates_and_counts
   end
 
-  private
-
-  def validate_incident_dates
-    if self.incidents.present?
-      # Ensure dates are chronological
-      self.incidents.each_with_index do |incident, index|
-        if incident.date_of_release.present?
-          if incident.date_of_arrest > incident.date_of_release
-            errors.add(:incident_id, "Date of arrest cannot be after date of release")
-          end
-
-          next_incident = self.incidents[index + 1]
-          if !next_incident.nil?
-            if incident.date_of_release > next_incident.date_of_arrest
-              errors.add(:incident_id, "Date of arrest must occur after date of release of previous incident")
-            end
-          end
-        end
-      end
-
-      # Ensure last date occurs before today
-      if self.incidents.last.date_of_release.present? && self.incidents.last.date_of_release > Date.today
-        errors.add(:date_of_release, "The last incident's date of release must be before today")
-      elsif self.incidents.last.date_of_arrest.present? && self.incidents.last.date_of_arrest > Date.today
-        errors.add(:date_of_arrest, "The last incident's date of arrest must be before today")
-      end
-    end
-  end
-
-  def all_incidents_released_but_last
-    if self.incidents.present?
-      all_incidents_but_last = self.incidents.slice(0, incidents.size - 1)
-      all_incidents_but_last.each do |incident|
-        if !incident.date_of_release.present?
-          errors.add(:prisoner_id, ": All incidents but the last must have dates of release")
-        end
-      end
-    end
-  end
-
-  def self.create_date_from_hash hash
-    return Date.new(hash[:year].to_i, hash[:month].to_i, hash[:day].to_i)
-  end
-
-  def self.convert_date_to_utc date
-    Time.parse(date.to_s).utc.to_i*1000
-  end
-
-  def self.currently_imprisoned_ids
-    return where(currently_imprisoned: true)
-  end
-
-  def update_currently_imprisoned
-    latest_incident = self.incidents.order("date_of_arrest").last
-
-    if !latest_incident.nil?
-      if latest_incident.date_of_release.present?
-        self.update_column(:currently_imprisoned, false)
-      else
-        self.update_column(:currently_imprisoned, true)
-      end
-    end
-  end
-
-  def delete_bar_chart_json
-    ["imprisoned_count_timeline", "article_incident_counts_chart", "prison_prisoner_count_chart"].each do |json_data|
-      path = Rails.public_path.join("chart_data/" + json_data + ".json")
-      File.delete(path) if File.exists?(path)
-    end
-  end
-
   def self.arrest_counts_by_day
     return find_by_sql("select strftime('%Y', date_of_arrest) as year, strftime('%m', date_of_arrest) as month, strftime('%d', date_of_arrest) as day, count(*) from incidents group by strftime('%Y', date_of_arrest), strftime('%m', date_of_arrest), strftime('%d', date_of_arrest) order by year, month, day")
   end
@@ -183,9 +182,15 @@ class Prisoner < ActiveRecord::Base
     return release_counts_by_day
   end
 
-  def self.imprisoned_ids(date)
-    return find_by_sql("select prisoner_id from incidents where date_of_arrest < '" + date.strftime("%Y-%m-%d") + "' group by prisoner_id")
+  def self.create_date_from_hash hash
+    return Date.new(hash[:year].to_i, hash[:month].to_i, hash[:day].to_i)
   end
 
+  def self.convert_date_to_utc date
+    Time.parse(date.to_s).utc.to_i*1000
+  end
+
+  private :update_currently_imprisoned, :delete_bar_chart_json, :validate_incident_dates, :validate_all_incidents_released_except_last
+  #private_class_method :arrest_counts_by_day, :release_counts_by_day, :create_date_from_hash, :convert_date_to_utc
 end
 

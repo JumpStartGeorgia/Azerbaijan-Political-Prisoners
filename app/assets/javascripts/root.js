@@ -67,7 +67,14 @@ $(document).ready(function() {
                         allowDecimals: false
                     },
                     xAxis: {
-                        categories: response.prison_names
+                        categories: response.prison_names,
+                        labels: {
+                            formatter: function() {
+                                return '<a href="#">' + this.value + '</a>'
+                            },
+                            useHTML: true
+                        }
+
                     },
                     series: [{
                         name: 'Number of Prisoners',

@@ -110,7 +110,7 @@ $(document).ready(function() {
                         },
                         labels: {
                             formatter: function() {
-                                return this.value;
+                                return '<a href="' + this.value.link + '">' + this.value.number + '</a>';
                             },
                             useHTML: true
                         }

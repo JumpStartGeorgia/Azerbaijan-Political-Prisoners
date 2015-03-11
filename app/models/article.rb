@@ -30,8 +30,13 @@ class Article < ActiveRecord::Base
 
   def self.highest_incident_counts_chart
     highest_incident_counts = Article.incident_counts_ordered(10)
-
-    article_numbers_and_links = highest_incident_counts[:article_numbers]
+    article_numbers_and_links = []
+    highest_incident_counts[:article_numbers].each do |number|
+      article_numbers_and_links.append({
+                                           number: number,
+                                           link: Rails.application.routes.url_helpers.article_path(Article.find_by_number(number).id)
+                                       })
+    end
     incident_counts_and_criminal_codes = []
 
     (0..(highest_incident_counts[:article_incident_counts].size - 1)).each do |i|

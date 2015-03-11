@@ -114,28 +114,28 @@ class Prisoner < ActiveRecord::Base
   def self.imprisoned_counts_from_date_to_today starting_date
     imprisoned_count = 0
 
-    arrest_counts_by_day = self.arrest_counts_by_day
+    all_arrest_counts_by_day = arrest_counts_by_day
     arrest_counts_by_day_within_timeline = []
 
     # Add number of arrests before starting date of timeline to prisoner count
-    arrest_counts_by_day.each_with_index do |arrest_day_and_count, index|
+    all_arrest_counts_by_day.each_with_index do |arrest_day_and_count, index|
       if create_date_from_hash(arrest_day_and_count) < starting_date
         imprisoned_count += arrest_day_and_count["count(*)"].to_i
       else
-        arrest_counts_by_day_within_timeline = arrest_counts_by_day.slice(index, arrest_counts_by_day.size)
+        arrest_counts_by_day_within_timeline = all_arrest_counts_by_day.slice(index, all_arrest_counts_by_day.size)
         break
       end
     end
 
-    release_counts_by_day = self.release_counts_by_day
+    all_release_counts_by_day = release_counts_by_day
     release_counts_by_day_within_timeline = []
 
     # Subtract number of arrests before starting date of timeline to prisoner count
-    release_counts_by_day.each_with_index do |release_day_and_count, index|
+    all_release_counts_by_day.each_with_index do |release_day_and_count, index|
       if create_date_from_hash(release_day_and_count) < starting_date
         imprisoned_count -= release_day_and_count["count(*)"].to_i
       else
-        release_counts_by_day_within_timeline = release_counts_by_day.slice(index, release_counts_by_day.size)
+        release_counts_by_day_within_timeline = all_release_counts_by_day.slice(index, all_release_counts_by_day.size)
         break
       end
     end
@@ -191,6 +191,6 @@ class Prisoner < ActiveRecord::Base
   end
 
   private :update_currently_imprisoned, :delete_bar_chart_json, :validate_incident_dates, :validate_all_incidents_released_except_last
-  #private_class_method :arrest_counts_by_day, :release_counts_by_day, :create_date_from_hash, :convert_date_to_utc
+  private_class_method :arrest_counts_by_day, :release_counts_by_day, :create_date_from_hash, :convert_date_to_utc
 end
 

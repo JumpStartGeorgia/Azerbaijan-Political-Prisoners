@@ -31,19 +31,19 @@ class Article < ActiveRecord::Base
   def self.highest_incident_counts_chart
     highest_incident_counts = Article.incident_counts_ordered(10)
 
-    article_numbers = highest_incident_counts[:article_numbers]
-    series_data = []
+    article_numbers_and_links = highest_incident_counts[:article_numbers]
+    incident_counts_and_criminal_codes = []
 
     (0..(highest_incident_counts[:article_incident_counts].size - 1)).each do |i|
-      series_data.append({
+      incident_counts_and_criminal_codes.append({
                              y: highest_incident_counts[:article_incident_counts][i],
                              criminal_code: highest_incident_counts[:article_criminal_codes][i]
                          })
     end
 
     return {
-        article_numbers: article_numbers,
-        series_data: series_data
+        article_numbers_and_links: article_numbers_and_links,
+        incident_counts_and_criminal_codes: incident_counts_and_criminal_codes
     }
   end
 

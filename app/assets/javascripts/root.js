@@ -70,7 +70,7 @@ $(document).ready(function() {
                         categories: response.prison_names_and_links,
                         labels: {
                             formatter: function() {
-                                return '<a href="' + this.value.link + '">' + this.value.name + '</a>'
+                                return '<a href="' + this.value.link + '">' + this.value.name + '</a>';
                             },
                             useHTML: true
                         }
@@ -104,21 +104,27 @@ $(document).ready(function() {
                         allowDecimals: false
                     },
                     xAxis: {
-                        categories: response.article_numbers,
+                        categories: response.article_numbers_and_links,
                         title: {
                             text: 'Article Number'
+                        },
+                        labels: {
+                            formatter: function() {
+                                return this.value;
+                            },
+                            useHTML: true
                         }
                     },
                     tooltip: {
                         formatter: function() { return '' +
                             'Number of Sentences: ' + this.point.y + '<br/>' +
-                            'Criminal Code: ' + this.point.criminal_code
+                            'Criminal Code: ' + this.point.criminal_code;
                         }
                     },
                     series: [{
                         name: 'Number of Sentences',
                         showInLegend: false,
-                        data: response.series_data
+                        data: response.incident_counts_and_criminal_codes
                     }]
                 });
             }

@@ -78,6 +78,6 @@ RSpec.describe Prisoner, :type => :model do
     expect(Prisoner.imprisoned_count(Date.new(2013, 1, 1))).to eq(2)
 
     imprisoned = Prisoner.imprisoned_ids(Date.new(2013, 1, 1))
-    expect(imprisoned).to eq([1, 5])
+    expect(imprisoned).to eq([p1.id, p5.id])
   end
 end

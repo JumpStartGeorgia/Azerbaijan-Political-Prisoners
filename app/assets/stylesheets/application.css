@@ -20,3 +20,7 @@
  *= require_tree .
  *= require_self
  */
+
+.data-incomplete-warning {
+    color: red;
+}

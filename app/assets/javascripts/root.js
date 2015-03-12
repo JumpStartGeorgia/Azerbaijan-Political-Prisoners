@@ -20,7 +20,8 @@ $(document).ready(function() {
                             }
                         },
                         title: {
-                            text: 'Number of Political Prisoners in Azerbaijan from 2007 through Today'
+                            text: 'Number of Political Prisoners in Azerbaijan from 2007 through Today - <strong>DATA INCOMPLETE<sup>*</sup></strong>',
+                            useHTML: true
                         },
                         subtitle: {
                             text: document.ontouchstart === undefined ?

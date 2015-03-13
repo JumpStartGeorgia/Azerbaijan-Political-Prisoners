@@ -11,3 +11,5 @@ roles = ['super_admin', 'site_admin', 'user_manager']
 roles.each do |role|
   Role.find_or_create_by({name: role})
 end
+
+User.create(email: 'super_admin@azeri-prisoners.com', password: 'asdfjkl;', role_id: 1)

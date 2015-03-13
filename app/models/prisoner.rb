@@ -92,7 +92,7 @@ class Prisoner < ActiveRecord::Base
   # Get prisoners by whether they are imprisoned or were imprisoned on a certain date
 
   def self.currently_imprisoned_count
-    return currently_imprisoned.size
+    return currently_imprisoned_ids.size
   end
 
   def self.currently_imprisoned_ids

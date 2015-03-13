@@ -193,6 +193,6 @@ class Prisoner < ActiveRecord::Base
   end
 
   private :update_currently_imprisoned, :delete_bar_chart_json, :validate_incident_dates, :validate_all_incidents_released_except_last
-  private_class_method :arrest_counts_by_day, :release_counts_by_day, :create_date_from_hash, :convert_date_to_utc
+  private_class_method :arrest_counts_by_day, :release_counts_by_day, :create_date_from_hash
 end
 

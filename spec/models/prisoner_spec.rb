@@ -42,7 +42,7 @@ RSpec.describe Prisoner, :type => :model do
     end
   end
 
-  it "returns the right number of imprisoned for a certain date" do
+  it "returns the correct number of imprisoned for a certain date" do
     # Two prisoners, each with one incident and no date of release
     p1 = FactoryGirl.create(:prisoner)
     p1.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 1))
@@ -79,5 +79,52 @@ RSpec.describe Prisoner, :type => :model do
 
     imprisoned = Prisoner.imprisoned_ids(Date.new(2013, 1, 1))
     expect(imprisoned).to eq([p1.id, p5.id])
+  end
+
+  it "returns the correct number of imprisoned counts over time for a certain period of time" do
+    # Imprisoned the whole time
+    p1 = FactoryGirl.create(:prisoner)
+    p1.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2011, 1, 1))
+    p1.run_callbacks(:commit)
+
+    # Imprisoned part of the time
+    p3 = FactoryGirl.create(:prisoner)
+    p3.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 3), date_of_release: Date.new(2012, 1, 11))
+    p3.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2014, 1, 1))
+    p3.run_callbacks(:commit)
+
+    p4 = FactoryGirl.create(:prisoner)
+    p4.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2009, 8, 5), date_of_release: Date.new(2011, 12, 3))
+    p4.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 3), date_of_release: Date.new(2012, 1, 8))
+    p4.run_callbacks(:commit)
+
+    p5 = FactoryGirl.create(:prisoner)
+    p5.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2005, 3, 5), date_of_release: Date.new(2007, 12, 8))
+    p5.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 5), date_of_release: Date.new(2012, 1, 8))
+    p5.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2014, 12, 5), date_of_release: Date.new(2014, 12, 8))
+    p5.run_callbacks(:commit)
+
+    # Not imprisoned during the period
+    p2 = FactoryGirl.create(:prisoner)
+    p2.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2014, 1, 1))
+    p2.run_callbacks(:commit)
+
+    p6 = FactoryGirl.create(:prisoner)
+    p6.run_callbacks(:commit)
+
+    expected_dates_and_counts = [
+        [Prisoner.convert_date_to_utc(Date.new(2012, 1, 1)), 1],
+        [Prisoner.convert_date_to_utc(Date.new(2012, 1, 2)), 1],
+        [Prisoner.convert_date_to_utc(Date.new(2012, 1, 3)), 3],
+        [Prisoner.convert_date_to_utc(Date.new(2012, 1, 4)), 3],
+        [Prisoner.convert_date_to_utc(Date.new(2012, 1, 5)), 4],
+        [Prisoner.convert_date_to_utc(Date.new(2012, 1, 6)), 4],
+        [Prisoner.convert_date_to_utc(Date.new(2012, 1, 7)), 4],
+        [Prisoner.convert_date_to_utc(Date.new(2012, 1, 8)), 2],
+        [Prisoner.convert_date_to_utc(Date.new(2012, 1, 9)), 2],
+        [Prisoner.convert_date_to_utc(Date.new(2012, 1, 10)), 2]
+    ]
+
+    expect(Prisoner.imprisoned_counts_from_date_to_date(Date.new(2012, 1, 1), Date.new(2012, 1, 10))).to eq(expected_dates_and_counts)
   end
 end

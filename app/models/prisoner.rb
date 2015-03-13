@@ -1,6 +1,6 @@
 class Prisoner < ActiveRecord::Base
   after_commit :update_currently_imprisoned
-  after_commit :delete_bar_chart_json
+  after_commit :delete_dependent_json
 
   has_many :incidents, inverse_of: :prisoner
   has_attached_file :portrait, :styles => { :medium => "200x200>" }, :default_url => ":style/missing.png"
@@ -24,7 +24,11 @@ class Prisoner < ActiveRecord::Base
     end
   end
 
-  def delete_bar_chart_json
+  def delete_dependent_json
+    Prisoner.delete_bar_chart_json
+  end
+
+  def self.delete_bar_chart_json
     ["imprisoned_count_timeline", "article_incident_counts_chart", "prison_prisoner_count_chart"].each do |json_data|
       path = Rails.public_path.join("chart_data/" + json_data + ".json")
       File.delete(path) if File.exists?(path)
@@ -192,7 +196,7 @@ class Prisoner < ActiveRecord::Base
     Time.parse(date.to_s).utc.to_i*1000
   end
 
-  private :update_currently_imprisoned, :delete_bar_chart_json, :validate_incident_dates, :validate_all_incidents_released_except_last
+  private :update_currently_imprisoned, :delete_dependent_json, :validate_incident_dates, :validate_all_incidents_released_except_last
   private_class_method :arrest_counts_by_day, :release_counts_by_day, :create_date_from_hash
 end
 

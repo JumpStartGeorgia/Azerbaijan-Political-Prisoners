@@ -1,8 +1,7 @@
 $(document).ready(function() {
     if ($('body').hasClass('root')) {
-
         $.ajax({
-            url: 'chart_data/imprisoned_count_timeline.json',
+            url: 'chart_data/imprisoned_count_timeline',
             async: true,
             dataType: 'json',
             success: function (response) {

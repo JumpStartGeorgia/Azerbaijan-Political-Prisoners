@@ -109,11 +109,11 @@ class Prisoner < ActiveRecord::Base
 
   def self.generate_imprisoned_count_timeline_json
     File.open(Rails.public_path.join("chart_data/imprisoned_count_timeline.json"), "w") do |f|
-      f.write({data: imprisoned_counts_from_date_to_today(Date.new(2007,01,01))}.to_json)
+      f.write({data: imprisoned_counts_from_date_to_date(Date.new(2007,01,01), Date.today)}.to_json)
     end
   end
 
-  def self.imprisoned_counts_from_date_to_today starting_date
+  def self.imprisoned_counts_from_date_to_date(starting_date, ending_date)
     imprisoned_count = 0
 
     all_arrest_counts_by_day = arrest_counts_by_day
@@ -145,7 +145,7 @@ class Prisoner < ActiveRecord::Base
     dates_and_counts = []
 
     # Iterate through all days in timeline.
-    (starting_date..Date.today).each do |date|
+    (starting_date..ending_date).each do |date|
       # If there are arrests on a certain day, increase the imprisoned count for that day and all following days by that number.
       if arrest_counts_by_day_within_timeline.size > 0
         arrest_day_and_count = arrest_counts_by_day_within_timeline[0]

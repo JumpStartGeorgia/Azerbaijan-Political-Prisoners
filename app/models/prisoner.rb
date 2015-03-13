@@ -95,8 +95,8 @@ class Prisoner < ActiveRecord::Base
     return currently_imprisoned.size
   end
 
-  def self.currently_imprisoned
-    return where(currently_imprisoned: true)
+  def self.currently_imprisoned_ids
+    return where(currently_imprisoned: true).select("id").map { |x| x.id }
   end
 
   def self.imprisoned_count(date)

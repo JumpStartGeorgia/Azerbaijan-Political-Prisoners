@@ -7,25 +7,26 @@ RSpec.describe 'JSON data', type: :feature do
   end
 
   it "for charts update when a new prisoner is created", js: true do
-    Capybara::Session.new(Capybara.default_driver)
-
     login_as(@user, scope: :user)
 
+    prison1 = FactoryGirl.create(:prison, name: 'prison#1')
+    prison2 = FactoryGirl.create(:prison, name: 'prison#2')
+
     p1 = FactoryGirl.create(:prisoner)
-    p1.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 1))
+    p1.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 1), prison: prison1)
     p1.run_callbacks(:commit)
 
     p2 = FactoryGirl.create(:prisoner)
-    p2.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 1))
+    p2.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 1), prison: prison2)
     p2.run_callbacks(:commit)
 
     p3 = FactoryGirl.create(:prisoner)
-    p3.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2014, 1, 1))
+    p3.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2014, 1, 1), prison: prison1)
     p3.run_callbacks(:commit)
 
     timeline_json_path = "/chart_data/imprisoned_count_timeline"
     prison_prisoner_counts_json_path = "/chart_data/prison_prisoner_counts"
-    article_incident_counts_json_path = "chart_data/article_incident_counts"
+    article_incident_counts_json_path = "/chart_data/article_incident_counts"
 
     # Visit root and save json data in variables
     visit root_path
@@ -59,6 +60,7 @@ RSpec.describe 'JSON data', type: :feature do
 
     within('.nested-fields') do
       fill_in 'Date of arrest', with: '2015-01-01'
+      select('prison#2', from: 'Prison')
     end
 
     click_button 'Create Prisoner'

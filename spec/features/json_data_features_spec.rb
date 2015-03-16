@@ -68,10 +68,9 @@ RSpec.describe 'JSON data', type: :feature do
     within('.nested-fields') do
       fill_in 'Date of arrest', with: '2015-01-01'
       select('prison#2', from: 'Prison')
-
     end
 
-    select2_select_multiple(['article#1'], 'prisoner_incidents_attributes_0_article_ids')
+    select2_select_multiple(['article#1'], find(:xpath, "//*[contains(@id, 's2id_prisoner_incidents_attributes')][contains(@id, 'article_ids')]//input"))
 
     click_button 'Create Prisoner'
     expect(page).to have_content('Prisoner was successfully created.')
@@ -93,14 +92,9 @@ RSpec.describe 'JSON data', type: :feature do
   end
 end
 
-def select2_select_multiple(select_these, id)
+def select2_select_multiple(select_these, clickable_input)
   # This methods requires @javascript in the Scenario
   [select_these].flatten.each do | value |
-    full_id = "#s2id_#{id}"
-    puts 'FULL ID: ' + full_id
-
-
-    clickable_input = find(:xpath, "//*[contains(@id, 's2id_prisoner_incidents_attributes')][contains(@id, 'article_ids')]//input")
     clickable_input.click
     found = false
     within("#select2-drop") do

@@ -6,7 +6,7 @@ RSpec.describe 'JSON data', type: :feature do
     @user = FactoryGirl.create(:user, role: @role)
   end
 
-  it "for prisoner count timeline changes when a prisoner's date of release is updated", js: true do
+  it "for charts update when a new prisoner is created", js: true do
     Capybara::Session.new(Capybara.default_driver)
 
     login_as(@user, scope: :user)
@@ -23,12 +23,21 @@ RSpec.describe 'JSON data', type: :feature do
     p3.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2014, 1, 1))
     p3.run_callbacks(:commit)
 
-    # Visit root and save timeline json in variable
+    timeline_json_path = "/chart_data/imprisoned_count_timeline"
+    prison_prisoner_counts_json_path = "/chart_data/prison_prisoner_counts"
+    article_incident_counts_json_path = "chart_data/article_incident_counts"
+
+    # Visit root and save json data in variables
     visit root_path
 
-    timeline_json_path = "/chart_data/imprisoned_count_timeline"
     visit timeline_json_path
     old_timeline_json = page.body
+
+    visit prison_prisoner_counts_json_path
+    old_prison_prisoner_counts_json = page.body
+
+    visit article_incident_counts_json_path
+    old_article_incident_counts_json = page.body
 
     ##Add date of release to p3
     #visit edit_prisoner_path(p3)
@@ -55,12 +64,19 @@ RSpec.describe 'JSON data', type: :feature do
     click_button 'Create Prisoner'
     expect(page).to have_content('Prisoner was successfully created.')
 
-    # Visit root and compare timeline json to old timeline json
+    # Visit root and compare old json data to new json data
     visit root_path
-    expect(page).to have_content("Number of Political Prisoners in Azerbaijan from 2007 through Today")
+
     visit timeline_json_path
     new_timeline_json = page.body
-
     expect(old_timeline_json).not_to eq(new_timeline_json)
+
+    visit prison_prisoner_counts_json_path
+    new_prison_prisoner_counts_json = page.body
+    expect(old_prison_prisoner_counts_json).not_to eq(new_prison_prisoner_counts_json)
+
+    visit article_incident_counts_json_path
+    new_article_incident_counts_json = page.body
+    expect(old_article_incident_counts_json).not_to eq(new_article_incident_counts_json)
   end
 end

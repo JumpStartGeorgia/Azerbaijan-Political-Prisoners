@@ -12,12 +12,19 @@ RSpec.describe 'JSON data', type: :feature do
     prison1 = FactoryGirl.create(:prison, name: 'prison#1')
     prison2 = FactoryGirl.create(:prison, name: 'prison#2')
 
+    article1 = FactoryGirl.create(:article, number: 'article#1')
+    article2 = FactoryGirl.create(:article, number: 'article#2')
+
     p1 = FactoryGirl.create(:prisoner)
-    p1.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 1), prison: prison1)
+    i1 = FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 1), prison: prison1)
+    i1.articles << article1
+    p1.incidents << i1
     p1.run_callbacks(:commit)
 
     p2 = FactoryGirl.create(:prisoner)
-    p2.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 1), prison: prison2)
+    i2 = FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 1), prison: prison2)
+    i2.articles << article2
+    p2.incidents << i2
     p2.run_callbacks(:commit)
 
     p3 = FactoryGirl.create(:prisoner)

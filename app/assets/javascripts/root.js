@@ -49,7 +49,7 @@ $(document).ready(function() {
         });
 
         $.ajax({
-            url: 'chart_data/prison_prisoner_count_chart.json',
+            url: 'chart_data/prison_prisoner_counts',
             async: true,
             dataType: 'json',
             success: function (response) {
@@ -86,7 +86,7 @@ $(document).ready(function() {
         });
 
         $.ajax({
-            url: 'chart_data/article_incident_counts_chart.json',
+            url: 'chart_data/article_incident_counts',
             async: true,
             dataType: 'json',
             success: function (response) {

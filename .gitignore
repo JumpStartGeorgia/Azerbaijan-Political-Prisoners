@@ -25,3 +25,5 @@ lib/aug2014PdfParser/output/*
 
 .gems/
 .rbenv-gemsets
+
+/config/database.yml

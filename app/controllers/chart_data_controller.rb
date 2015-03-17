@@ -1,13 +1,25 @@
 class ChartDataController < ApplicationController
   def imprisoned_count_timeline
+    if !File.exists?(Rails.public_path.join('chart_data/imprisoned_count_timeline.json'))
+      Prisoner.generate_imprisoned_count_timeline_json
+    end
+
     respond_with_public_json('chart_data/imprisoned_count_timeline.json')
   end
 
   def prison_prisoner_counts
+    if !File.exists?(Rails.public_path.join('chart_data/prison_prisoner_count_chart.json'))
+      Prison.generate_prison_prisoner_count_chart_json
+    end
+
     respond_with_public_json('chart_data/prison_prisoner_count_chart.json')
   end
 
   def article_incident_counts
+    if !File.exists?(Rails.public_path.join('chart_data/article_incident_counts_chart.json'))
+      Article.generate_highest_incident_counts_chart_json
+    end
+
     respond_with_public_json('chart_data/article_incident_counts_chart.json')
   end
 

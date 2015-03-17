@@ -56,6 +56,7 @@ gem 'highcharts-rails', '~> 4.0.4'
 group :development do
   gem 'quiet_assets', '~> 1.0.3'
   gem 'nokogiri', '~> 1.6.6.2' # Added for lib/aug2014PdfParser
+  gem 'capistrano', '~> 3.4.0'
 end
 
 group :development, :test do

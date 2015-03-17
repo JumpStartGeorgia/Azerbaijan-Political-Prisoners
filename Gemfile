@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.6'
 # Use sqlite3 as the database for Active Record
@@ -39,13 +38,10 @@ gem 'spring', '~> 1.1.3',        group: :development
 # gem 'debugger', group: [:development, :test]
 
 
-### ADDED FOR Custom Rails App
 gem 'cocoon', '~> 1.2.6'
 gem 'gon', '~> 5.2.3'
 gem 'tinymce-rails', '~> 4.1.6'
 gem 'jquery-turbolinks', '~> 2.1.0'
-gem 'quiet_assets', '~> 1.0.3', group: :development
-gem 'database_cleaner', '~> 1.3.0'
 gem 'jquery-ui-rails', '~> 5.0.3'
 gem "paperclip", "~> 4.2.0"
 gem 'formtastic', "~> 3.1.3"
@@ -57,18 +53,21 @@ gem 'devise', '~> 3.4.1'
 gem 'cancancan', '~> 1.10.1'
 gem 'highcharts-rails', '~> 4.0.4'
 
-gem 'rack-test', '0.6.2'
-gem 'capybara', '~> 2.4.4'
-gem 'launchy', '~> 2.4.3'
-gem 'selenium-webdriver', '~> 2.44.0'
-gem 'capybara-screenshot', '~> 1.0.4', :group => :test
-gem 'thin', '~> 1.6.3'
+group :development do
+  gem 'quiet_assets', '~> 1.0.3'
+  gem 'nokogiri', '~> 1.6.6.2' # Added for lib/aug2014PdfParser
+end
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.1.0'
   gem 'factory_girl_rails', '~> 4.5.0'
+  gem 'rack-test', '0.6.2'
+  gem 'capybara', '~> 2.4.4'
+  gem 'launchy', '~> 2.4.3'
+  gem 'selenium-webdriver', '~> 2.44.0'
+  gem 'capybara-screenshot', '~> 1.0.4'
+  gem 'thin', '~> 1.6.3'
+  gem 'database_cleaner', '~> 1.3.0'
 end
 
-### ADDED FOR lib/prisonersPdfParser
-gem 'nokogiri', '~> 1.6.6.2'
 

@@ -1,4 +1,4 @@
-require 'rspec-rails'
+require 'rails_helper'
 
 RSpec.describe Prisoner, :type => :model do
   let(:p1) { FactoryGirl.build(:prisoner) }

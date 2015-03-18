@@ -2,8 +2,6 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.6'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '4.0.4'
 # Use Uglifier as compressor for JavaScript assets
@@ -52,6 +50,7 @@ gem 'formtastic-bootstrap', '~> 3.1.0'
 gem 'devise', '~> 3.4.1'
 gem 'cancancan', '~> 1.10.1'
 gem 'highcharts-rails', '~> 4.0.4'
+gem 'mysql2', '~> 0.3.18'
 
 group :development do
   gem 'quiet_assets', '~> 1.0.3'

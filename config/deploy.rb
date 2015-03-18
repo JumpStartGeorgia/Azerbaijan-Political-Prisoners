@@ -66,6 +66,10 @@ set :user, "prisoners-staging"
 set :puma_threads,    [4, 16]
 set :puma_workers,    0
 
+# rbenv
+set :rbenv_type, :user
+set :rbenv_ruby, File.read('.ruby-version').strip
+
 # Don't change these unless you know what you're doing
 set :pty,             true
 set :use_sudo,        false

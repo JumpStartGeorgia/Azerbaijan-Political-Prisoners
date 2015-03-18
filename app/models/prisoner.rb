@@ -177,11 +177,11 @@ class Prisoner < ActiveRecord::Base
   end
 
   def self.arrest_counts_by_day
-    return find_by_sql("select strftime('%Y', date_of_arrest) as year, strftime('%m', date_of_arrest) as month, strftime('%d', date_of_arrest) as day, count(*) from incidents group by strftime('%Y', date_of_arrest), strftime('%m', date_of_arrest), strftime('%d', date_of_arrest) order by year, month, day")
+    return find_by_sql("select year(date_of_arrest) as year, month(date_of_arrest) as month, day(date_of_arrest) as day, count(*) from incidents group by year, month, day order by year, month, day")
   end
 
   def self.release_counts_by_day
-    release_counts_by_day = find_by_sql("select strftime('%Y', date_of_release) as year, strftime('%m', date_of_release) as month, strftime('%d', date_of_release) as day, count(*) from incidents group by strftime('%Y', date_of_release), strftime('%m', date_of_release), strftime('%d', date_of_release) order by year, month, day")
+    release_counts_by_day = find_by_sql("select year(date_of_release) as year, month(date_of_release) as month, day(date_of_release) as day, count(*) from incidents group by year, month, day order by year, month, day")
 
     # If one or more incidents have no dates of release, then the first item in the array will have nil year, nil month and nil day. If that is the case, drop the first item
     release_counts_by_day = release_counts_by_day.size > 0 && release_counts_by_day[0][:year].nil? ? release_counts_by_day.drop(1) : release_counts_by_day

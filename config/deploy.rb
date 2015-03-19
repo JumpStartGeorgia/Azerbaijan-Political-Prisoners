@@ -55,7 +55,7 @@ lock '3.4.0'
 ##set :use_sudo, false
 #
 
-server 'alpha.jumpstart.ge ', roles: [:web, :app, :db], primary: true
+server 'alpha.jumpstart.ge', roles: [:web, :app, :db], primary: true
 
 set :github_account_name, "JumpStartGeorgia"
 set :github_repo_name, "Azerbaijan-Political-Prisoners"

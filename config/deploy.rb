@@ -85,7 +85,7 @@ set :puma_preload_app, true
 set :puma_worker_timeout, nil
 set :puma_init_active_record, false  # Change to true if using ActiveRecord
 set :keep_releases, 2
-after "deploy", "deploy:cleanup" # remove the old releases
+after "deploy:update", "deploy:cleanup" # remove the old releases
 
 ## Defaults:
 # set :scm,           :git

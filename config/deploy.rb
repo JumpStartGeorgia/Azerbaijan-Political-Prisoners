@@ -86,6 +86,7 @@ set :puma_worker_timeout, nil
 set :puma_init_active_record, false  # Change to true if using ActiveRecord
 set :keep_releases, 2
 after "deploy", "deploy:cleanup" # remove the old releases
+set :rails_env, :staging
 
 ## Defaults:
 # set :scm,           :git

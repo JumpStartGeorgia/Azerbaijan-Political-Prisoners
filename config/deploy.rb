@@ -23,8 +23,7 @@ lock '3.4.0'
 #set :format, :pretty
 #set :log_level, :debug
 #
-#set :keep_releases, 2
-#after "deploy", "deploy:cleanup" # remove the old releases
+
 #
 ## Default value for :linked_files is []
 ## set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
@@ -85,6 +84,8 @@ set :ssh_options,     { forward_agent: true, user: fetch(:user), keys: %w(~/.ssh
 set :puma_preload_app, true
 set :puma_worker_timeout, nil
 set :puma_init_active_record, false  # Change to true if using ActiveRecord
+set :keep_releases, 2
+after "deploy", "deploy:cleanup" # remove the old releases
 
 ## Defaults:
 # set :scm,           :git

@@ -94,7 +94,7 @@ set :puma_init_active_record, false  # Change to true if using ActiveRecord
 # set :keep_releases, 5
 
 ## Linked Files & Directories (Default None):
-set :linked_files, %w{config/database.yml config/secrets/devise_secret_key.rb}
+set :linked_files, %w{config/database.yml config/secrets/devise_secret_key.txt}
 set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets public/system}
 
 namespace :puma do

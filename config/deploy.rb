@@ -56,6 +56,7 @@ lock '3.4.0'
 
 server 'alpha.jumpstart.ge', roles: [:web, :app, :db], primary: true
 
+set :rails_env, :staging
 set :github_account_name, "JumpStartGeorgia"
 set :github_repo_name, "Azerbaijan-Political-Prisoners"
 set :repo_url, "git@github.com:#{fetch(:github_account_name)}/#{fetch(:github_repo_name)}.git"
@@ -86,7 +87,6 @@ set :puma_worker_timeout, nil
 set :puma_init_active_record, false  # Change to true if using ActiveRecord
 set :keep_releases, 2
 after "deploy", "deploy:cleanup" # remove the old releases
-set :rails_env, :staging
 
 ## Defaults:
 # set :scm,           :git

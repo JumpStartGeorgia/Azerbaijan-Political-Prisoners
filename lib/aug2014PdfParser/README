@@ -5,14 +5,6 @@ Azeri Political Prisoners PDF Parser
 To extract the data contained in the August 2014 version of the Azeri Political Prisoners PDF and organize it in computer-readable spreadsheets (.csv format).
 
 
-    Instructions
-
-1) Clone the repository.
-2) Run "bundler update" in root directory. Must have bundler installed.
-3) Navigate to the lib/aug2014PdfParser/src directory and run the command "ruby parser.rb".
-4) Check lib/aug2014PdfParser/output directory for output spreadsheets.
-
-
     Descriptions of input files
 
 - azeriPoliticalPrisoners.pdf: The original pdf, found at http://www.esiweb.org/pdf/THE%20LIST%20-%2098%20political%20prisoners%20in%20Azerbaijan%20-%20August%202014.pdf as of 10/29/14

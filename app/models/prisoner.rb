@@ -112,7 +112,11 @@ class Prisoner < ActiveRecord::Base
   # Imprisoned count timeline
 
   def self.generate_imprisoned_count_timeline_json
-    File.open(Rails.public_path.join("chart_data/imprisoned_count_timeline.json"), "w") do |f|
+    dir_path = Rails.public_path.join("chart_data")
+    json_path = dir_path.join("imprisoned_count_timeline.json")
+    # if folder path not exist, create it
+    FileUtils.mkpath(dir_path) if !File.exists?(dir_path)
+    File.open(json_path, "w") do |f|
       f.write({data: imprisoned_counts_from_date_to_date(Date.new(2007,01,01), Date.today)}.to_json)
     end
   end

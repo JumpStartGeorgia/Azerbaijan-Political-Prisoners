@@ -21,8 +21,8 @@ ActiveRecord::Schema.define(version: 20150226085730) do
     t.datetime "updated_at"
   end
 
-  add_index "articles", ["criminal_code_id"], name: "index_articles_on_criminal_code_id"
-  add_index "articles", ["number"], name: "index_articles_on_number"
+  add_index "articles", ["criminal_code_id"], name: "index_articles_on_criminal_code_id", using: :btree
+  add_index "articles", ["number"], name: "index_articles_on_number", using: :btree
 
   create_table "charges", force: true do |t|
     t.integer  "incident_id"
@@ -31,8 +31,8 @@ ActiveRecord::Schema.define(version: 20150226085730) do
     t.datetime "updated_at"
   end
 
-  add_index "charges", ["article_id"], name: "index_charges_on_article_id"
-  add_index "charges", ["incident_id"], name: "index_charges_on_incident_id"
+  add_index "charges", ["article_id"], name: "index_charges_on_article_id", using: :btree
+  add_index "charges", ["incident_id"], name: "index_charges_on_incident_id", using: :btree
 
   create_table "criminal_codes", force: true do |t|
     t.string   "name"
@@ -53,20 +53,20 @@ ActiveRecord::Schema.define(version: 20150226085730) do
     t.datetime "updated_at"
   end
 
-  add_index "incidents", ["date_of_arrest"], name: "index_incidents_on_date_of_arrest"
-  add_index "incidents", ["date_of_release"], name: "index_incidents_on_date_of_release"
-  add_index "incidents", ["prison_id"], name: "index_incidents_on_prison_id"
-  add_index "incidents", ["prisoner_id"], name: "index_incidents_on_prisoner_id"
-  add_index "incidents", ["subtype_id"], name: "index_incidents_on_subtype_id"
-  add_index "incidents", ["type_id"], name: "index_incidents_on_type_id"
+  add_index "incidents", ["date_of_arrest"], name: "index_incidents_on_date_of_arrest", using: :btree
+  add_index "incidents", ["date_of_release"], name: "index_incidents_on_date_of_release", using: :btree
+  add_index "incidents", ["prison_id"], name: "index_incidents_on_prison_id", using: :btree
+  add_index "incidents", ["prisoner_id"], name: "index_incidents_on_prisoner_id", using: :btree
+  add_index "incidents", ["subtype_id"], name: "index_incidents_on_subtype_id", using: :btree
+  add_index "incidents", ["type_id"], name: "index_incidents_on_type_id", using: :btree
 
   create_table "incidents_tags", id: false, force: true do |t|
     t.integer "incident_id"
     t.integer "tag_id"
   end
 
-  add_index "incidents_tags", ["incident_id"], name: "index_incidents_tags_on_incident_id"
-  add_index "incidents_tags", ["tag_id"], name: "index_incidents_tags_on_tag_id"
+  add_index "incidents_tags", ["incident_id"], name: "index_incidents_tags_on_incident_id", using: :btree
+  add_index "incidents_tags", ["tag_id"], name: "index_incidents_tags_on_tag_id", using: :btree
 
   create_table "prisoners", force: true do |t|
     t.string   "name"
@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 20150226085730) do
     t.boolean  "currently_imprisoned"
   end
 
-  add_index "prisoners", ["name"], name: "index_prisoners_on_name"
+  add_index "prisoners", ["name"], name: "index_prisoners_on_name", using: :btree
 
   create_table "prisons", force: true do |t|
     t.string   "name"
@@ -88,7 +88,7 @@ ActiveRecord::Schema.define(version: 20150226085730) do
     t.text     "description"
   end
 
-  add_index "prisons", ["name"], name: "index_prisons_on_name"
+  add_index "prisons", ["name"], name: "index_prisons_on_name", using: :btree
 
   create_table "roles", force: true do |t|
     t.string   "name"
@@ -96,7 +96,7 @@ ActiveRecord::Schema.define(version: 20150226085730) do
     t.datetime "updated_at"
   end
 
-  add_index "roles", ["name"], name: "index_roles_on_name"
+  add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
 
   create_table "tags", force: true do |t|
     t.string   "name"
@@ -105,7 +105,7 @@ ActiveRecord::Schema.define(version: 20150226085730) do
     t.datetime "updated_at"
   end
 
-  add_index "tags", ["name"], name: "index_tags_on_name"
+  add_index "tags", ["name"], name: "index_tags_on_name", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -123,8 +123,8 @@ ActiveRecord::Schema.define(version: 20150226085730) do
     t.integer  "role_id"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  add_index "users", ["role_id"], name: "index_users_on_role_id"
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["role_id"], name: "index_users_on_role_id", using: :btree
 
 end

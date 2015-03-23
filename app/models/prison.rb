@@ -2,7 +2,11 @@ class Prison < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
 
   def self.generate_prison_prisoner_count_chart_json
-    File.open(Rails.public_path.join("chart_data/prison_prisoner_count_chart.json"), "w") do |f|
+    dir_path = Rails.public_path.join("chart_data")
+    json_path = dir_path.join("prison_prisoner_count_chart.json")
+    # if folder path not exist, create it
+    FileUtils.mkpath(dir_path) if !File.exists?(dir_path)
+    File.open(json_path, "w") do |f|
       f.write(prison_prisoner_count_chart.to_json)
     end
   end

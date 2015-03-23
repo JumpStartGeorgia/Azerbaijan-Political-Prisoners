@@ -75,7 +75,7 @@ group :development, :test do
   gem 'database_cleaner', '~> 1.3.0'
 end
 
-group :production do
+group :staging, :production do
   gem 'puma', '~> 2.11.1'
 end
 

@@ -57,12 +57,12 @@ lock '3.4.0'
 server 'alpha.jumpstart.ge', roles: [:web, :app, :db], primary: true
 
 set :rails_env, :staging
+set :user, "prisoners-staging"
+set :application, "Azeri-Prisoners-Staging"
 set :github_account_name, "JumpStartGeorgia"
 set :github_repo_name, "Azerbaijan-Political-Prisoners"
 set :repo_url, "git@github.com:#{fetch(:github_account_name)}/#{fetch(:github_repo_name)}.git"
-set :branch, "dev"
-set :application, "Azeri-Prisoners-Staging"
-set :user, "prisoners-staging"
+set :branch, "cap"
 set :puma_threads,    [4, 16]
 set :puma_workers,    0
 

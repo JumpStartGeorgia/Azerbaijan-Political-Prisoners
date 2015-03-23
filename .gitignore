@@ -27,4 +27,4 @@ lib/aug2014PdfParser/output/*
 .rbenv-gemsets
 
 /config/database.yml
-/config/secrets/devise_secret_key.txt
+.env

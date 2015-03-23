@@ -1,7 +1,7 @@
 require_relative 'clean.rb'
 require_relative 'Article.rb'
 
-class Prisoner
+class List_Prisoner
     def checkNotListedValue(value, notListedArray, label)
         if value.length == 0
             if notListedArray.include? @id
@@ -268,7 +268,7 @@ class Prisoner
             end
 
             if !multipleOccurrencesOfSameCharge
-                charges.push(Article.new(criminalCode, articleNumber))
+                charges.push(List_Article.new(criminalCode, articleNumber))
             end
         end
 

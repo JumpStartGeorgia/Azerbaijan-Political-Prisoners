@@ -1,4 +1,4 @@
-class Article
+class List_Article
     def initialize(criminalCode, number)
         @criminalCode = criminalCode
         @number = number

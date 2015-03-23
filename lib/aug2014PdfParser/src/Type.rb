@@ -64,7 +64,7 @@ class PrisonerType
             if !prisonerAlreadyFound
                 prisonerText = prisonerTypeText.css('#prisoner-' + j.to_s).to_s
                 if prisonerText.length != 0
-                    prisoner = Prisoner.new( j, self, 'No Subtype', prisonerText )
+                    prisoner = List_Prisoner.new( j, self, 'No Subtype', prisonerText )
                     prisoners.push( prisoner )
                 end
             end

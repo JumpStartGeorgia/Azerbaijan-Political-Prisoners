@@ -96,7 +96,7 @@ after "deploy", "deploy:cleanup" # remove the old releases
 # set :keep_releases, 5
 
 ## Linked Files & Directories (Default None):
-set :linked_files, %w{config/database.yml config/secrets/devise_secret_key.txt}
+set :linked_files, %w{.env config/database.yml config/secrets/devise_secret_key.txt}
 set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets public/system}
 
 namespace :puma do

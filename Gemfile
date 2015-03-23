@@ -36,6 +36,7 @@ gem 'spring', '~> 1.1.3',        group: :development
 # gem 'debugger', group: [:development, :test]
 
 
+gem 'dotenv-rails', '~> 2.0.0'
 gem 'cocoon', '~> 1.2.6'
 gem 'gon', '~> 5.2.3'
 gem 'tinymce-rails', '~> 4.1.6'

@@ -62,7 +62,7 @@ set :application, "Azeri-Prisoners-Staging"
 set :github_account_name, "JumpStartGeorgia"
 set :github_repo_name, "Azerbaijan-Political-Prisoners"
 set :repo_url, "git@github.com:#{fetch(:github_account_name)}/#{fetch(:github_repo_name)}.git"
-set :branch, "cap_test"
+set :branch, "master"
 set :puma_threads,    [4, 16]
 set :puma_workers,    0
 

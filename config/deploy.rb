@@ -55,6 +55,7 @@ lock '3.4.0'
 #
 
 server 'alpha.jumpstart.ge', roles: [:web, :app, :db], primary: true
+set :app_url, 'dev-prisoners.jumpstart.ge'
 
 set :rails_env, :staging
 set :user, "prisoners-staging"
@@ -104,17 +105,30 @@ set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets public/system}
 # set :nginx_sudo_tasks, ['nginx:start', 'nginx:stop', 'nginx:restart', 'nginx:reload', 'nginx:configtest', 'nginx:site:add', 'nginx:site:disable', 'nginx:site:enable', 'nginx:site:remove' ]
 set :nginx_sudo_paths, []
 set :nginx_sudo_tasks, []
+set :nginx_config_name, fetch(:application)
+set :nginx_server_name, fetch(:app_url)
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
   task :make_dirs do
     on roles(:app) do
-      execute "mkdir #{shared_path}/tmp/sockets -p"
-      execute "mkdir #{shared_path}/tmp/pids -p"
+      execute "mkdir #{fetch(:deploy_to)}/shared/tmp/sockets -p"
+      execute "mkdir #{fetch(:deploy_to)}/shared/tmp/pids -p"
     end
   end
 
   before :start, :make_dirs
+end
+
+namespace :nginx do
+  namespace :site do
+    Rake::Task["enable"].clear_actions
+    task :enable do
+      on roles(:app) do
+        sudo "ln -nfs #{fetch(:deploy_to)}/current/config/nginx.conf /etc/nginx/sites-enabled/#{fetch(:application)}"
+      end
+    end
+  end
 end
 
 namespace :deploy do
@@ -126,6 +140,13 @@ namespace :deploy do
         puts "Run `git push` to sync changes."
         exit
       end
+    end
+  end
+
+  desc 'Setup symlink in nginx sites-enabled directory'
+  task :setup_nginx do
+    on roles(:app) do
+      invoke 'nginx:site:enable'
     end
   end
 
@@ -145,6 +166,7 @@ namespace :deploy do
   end
 
   before :starting,     :check_revision
+  after  :finishing,    :setup_nginx
   after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
   after  :finishing,    :restart

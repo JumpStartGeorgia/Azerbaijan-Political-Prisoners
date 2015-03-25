@@ -20,6 +20,7 @@ require 'capistrano/rbenv'
 require 'capistrano/rails'
 require 'capistrano/bundler'
 require 'capistrano/puma'
+require 'capistrano/puma/nginx'
 require 'capistrano/nginx'
 # require 'capistrano/passenger'
 

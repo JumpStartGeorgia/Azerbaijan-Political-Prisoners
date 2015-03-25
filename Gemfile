@@ -61,6 +61,7 @@ group :development do
   gem 'capistrano-rails', '~> 1.1.2',   require: false
   gem 'capistrano-bundler', '~> 1.1.4', require: false
   gem 'capistrano3-puma', '~> 0.8.5' , require: false
+  gem 'capistrano3-nginx', '~> 2.0.7', require: false
 end
 
 group :development, :test do

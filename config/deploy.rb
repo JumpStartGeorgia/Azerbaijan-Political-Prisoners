@@ -99,6 +99,12 @@ after "deploy", "deploy:cleanup" # remove the old releases
 set :linked_files, %w{.env}
 set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets public/system}
 
+## Configuring Nginx
+# set :nginx_sudo_paths, [:nginx_log_path, :nginx_sites_enabled_dir, :nginx_sites_available_dir]
+# set :nginx_sudo_tasks, ['nginx:start', 'nginx:stop', 'nginx:restart', 'nginx:reload', 'nginx:configtest', 'nginx:site:add', 'nginx:site:disable', 'nginx:site:enable', 'nginx:site:remove' ]
+set :nginx_sudo_paths, []
+set :nginx_sudo_tasks, []
+
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
   task :make_dirs do

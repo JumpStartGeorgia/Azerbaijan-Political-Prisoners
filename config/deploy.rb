@@ -13,11 +13,13 @@ require 'mina/rbenv'  # for rbenv support. (http://rbenv.org)
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
 
+set :rails_env, 'staging'
 set :domain, 'alpha.jumpstart.ge'
 set :user, 'prisoners-staging'
 set :deploy_to, "/home/#{user}/Azeri-Prisoners-Staging"
 set :repository, "git@github.com:JumpStartGeorgia/Azerbaijan-Political-Prisoners.git"
 set :branch, '229'
+set :ssh_options, '-A'
 
 # For system-wide RVM install.
 #   set :rvm_path, '/usr/local/rvm/bin/rvm'
@@ -80,4 +82,3 @@ end
 #  - http://nadarei.co/mina/tasks
 #  - http://nadarei.co/mina/settings
 #  - http://nadarei.co/mina/helpers
-

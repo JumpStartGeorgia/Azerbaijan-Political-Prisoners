@@ -56,12 +56,7 @@ gem 'mysql2', '~> 0.3.18'
 group :development do
   gem 'quiet_assets', '~> 1.0.3'
   gem 'nokogiri', '~> 1.6.6.2' # Added for lib/aug2014PdfParser
-  gem 'capistrano', '~> 3.4.0',         require: false
-  gem 'capistrano-rbenv', '~> 2.0.3',   require: false
-  gem 'capistrano-rails', '~> 1.1.2',   require: false
-  gem 'capistrano-bundler', '~> 1.1.4', require: false
-  gem 'capistrano3-puma', '~> 0.8.5' , require: false
-  gem 'capistrano3-nginx', '~> 2.0.7', require: false
+  gem 'mina', '~> 0.3.3'
 end
 
 group :development, :test do

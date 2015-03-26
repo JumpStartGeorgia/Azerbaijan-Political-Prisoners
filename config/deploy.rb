@@ -1,58 +1,5 @@
 # config valid only for current version of Capistrano
 lock '3.4.0'
-#
-#set :stage, :staging
-#
-#
-#set :application, "Azeri-Prisoners-Staging"
-##set :stages, %w(production staging)
-#
-#
-#server "alpha.jumpstart.ge ", roles: %w{app web}
-#set :user, "prisoners-staging"
-#
-#set :github_account_name, "JumpStartGeorgia"
-#set :github_repo_name, "Azerbaijan-Political-Prisoners"
-#set :repo_url, "git@github.com:#{fetch(:github_account_name)}/#{fetch(:github_repo_name)}.git"
-#set :scm, "git"
-#set :branch, "master"
-#
-#set :deploy_to, "/home/#{fetch(:user)}/#{fetch(:application)}"
-#
-#set :pty, true
-#set :format, :pretty
-#set :log_level, :debug
-#
-
-#
-## Default value for :linked_files is []
-## set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
-#
-## Default value for linked_dirs is []
-## set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
-#
-## Default value for default_env is {}
-## set :default_env, { path: "/opt/ruby/bin:$PATH" }
-#
-#namespace :deploy do
-#
-#  after :restart, :clear_cache do
-#    on roles(:web), in: :groups, limit: 3, wait: 10 do
-#      # Here we can do anything such as:
-#      # within release_path do
-#      #   execute :rake, 'cache:clear'
-#      # end
-#    end
-#  end
-#
-#end
-#
-#
-#### FROM BOOTSTRAP STARTER PROJECT
-##require "bundler/capistrano" # Load Bundler's capistrano plugin.
-##set :deploy_via, :remote_cache
-##set :use_sudo, false
-#
 
 server 'alpha.jumpstart.ge', roles: [:web, :app, :db], primary: true
 set :app_url, 'dev-prisoners.jumpstart.ge'
@@ -91,10 +38,8 @@ after "deploy", "deploy:cleanup" # remove the old releases
 
 ## Defaults:
 # set :scm,           :git
-# set :branch,        :master
 # set :format,        :pretty
 # set :log_level,     :debug
-# set :keep_releases, 5
 
 ## Linked Files & Directories (Default None):
 set :linked_files, %w{.env}

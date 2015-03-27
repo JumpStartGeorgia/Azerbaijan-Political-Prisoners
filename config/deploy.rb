@@ -36,12 +36,17 @@ task :setup => :environment do
 
   queue! %[mkdir -p "#{deploy_to}/#{shared_path}/tmp/sockets"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/tmp/sockets"]
+
+  invoke :setup_nginx_reminder
 end
 
-desc 'Creates symlink in nginx sites-enabled to app nginx.conf.'
-task :setup_nginx => :environment do
-  #queue! %[sudo ln -nfs "#{deploy_to}/current/config/nginx.conf /etc/nginx/sites-enabled/#{application}"]
-  queue  %[echo "-----> Created symlink from nginx sites-enabled to app nginx.conf"]
+task :setup_nginx_reminder do
+  queue  %[echo ""]
+  queue  %[echo "-----> Run the following command on your server to create the symlink from the "]
+  queue  %[echo "-----> nginx sites-enabled directory to the app's nginx.conf file:"]
+  queue  %[echo ""]
+  queue  %[echo "sudo ln -nfs #{deploy_to}/current/config/nginx.conf /etc/nginx/sites-enabled/#{application}"]
+  queue  %[echo ""]
 end
 
 desc "Deploys the current version to the server."

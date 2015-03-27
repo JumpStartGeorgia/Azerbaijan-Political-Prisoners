@@ -52,10 +52,10 @@ gem 'devise', '~> 3.4.1'
 gem 'cancancan', '~> 1.10.1'
 gem 'highcharts-rails', '~> 4.0.4'
 gem 'mysql2', '~> 0.3.18'
+gem 'nokogiri', '~> 1.6.6.2' # Added for lib/aug2014PdfParser
 
 group :development do
   gem 'quiet_assets', '~> 1.0.3'
-  gem 'nokogiri', '~> 1.6.6.2' # Added for lib/aug2014PdfParser
   gem 'mina', '~> 0.3.3'
 end
 

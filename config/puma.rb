@@ -4,8 +4,8 @@ directory '/home/prisoners-staging/Azeri-Prisoners-Staging/current'
 rackup "/home/prisoners-staging/Azeri-Prisoners-Staging/current/config.ru"
 environment 'staging'
 
-pidfile "/home/prisoners-staging/Azeri-Prisoners-Staging/shared/tmp/pids/puma.pid"
-state_path "/home/prisoners-staging/Azeri-Prisoners-Staging/shared/tmp/sockets/puma.state"
+pidfile "/home/prisoners-staging/Azeri-Prisoners-Staging/tmp/puma/pid"
+state_path "/home/prisoners-staging/Azeri-Prisoners-Staging/tmp/puma/state"
 activate_control_app
 
 stdout_redirect '/home/prisoners-staging/Azeri-Prisoners-Staging/shared/log/puma.error.log', '/home/prisoners-staging/Azeri-Prisoners-Staging/shared/log/puma.access.log', true

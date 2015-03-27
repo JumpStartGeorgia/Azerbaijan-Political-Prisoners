@@ -1,17 +1,10 @@
 #require 'mina/multistage'
-#require 'mina/rsync'
 #require 'mina/nginx'
 #require 'mina/puma'
 require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
-require 'mina/rbenv'  # for rbenv support. (http://rbenv.org)
-
-# Basic settings:
-#   domain       - The hostname to SSH to.
-#   deploy_to    - Path to deploy into.
-#   repository   - Git repo to clone from. (needed by mina/git)
-#   branch       - Branch name to deploy. (needed by mina/git)
+require 'mina/rbenv'
 
 set :rails_env, 'staging'
 set :domain, 'alpha.jumpstart.ge'
@@ -19,28 +12,13 @@ set :user, 'prisoners-staging'
 set :deploy_to, "/home/#{user}/Azeri-Prisoners-Staging"
 set :repository, "git@github.com:JumpStartGeorgia/Azerbaijan-Political-Prisoners.git"
 set :branch, '229'
-set :ssh_options, '-A'
-
-# For system-wide RVM install.
-#   set :rvm_path, '/usr/local/rvm/bin/rvm'
-
-# Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
-# They will be linked in the 'deploy:link_shared_paths' step.
 set :shared_paths, ['.env', 'log']
-
-# Optional settings:
-#   set :port, '30000'     # SSH port number.
-#   set :forward_agent, true     # SSH forward_agent.
+set :forward_agent, true
 
 # This task is the environment that is loaded for most commands, such as
 # `mina deploy` or `mina rake`.
 task :environment do
-  # If you're using rbenv, use this to load the rbenv environment.
-  # Be sure to commit your .ruby-version or .rbenv-version to your repository.
   invoke :'rbenv:load'
-
-  # For those using RVM, use this to load an RVM version@gemset.
-  # invoke :'rvm:use[ruby-1.9.3-p125@default]'
 end
 
 # Put any custom mkdir's in here for when `mina setup` is ran.
@@ -49,24 +27,23 @@ end
 task :setup => :environment do
   queue! %[mkdir -p "#{deploy_to}/#{shared_path}/log"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/log"]
-  #
-  #queue! %[mkdir -p "#{deploy_to}/#{shared_path}/config"]
-  #queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/config"]
-  #
-  #queue! %[touch "#{deploy_to}/#{shared_path}/config/database.yml"]
-  #queue  %[echo "-----> Be sure to edit '#{deploy_to}/#{shared_path}/config/database.yml'."]
+end
+
+desc 'Creates symlink in nginx sites-enabled to app nginx.conf.'
+task :setup_nginx => :environment do
+  #queue! %[sudo ln -nfs "#{deploy_to}/current/config/nginx.conf /etc/nginx/sites-enabled/#{application}"]
+  queue  %[echo "-----> Created symlink from nginx sites-enabled to app nginx.conf"]
 end
 
 desc "Deploys the current version to the server."
 task :deploy => :environment do
   deploy do
-    # Put things that will set up an empty directory into a fully set-up
-    # instance of your project.
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
+    invoke :setup_nginx
     invoke :'deploy:cleanup'
 
     to :launch do
@@ -75,10 +52,3 @@ task :deploy => :environment do
     end
   end
 end
-
-# For help in making your deploy script, see the Mina documentation:
-#
-#  - http://nadarei.co/mina
-#  - http://nadarei.co/mina/tasks
-#  - http://nadarei.co/mina/settings
-#  - http://nadarei.co/mina/helpers

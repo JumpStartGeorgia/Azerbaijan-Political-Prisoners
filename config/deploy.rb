@@ -12,7 +12,7 @@ set :user, 'prisoners-staging'
 set :deploy_to, "/home/#{user}/Azeri-Prisoners-Staging"
 set :repository, "git@github.com:JumpStartGeorgia/Azerbaijan-Political-Prisoners.git"
 set :branch, '229'
-set :shared_paths, ['.env', 'log']
+set :shared_paths, ['.env', 'log', 'tmp/pids', 'tmp/sockets']
 set :forward_agent, true
 
 # This task is the environment that is loaded for most commands, such as
@@ -21,12 +21,21 @@ task :environment do
   invoke :'rbenv:load'
 end
 
-# Put any custom mkdir's in here for when `mina setup` is ran.
+# Put any custom mkdir's in here for   when `mina setup` is ran.
 # For Rails apps, we'll make some of the shared paths that are shared between
 # all releases.
 task :setup => :environment do
   queue! %[mkdir -p "#{deploy_to}/#{shared_path}/log"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/log"]
+
+  queue! %[mkdir -p "#{deploy_to}/#{shared_path}/tmp"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/tmp"]
+
+  queue! %[mkdir -p "#{deploy_to}/#{shared_path}/tmp/pids"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/tmp/pids"]
+
+  queue! %[mkdir -p "#{deploy_to}/#{shared_path}/tmp/sockets"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/tmp/sockets"]
 end
 
 desc 'Creates symlink in nginx sites-enabled to app nginx.conf.'

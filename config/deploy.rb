@@ -11,7 +11,7 @@ set :domain, 'alpha.jumpstart.ge'
 set :user, 'prisoners-staging'
 set :deploy_to, "/home/#{user}/Azeri-Prisoners-Staging"
 set :repository, "git@github.com:JumpStartGeorgia/Azerbaijan-Political-Prisoners.git"
-set :branch, '229'
+set :branch, 'dev'
 set :shared_paths, ['.env', 'log', 'tmp/pids', 'tmp/sockets']
 set :forward_agent, true
 

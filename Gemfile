@@ -57,6 +57,7 @@ gem 'nokogiri', '~> 1.6.6.2' # Added for lib/aug2014PdfParser
 group :development do
   gem 'quiet_assets', '~> 1.0.3'
   gem 'mina', '~> 0.3.3'
+  gem 'mina-puma', '~> 0.2.0'
 end
 
 group :development, :test do

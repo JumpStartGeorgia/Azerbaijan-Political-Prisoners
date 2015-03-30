@@ -31,14 +31,8 @@ task :setup => :environment do
   queue! %[mkdir -p "#{full_shared_path}/log"]
   queue! %[chmod g+rx,u+rwx "#{full_shared_path}/log"]
 
-  queue! %[mkdir -p "#{deploy_to}/tmp/pids"]
-  queue! %[chmod g+rx,u+rwx "#{deploy_to}/tmp/pids"]
-
-  queue! %[mkdir -p "#{deploy_to}/tmp/sockets"]
-  queue! %[chmod g+rx,u+rwx "#{deploy_to}/tmp/sockets"]
-
-  queue! %[mkdir -p "#{deploy_to}/tmp/puma"]
-  queue! %[chmod g+rx,u+rwx "#{deploy_to}/tmp/puma"]
+  queue! %[mkdir -p "#{deploy_to}/tmp/puma/sockets"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/tmp/puma/sockets"]
 
   invoke :setup_nginx_reminder
   invoke :add_to_puma_jungle_reminder

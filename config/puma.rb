@@ -14,7 +14,7 @@ stdout_redirect '/home/prisoners-staging/Azeri-Prisoners-Staging/shared/log/puma
 
 threads 4,16
 
-bind 'unix:///home/prisoners-staging/Azeri-Prisoners-Staging/tmp/sockets/Azeri-Prisoners-Staging-puma.sock'
+bind 'unix:///home/prisoners-staging/Azeri-Prisoners-Staging/tmp/puma/sockets/Azeri-Prisoners-Staging-puma.sock'
 workers 1
 
 

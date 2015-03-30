@@ -23,6 +23,7 @@ set :puma_socket, "#{deploy_to}/tmp/puma/sockets/#{application}-puma.sock"
 set :puma_pid, "#{deploy_to}/tmp/puma/pid"
 set :puma_state, "#{deploy_to}/tmp/puma/state"
 set :pumactl_socket, "#{deploy_to}/tmp/puma/sockets/#{application}-pumactl.sock"
+set :puma_config, "#{full_current_path}/config/puma.rb"
 
 
 # This task is the environment that is loaded for most commands, such as

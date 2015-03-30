@@ -58,7 +58,7 @@ task :add_to_puma_jungle_reminder do
   queue  %[echo "-----> Run the following command on your server to add your app to the list of puma apps in "]
   queue  %[echo "-----> the file /etc/puma.conf. All apps in this file are automatically started"]
   queue  %[echo "-----> whenever the server is booted up. They can also be controlled with the script "]
-  queue  %[echo "-----> /etc/init.d/puma (i.e. try running the command '/etc/init.d/puma status'."]
+  queue  %[echo "-----> /etc/init.d/puma (i.e. try running the command '/etc/init.d/puma status')."]
   queue  %[echo ""]
   queue  %[echo "sudo /etc/init.d/puma add #{deploy_to} #{user} #{full_current_path}/config/puma.rb #{full_shared_path}/log/puma.log"]
   queue  %[echo ""]

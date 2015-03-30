@@ -6,7 +6,7 @@ environment 'staging'
 
 pidfile "/home/prisoners-staging/Azeri-Prisoners-Staging/tmp/puma/pid"
 state_path "/home/prisoners-staging/Azeri-Prisoners-Staging/tmp/puma/state"
-activate_control_app
+activate_control_app 'unix:///home/prisoners-staging/Azeri-Prisoners-Staging/tmp/puma/sockets/Azeri-Prisoners-Staging-pumactl.sock'
 
 stdout_redirect '/home/prisoners-staging/Azeri-Prisoners-Staging/shared/log/puma.error.log', '/home/prisoners-staging/Azeri-Prisoners-Staging/shared/log/puma.access.log', true
 

@@ -18,6 +18,13 @@ set :branch, 'dev'
 set :shared_paths, ['.env', 'log']
 set :forward_agent, true
 
+# Puma settings
+set :puma_socket, "#{deploy_to}/tmp/puma/sockets/#{application}-puma.sock"
+set :puma_pid, "#{deploy_to}/tmp/puma/pid"
+set :puma_state, "#{deploy_to}/tmp/puma/state"
+set :pumactl_socket, "#{deploy_to}/tmp/puma/sockets/#{application}-pumactl.sock"
+
+
 # This task is the environment that is loaded for most commands, such as
 # `mina deploy` or `mina rake`.
 task :environment do

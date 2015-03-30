@@ -15,7 +15,7 @@ set :full_current_path, "#{deploy_to}/#{current_path}"
 set :full_shared_path, "#{deploy_to}/#{shared_path}"
 set :repository, "git@github.com:JumpStartGeorgia/Azerbaijan-Political-Prisoners.git"
 set :branch, 'dev'
-set :shared_paths, ['.env', 'log', 'tmp/pids', 'tmp/sockets']
+set :shared_paths, ['.env', 'log']
 set :forward_agent, true
 
 # This task is the environment that is loaded for most commands, such as
@@ -31,11 +31,11 @@ task :setup => :environment do
   queue! %[mkdir -p "#{full_shared_path}/log"]
   queue! %[chmod g+rx,u+rwx "#{full_shared_path}/log"]
 
-  queue! %[mkdir -p "#{full_shared_path}/tmp/pids"]
-  queue! %[chmod g+rx,u+rwx "#{full_shared_path}/tmp/pids"]
+  queue! %[mkdir -p "#{deploy_to}/tmp/pids"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/tmp/pids"]
 
-  queue! %[mkdir -p "#{full_shared_path}/tmp/sockets"]
-  queue! %[chmod g+rx,u+rwx "#{full_shared_path}/tmp/sockets"]
+  queue! %[mkdir -p "#{deploy_to}/tmp/sockets"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/tmp/sockets"]
 
   queue! %[mkdir -p "#{deploy_to}/tmp/puma"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/tmp/puma"]

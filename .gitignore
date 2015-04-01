@@ -27,3 +27,5 @@ lib/aug2014PdfParser/output/*
 .rbenv-gemsets
 
 .env
+
+public/assets/*

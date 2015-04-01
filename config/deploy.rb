@@ -10,6 +10,7 @@ set :rails_env, 'staging'
 set :domain, 'alpha.jumpstart.ge'
 set :user, 'prisoners-staging'
 set :application, 'Azeri-Prisoners-Staging'
+set :stage, 'staging'
 set :deploy_to, "/home/#{user}/#{application}"
 set :full_current_path, "#{deploy_to}/#{current_path}"
 set :full_shared_path, "#{deploy_to}/#{shared_path}"
@@ -24,6 +25,10 @@ set :puma_pid, "#{deploy_to}/tmp/puma/pid"
 set :puma_state, "#{deploy_to}/tmp/puma/state"
 set :pumactl_socket, "#{deploy_to}/tmp/puma/sockets/#{application}-pumactl.sock"
 set :puma_config, "#{full_current_path}/config/puma.rb"
+
+# Assets settings
+set :precompiled_assets_dir, 'public/assets'
+set :precompiled_assets_tar, "tmp/#{stage}_assets.tar.gz"
 
 
 # This task is the environment that is loaded for most commands, such as
@@ -66,14 +71,37 @@ task :add_to_puma_jungle_reminder do
   queue  %[echo ""]
 end
 
+task :precompile_assets_locally do
+  system %[echo "-----> Cleaning assets locally"]
+  system %[bundle exec rake assets:clean RAILS_GROUPS=assets]
+
+  system %[echo "-----> Precompiling assets locally"]
+  system %[bundle exec rake assets:precompile RAILS_GROUPS=assets]
+
+  system %[echo "-----> Tarballing assets to #{precompiled_assets_tar}"]
+  system %[tar -cvzf #{precompiled_assets_tar} -C #{precompiled_assets_dir} .]
+
+  system %[echo "-----> Moving assets tar file to #{deploy_to}/#{precompiled_assets_tar} on server"]
+  system %[scp #{precompiled_assets_tar} #{user}@#{domain}:#{deploy_to}/#{precompiled_assets_tar} && rm #{precompiled_assets_tar}]
+end
+
+task :setup_assets do
+  queue %[echo "-----> Unzipping assets tar file to #{full_current_path}/public/assets"]
+  queue %[mkdir ./public/assets && tar -xvzf #{deploy_to}/#{precompiled_assets_tar} -C ./public/assets]
+
+  queue %[echo "-----> Removing tar file #{deploy_to}/#{precompiled_assets_tar}"]
+  queue %[rm #{deploy_to}/#{precompiled_assets_tar}]
+end
+
 desc "Deploys the current version to the server."
 task :deploy => :environment do
   deploy do
+    invoke :'precompile_assets_locally'
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
-    invoke :'rails:assets_precompile'
+    invoke :'setup_assets'
     invoke :'deploy:cleanup'
 
     to :launch do

@@ -72,6 +72,14 @@ task :add_to_puma_jungle_reminder do
 end
 
 namespace :deploy do
+  task :check_revision do
+    unless `git rev-parse HEAD` == `git rev-parse origin/#{branch}`
+      puts "WARNING: HEAD is not the same as origin/#{branch}"
+      puts "Run `git push` to sync changes."
+      exit
+    end
+  end
+
   namespace :assets do
     task :local_precompile do
       system %[echo "-----> Cleaning assets locally"]
@@ -98,7 +106,9 @@ namespace :deploy do
 end
 
 desc "Deploys the current version to the server."
-task :deploy => :environment do
+task :deploy => :environment
+  invoke :'deploy:check_revision'
+
   deploy do
     invoke :'deploy:assets:local_precompile'
     invoke :'git:clone'

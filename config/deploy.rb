@@ -71,22 +71,22 @@ task :add_to_puma_jungle_reminder do
   queue  %[echo ""]
 end
 
-task :precompile_assets_locally do
-  system %[echo "-----> Cleaning assets locally"]
-  system %[bundle exec rake assets:clean RAILS_GROUPS=assets]
-
-  system %[echo "-----> Precompiling assets locally"]
-  system %[bundle exec rake assets:precompile RAILS_GROUPS=assets]
-
-  system %[echo "-----> Tarballing assets to #{precompiled_assets_tar}"]
-  system %[tar -cvzf #{precompiled_assets_tar} -C #{precompiled_assets_dir} .]
-
-  system %[echo "-----> Moving assets tar file to #{deploy_to}/#{precompiled_assets_tar} on server"]
-  system %[scp #{precompiled_assets_tar} #{user}@#{domain}:#{deploy_to}/#{precompiled_assets_tar} && rm #{precompiled_assets_tar}]
-end
-
 namespace :deploy do
   namespace :assets do
+    task :local_precompile do
+      system %[echo "-----> Cleaning assets locally"]
+      system %[bundle exec rake assets:clean RAILS_GROUPS=assets]
+
+      system %[echo "-----> Precompiling assets locally"]
+      system %[bundle exec rake assets:precompile RAILS_GROUPS=assets]
+
+      system %[echo "-----> Tarballing assets to #{precompiled_assets_tar}"]
+      system %[tar -cvzf #{precompiled_assets_tar} -C #{precompiled_assets_dir} .]
+
+      system %[echo "-----> Moving assets tar file to #{deploy_to}/#{precompiled_assets_tar} on server"]
+      system %[scp #{precompiled_assets_tar} #{user}@#{domain}:#{deploy_to}/#{precompiled_assets_tar} && rm #{precompiled_assets_tar}]
+    end
+
     task :unzip do
       queue %[echo "-----> Unzipping assets tar file to #{full_current_path}/public/assets"]
       queue %[mkdir ./public/assets && tar -xvzf #{deploy_to}/#{precompiled_assets_tar} -C ./public/assets]
@@ -100,7 +100,7 @@ end
 desc "Deploys the current version to the server."
 task :deploy => :environment do
   deploy do
-    invoke :'precompile_assets_locally'
+    invoke :'deploy:assets:local_precompile'
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'

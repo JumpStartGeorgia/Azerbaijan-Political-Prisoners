@@ -15,7 +15,7 @@ set :deploy_to, "/home/#{user}/#{application}"
 set :full_current_path, "#{deploy_to}/#{current_path}"
 set :full_shared_path, "#{deploy_to}/#{shared_path}"
 set :repository, "git@github.com:JumpStartGeorgia/Azerbaijan-Political-Prisoners.git"
-set :branch, 'dev'
+set :branch, 'master'
 set :shared_paths, ['.env', 'log']
 set :forward_agent, true
 
@@ -88,6 +88,24 @@ namespace :deploy do
   end
 
   namespace :assets do
+    task :check_changed do
+      set :assets_changed, false
+
+      # Locations where assets may have changed; check Gemfile.lock to ensure that gem assets are the same
+      asset_files_directories = "app/assets vendor/assets Gemfile.lock"
+
+      current_commit = `git rev-parse HEAD`.strip()
+      deployed_commit = capture(%[cat #{deploy_to}/scm/FETCH_HEAD]).split(" ")[0]
+
+      git_diff = `git diff --name-only #{deployed_commit}..#{current_commit} #{asset_files_directories}`
+
+      unless git_diff.length == 0
+        set :assets_changed, true
+      else
+        system %[echo "-----> Assets did not change; skipping precompile step"]
+      end
+    end
+
     task :local_precompile do
       system %[echo "-----> Cleaning assets locally"]
       system %[bundle exec rake assets:clean RAILS_GROUPS=assets]
@@ -114,15 +132,15 @@ end
 
 desc "Deploys the current version to the server."
 task :deploy => :environment do
-  invoke :'deploy:check_revision'
-
   deploy do
-    invoke :'deploy:assets:local_precompile'
+    invoke :'deploy:check_revision'
+    invoke :'deploy:assets:check_changed'
+    invoke :'deploy:assets:local_precompile' if assets_changed
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
-    invoke :'deploy:assets:unzip'
+    invoke :'deploy:assets:unzip' if assets_changed
     invoke :'deploy:cleanup'
 
     to :launch do

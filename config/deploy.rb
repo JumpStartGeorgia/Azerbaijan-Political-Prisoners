@@ -15,7 +15,7 @@ set :deploy_to, "/home/#{user}/#{application}"
 set :full_current_path, "#{deploy_to}/#{current_path}"
 set :full_shared_path, "#{deploy_to}/#{shared_path}"
 set :repository, "git@github.com:JumpStartGeorgia/Azerbaijan-Political-Prisoners.git"
-set :branch, 'master'
+set :branch, 'dev'
 set :shared_paths, ['.env', 'log']
 set :forward_agent, true
 

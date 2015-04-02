@@ -85,12 +85,16 @@ task :precompile_assets_locally do
   system %[scp #{precompiled_assets_tar} #{user}@#{domain}:#{deploy_to}/#{precompiled_assets_tar} && rm #{precompiled_assets_tar}]
 end
 
-task :setup_assets do
-  queue %[echo "-----> Unzipping assets tar file to #{full_current_path}/public/assets"]
-  queue %[mkdir ./public/assets && tar -xvzf #{deploy_to}/#{precompiled_assets_tar} -C ./public/assets]
+namespace :deploy do
+  namespace :assets do
+    task :unzip do
+      queue %[echo "-----> Unzipping assets tar file to #{full_current_path}/public/assets"]
+      queue %[mkdir ./public/assets && tar -xvzf #{deploy_to}/#{precompiled_assets_tar} -C ./public/assets]
 
-  queue %[echo "-----> Removing tar file #{deploy_to}/#{precompiled_assets_tar}"]
-  queue %[rm #{deploy_to}/#{precompiled_assets_tar}]
+      queue %[echo "-----> Removing tar file #{deploy_to}/#{precompiled_assets_tar}"]
+      queue %[rm #{deploy_to}/#{precompiled_assets_tar}]
+    end
+  end
 end
 
 desc "Deploys the current version to the server."
@@ -101,7 +105,7 @@ task :deploy => :environment do
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
-    invoke :'setup_assets'
+    invoke :'deploy:assets:unzip'
     invoke :'deploy:cleanup'
 
     to :launch do

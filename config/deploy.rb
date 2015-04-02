@@ -106,7 +106,7 @@ namespace :deploy do
 end
 
 desc "Deploys the current version to the server."
-task :deploy => :environment
+task :deploy => :environment do
   invoke :'deploy:check_revision'
 
   deploy do

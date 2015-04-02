@@ -78,6 +78,13 @@ namespace :deploy do
       puts "Run `git push` to sync changes."
       exit
     end
+
+    unless `git status`.include? 'nothing to commit, working directory clean'
+      puts "WARNING: There are uncommitted changes to the local git repository, which"
+      puts "may cause problems for locally precompiling assets."
+      puts "Please clean local repository with `git stash` or `git reset`."
+      exit
+    end
   end
 
   namespace :assets do

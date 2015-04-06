@@ -102,7 +102,7 @@ namespace :deploy do
       unless git_diff.length == 0
         set :assets_changed, true
       else
-        system %[echo "-----> Assets did not change; skipping precompile step"]
+        system %[echo "-----> Assets unchanged; skipping precompile assets"]
       end
     end
 
@@ -127,6 +127,11 @@ namespace :deploy do
       queue %[echo "-----> Removing tar file #{deploy_to}/#{precompiled_assets_tar}"]
       queue %[rm #{deploy_to}/#{precompiled_assets_tar}]
     end
+
+    task :copy do
+      queue %[echo "-----> Copying unchanged assets from previous release to current release"]
+      queue %[cp -a #{full_current_path}/public/assets/. ./public/assets]
+    end
   end
 end
 
@@ -141,6 +146,7 @@ task :deploy => :environment do
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
     invoke :'deploy:assets:unzip' if assets_changed
+    invoke :'deploy:assets:copy' if !assets_changed
     invoke :'deploy:cleanup'
 
     to :launch do

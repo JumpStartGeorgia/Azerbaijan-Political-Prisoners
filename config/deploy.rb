@@ -90,19 +90,29 @@ namespace :deploy do
   namespace :assets do
     task :check_changed do
       set :assets_changed, false
+      set :first_deploy, false
 
       # Locations where assets may have changed; check Gemfile.lock to ensure that gem assets are the same
       asset_files_directories = "app/assets vendor/assets Gemfile.lock"
 
       current_commit = `git rev-parse HEAD`.strip()
-      deployed_commit = capture(%[cat #{deploy_to}/scm/FETCH_HEAD]).split(" ")[0]
 
-      git_diff = `git diff --name-only #{deployed_commit}..#{current_commit} #{asset_files_directories}`
+      # Get deployed commit hash from FETCH_HEAD file
+      deployed_commit = capture(%[cat #{deploy_to}/scm/FETCH_HEAD]).split(" ")[0].strip()
 
-      unless git_diff.length == 0
+      # If FETCH_HEAD file does not exist, deployed_commit hash will not be 40 characters and it will be the first deploy
+      if deployed_commit.length != 40
+        system %[echo "-----> FIRST DEPLOY"]
+        set :first_deploy, true
         set :assets_changed, true
       else
-        system %[echo "-----> Assets unchanged; skipping precompile assets"]
+        git_diff = `git diff --name-only #{deployed_commit}..#{current_commit} #{asset_files_directories}`
+
+        if git_diff.length != 0
+          set :assets_changed, true
+        else
+          system %[echo "-----> Assets unchanged; skipping precompile assets"]
+        end
       end
     end
 
@@ -152,6 +162,7 @@ task :deploy => :environment do
     to :launch do
       queue "mkdir -p #{full_current_path}/tmp/"
       queue "touch #{full_current_path}/tmp/restart.txt"
+      invoke :'puma:start' if first_deploy
     end
   end
 end

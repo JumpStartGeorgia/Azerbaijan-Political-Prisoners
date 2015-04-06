@@ -129,7 +129,7 @@ namespace :deploy do
     end
 
     task :copy do
-      queue %[echo "-----> Copying unchanged assets from previous release to current release"]
+      queue %[echo "-----> Copying assets from previous release to current release"]
       queue %[cp -a #{full_current_path}/public/assets/. ./public/assets]
     end
   end

@@ -88,30 +88,35 @@ namespace :deploy do
   end
 
   namespace :assets do
-    task :check_changed do
-      set :assets_changed, false
-      set :first_deploy, false
-
-      # Locations where assets may have changed; check Gemfile.lock to ensure that gem assets are the same
-      asset_files_directories = "app/assets vendor/assets Gemfile.lock"
-
-      current_commit = `git rev-parse HEAD`.strip()
-
-      # Get deployed commit hash from FETCH_HEAD file
-      deployed_commit = capture(%[cat #{deploy_to}/scm/FETCH_HEAD]).split(" ")[0]
-
-      # If FETCH_HEAD file does not exist, deployed_commit hash will not be 40 characters and it will be the first deploy
-      if deployed_commit == nil || deployed_commit.length != 40
-        system %[echo "-----> FIRST DEPLOY (or simply cannot determine the commit hash of the previous release)"]
-        set :first_deploy, true
-        set :assets_changed, true
+    task :decide_whether_to_precompile do
+      set :precompile_assets, false
+      if ENV['precompile_assets']
+        set :precompile_assets, true
       else
-        git_diff = `git diff --name-only #{deployed_commit}..#{current_commit} #{asset_files_directories}`
+        # Locations where assets may have changed; check Gemfile.lock to ensure that gem assets are the same
+        asset_files_directories = "app/assets vendor/assets Gemfile.lock"
 
-        if git_diff.length != 0
-          set :assets_changed, true
+        current_commit = `git rev-parse HEAD`.strip()
+
+        # Get deployed commit hash from FETCH_HEAD file
+        deployed_commit = capture(%[cat #{deploy_to}/scm/FETCH_HEAD]).split(" ")[0]
+
+        # If FETCH_HEAD file does not exist, deployed_commit hash will not be 40 characters and it will be the first deploy
+        if deployed_commit == nil || deployed_commit.length != 40
+          system %[echo "-----> Cannot determine the commit hash of the previous release on the server"]
+          system %[echo "-----> If this is your first deploy (or you want to skip this error), deploy like this:"]
+          system %[echo ""]
+          system %[echo "mina deploy precompile_assets=true"]
+          system %[echo ""]
+          exit
         else
-          system %[echo "-----> Assets unchanged; skipping precompile assets"]
+          git_diff = `git diff --name-only #{deployed_commit}..#{current_commit} #{asset_files_directories}`
+
+          if git_diff.length != 0
+            set :precompile_assets, true
+          else
+            system %[echo "-----> Assets unchanged; skipping precompile assets"]
+          end
         end
       end
     end
@@ -149,20 +154,19 @@ desc "Deploys the current version to the server."
 task :deploy => :environment do
   deploy do
     invoke :'deploy:check_revision'
-    invoke :'deploy:assets:check_changed'
-    invoke :'deploy:assets:local_precompile' if assets_changed
+    invoke :'deploy:assets:decide_whether_to_precompile'
+    invoke :'deploy:assets:local_precompile' if precompile_assets
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
-    invoke :'deploy:assets:unzip' if assets_changed
-    invoke :'deploy:assets:copy' if !assets_changed
+    invoke :'deploy:assets:unzip' if precompile_assets
+    invoke :'deploy:assets:copy' if !precompile_assets
     invoke :'deploy:cleanup'
 
     to :launch do
       queue "mkdir -p #{full_current_path}/tmp/"
       queue "touch #{full_current_path}/tmp/restart.txt"
-      invoke :'puma:start' if first_deploy
     end
   end
 end

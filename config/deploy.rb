@@ -98,11 +98,11 @@ namespace :deploy do
       current_commit = `git rev-parse HEAD`.strip()
 
       # Get deployed commit hash from FETCH_HEAD file
-      deployed_commit = capture(%[cat #{deploy_to}/scm/FETCH_HEAD]).split(" ")[0].strip()
+      deployed_commit = capture(%[cat #{deploy_to}/scm/FETCH_HEAD]).split(" ")[0]
 
       # If FETCH_HEAD file does not exist, deployed_commit hash will not be 40 characters and it will be the first deploy
-      if deployed_commit.length != 40
-        system %[echo "-----> FIRST DEPLOY"]
+      if deployed_commit == nil || deployed_commit.length != 40
+        system %[echo "-----> FIRST DEPLOY (or simply cannot determine the commit hash of the previous release)"]
         set :first_deploy, true
         set :assets_changed, true
       else

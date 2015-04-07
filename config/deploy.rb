@@ -28,8 +28,6 @@ set :puma_config, "#{full_current_path}/config/puma.rb"
 
 # Assets settings
 set :precompiled_assets_dir, 'public/assets'
-set :precompiled_assets_tar, "tmp/#{stage}_assets.tar.gz"
-
 
 # This task is the environment that is loaded for most commands, such as
 # `mina deploy` or `mina rake`.
@@ -138,13 +136,13 @@ namespace :deploy do
       system %[echo "-----> Precompiling assets locally"]
       system %[bundle exec rake assets:precompile RAILS_GROUPS=assets]
 
-      system %[echo "-----> RSyncinc remote assets (tmp/assets) with local assets (public/assets)"]
-      system %[rsync --verbose --recursive --times ./public/assets/. #{user}@#{domain}:#{deploy_to}/tmp/assets]
+      system %[echo "-----> RSyncinc remote assets (tmp/assets) with local assets (#{precompiled_assets_dir})"]
+      system %[rsync --verbose --recursive --times ./#{precompiled_assets_dir}/. #{user}@#{domain}:#{deploy_to}/tmp/assets]
     end
 
     task :copy do
-      queue %[echo "-----> Copying assets from tmp/assets to current/public/assets"]
-      queue %[cp -a #{deploy_to}/tmp/assets/. ./public/assets]
+      queue %[echo "-----> Copying assets from tmp/assets to current/#{precompiled_assets_dir}"]
+      queue %[cp -a #{deploy_to}/tmp/assets/. ./#{precompiled_assets_dir}]
     end
   end
 end

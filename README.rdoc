@@ -7,6 +7,7 @@ To get started
     Deploy
 
 Custom precompile assets method:
+
 1) Determine whether to precompile the assets
    a) If the flag 'precompile_assets=true' is set, then precompile assets
    b) Use git to view difference in the assets files between the commit on the server

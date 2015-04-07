@@ -137,7 +137,7 @@ namespace :deploy do
       system %[bundle exec rake assets:precompile RAILS_GROUPS=assets]
 
       system %[echo "-----> RSyncinc remote assets (tmp/assets) with local assets (#{precompiled_assets_dir})"]
-      system %[rsync --verbose --recursive --times ./#{precompiled_assets_dir}/. #{user}@#{domain}:#{deploy_to}/tmp/assets]
+      system %[rsync #{rsync_verbose} --recursive --times ./#{precompiled_assets_dir}/. #{user}@#{domain}:#{deploy_to}/tmp/assets]
     end
 
     task :copy do
@@ -164,6 +164,13 @@ end
 desc "Deploys the current version to the server."
 task :deploy => :environment do
   deploy do
+    if ENV['verbose']
+      set :rsync_verbose, "--verbose"
+    else
+      set :bundle_options, "#{bundle_options} --quiet"
+      set :rsync_verbose, ""
+    end
+
     invoke :'deploy:check_revision'
     invoke :'deploy:assets:decide_whether_to_precompile'
     invoke :'deploy:assets:local_precompile' if precompile_assets

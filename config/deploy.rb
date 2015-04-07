@@ -5,11 +5,8 @@ require 'mina/rails'
 require 'mina/git'
 require 'mina/rbenv'
 
-set :rails_env, 'staging'
 set :domain, 'alpha.jumpstart.ge'
-set :user, 'prisoners-staging'
 set :application, 'Azeri-Prisoners-Staging'
-set :stage, 'staging'
 set :deploy_to, "/home/#{user}/#{application}"
 set :full_current_path, "#{deploy_to}/#{current_path}"
 set :full_shared_path, "#{deploy_to}/#{shared_path}"

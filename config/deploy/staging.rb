@@ -1,5 +1,3 @@
-set :domain, ''
-set :deploy_to, ''
-set :repository, ''
-set :branch, ''
-set :user, ''
+set :user, 'prisoners-staging'
+set :stage, 'staging'
+set :rails_env, 'staging'

@@ -8,7 +8,6 @@ require 'mina/rbenv'
 set :domain, 'alpha.jumpstart.ge'
 set :application, 'Azeri-Prisoners-Staging'
 set :deploy_to, "/home/#{user}/#{application}"
-set :default_stage, 'staging'
 set :full_current_path, "#{deploy_to}/#{current_path}"
 set :full_shared_path, "#{deploy_to}/#{shared_path}"
 set :repository, "git@github.com:JumpStartGeorgia/Azerbaijan-Political-Prisoners.git"

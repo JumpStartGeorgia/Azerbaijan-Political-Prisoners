@@ -91,7 +91,7 @@ namespace :deploy do
   namespace :assets do
     task :decide_whether_to_precompile do
       set :precompile_assets, false
-      if ENV['precompile_assets']
+      if ENV['precompile']
         set :precompile_assets, true
       else
         # Locations where assets may have changed; check Gemfile.lock to ensure that gem assets are the same
@@ -107,7 +107,7 @@ namespace :deploy do
           system %[echo "WARNING: Cannot determine the commit hash of the previous release on the server"]
           system %[echo "If this is your first deploy (or you want to skip this error), deploy like this:"]
           system %[echo ""]
-          system %[echo "mina deploy precompile_assets=true"]
+          system %[echo "mina deploy precompile=true"]
           system %[echo ""]
           exit
         else

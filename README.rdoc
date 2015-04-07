@@ -8,8 +8,9 @@ To get started
 
 Deploy options (mina deploy <options>):
 
-precompile_assets=true --> forces precompile assets
-verbose=true --> outputs more information (default is quieter and prettier)
+1) precompile_assets=true --> forces precompile assets
+
+2) verbose=true --> outputs more information (default is quieter and prettier)
 
 Custom precompile assets method:
 

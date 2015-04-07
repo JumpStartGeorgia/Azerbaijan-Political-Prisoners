@@ -1,5 +1,4 @@
 #require 'mina/multistage'
-#require 'mina/nginx'
 require 'mina/puma'
 require 'mina/bundler'
 require 'mina/rails'

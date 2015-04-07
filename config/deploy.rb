@@ -132,7 +132,7 @@ namespace :deploy do
       system %[echo "-----> Precompiling assets locally"]
       system %[bundle exec rake assets:precompile RAILS_GROUPS=assets]
 
-      system %[echo "-----> RSyncinc remote assets (tmp/assets) with local assets (#{precompiled_assets_dir})"]
+      system %[echo "-----> RSyncing remote assets (tmp/assets) with local assets (#{precompiled_assets_dir})"]
       system %[rsync #{rsync_verbose} --recursive --times ./#{precompiled_assets_dir}/. #{user}@#{domain}:#{deploy_to}/tmp/assets]
     end
 

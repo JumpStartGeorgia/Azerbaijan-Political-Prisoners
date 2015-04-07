@@ -5,22 +5,20 @@ require 'mina/rails'
 require 'mina/git'
 require 'mina/rbenv'
 
-set :domain, 'alpha.jumpstart.ge'
-set :application, 'Azeri-Prisoners-Staging'
-set :deploy_to, "/home/#{user}/#{application}"
-set :full_current_path, "#{deploy_to}/#{current_path}"
-set :full_shared_path, "#{deploy_to}/#{shared_path}"
-set :repository, "git@github.com:JumpStartGeorgia/Azerbaijan-Political-Prisoners.git"
+set :deploy_to, lambda { "/home/#{user}/#{application}" }
+set :full_current_path, lambda { "#{deploy_to}/#{current_path}" }
+set :full_shared_path, lambda { "#{deploy_to}/#{shared_path}" }
 set :branch, 'dev'
 set :shared_paths, ['.env', 'log']
 set :forward_agent, true
+set :rails_env, lambda { "#{stage}" }
 
 # Puma settings
-set :puma_socket, "#{deploy_to}/tmp/puma/sockets/#{application}-puma.sock"
-set :puma_pid, "#{deploy_to}/tmp/puma/pid"
-set :puma_state, "#{deploy_to}/tmp/puma/state"
-set :pumactl_socket, "#{deploy_to}/tmp/puma/sockets/#{application}-pumactl.sock"
-set :puma_config, "#{full_current_path}/config/puma.rb"
+set :puma_socket, lambda { "#{deploy_to}/tmp/puma/sockets/#{application}-puma.sock" }
+set :puma_pid, lambda { "#{deploy_to}/tmp/puma/pid" }
+set :puma_state, lambda { "#{deploy_to}/tmp/puma/state" }
+set :pumactl_socket, lambda { "#{deploy_to}/tmp/puma/sockets/#{application}-pumactl.sock" }
+set :puma_config, lambda { "#{full_current_path}/config/puma.rb" }
 
 # Assets settings
 set :precompiled_assets_dir, 'public/assets'

@@ -1,2 +1,4 @@
+set :domain, 'alpha.jumpstart.ge'
 set :user, 'prisoners-prod'
-set :rails_env, 'production'
+set :application, 'Azeri-Prisoners'
+set :repository, "git@github.com:JumpStartGeorgia/Azerbaijan-Political-Prisoners.git"

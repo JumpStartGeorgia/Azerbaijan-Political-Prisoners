@@ -6,6 +6,11 @@ To get started
 
     Deploy
 
+Deploy options (mina deploy <options>):
+
+precompile_assets=true --> forces precompile assets
+verbose=true --> outputs more information (default is quieter and prettier)
+
 Custom precompile assets method:
 
 1) Determine whether to precompile the assets

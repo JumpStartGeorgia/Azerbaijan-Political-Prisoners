@@ -47,6 +47,9 @@ task :setup => :environment do
   queue! %[mkdir -p "#{deploy_to}/tmp/puma/sockets"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/tmp/puma/sockets"]
 
+  queue! %[mkdir -p "#{deploy_to}/tmp/assets"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/tmp/assets"]
+
   invoke :setup_nginx_reminder
   invoke :add_to_puma_jungle_reminder
 end
@@ -119,7 +122,7 @@ namespace :deploy do
           # 2) Git cannot recognize the deployed commit and issues an error
           #
           # In both these situations, precompile assets.
-          if git_diff == 0
+          if git_diff.length == 0
             system %[echo "-----> Assets unchanged; skipping precompile assets"]
           else
             set :precompile_assets, true
@@ -135,24 +138,13 @@ namespace :deploy do
       system %[echo "-----> Precompiling assets locally"]
       system %[bundle exec rake assets:precompile RAILS_GROUPS=assets]
 
-      system %[echo "-----> Tarballing assets to #{precompiled_assets_tar}"]
-      system %[tar -cvzf #{precompiled_assets_tar} -C #{precompiled_assets_dir} .]
-
-      system %[echo "-----> Moving assets tar file to #{deploy_to}/#{precompiled_assets_tar} on server"]
-      system %[scp #{precompiled_assets_tar} #{user}@#{domain}:#{deploy_to}/#{precompiled_assets_tar} && rm #{precompiled_assets_tar}]
-    end
-
-    task :unzip do
-      queue %[echo "-----> Unzipping assets tar file to #{full_current_path}/public/assets"]
-      queue %[mkdir ./public/assets && tar -xvzf #{deploy_to}/#{precompiled_assets_tar} -C ./public/assets]
-
-      queue %[echo "-----> Removing tar file #{deploy_to}/#{precompiled_assets_tar}"]
-      queue %[rm #{deploy_to}/#{precompiled_assets_tar}]
+      system %[echo "-----> RSyncinc remote assets (tmp/assets) with local assets (public/assets)"]
+      system %[rsync --verbose --recursive --times ./public/assets/. #{user}@#{domain}:#{deploy_to}/tmp/assets]
     end
 
     task :copy do
-      queue %[echo "-----> Copying assets from previous release to current release"]
-      queue %[cp -a #{full_current_path}/public/assets/. ./public/assets]
+      queue %[echo "-----> Copying assets from tmp/assets to current/public/assets"]
+      queue %[cp -a #{deploy_to}/tmp/assets/. ./public/assets]
     end
   end
 end
@@ -167,8 +159,7 @@ task :deploy => :environment do
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
-    invoke :'deploy:assets:unzip' if precompile_assets
-    invoke :'deploy:assets:copy' if !precompile_assets
+    invoke :'deploy:assets:copy'
     invoke :'deploy:cleanup'
 
     to :launch do

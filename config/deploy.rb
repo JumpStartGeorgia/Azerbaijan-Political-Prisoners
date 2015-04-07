@@ -1,4 +1,4 @@
-#require 'mina/multistage'
+require 'mina/multistage'
 require 'mina/puma'
 require 'mina/bundler'
 require 'mina/rails'

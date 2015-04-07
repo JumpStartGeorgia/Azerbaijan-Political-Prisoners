@@ -58,6 +58,7 @@ group :development do
   gem 'quiet_assets', '~> 1.0.3'
   gem 'mina', '~> 0.3.3', require: false
   gem 'mina-puma', '~> 0.2.0', require: false
+  gem 'mina-multistage', '~> 0.0.1', require: false
 end
 
 group :development, :test do

@@ -44,6 +44,7 @@ task :setup => :environment do
 
   invoke :setup_nginx_reminder
   invoke :add_to_puma_jungle_reminder
+  invoke :add_github_to_known_hosts_reminder
 end
 
 task :setup_nginx_reminder do
@@ -63,6 +64,15 @@ task :add_to_puma_jungle_reminder do
   queue  %[echo "-----> /etc/init.d/puma (i.e. try running the command '/etc/init.d/puma status')."]
   queue  %[echo ""]
   queue  %[echo "sudo /etc/init.d/puma add #{deploy_to} #{user} #{full_current_path}/config/puma.rb #{full_shared_path}/log/puma.log"]
+  queue  %[echo ""]
+end
+
+task :add_github_to_known_hosts_reminder do
+  queue  %[echo ""]
+  queue  %[echo "-----> Run the following command on your server to add github to the list of known hosts. This will"]
+  queue  %[echo "-----> allow you to deploy (otherwise the git clone step will fail)."]
+  queue  %[echo ""]
+  queue  %[echo "ssh-keyscan -H github.com >> ~/.ssh/known_hosts"]
   queue  %[echo ""]
 end
 

@@ -101,7 +101,7 @@ namespace :deploy do
         # Get deployed commit hash from FETCH_HEAD file
         deployed_commit = capture(%[cat #{deploy_to}/scm/FETCH_HEAD]).split(" ")[0]
 
-        # If FETCH_HEAD file does not exist, deployed_commit hash will not be 40 characters and it will be the first deploy
+        # If FETCH_HEAD file does not exist or deployed_commit doesn't look like a hash, ask user to force precompile
         if deployed_commit == nil || deployed_commit.length != 40
           system %[echo "-----> Cannot determine the commit hash of the previous release on the server"]
           system %[echo "-----> If this is your first deploy (or you want to skip this error), deploy like this:"]
@@ -112,10 +112,17 @@ namespace :deploy do
         else
           git_diff = `git diff --name-only #{deployed_commit}..#{current_commit} #{asset_files_directories}`
 
-          if git_diff.length != 0
-            set :precompile_assets, true
-          else
+          # If git diff length is 0, then the assets are unchanged.
+          # If the length is not 0, then one of the following are true:
+          #
+          # 1) The assets changed and git diff shows those files
+          # 2) Git cannot recognize the deployed commit and issues an error
+          #
+          # In both these situations, precompile assets.
+          if git_diff == 0
             system %[echo "-----> Assets unchanged; skipping precompile assets"]
+          else
+            set :precompile_assets, true
           end
         end
       end

@@ -147,20 +147,6 @@ namespace :deploy do
   end
 end
 
-# Custom precompile assets method:
-# 1) Determine whether to precompile the assets
-#   a) If the flag 'precompile_assets=true' is set, then precompile assets
-#   b) Use git to view difference in the assets files between the commit on the server
-#      and the commit on the local machine. If there is a difference, precompile assets
-#   c) If cannot determine the commit on the server, show error and ask user to run deploy with 'precompile_assets=true'
-#   d) If git diff gives an error, precompile assets
-#
-# 2) If not precompiling assets, skip to step 3. Otherwise...
-#   a) precompile assets locally
-#   b) sync tmp/assets on server with local precompiled assets
-#
-# 3) During deploy, copy assets from tmp/assets to current/public/assets
-
 desc "Deploys the current version to the server."
 task :deploy => :environment do
   deploy do

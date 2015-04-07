@@ -100,7 +100,7 @@ namespace :deploy do
 
         # If FETCH_HEAD file does not exist or deployed_commit doesn't look like a hash, ask user to force precompile
         if deployed_commit == nil || deployed_commit.length != 40
-          system %[echo "WARNING: Cannot determine the commit hash of the previous release on the server"]
+          system %[echo "WARNING: Cannot determine the commit hash of the previous release on the server."]
           system %[echo "If this is your first deploy (or you want to skip this error), deploy like this:"]
           system %[echo ""]
           system %[echo "mina deploy precompile=true"]

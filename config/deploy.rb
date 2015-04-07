@@ -1,5 +1,4 @@
 #require 'mina/multistage'
-#require 'mina/nginx'
 require 'mina/puma'
 require 'mina/bundler'
 require 'mina/rails'
@@ -28,8 +27,6 @@ set :puma_config, "#{full_current_path}/config/puma.rb"
 
 # Assets settings
 set :precompiled_assets_dir, 'public/assets'
-set :precompiled_assets_tar, "tmp/#{stage}_assets.tar.gz"
-
 
 # This task is the environment that is loaded for most commands, such as
 # `mina deploy` or `mina rake`.
@@ -46,6 +43,9 @@ task :setup => :environment do
 
   queue! %[mkdir -p "#{deploy_to}/tmp/puma/sockets"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/tmp/puma/sockets"]
+
+  queue! %[mkdir -p "#{deploy_to}/tmp/assets"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/tmp/assets"]
 
   invoke :setup_nginx_reminder
   invoke :add_to_puma_jungle_reminder
@@ -88,21 +88,43 @@ namespace :deploy do
   end
 
   namespace :assets do
-    task :check_changed do
-      set :assets_changed, false
-
-      # Locations where assets may have changed; check Gemfile.lock to ensure that gem assets are the same
-      asset_files_directories = "app/assets vendor/assets Gemfile.lock"
-
-      current_commit = `git rev-parse HEAD`.strip()
-      deployed_commit = capture(%[cat #{deploy_to}/scm/FETCH_HEAD]).split(" ")[0]
-
-      git_diff = `git diff --name-only #{deployed_commit}..#{current_commit} #{asset_files_directories}`
-
-      unless git_diff.length == 0
-        set :assets_changed, true
+    task :decide_whether_to_precompile do
+      set :precompile_assets, false
+      if ENV['precompile']
+        set :precompile_assets, true
       else
-        system %[echo "-----> Assets did not change; skipping precompile step"]
+        # Locations where assets may have changed; check Gemfile.lock to ensure that gem assets are the same
+        asset_files_directories = "app/assets vendor/assets Gemfile.lock"
+
+        current_commit = `git rev-parse HEAD`.strip()
+
+        # Get deployed commit hash from FETCH_HEAD file
+        deployed_commit = capture(%[cat #{deploy_to}/scm/FETCH_HEAD]).split(" ")[0]
+
+        # If FETCH_HEAD file does not exist or deployed_commit doesn't look like a hash, ask user to force precompile
+        if deployed_commit == nil || deployed_commit.length != 40
+          system %[echo "WARNING: Cannot determine the commit hash of the previous release on the server"]
+          system %[echo "If this is your first deploy (or you want to skip this error), deploy like this:"]
+          system %[echo ""]
+          system %[echo "mina deploy precompile=true"]
+          system %[echo ""]
+          exit
+        else
+          git_diff = `git diff --name-only #{deployed_commit}..#{current_commit} #{asset_files_directories}`
+
+          # If git diff length is 0, then the assets are unchanged.
+          # If the length is not 0, then one of the following are true:
+          #
+          # 1) The assets changed and git diff shows those files
+          # 2) Git cannot recognize the deployed commit and issues an error
+          #
+          # In both these situations, precompile assets.
+          if git_diff.length == 0
+            system %[echo "-----> Assets unchanged; skipping precompile assets"]
+          else
+            set :precompile_assets, true
+          end
+        end
       end
     end
 
@@ -113,19 +135,13 @@ namespace :deploy do
       system %[echo "-----> Precompiling assets locally"]
       system %[bundle exec rake assets:precompile RAILS_GROUPS=assets]
 
-      system %[echo "-----> Tarballing assets to #{precompiled_assets_tar}"]
-      system %[tar -cvzf #{precompiled_assets_tar} -C #{precompiled_assets_dir} .]
-
-      system %[echo "-----> Moving assets tar file to #{deploy_to}/#{precompiled_assets_tar} on server"]
-      system %[scp #{precompiled_assets_tar} #{user}@#{domain}:#{deploy_to}/#{precompiled_assets_tar} && rm #{precompiled_assets_tar}]
+      system %[echo "-----> RSyncinc remote assets (tmp/assets) with local assets (#{precompiled_assets_dir})"]
+      system %[rsync #{rsync_verbose} --recursive --times ./#{precompiled_assets_dir}/. #{user}@#{domain}:#{deploy_to}/tmp/assets]
     end
 
-    task :unzip do
-      queue %[echo "-----> Unzipping assets tar file to #{full_current_path}/public/assets"]
-      queue %[mkdir ./public/assets && tar -xvzf #{deploy_to}/#{precompiled_assets_tar} -C ./public/assets]
-
-      queue %[echo "-----> Removing tar file #{deploy_to}/#{precompiled_assets_tar}"]
-      queue %[rm #{deploy_to}/#{precompiled_assets_tar}]
+    task :copy do
+      queue %[echo "-----> Copying assets from tmp/assets to current/#{precompiled_assets_dir}"]
+      queue %[cp -a #{deploy_to}/tmp/assets/. ./#{precompiled_assets_dir}]
     end
   end
 end
@@ -133,14 +149,21 @@ end
 desc "Deploys the current version to the server."
 task :deploy => :environment do
   deploy do
+    if ENV['verbose']
+      set :rsync_verbose, "--verbose"
+    else
+      set :bundle_options, "#{bundle_options} --quiet"
+      set :rsync_verbose, ""
+    end
+
     invoke :'deploy:check_revision'
-    invoke :'deploy:assets:check_changed'
-    invoke :'deploy:assets:local_precompile' if assets_changed
+    invoke :'deploy:assets:decide_whether_to_precompile'
+    invoke :'deploy:assets:local_precompile' if precompile_assets
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
-    invoke :'deploy:assets:unzip' if assets_changed
+    invoke :'deploy:assets:copy'
     invoke :'deploy:cleanup'
 
     to :launch do

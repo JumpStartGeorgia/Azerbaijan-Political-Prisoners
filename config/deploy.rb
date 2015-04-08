@@ -10,7 +10,7 @@ set :deploy_to, lambda { "/home/#{user}/#{application}" }
 set :full_current_path, lambda { "#{deploy_to}/#{current_path}" }
 set :full_shared_path, lambda { "#{deploy_to}/#{shared_path}" }
 set :branch, 'dev'
-set :shared_paths, ['.env', 'log']
+set :shared_paths, ['.env', 'log', 'config/nginx.conf']
 set :forward_agent, true
 set :rails_env, lambda { "#{stage}" }
 
@@ -36,6 +36,9 @@ end
 task :setup => :environment do
   queue! %[mkdir -p "#{full_shared_path}/log"]
   queue! %[chmod g+rx,u+rwx "#{full_shared_path}/log"]
+
+  queue! %[mkdir -p "#{full_shared_path}/config"]
+  queue! %[chmod g+rx,u+rwx "#{full_shared_path}/config"]
 
   queue! %[mkdir -p "#{deploy_to}/tmp/puma/sockets"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/tmp/puma/sockets"]
@@ -154,9 +157,9 @@ end
 
 namespace :nginx do
   task :generate_conf do
-    queue %[echo "-----> Generating config/nginx.conf"]
-    conf = ERB.new(File.read('./config/nginx.conf.erb')).result()
-    queue %[echo "#{conf}"]
+    conf = ERB.new(File.read("./config/nginx.conf.erb")).result()
+    queue %[echo "-----> Generating new config/nginx.conf"]
+    queue %[echo "#{conf}" > #{full_shared_path}/config/nginx.conf]
   end
 end
 

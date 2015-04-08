@@ -159,7 +159,7 @@ namespace :nginx do
   task :generate_conf do
     conf = ERB.new(File.read("./config/nginx.conf.erb")).result()
     queue %[echo "-----> Generating new config/nginx.conf"]
-    queue %[echo "#{conf}" > #{full_shared_path}/config/nginx.conf]
+    queue %[echo '#{conf}' > #{full_shared_path}/config/nginx.conf]
   end
 end
 

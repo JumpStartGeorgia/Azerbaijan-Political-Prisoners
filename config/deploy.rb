@@ -49,9 +49,21 @@ task :setup => :environment do
   queue! %[mkdir -p "#{deploy_to}/tmp/assets"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/tmp/assets"]
 
+  invoke :create_env_reminder
   invoke :setup_nginx_reminder
   invoke :add_to_puma_jungle_reminder
   invoke :add_github_to_known_hosts_reminder
+end
+
+task :create_env_reminder do
+  queue  %[echo ""]
+  queue  %[echo "-----> Reminder: You need to create the .env file in the shared folder on the server; otherwise,"]
+  queue  %[echo "          the app won't know your credentials and database migrations will fail on deploy."]
+  queue  %[echo "-----> Run the below command in your local Rails root directory to copy the example .env file to"]
+  queue  %[echo "          the server, then manually add your credentials to the file."]
+  queue  %[echo ""]
+  queue  %[echo "cd #{Dir.pwd} && scp .env.example #{user}@#{domain}:#{full_shared_path}/.env"]
+  queue  %[echo ""]
 end
 
 task :setup_nginx_reminder do

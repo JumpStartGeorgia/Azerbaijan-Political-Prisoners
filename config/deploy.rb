@@ -1,29 +1,28 @@
-#require 'mina/multistage'
+require 'erb'
+require 'mina/multistage'
 require 'mina/puma'
 require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
 require 'mina/rbenv'
 
-set :rails_env, 'staging'
-set :domain, 'alpha.jumpstart.ge'
-set :user, 'prisoners-staging'
-set :application, 'Azeri-Prisoners-Staging'
-set :stage, 'staging'
-set :deploy_to, "/home/#{user}/#{application}"
-set :full_current_path, "#{deploy_to}/#{current_path}"
-set :full_shared_path, "#{deploy_to}/#{shared_path}"
-set :repository, "git@github.com:JumpStartGeorgia/Azerbaijan-Political-Prisoners.git"
+set :deploy_to, lambda { "/home/#{user}/#{application}" }
+set :full_current_path, lambda { "#{deploy_to}/#{current_path}" }
+set :full_shared_path, lambda { "#{deploy_to}/#{shared_path}" }
 set :branch, 'master'
-set :shared_paths, ['.env', 'log']
+set :shared_paths, ['.env', 'log', 'config/nginx.conf', 'config/puma.rb']
 set :forward_agent, true
+set :rails_env, lambda { "#{stage}" }
 
 # Puma settings
-set :puma_socket, "#{deploy_to}/tmp/puma/sockets/#{application}-puma.sock"
-set :puma_pid, "#{deploy_to}/tmp/puma/pid"
-set :puma_state, "#{deploy_to}/tmp/puma/state"
-set :pumactl_socket, "#{deploy_to}/tmp/puma/sockets/#{application}-pumactl.sock"
-set :puma_config, "#{full_current_path}/config/puma.rb"
+set :puma_socket, lambda { "#{deploy_to}/tmp/puma/sockets/#{application}-puma.sock" }
+set :puma_pid, lambda { "#{deploy_to}/tmp/puma/pid" }
+set :puma_state, lambda { "#{deploy_to}/tmp/puma/state" }
+set :pumactl_socket, lambda { "#{deploy_to}/tmp/puma/sockets/#{application}-pumactl.sock" }
+set :puma_config, lambda { "#{full_current_path}/config/puma.rb" }
+set :puma_error_log, lambda { "#{full_shared_path}/log/puma.error.log" }
+set :puma_access_log, lambda { "#{full_shared_path}/log/puma.access.log" }
+set :puma_env, lambda { "#{rails_env}" }
 
 # Assets settings
 set :precompiled_assets_dir, 'public/assets'
@@ -41,14 +40,30 @@ task :setup => :environment do
   queue! %[mkdir -p "#{full_shared_path}/log"]
   queue! %[chmod g+rx,u+rwx "#{full_shared_path}/log"]
 
+  queue! %[mkdir -p "#{full_shared_path}/config"]
+  queue! %[chmod g+rx,u+rwx "#{full_shared_path}/config"]
+
   queue! %[mkdir -p "#{deploy_to}/tmp/puma/sockets"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/tmp/puma/sockets"]
 
   queue! %[mkdir -p "#{deploy_to}/tmp/assets"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/tmp/assets"]
 
+  invoke :create_env_reminder
   invoke :setup_nginx_reminder
   invoke :add_to_puma_jungle_reminder
+  invoke :add_github_to_known_hosts_reminder
+end
+
+task :create_env_reminder do
+  queue  %[echo ""]
+  queue  %[echo "-----> Reminder: You need to create the .env file in the shared folder on the server; otherwise,"]
+  queue  %[echo "          the app won't know your credentials and database migrations will fail on deploy."]
+  queue  %[echo "-----> Run the below command in your local Rails root directory to copy the example .env file to"]
+  queue  %[echo "          the server, then manually add your credentials to the file."]
+  queue  %[echo ""]
+  queue  %[echo "cd #{Dir.pwd} && scp .env.example #{user}@#{domain}:#{full_shared_path}/.env"]
+  queue  %[echo ""]
 end
 
 task :setup_nginx_reminder do
@@ -68,6 +83,15 @@ task :add_to_puma_jungle_reminder do
   queue  %[echo "-----> /etc/init.d/puma (i.e. try running the command '/etc/init.d/puma status')."]
   queue  %[echo ""]
   queue  %[echo "sudo /etc/init.d/puma add #{deploy_to} #{user} #{full_current_path}/config/puma.rb #{full_shared_path}/log/puma.log"]
+  queue  %[echo ""]
+end
+
+task :add_github_to_known_hosts_reminder do
+  queue  %[echo ""]
+  queue  %[echo "-----> Run the following command on your server to add github to the list of known hosts. This will"]
+  queue  %[echo "-----> allow you to deploy (otherwise the git clone step will fail)."]
+  queue  %[echo ""]
+  queue  %[echo "ssh-keyscan -H github.com >> ~/.ssh/known_hosts"]
   queue  %[echo ""]
 end
 
@@ -103,10 +127,12 @@ namespace :deploy do
 
         # If FETCH_HEAD file does not exist or deployed_commit doesn't look like a hash, ask user to force precompile
         if deployed_commit == nil || deployed_commit.length != 40
-          system %[echo "WARNING: Cannot determine the commit hash of the previous release on the server"]
+          system %[echo "WARNING: Cannot determine the commit hash of the previous release on the server."]
           system %[echo "If this is your first deploy (or you want to skip this error), deploy like this:"]
           system %[echo ""]
-          system %[echo "mina deploy precompile=true"]
+          system %[echo "mina #{stage} deploy precompile=true"]
+          system %[echo "------ or for more information ------"]
+          system %[echo "mina #{stage} deploy precompile=true verbose=true"]
           system %[echo ""]
           exit
         else
@@ -135,7 +161,7 @@ namespace :deploy do
       system %[echo "-----> Precompiling assets locally"]
       system %[bundle exec rake assets:precompile RAILS_GROUPS=assets]
 
-      system %[echo "-----> RSyncinc remote assets (tmp/assets) with local assets (#{precompiled_assets_dir})"]
+      system %[echo "-----> RSyncing remote assets (tmp/assets) with local assets (#{precompiled_assets_dir})"]
       system %[rsync #{rsync_verbose} --recursive --times ./#{precompiled_assets_dir}/. #{user}@#{domain}:#{deploy_to}/tmp/assets]
     end
 
@@ -143,6 +169,22 @@ namespace :deploy do
       queue %[echo "-----> Copying assets from tmp/assets to current/#{precompiled_assets_dir}"]
       queue %[cp -a #{deploy_to}/tmp/assets/. ./#{precompiled_assets_dir}]
     end
+  end
+end
+
+namespace :nginx do
+  task :generate_conf do
+    conf = ERB.new(File.read("./config/nginx.conf.erb")).result()
+    queue %[echo "-----> Generating new config/nginx.conf"]
+    queue %[echo '#{conf}' > #{full_shared_path}/config/nginx.conf]
+  end
+end
+
+namespace :puma do
+  task :generate_conf do
+    conf = ERB.new(File.read("./config/puma.rb.erb")).result()
+    queue %[echo "-----> Generating new config/puma.rb"]
+    queue %[echo '#{conf}' > #{full_shared_path}/config/puma.rb]
   end
 end
 
@@ -164,6 +206,8 @@ task :deploy => :environment do
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
     invoke :'deploy:assets:copy'
+    invoke :'nginx:generate_conf'
+    invoke :'puma:generate_conf'
     invoke :'deploy:cleanup'
 
     to :launch do

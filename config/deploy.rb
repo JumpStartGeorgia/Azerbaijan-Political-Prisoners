@@ -20,6 +20,8 @@ set :puma_pid, lambda { "#{deploy_to}/tmp/puma/pid" }
 set :puma_state, lambda { "#{deploy_to}/tmp/puma/state" }
 set :pumactl_socket, lambda { "#{deploy_to}/tmp/puma/sockets/#{application}-pumactl.sock" }
 set :puma_config, lambda { "#{full_current_path}/config/puma.rb" }
+set :puma_error_log, lambda { "#{full_shared_path}/log/puma.error.log" }
+set :puma_access_log, lambda { "#{full_shared_path}/log/puma.access.log" }
 
 # Assets settings
 set :precompiled_assets_dir, 'public/assets'
@@ -163,6 +165,14 @@ namespace :nginx do
   end
 end
 
+namespace :puma do
+  task :generate_conf do
+    conf = ERB.new(File.read("./config/puma.rb.erb")).result()
+    queue %[echo "-----> Generating new config/puma.rb"]
+    queue %[echo '#{conf}' > #{full_shared_path}/config/puma.rb]
+  end
+end
+
 desc "Deploys the current version to the server."
 task :deploy => :environment do
   deploy do
@@ -173,7 +183,7 @@ task :deploy => :environment do
       set :rsync_verbose, ""
     end
 
-    invoke :'deploy:check_revision'
+    #invoke :'deploy:check_revision'
     invoke :'deploy:assets:decide_whether_to_precompile'
     invoke :'deploy:assets:local_precompile' if precompile_assets
     invoke :'git:clone'
@@ -182,6 +192,7 @@ task :deploy => :environment do
     invoke :'rails:db_migrate'
     invoke :'deploy:assets:copy'
     invoke :'nginx:generate_conf'
+    invoke :'puma:generate_conf'
     invoke :'deploy:cleanup'
 
     to :launch do

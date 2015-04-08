@@ -22,6 +22,7 @@ set :pumactl_socket, lambda { "#{deploy_to}/tmp/puma/sockets/#{application}-puma
 set :puma_config, lambda { "#{full_current_path}/config/puma.rb" }
 set :puma_error_log, lambda { "#{full_shared_path}/log/puma.error.log" }
 set :puma_access_log, lambda { "#{full_shared_path}/log/puma.access.log" }
+set :puma_env, lambda { "#{rails_env}" }
 
 # Assets settings
 set :precompiled_assets_dir, 'public/assets'

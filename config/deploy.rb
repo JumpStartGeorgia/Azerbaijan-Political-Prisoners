@@ -119,6 +119,8 @@ namespace :deploy do
           system %[echo "If this is your first deploy (or you want to skip this error), deploy like this:"]
           system %[echo ""]
           system %[echo "mina #{stage} deploy precompile=true"]
+          system %[echo "------ or for more information ------"]
+          system %[echo "mina #{stage} deploy precompile=true verbose=true"]
           system %[echo ""]
           exit
         else

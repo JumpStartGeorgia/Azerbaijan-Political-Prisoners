@@ -10,7 +10,7 @@ set :deploy_to, lambda { "/home/#{user}/#{application}" }
 set :full_current_path, lambda { "#{deploy_to}/#{current_path}" }
 set :full_shared_path, lambda { "#{deploy_to}/#{shared_path}" }
 set :branch, 'dev'
-set :shared_paths, ['.env', 'log', 'config/nginx.conf']
+set :shared_paths, ['.env', 'log', 'config/nginx.conf', 'config/puma.rb']
 set :forward_agent, true
 set :rails_env, lambda { "#{stage}" }
 
@@ -183,7 +183,7 @@ task :deploy => :environment do
       set :rsync_verbose, ""
     end
 
-    #invoke :'deploy:check_revision'
+    invoke :'deploy:check_revision'
     invoke :'deploy:assets:decide_whether_to_precompile'
     invoke :'deploy:assets:local_precompile' if precompile_assets
     invoke :'git:clone'

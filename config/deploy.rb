@@ -1,3 +1,4 @@
+require 'erb'
 require 'mina/multistage'
 require 'mina/puma'
 require 'mina/bundler'
@@ -151,6 +152,14 @@ namespace :deploy do
   end
 end
 
+namespace :nginx do
+  task :generate_conf do
+    queue %[echo "-----> Generating config/nginx.conf"]
+    conf = ERB.new(File.read('./config/nginx.conf.erb')).result()
+    queue %[echo "#{conf}"]
+  end
+end
+
 desc "Deploys the current version to the server."
 task :deploy => :environment do
   deploy do
@@ -169,6 +178,7 @@ task :deploy => :environment do
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
     invoke :'deploy:assets:copy'
+    invoke :'nginx:generate_conf'
     invoke :'deploy:cleanup'
 
     to :launch do

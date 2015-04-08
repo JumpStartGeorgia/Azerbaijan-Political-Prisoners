@@ -1,5 +1,5 @@
-upstream puma_Azeri-Prisoners-Staging { 
-  server unix:/home/prisoners-staging/Azeri-Prisoners-Staging/tmp/puma/sockets/Azeri-Prisoners-Staging-puma.sock fail_timeout=0;
+upstream puma_<%= application %> {
+  server unix:<%= deploy_to %>/tmp/puma/sockets/<%= application %>-puma.sock fail_timeout=0;
 }
 
 server {
@@ -11,18 +11,17 @@ server {
   error_page 500 502 504 /500.html;
   error_page 503 @503;
 
-  server_name dev-prisoners.jumpstart.ge;
-  root /home/prisoners-staging/Azeri-Prisoners-Staging/current/public;
-  try_files $uri/index.html $uri @puma_Azeri-Prisoners-Staging;
+  server_name <%= web_url %>;
+  root <%= full_current_path %>/public;
+  try_files $uri/index.html $uri @puma_<%= application %>;
 
-  location @puma_Azeri-Prisoners-Staging {
+  location @puma_<%= application %> {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Host $http_host;
     proxy_redirect off;
-    proxy_pass http://puma_Azeri-Prisoners-Staging;
-    # limit_req zone=one;
-    access_log /home/prisoners-staging/Azeri-Prisoners-Staging/shared/log/nginx.access.log;
-    error_log /home/prisoners-staging/Azeri-Prisoners-Staging/shared/log/nginx.error.log;
+    proxy_pass http://puma_<%= application %>;
+    access_log <%= full_shared_path %>/log/nginx.access.log;
+    error_log <%= full_shared_path %>/log/nginx.error.log;
   }
 
   location ^~ /assets/ {

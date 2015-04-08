@@ -212,6 +212,7 @@ task :deploy => :environment do
       set :rsync_verbose, ""
     end
 
+    queue %[echo "Note: If this is the first deploy, run 'mina #{stage} setup' to view important reminders"]
     invoke :'deploy:check_revision'
     invoke :'deploy:assets:decide_whether_to_precompile'
     invoke :'deploy:assets:local_precompile' if precompile_assets

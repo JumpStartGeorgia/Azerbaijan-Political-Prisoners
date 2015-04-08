@@ -111,7 +111,7 @@ namespace :deploy do
           system %[echo "WARNING: Cannot determine the commit hash of the previous release on the server."]
           system %[echo "If this is your first deploy (or you want to skip this error), deploy like this:"]
           system %[echo ""]
-          system %[echo "mina deploy precompile=true"]
+          system %[echo "mina #{stage} deploy precompile=true"]
           system %[echo ""]
           exit
         else

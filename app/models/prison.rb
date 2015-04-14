@@ -19,7 +19,7 @@ class Prison < ActiveRecord::Base
 
     prison_names_prisoner_counts.each do |prison_name_prisoner_count|
       prison_name = prison_name_prisoner_count[:prison_name]
-      prison_names_and_links.append({name: prison_name, link: Rails.application.routes.url_helpers.prison_path(Prison.find_by_name(prison_name).id)})
+      prison_names_and_links.append({name: prison_name, link: Rails.application.routes.url_helpers.prison_path(prison_name_prisoner_count[:prison_id])})
       prisoner_counts.append(prison_name_prisoner_count[:prisoner_count])
     end
 
@@ -30,6 +30,6 @@ class Prison < ActiveRecord::Base
   end
 
   def self.prison_names_prisoner_counts
-    return find_by_sql('select prisons.name as prison_name, count(*) as prisoner_count from incidents inner join prisons on incidents.prison_id = prisons.id group by prisons.name order by count(*) desc')
+    return find_by_sql('select prisons.id as prison_id, prisons.name as prison_name, count(*) as prisoner_count from incidents inner join prisons on incidents.prison_id = prisons.id group by prisons.name order by count(*) desc')
   end
 end

@@ -15,9 +15,9 @@ Rails.application.routes.draw do
 
   resources :users, constraints: { format: :html }
 
-  get '/chart_data/imprisoned_count_timeline', to: 'chart_data#imprisoned_count_timeline', constraints: { format: :json }, defaults: { format: :json }
-  get '/chart_data/prison_prisoner_counts', to: 'chart_data#prison_prisoner_counts', constraints: { format: :json }, defaults: { format: :json }
-  get '/chart_data/article_incident_counts', to: 'chart_data#article_incident_counts', constraints: { format: :json }, defaults: { format: :json }
+  get '/data/imprisoned_count_timeline', to: 'data#imprisoned_count_timeline', constraints: { format: :json }, defaults: { format: :json }
+  get '/data/prison_prisoner_counts', to: 'data#prison_prisoner_counts', constraints: { format: :json }, defaults: { format: :json }
+  get '/data/article_incident_counts', to: 'data#article_incident_counts', constraints: { format: :json }, defaults: { format: :json }
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

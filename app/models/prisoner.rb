@@ -30,7 +30,7 @@ class Prisoner < ActiveRecord::Base
 
   def self.delete_bar_chart_json
     ["imprisoned_count_timeline", "article_incident_counts_chart", "prison_prisoner_count_chart"].each do |json_data|
-      path = Rails.public_path.join("chart_data/" + json_data + ".json")
+      path = Rails.public_path.join("data/" + json_data + ".json")
       File.delete(path) if File.exists?(path)
     end
   end
@@ -112,7 +112,7 @@ class Prisoner < ActiveRecord::Base
   # Imprisoned count timeline
 
   def self.generate_imprisoned_count_timeline_json
-    dir_path = Rails.public_path.join("chart_data")
+    dir_path = Rails.public_path.join("data")
     json_path = dir_path.join("imprisoned_count_timeline.json")
     # if folder path not exist, create it
     FileUtils.mkpath(dir_path) if !File.exists?(dir_path)

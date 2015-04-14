@@ -1,7 +1,7 @@
 $(document).ready(function() {
     if ($('body').hasClass('root')) {
         $.ajax({
-            url: 'chart_data/imprisoned_count_timeline',
+            url: 'data/imprisoned_count_timeline',
             async: true,
             dataType: 'json',
             success: function (response) {
@@ -61,7 +61,7 @@ $(document).ready(function() {
         });
 
         $.ajax({
-            url: 'chart_data/prison_prisoner_counts',
+            url: 'data/prison_prisoner_counts',
             async: true,
             dataType: 'json',
             success: function (response) {
@@ -109,7 +109,7 @@ $(document).ready(function() {
         });
 
         $.ajax({
-            url: 'chart_data/article_incident_counts',
+            url: 'data/article_incident_counts',
             async: true,
             dataType: 'json',
             success: function (response) {

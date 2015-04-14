@@ -17,7 +17,7 @@
 
 # Ignore files in public folder
 /public/system/prisoners/portraits
-/public/chart_data/*
+/public/data/*
 
 # ADDED FOR lib/prisonersPdfParser
 lib/aug2014PdfParser/output/*

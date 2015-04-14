@@ -7,10 +7,11 @@ class Article < ActiveRecord::Base
   validates_uniqueness_of :number, :scope => :criminal_code, :message => "already exists for selected Criminal Code. Enter new Number or select different Criminal Code"
 
   def self.incident_counts_ordered(limit)
+    primary_sql = 'select articles.number as article_number, criminal_codes.name as criminal_code_name, count(*) as incident_count from incidents inner join charges on incidents.id = charges.incident_id inner join articles on charges.article_id = articles.id inner join criminal_codes on articles.criminal_code_id = criminal_codes.id group by articles.number order by count(*) desc'
     if limit.nil?
-      articles = find_by_sql('select articles.number, criminal_codes.name, count(*) from incidents inner join charges on incidents.id = charges.incident_id inner join articles on charges.article_id = articles.id inner join criminal_codes on articles.criminal_code_id = criminal_codes.id group by articles.number order by count(*) desc')
+      articles = find_by_sql(primary_sql)
     else
-      articles = find_by_sql('select articles.number, criminal_codes.name as criminal_code_name, count(*) from incidents inner join charges on incidents.id = charges.incident_id inner join articles on charges.article_id = articles.id inner join criminal_codes on articles.criminal_code_id = criminal_codes.id group by articles.number order by count(*) desc limit ' + limit.to_s)
+      articles = find_by_sql(primary_sql + ' limit ' + limit.to_s)
     end
 
     data = {
@@ -20,9 +21,9 @@ class Article < ActiveRecord::Base
     }
 
     articles.each do |article|
-      data[:article_numbers].append(article[:number])
+      data[:article_numbers].append(article[:article_number])
       data[:article_criminal_codes].append(article[:criminal_code_name])
-      data[:article_incident_counts].append(article["count(*)"])
+      data[:article_incident_counts].append(article[:incident_count])
     end
 
     return data

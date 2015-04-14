@@ -67,7 +67,7 @@ $(document).ready(function() {
                         allowDecimals: false
                     },
                     xAxis: {
-                        categories: response.prison_names_and_links,
+                        categories: response,
                         labels: {
                             formatter: function() {
                                 return '<a href="' + this.value.link + '">' + this.value.name + '</a>';
@@ -76,10 +76,14 @@ $(document).ready(function() {
                         }
 
                     },
+                    tooltip: {
+                        formatter: function() { return this.point.y + ' prisoners at ' + this.point.name
+                        }
+                    },
                     series: [{
                         name: 'Number of Prisoners',
                         showInLegend: false,
-                        data: response.prisoner_counts
+                        data: response
                     }]
                 });
             }

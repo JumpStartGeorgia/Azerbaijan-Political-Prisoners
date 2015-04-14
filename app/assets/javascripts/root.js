@@ -1,64 +1,6 @@
 $(document).ready(function() {
     if ($('body').hasClass('root')) {
-        $.ajax({
-            url: 'data/imprisoned_count_timeline',
-            async: true,
-            dataType: 'json',
-            success: function (response) {
-                $(function () {
-                    $('#imprisoned-count-timeline').highcharts({
-                        chart: {
-                            zoomType: 'x',
-                            resetZoomButton: {
-                                position: {
-                                    align: 'left',
-                                    verticalAlign: 'top',
-                                    x: 10,
-                                    y: 10
-                                }
-                            }
-                        },
-                        title: {
-                            text: 'Number of Political Prisoners in Azerbaijan from 2007 through Today - <strong>DATA INCOMPLETE<sup>*</sup></strong>',
-                            useHTML: true
-                        },
-                        subtitle: {
-                            text: document.ontouchstart === undefined ?
-                                'Click and drag in the plot area to zoom in' :
-                                'Pinch the chart to zoom in'
-                        },
-                        xAxis: {
-                            type: 'datetime',
-                            minRange: 14 * 24 * 3600000 // fourteen days
-                        },
-                        yAxis: {
-                            title: {
-                                text: 'Number of Political Prisoners'
-                            },
-                            min: 0,
-                            allowDecimals: false
-                        },
-                        tooltip: {
-                            formatter: function() {
-                                var prisoner_count = this.point.y;
-                                var date = Highcharts.dateFormat('%A, %b %e, %Y', new Date(this.point.x))
-                                if ( prisoner_count == '1' ) {
-                                    return 'There was <strong>' + prisoner_count + '</strong> political prisoner in Azerbaijan on <strong>' + date + '</strong>';
-                                }
-                                else {
-                                    return 'There were <strong>' + prisoner_count + "</strong> political prisoners in Azerbaijan on <strong>" + date + "</strong>";
-                                }
-                            }
-                        },
-                        series: [{
-                            name: 'Number of Political Prisoners',
-                            showInLegend: false,
-                            data: response
-                        }]
-                    });
-                });
-            }
-        });
+        imprisoned_count_timeline();
 
         $.ajax({
             url: 'data/prison_prisoner_counts',

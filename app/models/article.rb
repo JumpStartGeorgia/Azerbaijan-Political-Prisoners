@@ -16,26 +16,18 @@ class Article < ActiveRecord::Base
   end
 
   def self.article_incident_counts_chart
-    highest_incident_counts = Article.incident_counts_ordered(10)
-    article_numbers_and_links = []
-    incident_counts_and_criminal_codes = []
+    article_info = []
 
-    highest_incident_counts.each do |article|
-      article_numbers_and_links.append({
-                                           number: article[:article_number],
-                                           link: Rails.application.routes.url_helpers.article_path(article[:article_id])
-                                       })
-
-      incident_counts_and_criminal_codes.append({
+    Article.incident_counts_ordered(10).each do |article|
+      article_info.append({
           y: article[:incident_count],
-          criminal_code: article[:criminal_code_name]
+          number: article[:article_number],
+          link: Rails.application.routes.url_helpers.article_path(article[:article_id]),
+          code: article[:criminal_code_name]
                                                 })
     end
 
-    return {
-        article_numbers_and_links: article_numbers_and_links,
-        incident_counts_and_criminal_codes: incident_counts_and_criminal_codes
-    }
+    return article_info
   end
 
   def self.generate_highest_incident_counts_chart_json

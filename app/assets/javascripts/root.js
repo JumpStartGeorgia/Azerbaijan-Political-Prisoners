@@ -77,7 +77,14 @@ $(document).ready(function() {
 
                     },
                     tooltip: {
-                        formatter: function() { return this.point.y + ' prisoners at ' + this.point.name
+                        formatter: function() {
+                            var prisoner_count = this.point.y;
+                            if ( prisoner_count == '1' ) {
+                                return this.point.y + ' prisoner at ' + this.point.name
+                            }
+                            else {
+                                return this.point.y + ' prisoners at ' + this.point.name
+                            }
                         }
                     },
                     series: [{
@@ -108,7 +115,7 @@ $(document).ready(function() {
                         allowDecimals: false
                     },
                     xAxis: {
-                        categories: response.article_numbers_and_links,
+                        categories: response,
                         title: {
                             text: 'Article Number'
                         },
@@ -122,13 +129,13 @@ $(document).ready(function() {
                     tooltip: {
                         formatter: function() { return '' +
                             'Number of Sentences: ' + this.point.y + '<br/>' +
-                            'Criminal Code: ' + this.point.criminal_code;
+                            'Criminal Code: ' + this.point.code;
                         }
                     },
                     series: [{
                         name: 'Number of Sentences',
                         showInLegend: false,
-                        data: response.incident_counts_and_criminal_codes
+                        data: response
                     }]
                 });
             }

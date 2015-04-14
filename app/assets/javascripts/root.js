@@ -38,10 +38,22 @@ $(document).ready(function() {
                             min: 0,
                             allowDecimals: false
                         },
+                        tooltip: {
+                            formatter: function() {
+                                var prisoner_count = this.point.y;
+                                var date = Highcharts.dateFormat('%A, %b %e, %Y', new Date(this.point.x))
+                                if ( prisoner_count == '1' ) {
+                                    return 'There was <strong>' + prisoner_count + '</strong> political prisoner in Azerbaijan on <strong>' + date + '</strong>';
+                                }
+                                else {
+                                    return 'There were <strong>' + prisoner_count + "</strong> political prisoners in Azerbaijan on <strong>" + date + "</strong>";
+                                }
+                            }
+                        },
                         series: [{
                             name: 'Number of Political Prisoners',
                             showInLegend: false,
-                            data: response.data
+                            data: response
                         }]
                     });
                 });

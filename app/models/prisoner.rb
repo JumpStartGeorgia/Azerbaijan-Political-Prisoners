@@ -117,7 +117,7 @@ class Prisoner < ActiveRecord::Base
     # if folder path not exist, create it
     FileUtils.mkpath(dir_path) if !File.exists?(dir_path)
     File.open(json_path, "w") do |f|
-      f.write({data: imprisoned_counts_from_date_to_date(Date.new(2007,01,01), Date.today)}.to_json)
+      f.write(imprisoned_counts_from_date_to_date(Date.new(2007,01,01), Date.today).to_json)
     end
   end
 

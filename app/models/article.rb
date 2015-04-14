@@ -9,44 +9,27 @@ class Article < ActiveRecord::Base
   def self.incident_counts_ordered(limit)
     primary_sql = 'select articles.id as article_id, articles.number as article_number, criminal_codes.name as criminal_code_name, count(*) as incident_count from incidents inner join charges on incidents.id = charges.incident_id inner join articles on charges.article_id = articles.id inner join criminal_codes on articles.criminal_code_id = criminal_codes.id group by articles.number order by count(*) desc'
     if limit.nil?
-      articles = find_by_sql(primary_sql)
+      return find_by_sql(primary_sql)
     else
-      articles = find_by_sql(primary_sql + ' limit ' + limit.to_s)
+      return find_by_sql(primary_sql + ' limit ' + limit.to_s)
     end
-
-    data = {
-        article_ids: [],
-        article_numbers: [],
-        article_criminal_codes: [],
-        article_incident_counts: []
-    }
-
-    articles.each do |article|
-      data[:article_ids].append(article[:article_id])
-      data[:article_numbers].append(article[:article_number])
-      data[:article_criminal_codes].append(article[:criminal_code_name])
-      data[:article_incident_counts].append(article[:incident_count])
-    end
-
-    return data
   end
 
   def self.article_incident_counts_chart
     highest_incident_counts = Article.incident_counts_ordered(10)
     article_numbers_and_links = []
-    highest_incident_counts[:article_numbers].each_with_index do |number, index|
-      article_numbers_and_links.append({
-                                           number: number,
-                                           link: Rails.application.routes.url_helpers.article_path(highest_incident_counts[:article_ids][index])
-                                       })
-    end
     incident_counts_and_criminal_codes = []
 
-    (0..(highest_incident_counts[:article_incident_counts].size - 1)).each do |i|
+    highest_incident_counts.each do |article|
+      article_numbers_and_links.append({
+                                           number: article[:article_number],
+                                           link: Rails.application.routes.url_helpers.article_path(article[:article_id])
+                                       })
+
       incident_counts_and_criminal_codes.append({
-                             y: highest_incident_counts[:article_incident_counts][i],
-                             criminal_code: highest_incident_counts[:article_criminal_codes][i]
-                         })
+          y: article[:incident_count],
+          criminal_code: article[:criminal_code_name]
+                                                })
     end
 
     return {

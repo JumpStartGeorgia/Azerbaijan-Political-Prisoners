@@ -37,10 +37,10 @@ var prison_prisoner_counts_chart = function() {
                     formatter: function() {
                         var prisoner_count = this.point.y;
                         if ( prisoner_count == '1' ) {
-                            return this.point.y + ' prisoner at ' + this.point.name
+                            return 'There is <strong>' + this.point.y + '</strong> political prisoner at <strong>' + this.point.name + '</strong>'
                         }
                         else {
-                            return this.point.y + ' prisoners at ' + this.point.name
+                            return 'There are <strong>' + this.point.y + '</strong> political prisoners at <strong>' + this.point.name + '</strong>'
                         }
                     }
                 },

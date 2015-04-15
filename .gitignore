@@ -16,7 +16,7 @@
 /tmp
 
 # Ignore files in public folder
-/public/system/prisoners/portraits
+/public/system/*
 /public/data/*
 
 # ADDED FOR lib/prisonersPdfParser

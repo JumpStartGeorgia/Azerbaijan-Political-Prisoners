@@ -10,7 +10,7 @@ set :deploy_to, lambda { "/home/#{user}/#{application}" }
 set :full_current_path, lambda { "#{deploy_to}/#{current_path}" }
 set :full_shared_path, lambda { "#{deploy_to}/#{shared_path}" }
 set :branch, 'master'
-set :shared_paths, ['.env', 'log', 'config/nginx.conf', 'config/puma.rb']
+set :shared_paths, ['.env', 'log', 'config/nginx.conf', 'config/puma.rb', 'public/system']
 set :forward_agent, true
 set :rails_env, lambda { "#{stage}" }
 
@@ -84,6 +84,9 @@ task :setup => :environment do
 
   queue! %[mkdir -p "#{full_shared_path}/config"]
   queue! %[chmod g+rx,u+rwx "#{full_shared_path}/config"]
+
+  queue! %[mkdir -p "#{full_shared_path}/public/system"]
+  queue! %[chmod g+rx,u+rwx "#{full_shared_path}/public/system"]
 
   queue! %[mkdir -p "#{deploy_to}/tmp/puma/sockets"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/tmp/puma/sockets"]

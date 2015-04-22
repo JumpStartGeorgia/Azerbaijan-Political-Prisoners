@@ -7,22 +7,17 @@
 # Ignore bundler config.
 /.bundle
 
-# Ignore the default SQLite database.
-/db/*.sqlite3
-/db/*.sqlite3-journal
-
 # Ignore all logfiles and tempfiles.
-/log/*.log
+/log/*
+!/log/.keep
 /tmp
 
-# Ignore files in public folder
-/public/system/*
+/.gems
+/.env
+/public/assets
 /public/data/*
+/public/system
 
-# ADDED FOR lib/prisonersPdfParser
+# lib/prisonersPdfParser output
 lib/aug2014PdfParser/output/*
 !lib/aug2014PdfParser/output/.gitkeep
-
-.env
-
-public/assets/*

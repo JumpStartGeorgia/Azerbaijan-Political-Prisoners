@@ -6,26 +6,38 @@ require 'mina/rails'
 require 'mina/git'
 require 'mina/rbenv'
 
-set :deploy_to, lambda { "/home/#{user}/#{application}" }
+set :user_path, lambda { "/home/#{user}" }
+set :deploy_to, lambda { "#{user_path}/#{application}" }
 set :full_current_path, lambda { "#{deploy_to}/#{current_path}" }
 set :full_shared_path, lambda { "#{deploy_to}/#{shared_path}" }
+set :full_tmp_path, lambda { "#{deploy_to}/tmp" }
 set :branch, 'master'
-set :shared_paths, ['.env', 'log', 'config/nginx.conf', 'config/puma.rb', 'public/system']
+set :initial_directories, ["#{full_shared_path}/log", "#{full_shared_path}/config", "#{full_shared_path}/public/system", "#{full_tmp_path}/puma/sockets", "#{full_tmp_path}/assets"]
+set :shared_paths, %w[.env log public/system]
 set :forward_agent, true
 set :rails_env, lambda { "#{stage}" }
 
 # Puma settings
-set :puma_socket, lambda { "#{deploy_to}/tmp/puma/sockets/#{application}-puma.sock" }
+set :puma_socket, lambda { "#{deploy_to}/tmp/puma/sockets/puma.sock" }
 set :puma_pid, lambda { "#{deploy_to}/tmp/puma/pid" }
 set :puma_state, lambda { "#{deploy_to}/tmp/puma/state" }
-set :pumactl_socket, lambda { "#{deploy_to}/tmp/puma/sockets/#{application}-pumactl.sock" }
-set :puma_config, lambda { "#{full_current_path}/config/puma.rb" }
+set :pumactl_socket, lambda { "#{deploy_to}/tmp/puma/sockets/pumactl.sock" }
+set :puma_config, lambda { "#{full_shared_path}/config/puma.rb" }
 set :puma_error_log, lambda { "#{full_shared_path}/log/puma.error.log" }
 set :puma_access_log, lambda { "#{full_shared_path}/log/puma.access.log" }
+set :puma_log, lambda { "#{full_shared_path}/log/puma.log" }
 set :puma_env, lambda { "#{rails_env}" }
+
+# Nginx settings
+set :nginx_conf, lambda { "#{full_shared_path}/config/nginx.conf" }
+set :nginx_symlink, lambda { "/etc/nginx/sites-enabled/#{application}" }
 
 # Assets settings
 set :precompiled_assets_dir, 'public/assets'
+
+# Rails settings
+set :temp_env_example_path, lambda { "#{user_path}/.env.example-#{application}" }
+set :shared_env_path, lambda { "#{full_shared_path}/.env" }
 
 # This task is the environment that is loaded for most commands, such as
 # `mina deploy` or `mina rake`.
@@ -33,105 +45,143 @@ task :environment do
   invoke :'rbenv:load'
 end
 
-namespace :reminder do
-  task :create_env do
-    queue  %[echo ""]
-    queue  %[echo "-----> You need to create the .env file in the shared folder on the server; otherwise,"]
-    queue  %[echo "          the app won't know your credentials and database migrations will fail on deploy."]
-    queue  %[echo "-----> Run the below command in your local Rails root directory to copy the example .env file to"]
-    queue  %[echo "          the server, then manually add your credentials to the file."]
-    queue  %[echo ""]
-    queue  %[echo "cd #{Dir.pwd} && scp .env.example #{user}@#{domain}:#{full_shared_path}/.env"]
-    queue  %[echo ""]
-  end
-
-  task :add_github_to_known_hosts do
-    queue  %[echo ""]
-    queue  %[echo "-----> Run the following command on your server to add github to the list of known hosts. This will"]
-    queue  %[echo "-----> allow you to deploy (otherwise the git clone step will fail)."]
-    queue  %[echo ""]
-    queue  %[echo "ssh-keyscan -H github.com >> ~/.ssh/known_hosts"]
-    queue  %[echo ""]
-  end
-
-  task :symlink_nginx do
-    queue  %[echo ""]
-    queue  %[echo "-----> Run the following command on your server to create the symlink from the "]
-    queue  %[echo "       nginx sites-enabled directory to the app's nginx.conf file:"]
-    queue  %[echo ""]
-    queue  %[echo "sudo ln -nfs #{full_current_path}/config/nginx.conf /etc/nginx/sites-enabled/#{application}"]
-    queue  %[echo ""]
-  end
-
-  task :add_to_puma_jungle do
-    queue  %[echo ""]
-    queue  %[echo "-----> Run the following command on your server to add your app to the list of puma apps in "]
-    queue  %[echo "       the file /etc/puma.conf. All apps in this file are automatically started"]
-    queue  %[echo "       whenever the server is booted up. They can also be controlled with the script "]
-    queue  %[echo "       /etc/init.d/puma (i.e. try running the command '/etc/init.d/puma status')."]
-    queue  %[echo ""]
-    queue  %[echo "sudo /etc/init.d/puma add #{deploy_to} #{user} #{full_current_path}/config/puma.rb #{full_shared_path}/log/puma.log"]
-    queue  %[echo ""]
+namespace :rails do
+  desc "Opens the deployed application's .env file in vim so that you can edit application secrets."
+  task :edit_env do
+    queue %[vim #{shared_env_path}]
   end
 end
 
-# Put any custom mkdir's in here for   when `mina setup` is ran.
-# For Rails apps, we'll make some of the shared paths that are shared between
-# all releases.
-task :setup => :environment do
-  queue! %[mkdir -p "#{full_shared_path}/log"]
-  queue! %[chmod g+rx,u+rwx "#{full_shared_path}/log"]
+namespace :nginx do
+  desc "Generates a new Nginx configuration in the app's shared folder from the local nginx.conf.erb layout."
+  task :generate_conf do
+    conf = ERB.new(File.read("./config/nginx.conf.erb")).result()
+    queue %[echo "-----> Generating new config/nginx.conf"]
+    queue %[echo '#{conf}' > #{full_shared_path}/config/nginx.conf]
+  end
 
-  queue! %[mkdir -p "#{full_shared_path}/config"]
-  queue! %[chmod g+rx,u+rwx "#{full_shared_path}/config"]
+  desc "Creates a symlink to the app's Nginx configuration in the server's sites-enabled directory."
+  task :create_symlink do |task|
+    system %[echo ""]
+    system %[echo "Creating Nginx symlink: #{nginx_symlink} ===> #{nginx_conf}"]
+    system %[#{sudo_ssh_cmd(task)} 'sudo ln -nfs #{nginx_conf} #{nginx_symlink}']
+    system %[echo ""]
+  end
 
-  queue! %[mkdir -p "#{full_shared_path}/public/system"]
-  queue! %[chmod g+rx,u+rwx "#{full_shared_path}/public/system"]
+  desc "Removes the symlink to the app's Nginx configuration from the server's sites-enabled directory."
+  task :remove_symlink do |task|
+    system %[echo ""]
+    system %[echo "Removing Nginx symlink: #{nginx_symlink}"]
+    system %[#{sudo_ssh_cmd(task)} 'sudo rm #{nginx_symlink}']
+    system %[echo ""]
+  end
 
-  queue! %[mkdir -p "#{deploy_to}/tmp/puma/sockets"]
-  queue! %[chmod g+rx,u+rwx "#{deploy_to}/tmp/puma/sockets"]
+  desc "Starts the Nginx server."
+  task :start do |task|
+    system %[echo ""]
+    system %[echo "Starting Nginx."]
+    system %[#{sudo_ssh_cmd(task)} 'sudo service nginx start']
+    system %[echo ""]
+  end
 
-  queue! %[mkdir -p "#{deploy_to}/tmp/assets"]
-  queue! %[chmod g+rx,u+rwx "#{deploy_to}/tmp/assets"]
+  desc "Stops the Nginx server."
+  task :stop do |task|
+    system %[echo ""]
+    system %[echo "Stopping Nginx."]
+    system %[#{sudo_ssh_cmd(task)} 'sudo service nginx stop']
+    system %[echo ""]
+  end
 
-  queue %[echo ""]
-  queue %[echo "------------------------- REMINDERS -------------------------"]
-  queue %[echo ""]
-  queue %[echo ""]
-  queue %[echo "-------- Before First Deploy --------"]
-  queue %[echo ""]
+  desc "Checks the status of the Nginx server. Requires sudo_user option."
+  task :status do |task|
+    system %[echo ""]
+    system %[echo "Checking Nginx status."]
+    system %[#{sudo_ssh_cmd(task)} 'sudo service nginx status']
+    system %[echo ""]
+  end
+end
 
-  invoke :'reminder:create_env'
-  invoke :'reminder:add_github_to_known_hosts'
+namespace :puma do
+  desc "Generates a new Puma configuration in the app's shared folder from the local puma.rb.erb layout."
+  task :generate_conf do
+    conf = ERB.new(File.read("./config/puma.rb.erb")).result()
+    queue %[echo "-----> Generating new config/puma.rb"]
+    queue %[echo '#{conf}' > #{full_shared_path}/config/puma.rb]
+  end
 
-  queue %[echo ""]
-  queue %[echo "-------- After First Deploy --------"]
-  queue %[echo ""]
+  namespace :jungle do
+    desc "Adds the application to the puma jungle (list of apps controlled by /etc/init.d/puma). Requires sudo_user option."
+    task :add do |task|
+      system %[echo ""]
+      system %[echo "Adding application to puma jungle at /etc/puma.conf"]
+      system %[#{sudo_ssh_cmd(task)} 'sudo /etc/init.d/puma add #{deploy_to} #{user} #{puma_config} #{puma_log}']
+      system %[echo ""]
+    end
 
-  invoke 'reminder:symlink_nginx'
-  invoke 'reminder:add_to_puma_jungle'
+    desc "Removes the application from the puma jungle (list of apps controlled by /etc/init.d/puma). Requires sudo_user option."
+    task :remove do |task|
+      system %[echo ""]
+      system %[echo "Removing application from puma jungle at /etc/puma.conf"]
+      system %[#{sudo_ssh_cmd(task)} 'sudo /etc/init.d/puma remove #{deploy_to}']
+      system %[echo ""]
+    end
+
+    desc "Starts the puma jungle. Requires sudo_user option."
+    task :start do |task|
+      system %[echo ""]
+      system %[echo "Starting all puma jungle applications"]
+      system %[#{sudo_ssh_cmd(task)} 'sudo /etc/init.d/puma start']
+      system %[echo ""]
+    end
+
+    desc "Stops the puma jungle. Requires sudo_user option."
+    task :stop do |task|
+      system %[echo ""]
+      system %[echo "Stopping all puma jungle applications"]
+      system %[#{sudo_ssh_cmd(task)} 'sudo /etc/init.d/puma stop']
+      system %[echo ""]
+    end
+
+    desc "Checks the status of the puma jungle. Requires sudo_user option."
+    task :status do |task|
+      system %[echo ""]
+      system %[echo "Checking status of all puma jungle applications"]
+      system %[#{sudo_ssh_cmd(task)} 'sudo /etc/init.d/puma status']
+      system %[echo ""]
+    end
+
+    desc "Restarts the puma jungle. Requires sudo_user option."
+    task :restart do |task|
+      system %[echo ""]
+      system %[echo "Restarting all puma jungle applications"]
+      system %[#{sudo_ssh_cmd(task)} 'sudo /etc/init.d/puma restart']
+      system %[echo ""]
+    end
+  end
 end
 
 namespace :deploy do
+  desc "Ensures that local git repository is clean and in sync with the origin repository used for deploy."
   task :check_revision do
     unless `git rev-parse HEAD` == `git rev-parse origin/#{branch}`
-      puts "WARNING: HEAD is not the same as origin/#{branch}"
-      puts "Run `git push` to sync changes."
+      system %[echo "WARNING: HEAD is not the same as origin/#{branch}"]
+      system %[echo "Run 'git push' to sync changes."]
       exit
     end
 
     unless `git status`.include? 'nothing to commit, working directory clean'
-      puts "WARNING: There are uncommitted changes to the local git repository, which"
-      puts "may cause problems for locally precompiling assets."
-      puts "Please clean local repository with `git stash` or `git reset`."
+      system %[echo "WARNING: There are uncommitted changes to the local git repository, which"]
+      system %[echo "may cause problems for locally precompiling assets."]
+      system %[echo "Please clean local repository with 'git stash' or 'git reset'."]
       exit
     end
   end
 
   namespace :assets do
+    desc "Decides whether to precompile assets based on whether there have been changes to the assets since last deploy."
     task :decide_whether_to_precompile do
       set :precompile_assets, false
-      if ENV['precompile']
+      if ENV['precompile'] == 'true'
         set :precompile_assets, true
       else
         # Locations where assets may have changed; check Gemfile.lock to ensure that gem assets are the same
@@ -139,29 +189,26 @@ namespace :deploy do
 
         current_commit = `git rev-parse HEAD`.strip()
 
-        # Get deployed commit hash from FETCH_HEAD file
+        # Get deployed commit hash
         deployed_commit = capture(%[cat #{deploy_to}/scm/FETCH_HEAD]).split(" ")[0]
 
         # If FETCH_HEAD file does not exist or deployed_commit doesn't look like a hash, ask user to force precompile
         if deployed_commit == nil || deployed_commit.length != 40
           system %[echo "WARNING: Cannot determine the commit hash of the previous release on the server."]
-          system %[echo "If this is your first deploy (or you want to skip this error), deploy like this:"]
+          system %[echo "If this is your first deploy, deploy like this:"]
           system %[echo ""]
-          system %[echo "mina #{stage} deploy precompile=true"]
-          system %[echo "------ or for more information ------"]
-          system %[echo "mina #{stage} deploy precompile=true verbose=true"]
+          system %[echo "mina #{stage} deploy first_deploy=true --verbose"]
+          system %[echo ""]
+          system %[echo "To skip this error and force precompile, deploy like this:"]
+          system %[echo ""]
+          system %[echo "mina #{stage} deploy precompile=true --verbose"]
           system %[echo ""]
           exit
         else
           git_diff = `git diff --name-only #{deployed_commit}..#{current_commit} #{asset_files_directories}`
 
-          # If git diff length is 0, then the assets are unchanged.
-          # If the length is not 0, then one of the following are true:
-          #
-          # 1) The assets changed and git diff shows those files
-          # 2) Git cannot recognize the deployed commit and issues an error
-          #
-          # In both these situations, precompile assets.
+          # If git diff length is not 0, then either 1) the assets have changed or 2) git cannot recognize the deployed
+          # commit and issues an error. In both these situations, precompile assets.
           if git_diff.length == 0
             system %[echo "-----> Assets unchanged; skipping precompile assets"]
           else
@@ -171,6 +218,7 @@ namespace :deploy do
       end
     end
 
+    desc "Precompile assets locally and rsync to tmp/assets folder on server."
     task :local_precompile do
       system %[echo "-----> Cleaning assets locally"]
       system %[bundle exec rake assets:clean RAILS_GROUPS=assets]
@@ -189,33 +237,52 @@ namespace :deploy do
   end
 end
 
-namespace :nginx do
-  task :generate_conf do
-    conf = ERB.new(File.read("./config/nginx.conf.erb")).result()
-    queue %[echo "-----> Generating new config/nginx.conf"]
-    queue %[echo '#{conf}' > #{full_shared_path}/config/nginx.conf]
-  end
-end
+desc "Setup directories and .env file; should be run before first deploy."
+task :setup => :environment do
+  capture(%[ls #{full_shared_path}/.env]).split(" ")[0] == "#{shared_env_path}" ? env_exists = true : env_exists = false
 
-namespace :puma do
-  task :generate_conf do
-    conf = ERB.new(File.read("./config/puma.rb.erb")).result()
-    queue %[echo "-----> Generating new config/puma.rb"]
-    queue %[echo '#{conf}' > #{full_shared_path}/config/puma.rb]
+  unless env_exists
+    system %[scp .env.example #{user}@#{domain}:#{temp_env_example_path}]
+  end
+
+  initial_directories.each do |dir|
+    queue! %[mkdir -p "#{dir}"]
+    queue! %[chmod g+rx,u+rwx "#{dir}"]
+  end
+
+  unless env_exists
+    queue! %[echo "Moving copy of local .env.example to #{shared_env_path}"]
+    queue! %[mv #{temp_env_example_path} #{shared_env_path}]
+    queue! %[echo ""]
+    queue! %[echo "------------------------- IMPORTANT -------------------------"]
+    queue! %[echo ""]
+    queue! %[echo "Run the following command and add your secrets to the .env file:"]
+    queue! %[echo ""]
+    queue! %[echo "mina #{stage} rails:edit_env"]
+    queue! %[echo ""]
+    queue! %[echo "Then deploy for the first time like this:"]
+    queue! %[echo ""]
+    queue! %[echo "mina #{stage} deploy first_deploy=true --verbose"]
+    queue! %[echo ""]
+    queue! %[echo "------------------------- IMPORTANT -------------------------"]
+    queue! %[echo ""]
   end
 end
 
 desc "Deploys the current version to the server."
 task :deploy => :environment do
   deploy do
-    if ENV['verbose']
-      set :rsync_verbose, "--verbose"
-    else
-      set :bundle_options, "#{bundle_options} --quiet"
-      set :rsync_verbose, ""
+    if ENV['first_deploy'] == 'true'
+      first_deploy = true
+      ENV['precompile'] = 'true'
     end
 
-    system %[echo "Note: If this is the first deploy, run 'mina #{stage} setup' to view important reminders"]
+    set :rsync_verbose, "--verbose"
+    unless verbose_mode?
+      set :rsync_verbose, ""
+      set :bundle_options, "#{bundle_options} --quiet"
+    end
+
     invoke :'deploy:check_revision'
     invoke :'deploy:assets:decide_whether_to_precompile'
     invoke :'deploy:assets:local_precompile' if precompile_assets
@@ -231,7 +298,69 @@ task :deploy => :environment do
     to :launch do
       queue "mkdir -p #{full_current_path}/tmp/"
       queue "touch #{full_current_path}/tmp/restart.txt"
-      invoke :'puma:phased_restart'
+      if first_deploy
+        invoke :'puma:start'
+        queue! %[echo ""]
+        queue! %[echo "------------------------- IMPORTANT -------------------------"]
+        queue! %[echo ""]
+        queue! %[echo "As this is the first deploy, you need to run the following command:"]
+        queue! %[echo "(Insert a user with sudo access into <username>)"]
+        queue! %[echo ""]
+        queue! %[echo "mina #{stage} post_setup sudo_user=<username>"]
+        queue! %[echo ""]
+        queue! %[echo "------------------------- IMPORTANT -------------------------"]
+        queue! %[echo ""]
+      else
+        invoke :'puma:phased_restart'
+      end
     end
   end
+end
+
+desc "Creates Nginx symlink, adds app to puma jungle, and starts and stops Nginx; should be run after first deploy."
+task :post_setup do
+  invoke :'nginx:create_symlink'
+  invoke :'puma:jungle:add'
+  invoke :'nginx:stop'
+  invoke :'nginx:start'
+end
+
+desc "Removes application directory from server, removes nginx symlink, removes app from puma jungle and restarts nginx."
+task :destroy do
+  invoke :'remove_application'
+  invoke :'nginx:remove_symlink'
+  invoke :'puma:jungle:remove'
+  invoke :'nginx:stop'
+  invoke :'nginx:start'
+end
+
+desc "Removes application directory from server."
+task :remove_application do |task|
+  system %[echo ""]
+  system %[echo "Removing application at #{deploy_to}"]
+  system %[echo "WARNING: DO NOT ENTER sudo password if you're not sure about this."]
+  system %[#{sudo_ssh_cmd(task)} 'sudo rm -rf #{deploy_to}']
+  system %[echo ""]
+end
+
+private
+
+def sudo_ssh_cmd(task)
+  return "ssh #{get_sudo_user(task)}@#{domain} -t"
+end
+
+def get_sudo_user(task)
+  sudo_user = ENV['sudo_user']
+
+  if !sudo_user
+    system %[echo ""]
+    system %[echo "In order to run this command, please include a 'sudo_user' option set to a user"]
+    system %[echo "that has sudo permissons on the server:"]
+    system %[echo ""]
+    system %[echo "mina #{stage} #{task} sudo_user=<username>"]
+    system %[echo ""]
+    exit
+  end
+
+  return sudo_user
 end

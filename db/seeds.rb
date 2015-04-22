@@ -14,4 +14,3 @@ def self.create_roles
 end
 
 create_roles
-

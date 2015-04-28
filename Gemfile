@@ -58,5 +58,4 @@ gem 'gon', '~> 5.2.3'
 gem 'tinymce-rails', '~> 4.1.6'
 gem 'highcharts-rails', '~> 4.0.4'
 gem 'nokogiri', '~> 1.6.6.2' # Added for lib/aug2014PdfParser
-gem 'as_csv', '~> 2.0'
 gem 'rubyzip', '~> 1.1'

@@ -1,5 +1,31 @@
+require 'csv'
+
 class Prison < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
+
+  def self.csv_path
+    return Rails.root.join('public', 'system', 'csv', 'prisons.csv')
+  end
+
+  def self.export_to_csv
+    FileUtils.mkdir_p(File.dirname(Prison.csv_path))
+
+    CSV.open(Prison.csv_path, 'wb') do |csv|
+      csv << [
+          'ID',
+          'Name',
+          'Description'
+      ]
+
+      Prison.all.each do |prison|
+        csv << [
+            prison.id,
+            prison.name,
+            prison.description
+        ]
+      end
+    end
+  end
 
   def self.generate_prison_prisoner_count_chart_json
     dir_path = Rails.public_path.join("data")

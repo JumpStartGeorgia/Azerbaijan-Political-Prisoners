@@ -1,0 +1,5 @@
+<%- headers = ['Name', 'Description'] -%>
+<%= CSV.generate_line headers %>
+<%- @tags.each do |tag| -%>
+  <%= CSV.generate_line([tag.name, tag.description]) %>
+<%- end -%>

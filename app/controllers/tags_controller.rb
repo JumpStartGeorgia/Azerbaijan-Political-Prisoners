@@ -13,7 +13,10 @@ class TagsController < ApplicationController
     respond_to do |format|
       format.html
       format.json
-      format.csv { render csv: Tag.all }
+      format.csv do
+        headers['Content-Disposition'] = "attachment; filename=\"tags.csv\""
+        headers['Content-Type'] ||= 'text/csv'
+      end
     end
   end
 

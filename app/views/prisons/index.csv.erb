@@ -1,5 +1,8 @@
-<%- headers = ['Name', 'Description'] -%>
-<%= CSV.generate_line headers %>
-<%- @prisons.each do |prison| -%>
-  <%= CSV.generate_line([prison.name, prison.description]) %>
-<%- end -%>
+<%=
+    CSV.generate(col_sep: "||") do |csv|
+      csv << ['Name', 'Description']
+      @prisons.each do |prison|
+        csv << [prison.name, prison.description]
+      end
+    end
+%>

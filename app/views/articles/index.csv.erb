@@ -1,5 +1,8 @@
-<%- headers = ['Number', 'Criminal Code', 'Description'] -%>
-<%= CSV.generate_line headers %>
-<%- @articles.each do |article| -%>
-  <%= CSV.generate_line([article.number, article.description, @criminal_codes.select{ |criminal_code| criminal_code.id == article.criminal_code_id }.first.name]) %>
-<%- end -%>
+<%=
+    CSV.generate(col_sep: "||") do |csv|
+      csv << ['Number', 'Criminal Code', 'Description']
+      @articles.each do |article|
+        csv << [article.number, article.description, @criminal_codes.select{ |criminal_code| criminal_code.id == article.criminal_code_id }.first.name]
+      end
+    end
+%>

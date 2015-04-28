@@ -5,10 +5,17 @@ class PrisonsController < ApplicationController
   before_action :set_prisoners_in_prison, only: [:show]
   before_action :set_gon_variables
 
+
   # GET /prisons
   # GET /prisons.json
   def index
     @prisons = Prison.all
+
+    respond_to do |format|
+      format.html
+      format.json
+      format.csv { render csv: Prison.all }
+    end
   end
 
   # GET /prisons/1

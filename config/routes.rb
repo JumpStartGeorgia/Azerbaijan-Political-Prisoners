@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   get '/data/imprisoned_count_timeline', to: 'data#imprisoned_count_timeline', constraints: { format: :json }, defaults: { format: :json }
   get '/data/prison_prisoner_counts', to: 'data#prison_prisoner_counts', constraints: { format: :json }, defaults: { format: :json }
   get '/data/article_incident_counts', to: 'data#article_incident_counts', constraints: { format: :json }, defaults: { format: :json }
+  get '/all.csv', to: 'application#export_to_csv', constraints: { format: :csv }, defaults: { format: :csv }
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

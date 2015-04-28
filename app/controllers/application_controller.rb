@@ -1,4 +1,5 @@
 require 'zip'
+require 'csv'
 
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
@@ -37,7 +38,7 @@ class ApplicationController < ActionController::Base
   private
 
   def createCsvZip(csv_dir, csv_zip)
-    csv_models = [Prison, Tag]
+    csv_models = [Prison, Tag, Article]
 
     FileUtils.mkdir_p(csv_dir)
 

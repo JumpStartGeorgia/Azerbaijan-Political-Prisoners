@@ -1,5 +1,3 @@
-require 'csv'
-
 class Prison < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
 

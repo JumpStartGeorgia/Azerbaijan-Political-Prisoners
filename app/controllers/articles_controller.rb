@@ -9,6 +9,17 @@ class ArticlesController < ApplicationController
   # GET /articles.json
   def index
     @articles = Article.all.order(criminal_code_id: :asc, number: :asc)
+    @criminal_codes = CriminalCode.all
+    puts @criminal_codes[0].id
+
+    respond_to do |format|
+      format.html
+      format.json
+      format.csv do
+        headers['Content-Disposition'] = "attachment; filename=\"articles.csv\""
+        headers['Content-Type'] ||= 'text/csv'
+      end
+    end
   end
 
   # GET /articles/1

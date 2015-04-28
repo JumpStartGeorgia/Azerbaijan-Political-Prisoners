@@ -9,6 +9,12 @@ class TagsController < ApplicationController
   # GET /tags.json
   def index
     @tags = Tag.all
+
+    respond_to do |format|
+      format.html
+      format.json
+      format.csv { render csv: Tag.all }
+    end
   end
 
   # GET /tags/1

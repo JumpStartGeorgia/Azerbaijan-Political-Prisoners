@@ -24,15 +24,19 @@ class ApplicationController < ActionController::Base
   end
 
   def export_to_csv
-    prisons_csv = Rails.root.join('public', 'system', 'csv', 'prisons.csv')
-    FileUtils.mkdir_p(File.dirname(prisons_csv))
+    csv_dir = Rails.root.join('public', 'system', 'csv')
+    FileUtils.mkdir_p(csv_dir)
 
-    File.open(prisons_csv, 'w') { |file| file.write(Prison.all.to_csv) }
+    csv_files = ['prisons.csv', 'tags.csv']
+    File.open(csv_dir.join('prisons.csv'), 'w') { |file| file.write(Prison.all.to_csv) }
+    File.open(csv_dir.join('tags.csv'), 'w') { |file| file.write(Tag.all.to_csv) }
 
-    Zip::File.open(Rails.root.join('public', 'system', 'csv', 'political_prisoner_data.zip'), Zip::File::CREATE) do |zipfile|
-      zipfile.add('prisons.csv', prisons_csv)
+    Zip::File.open(csv_dir.join('political_prisoner_data.zip'), Zip::File::CREATE) do |zipfile|
+      csv_files.each do |csv_file|
+        zipfile.add(csv_file, csv_dir.join(csv_file))
+      end
     end
 
-    redirect_to '/'
+    send_file csv_dir.join('political_prisoner_data.zip'), type: 'application/zip'
   end
 end

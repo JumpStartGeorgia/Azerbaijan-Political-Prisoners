@@ -25,18 +25,38 @@ class ApplicationController < ActionController::Base
 
   def export_to_csv
     csv_dir = Rails.root.join('public', 'system', 'csv')
+    csv_zip = csv_dir.join('political_prisoner_data.zip')
+
+    unless File.exists?(csv_zip)
+      createCsvZip(csv_dir, csv_zip)
+    end
+
+    send_file csv_zip, type: 'application/zip'
+  end
+
+  private
+
+  def createCsvZip(csv_dir, csv_zip)
+    csv_models = [Prison, Tag]
+
     FileUtils.mkdir_p(csv_dir)
 
-    csv_files = ['prisons.csv', 'tags.csv']
-    File.open(csv_dir.join('prisons.csv'), 'w') { |file| file.write(Prison.all.to_csv) }
-    File.open(csv_dir.join('tags.csv'), 'w') { |file| file.write(Tag.all.to_csv) }
+    csv_models.each do |csv_model|
+      File.open(csv_dir.join(getCsvFileName(csv_model)), 'w') { |file| file.write(csv_model.all.to_csv) }
+    end
 
-    Zip::File.open(csv_dir.join('political_prisoner_data.zip'), Zip::File::CREATE) do |zipfile|
-      csv_files.each do |csv_file|
-        zipfile.add(csv_file, csv_dir.join(csv_file))
+    Zip::File.open(csv_zip, Zip::File::CREATE) do |zipfile|
+      csv_models.each do |csv_model|
+        zipfile.add(getCsvFileName(csv_model), csv_dir.join(getCsvFileName(csv_model)))
       end
     end
 
-    send_file csv_dir.join('political_prisoner_data.zip'), type: 'application/zip'
+    csv_models.each do |csv_model|
+      File.delete(csv_dir.join(getCsvFileName(csv_model)))
+    end
+  end
+
+  def getCsvFileName(model)
+    return model.model_name.plural + '.csv'
   end
 end

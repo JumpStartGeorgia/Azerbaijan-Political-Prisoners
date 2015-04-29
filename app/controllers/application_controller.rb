@@ -25,11 +25,10 @@ class ApplicationController < ActionController::Base
   end
 
   def to_csv
-    csv_dir = Rails.root.join('public', 'system', 'csv')
-    csv_zip = csv_dir.join('political_prisoner_data.zip')
+    csv_zip = Rails.root.join('public', 'system', 'csv', 'political_prisoner_data.zip')
 
     unless File.exists?(csv_zip)
-      createCsvZip(csv_dir, csv_zip)
+      createCsvZip(csv_zip)
     end
 
     send_file csv_zip, type: 'application/zip'
@@ -37,9 +36,10 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def createCsvZip(csv_dir, csv_zip)
+  def createCsvZip(csv_zip)
     csv_models = [Prison, Tag, Article]
 
+    csv_dir = Pathname.new(File.dirname(csv_zip))
     FileUtils.mkdir_p(csv_dir)
 
     csv_models.each do |csv_model|

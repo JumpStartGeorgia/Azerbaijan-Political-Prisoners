@@ -42,16 +42,19 @@ class ApplicationController < ActionController::Base
     csv_dir = Pathname.new(File.dirname(csv_zip))
     FileUtils.mkdir_p(csv_dir)
 
+    # Create csv files
     csv_models.each do |csv_model|
       File.open(csv_dir.join(getCsvFileName(csv_model)), 'w') { |file| file.write(csv_model.all.to_csv) }
     end
 
+    # Create zip from csv files
     Zip::File.open(csv_zip, Zip::File::CREATE) do |zipfile|
       csv_models.each do |csv_model|
         zipfile.add(getCsvFileName(csv_model), csv_dir.join(getCsvFileName(csv_model)))
       end
     end
 
+    # Delete csv files
     csv_models.each do |csv_model|
       File.delete(csv_dir.join(getCsvFileName(csv_model)))
     end

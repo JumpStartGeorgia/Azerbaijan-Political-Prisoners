@@ -22,6 +22,6 @@ class ApplicationController < ActionController::Base
   end
 
   def fileTimeStamp
-    return Time.now.strftime("%H-%M-%S_%d-%m-%Y")
+    return Time.now.strftime("%Y-%m-%d_%H-%M-%S")
   end
 end

@@ -15,7 +15,7 @@ class TagsController < ApplicationController
       format.json
       format.csv do
         send_data Tag.to_csv,
-            filename: 'tags.csv',
+            filename: "tags_#{fileTimeStamp}.csv",
             type: 'text/csv'
       end
     end

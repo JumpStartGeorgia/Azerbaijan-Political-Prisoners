@@ -20,4 +20,8 @@ class ApplicationController < ActionController::Base
   def not_found
     raise ActionController::RoutingError.new('Not Found')
   end
+
+  def fileTimeStamp
+    return Time.now.strftime("%H-%M-%S_%d-%m-%Y")
+  end
 end

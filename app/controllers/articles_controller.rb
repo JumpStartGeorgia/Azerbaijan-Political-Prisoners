@@ -15,7 +15,7 @@ class ArticlesController < ApplicationController
       format.json
       format.csv do
         send_data Article.to_csv,
-                  filename: 'articles.csv',
+                  filename: "articles_#{fileTimeStamp}.csv",
                   type: 'text/csv'
       end
     end

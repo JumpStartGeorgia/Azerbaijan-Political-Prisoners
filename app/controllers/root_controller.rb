@@ -4,7 +4,7 @@ class RootController < ApplicationController
   end
 
   def to_csv_zip
-    csv_zip = Rails.root.join('public', 'system', 'csv', 'political_prisoner_data.zip')
+    csv_zip = Rails.root.join('public', 'system', 'csv', "political_prisoner_data_#{fileTimeStamp}.zip")
 
     unless File.exists?(csv_zip)
       createCsvZip(csv_zip)
@@ -42,6 +42,6 @@ class RootController < ApplicationController
   end
 
   def getCsvFileName(model)
-    return model.model_name.plural + '.csv'
+    return "#{model.model_name.plural}_#{fileTimeStamp}.csv"
   end
 end

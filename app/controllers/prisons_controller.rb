@@ -5,7 +5,6 @@ class PrisonsController < ApplicationController
   before_action :set_prisoners_in_prison, only: [:show]
   before_action :set_gon_variables
 
-
   # GET /prisons
   # GET /prisons.json
   def index

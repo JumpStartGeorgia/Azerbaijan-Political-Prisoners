@@ -8,8 +8,7 @@ class ArticlesController < ApplicationController
   # GET /articles
   # GET /articles.json
   def index
-    @articles = Article.all.order(criminal_code_id: :asc, number: :asc)
-    @criminal_codes = CriminalCode.all
+    @articles = Article.includes(:criminal_code).order(criminal_code_id: :asc, number: :asc)
 
     respond_to do |format|
       format.html

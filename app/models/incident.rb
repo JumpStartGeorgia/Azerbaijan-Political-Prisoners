@@ -11,10 +11,34 @@ class Incident < ActiveRecord::Base
     require 'csv'
 
     CSV.generate() do |csv|
-      csv << ['Date of Arrest']
+      csv << ['Prisoner Name', 'Date of Arrest', 'Description of Arrest', 'Tags', 'Charges', 'Prison', 'Date of Release', 'Description of Release']
       all.each do |incident|
-        csv << [incident.date_of_arrest]
+        csv << [
+            incident.prisoner.name,
+            incident.date_of_arrest,
+            incident.description_of_arrest,
+            incident.many_to_str(incident.tags, "name"),
+            incident.many_to_str(incident.articles, "number"),
+            incident.prison ? incident.prison.name : 'No Prison Listed',
+            incident.date_of_release,
+            incident.description_of_release
+        ]
       end
     end
+  end
+
+  def many_to_str(objects, attribute)
+    str = ""
+    objects.each_with_index do |object, index|
+      attribute_value = object[attribute]
+
+      if objects.length - 1 == index
+        str += attribute_value
+      else
+        str += attribute_value + '; '
+      end
+    end
+
+    return str
   end
 end

@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
 
     # Create csv files
     csv_models.each do |csv_model|
-      File.open(csv_dir.join(getCsvFileName(csv_model)), 'w') { |file| file.write(csv_model.all.to_csv) }
+      File.open(csv_dir.join(getCsvFileName(csv_model)), 'w') { |file| file.write(csv_model.to_csv) }
     end
 
     # Create zip from csv files

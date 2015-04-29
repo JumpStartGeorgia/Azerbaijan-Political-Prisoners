@@ -3,7 +3,7 @@ class RootController < ApplicationController
     @currently_imprisoned_count = Prisoner.currently_imprisoned_count
   end
 
-  def to_csv
+  def to_csv_zip
     csv_zip = Rails.root.join('public', 'system', 'csv', 'political_prisoner_data.zip')
 
     unless File.exists?(csv_zip)

@@ -1,8 +1,0 @@
-<%=
-    CSV.generate(col_sep: "||") do |csv|
-      csv << ['Number', 'Criminal Code', 'Description']
-      @articles.each do |article|
-        csv << [article.number, article.criminal_code.name, article.description]
-      end
-    end
-%>

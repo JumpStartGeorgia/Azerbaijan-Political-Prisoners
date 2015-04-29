@@ -14,8 +14,9 @@ class TagsController < ApplicationController
       format.html
       format.json
       format.csv do
-        headers['Content-Disposition'] = "attachment; filename=\"tags.csv\""
-        headers['Content-Type'] ||= 'text/csv'
+        send_data Tag.to_csv,
+            filename: 'tags.csv',
+            type: 'text/csv'
       end
     end
   end

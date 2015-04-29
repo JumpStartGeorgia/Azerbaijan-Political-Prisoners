@@ -14,8 +14,9 @@ class ArticlesController < ApplicationController
       format.html
       format.json
       format.csv do
-        headers['Content-Disposition'] = "attachment; filename=\"articles.csv\""
-        headers['Content-Type'] ||= 'text/csv'
+        send_data Article.to_csv,
+                  filename: 'articles.csv',
+                  type: 'text/csv'
       end
     end
   end

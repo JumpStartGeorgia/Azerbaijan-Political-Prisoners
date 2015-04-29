@@ -15,8 +15,9 @@ class PrisonsController < ApplicationController
       format.html
       format.json
       format.csv do
-        headers['Content-Disposition'] = "attachment; filename=\"prisons.csv\""
-        headers['Content-Type'] ||= 'text/csv'
+        send_data Prison.to_csv,
+                  filename: 'prisons.csv',
+                  type: 'text/csv'
       end
     end
   end

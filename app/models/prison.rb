@@ -1,6 +1,15 @@
 class Prison < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
 
+  def self.to_csv
+    CSV.generate() do |csv|
+      csv << ['Name', 'Description']
+      all.each do |prison|
+        csv << [prison.name, prison.description]
+      end
+    end
+  end
+
   def self.generate_prison_prisoner_count_chart_json
     dir_path = Rails.public_path.join("data")
     json_path = dir_path.join("prison_prisoner_count_chart.json")

@@ -6,28 +6,13 @@ class Article < ActiveRecord::Base
   validates :number, :criminal_code, presence: true
   validates_uniqueness_of :number, :scope => :criminal_code, :message => "already exists for selected Criminal Code. Enter new Number or select different Criminal Code"
 
-  #def as_csv(options={})
-  #  binding.pry
-  #  attributes.slice('number', 'description')
-  #  attributes['criminal_code'] = CriminalCode.find(self.criminal_code_id).name
-  #end
-
   def self.to_csv
-    hello = CSV.generate do |csv|
-      csv << [
-          'Number',
-          'Description'
-      ]
-
-      all.each do |article|
-        csv << [
-            article.number,
-            article.description
-        ]
+    CSV.generate() do |csv|
+      csv << ['Number', 'Criminal Code', 'Description']
+      all.includes(:criminal_code).order(criminal_code_id: :asc, number: :asc).each do |article|
+        csv << [article.number, article.criminal_code.name, article.description]
       end
     end
-
-    return
   end
 
   def self.incident_counts_ordered(limit)

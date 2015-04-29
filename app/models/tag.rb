@@ -3,6 +3,8 @@ class Tag < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
 
   def self.to_csv
+    require 'csv'
+
     CSV.generate() do |csv|
       csv << ['Name', 'Description']
       all.each do |tag|

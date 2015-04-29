@@ -4,15 +4,16 @@ class RootController < ApplicationController
   end
 
   def to_csv_zip
-    csv_zip = Rails.root.join('public', 'system', 'csv', "political_prisoner_data_#{fileTimeStamp}.zip")
-    createCsvZip(csv_zip)
+    timeStamp = fileTimeStamp
+    csv_zip = Rails.root.join('public', 'system', 'csv', "political_prisoner_data_#{timeStamp}.zip")
+    createCsvZip(csv_zip, timeStamp)
     send_file csv_zip, type: 'application/zip'
     File.delete(csv_zip)
   end
 
   private
 
-  def createCsvZip(csv_zip)
+  def createCsvZip(csv_zip, timeStamp)
     require 'zip'
 
     csv_models = [Prison, Tag, Article]
@@ -22,23 +23,23 @@ class RootController < ApplicationController
 
     # Create csv files
     csv_models.each do |csv_model|
-      File.open(csv_dir.join(getCsvFileName(csv_model)), 'w') { |file| file.write(csv_model.to_csv) }
+      File.open(csv_dir.join(getCsvFileName(csv_model, timeStamp)), 'w') { |file| file.write(csv_model.to_csv) }
     end
 
     # Create zip from csv files
     Zip::File.open(csv_zip, Zip::File::CREATE) do |zipfile|
       csv_models.each do |csv_model|
-        zipfile.add(getCsvFileName(csv_model), csv_dir.join(getCsvFileName(csv_model)))
+        zipfile.add(getCsvFileName(csv_model, timeStamp), csv_dir.join(getCsvFileName(csv_model, timeStamp)))
       end
     end
 
     # Delete csv files
     csv_models.each do |csv_model|
-      File.delete(csv_dir.join(getCsvFileName(csv_model)))
+      File.delete(csv_dir.join(getCsvFileName(csv_model, timeStamp)))
     end
   end
 
-  def getCsvFileName(model)
-    return "#{model.model_name.plural}_#{fileTimeStamp}.csv"
+  def getCsvFileName(model, timeStamp)
+    return "#{model.model_name.plural}_#{timeStamp}.csv"
   end
 end

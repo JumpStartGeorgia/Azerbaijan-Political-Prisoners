@@ -7,6 +7,8 @@ class Article < ActiveRecord::Base
   validates_uniqueness_of :number, :scope => :criminal_code, :message => "already exists for selected Criminal Code. Enter new Number or select different Criminal Code"
 
   def self.to_csv
+    require 'csv'
+
     CSV.generate() do |csv|
       csv << ['Number', 'Criminal Code', 'Description']
       all.includes(:criminal_code).order(criminal_code_id: :asc, number: :asc).each do |article|

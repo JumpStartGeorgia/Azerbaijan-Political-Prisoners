@@ -19,6 +19,7 @@ class Ability
       can [:edit, :create, :update, :destroy], User, role: { name: 'user_manager' }
     else
       can :read, content_resources
+      can :incidents_to_csv, Prisoner
     end
     # Define abilities for the passed in user here. For example:
     #

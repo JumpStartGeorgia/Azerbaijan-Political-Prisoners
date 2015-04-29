@@ -76,6 +76,12 @@ class PrisonersController < ApplicationController
     end
   end
 
+  def incidents_to_csv
+    send_data Incident.to_csv,
+              filename: "incidents_#{fileTimeStamp}.csv",
+              type: 'text/csv'
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_prisoner

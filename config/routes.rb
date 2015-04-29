@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+
   post '/users', to: 'users#create'
   devise_for :users, controllers: { confirmations: "users/confirmations", omniauth: "users/omniauth", passwords: "users/passwords", registrations: "users/registrations", sessions: "users/sessions", unlocks: "users/unlocks" }, constraints: { format: :html }
 
@@ -11,7 +12,11 @@ Rails.application.routes.draw do
 
   resources :articles
 
-  resources :prisoners
+  resources :prisoners do
+    collection do
+      get 'incidents_to_csv', constraints: { format: :csv }, defaults: { format: :csv }
+    end
+  end
 
   resources :users, constraints: { format: :html }
 

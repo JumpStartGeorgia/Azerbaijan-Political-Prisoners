@@ -6,4 +6,15 @@ class Incident < ActiveRecord::Base
   has_many :articles, through: :charges
 
   validates :date_of_arrest, presence: true
+
+  def self.to_csv
+    require 'csv'
+
+    CSV.generate() do |csv|
+      csv << ['Date of Arrest']
+      all.each do |incident|
+        csv << [incident.date_of_arrest]
+      end
+    end
+  end
 end

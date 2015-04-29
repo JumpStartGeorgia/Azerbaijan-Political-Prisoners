@@ -10,6 +10,16 @@ class PrisonersController < ApplicationController
   # GET /prisoners.json
   def index
     @prisoners = Prisoner.all
+
+    respond_to do |format|
+      format.html
+      format.json
+      format.csv do
+        send_data Prisoner.to_csv,
+                  filename: "prisoners_#{fileTimeStamp}.csv",
+                  type: 'text/csv'
+      end
+    end
   end
 
   # GET /prisoners/1

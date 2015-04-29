@@ -1,5 +1,6 @@
 <%- model_class = Prisoner -%>
 <% page_title "#{model_class.model_name.human.pluralize.titleize}" %>
+<p><%= link_to "#{model_class.model_name.human.pluralize.titleize} CSV Download", prisoners_path(format: :csv) %></p>
 <table class="table table-striped">
   <thead>
     <tr>

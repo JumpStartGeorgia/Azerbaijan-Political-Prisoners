@@ -18,7 +18,7 @@ class RootController < ApplicationController
   def createCsvZip(csv_zip, timeStamp)
     require 'zip'
 
-    csv_models = [Prison, Tag, Article]
+    csv_models = [Prison, Tag, Article, Prisoner]
 
     csv_dir = Pathname.new(File.dirname(csv_zip))
     FileUtils.mkdir_p(csv_dir)

@@ -13,6 +13,19 @@ class Prisoner < ActiveRecord::Base
   validate :validate_all_incidents_released_except_last
   validate :validate_incident_dates
 
+  # CSV format
+
+  def self.to_csv
+    require 'csv'
+
+    CSV.generate() do |csv|
+      csv << ['Name']
+      all.each do |prisoner|
+        csv << [prisoner.name]
+      end
+    end
+  end
+
   # Callbacks
 
   def update_currently_imprisoned

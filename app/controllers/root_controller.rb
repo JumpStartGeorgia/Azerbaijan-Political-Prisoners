@@ -5,12 +5,9 @@ class RootController < ApplicationController
 
   def to_csv_zip
     csv_zip = Rails.root.join('public', 'system', 'csv', "political_prisoner_data_#{fileTimeStamp}.zip")
-
-    unless File.exists?(csv_zip)
-      createCsvZip(csv_zip)
-    end
-
+    createCsvZip(csv_zip)
     send_file csv_zip, type: 'application/zip'
+    File.delete(csv_zip)
   end
 
   private

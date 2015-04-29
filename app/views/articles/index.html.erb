@@ -1,5 +1,6 @@
 <%- model_class = Article -%>
 <% page_title "#{model_class.model_name.human.pluralize.titleize}" %>
+<p><%= link_to "#{model_class.model_name.human.pluralize.titleize} CSV Download", articles_path(format: :csv) %></p>
 <table class="table table-striped">
   <thead>
     <tr>

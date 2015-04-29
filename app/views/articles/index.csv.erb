@@ -2,7 +2,7 @@
     CSV.generate(col_sep: "||") do |csv|
       csv << ['Number', 'Criminal Code', 'Description']
       @articles.each do |article|
-        csv << [article.number, article.description, @criminal_codes.select{ |criminal_code| criminal_code.id == article.criminal_code_id }.first.name]
+        csv << [article.number, @criminal_codes.select{ |criminal_code| criminal_code.id == article.criminal_code_id }.first.name, article.description]
       end
     end
 %>

@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
     raise ActionController::RoutingError.new('Not Found')
   end
 
-  def export_to_csv
+  def to_csv
     csv_dir = Rails.root.join('public', 'system', 'csv')
     csv_zip = csv_dir.join('political_prisoner_data.zip')
 

@@ -12,7 +12,7 @@ class Incident < ActiveRecord::Base
 
     CSV.generate() do |csv|
       csv << ['Prisoner Name', 'Date of Arrest', 'Description of Arrest', 'Tags', 'Charges', 'Prison', 'Date of Release', 'Description of Release']
-      all.each do |incident|
+      all.includes(:prisoner).includes(:prison).includes(:tags).includes(:articles).each do |incident|
         csv << [
             incident.prisoner.name,
             incident.date_of_arrest,

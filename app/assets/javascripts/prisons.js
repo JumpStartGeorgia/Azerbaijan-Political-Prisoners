@@ -6,7 +6,7 @@ $(document).ready(function() {
 
 var prison_prisoner_counts_chart = function() {
     $.ajax({
-        url: 'data/prison_prisoner_counts',
+        url: 'prisons/prison_prisoner_counts',
         async: true,
         dataType: 'json',
         success: function (response) {

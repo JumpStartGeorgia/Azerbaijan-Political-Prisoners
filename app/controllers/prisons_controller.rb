@@ -75,6 +75,16 @@ class PrisonsController < ApplicationController
     end
   end
 
+  def prison_prisoner_counts
+    if !File.exists?(Rails.public_path.join('data/prison_prisoner_count_chart.json'))
+      Prison.generate_prison_prisoner_count_chart_json
+    end
+
+    respond_to do |format|
+      format.json { render json: File.read(Rails.public_path.join('data/prison_prisoner_count_chart.json')) }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_prison

@@ -6,7 +6,7 @@ $(document).ready(function() {
 
 var article_incident_counts_chart = function() {
     $.ajax({
-        url: 'data/article_incident_counts',
+        url: 'articles/article_incident_counts',
         async: true,
         dataType: 'json',
         success: function (response) {

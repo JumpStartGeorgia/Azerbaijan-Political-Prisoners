@@ -16,8 +16,8 @@ RSpec.describe 'JSON data', type: :feature do
     FactoryGirl.create(:article, number: 'article#2')
 
     timeline_json_path = "/prisoners/imprisoned_count_timeline"
-    prison_prisoner_counts_json_path = "/data/prison_prisoner_counts"
-    article_incident_counts_json_path = "/data/article_incident_counts"
+    prison_prisoner_counts_json_path = "/prisons/prison_prisoner_counts"
+    article_incident_counts_json_path = "/articles/article_incident_counts"
 
     visit timeline_json_path
     timeline_json1 = page.body

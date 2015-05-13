@@ -75,6 +75,16 @@ class ArticlesController < ApplicationController
     end
   end
 
+  def article_incident_counts
+    if !File.exists?(Rails.public_path.join('data/article_incident_counts_chart.json'))
+      Article.generate_highest_incident_counts_chart_json
+    end
+
+    respond_to do |format|
+      format.json { render json: File.read(Rails.public_path.join('data/article_incident_counts_chart.json')) }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_article

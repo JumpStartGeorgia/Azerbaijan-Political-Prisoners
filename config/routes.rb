@@ -6,11 +6,19 @@ Rails.application.routes.draw do
 
   resources :tags
 
-  resources :prisons
+  resources :prisons do
+    collection do
+      get 'prison_prisoner_counts', constraints: { format: :json }, defaults: { format: :json }
+    end
+  end
 
   resources :criminal_codes
 
-  resources :articles
+  resources :articles do
+    collection do
+      get 'article_incident_counts', constraints: { format: :json }, defaults: { format: :json }
+    end
+  end
 
   resources :prisoners do
     collection do
@@ -21,8 +29,6 @@ Rails.application.routes.draw do
 
   resources :users, constraints: { format: :html }
 
-  get '/data/prison_prisoner_counts', to: 'data#prison_prisoner_counts', constraints: { format: :json }, defaults: { format: :json }
-  get '/data/article_incident_counts', to: 'data#article_incident_counts', constraints: { format: :json }, defaults: { format: :json }
   get '/csv_zip', to: 'root#to_csv_zip', constraints: { format: :csv }, defaults: { format: :csv }
 
   # The priority is based upon order of creation: first created -> highest priority.

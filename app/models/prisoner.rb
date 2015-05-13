@@ -1,6 +1,5 @@
 class Prisoner < ActiveRecord::Base
   after_commit :update_currently_imprisoned
-  after_commit :remove_generated
 
   has_many :incidents, inverse_of: :prisoner
   has_attached_file :portrait,
@@ -38,17 +37,6 @@ class Prisoner < ActiveRecord::Base
         self.update_column(:currently_imprisoned, true)
       end
     end
-  end
-
-  # Removes generated files (such as json, csv) that are rendered obselete when a prisoner is updated
-  def remove_generated
-    ["imprisoned_count_timeline", "article_incident_counts_chart", "prison_prisoner_count_chart"].each do |json_data|
-      path = Rails.public_path.join("data/" + json_data + ".json")
-      File.delete(path) if File.exists?(path)
-    end
-
-    csv_zip = Dir.glob(Rails.public_path.join('system', 'csv', "political_prisoner_data_*.zip"))[0]
-    File.delete(csv_zip) if File.exists?(csv_zip)
   end
 
   # Validations
@@ -216,6 +204,6 @@ class Prisoner < ActiveRecord::Base
     Time.parse(date.to_s).utc.to_i*1000
   end
 
-  private :update_currently_imprisoned, :remove_generated, :validate_incident_dates, :validate_all_incidents_released_except_last
+  private :update_currently_imprisoned, :validate_incident_dates, :validate_all_incidents_released_except_last
   private_class_method :arrest_counts_by_day, :release_counts_by_day, :create_date_from_hash
 end

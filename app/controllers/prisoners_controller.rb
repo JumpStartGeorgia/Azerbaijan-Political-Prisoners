@@ -2,7 +2,6 @@ require 'yaml'
 
 class PrisonersController < ApplicationController
   load_and_authorize_resource
-  cache_sweeper :generated_sweeper
 
   before_action :set_prisoner, only: [:show, :edit, :update, :destroy]
   before_action :set_gon_variables

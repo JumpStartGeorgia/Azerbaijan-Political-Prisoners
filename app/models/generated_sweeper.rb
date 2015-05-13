@@ -1,5 +1,5 @@
 class GeneratedSweeper < ActionController::Caching::Sweeper
-  observe Prisoner
+  observe Prisoner, Prison, Article, Tag, CriminalCode
 
   def after_commit(record)
     remove_generated

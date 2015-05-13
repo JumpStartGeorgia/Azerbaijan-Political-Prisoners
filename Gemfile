@@ -59,3 +59,4 @@ gem 'tinymce-rails', '~> 4.1.6'
 gem 'highcharts-rails', '~> 4.0.4'
 gem 'nokogiri', '~> 1.6.6.2' # Added for lib/aug2014PdfParser
 gem 'rubyzip', '~> 1.1'
+gem 'rails-observers', '~> 0.1.2'

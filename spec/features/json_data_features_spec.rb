@@ -15,7 +15,7 @@ RSpec.describe 'JSON data', type: :feature do
     FactoryGirl.create(:article, number: 'article#1')
     FactoryGirl.create(:article, number: 'article#2')
 
-    timeline_json_path = "/data/imprisoned_count_timeline"
+    timeline_json_path = "/prisoners/imprisoned_count_timeline"
     prison_prisoner_counts_json_path = "/data/prison_prisoner_counts"
     article_incident_counts_json_path = "/data/article_incident_counts"
 
@@ -85,4 +85,3 @@ RSpec.describe 'JSON data', type: :feature do
     expect(article_incident_counts_json2).not_to eq(article_incident_counts_json3)
   end
 end
-

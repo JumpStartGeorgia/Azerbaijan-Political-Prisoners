@@ -82,6 +82,16 @@ class PrisonersController < ApplicationController
               type: 'text/csv'
   end
 
+  def imprisoned_count_timeline
+    if !File.exists?(Rails.public_path.join('data/imprisoned_count_timeline.json'))
+      Prisoner.generate_imprisoned_count_timeline_json
+    end
+
+    respond_to do |format|
+      format.json { render json: File.read(Rails.public_path.join('data/imprisoned_count_timeline.json')) }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_prisoner

@@ -1,12 +1,4 @@
 class DataController < ApplicationController
-  def imprisoned_count_timeline
-    if !File.exists?(Rails.public_path.join('data/imprisoned_count_timeline.json'))
-      Prisoner.generate_imprisoned_count_timeline_json
-    end
-
-    respond_with_public_json('data/imprisoned_count_timeline.json')
-  end
-
   def prison_prisoner_counts
     if !File.exists?(Rails.public_path.join('data/prison_prisoner_count_chart.json'))
       Prison.generate_prison_prisoner_count_chart_json

@@ -15,12 +15,12 @@ Rails.application.routes.draw do
   resources :prisoners do
     collection do
       get 'incidents_to_csv', constraints: { format: :csv }, defaults: { format: :csv }
+      get 'imprisoned_count_timeline', constraints: { format: :json }, defaults: { format: :json }
     end
   end
 
   resources :users, constraints: { format: :html }
 
-  get '/data/imprisoned_count_timeline', to: 'data#imprisoned_count_timeline', constraints: { format: :json }, defaults: { format: :json }
   get '/data/prison_prisoner_counts', to: 'data#prison_prisoner_counts', constraints: { format: :json }, defaults: { format: :json }
   get '/data/article_incident_counts', to: 'data#article_incident_counts', constraints: { format: :json }, defaults: { format: :json }
   get '/csv_zip', to: 'root#to_csv_zip', constraints: { format: :csv }, defaults: { format: :csv }

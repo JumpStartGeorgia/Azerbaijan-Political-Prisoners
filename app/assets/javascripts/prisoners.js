@@ -38,7 +38,7 @@ $(document).ready(function() {
 
 var imprisoned_count_timeline = function() {
     $.ajax({
-        url: 'data/imprisoned_count_timeline',
+        url: 'prisoners/imprisoned_count_timeline',
         async: true,
         dataType: 'json',
         success: function (response) {

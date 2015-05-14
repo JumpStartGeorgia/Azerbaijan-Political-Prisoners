@@ -20,6 +20,9 @@ class Ability
     else
       can :read, content_resources
       can :incidents_to_csv, Prisoner
+      can :prison_prisoner_counts, Prison
+      can :imprisoned_count_timeline, Prisoner
+      can :article_incident_counts, Article
     end
     # Define abilities for the passed in user here. For example:
     #

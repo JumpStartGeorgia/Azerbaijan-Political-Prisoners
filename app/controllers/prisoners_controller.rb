@@ -83,12 +83,12 @@ class PrisonersController < ApplicationController
   end
 
   def imprisoned_count_timeline
-    if !File.exists?(Rails.public_path.join('data/imprisoned_count_timeline.json'))
+    if !File.exists?(Rails.public_path.join('system', 'json', 'imprisoned_count_timeline.json'))
       Prisoner.generate_imprisoned_count_timeline_json
     end
 
     respond_to do |format|
-      format.json { render json: File.read(Rails.public_path.join('data/imprisoned_count_timeline.json')) }
+      format.json { render json: File.read(Rails.public_path.join('system', 'json', 'imprisoned_count_timeline.json')) }
     end
   end
 

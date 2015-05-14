@@ -15,7 +15,6 @@
 /.gems
 /.env
 /public/assets
-/public/data/*
 /public/system
 
 # lib/prisonersPdfParser output

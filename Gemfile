@@ -29,6 +29,7 @@ group :development do
   gem 'mina', '~> 0.3.3', require: false
   gem 'mina-puma', '~> 0.2.0', require: false
   gem 'mina-multistage', '~> 1.0.1', require: false
+  gem 'rubocop', '~> 0.31.0', require: false
 end
 
 group :development, :test do

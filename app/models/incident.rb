@@ -35,7 +35,7 @@ class Incident < ActiveRecord::Base
       if objects.length - 1 == index
         str += attribute_value
       else
-        str += attribute_value + '; '
+        str += attribute_value + ', '
       end
     end
 

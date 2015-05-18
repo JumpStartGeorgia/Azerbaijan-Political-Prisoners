@@ -36,3 +36,7 @@ az:
       save: "azSave %{model}"
       new: "azNew %{model}"
       delete: "azDelete %{model}"
+  app:
+    language:
+      en: azEnglish
+      az: azAzerbaijani

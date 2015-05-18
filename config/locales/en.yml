@@ -57,3 +57,7 @@ en:
       save: "Save %{model}"
       new: "New %{model}"
       delete: "Delete %{model}"
+  app:
+    language:
+      en: English
+      az: Azerbaijani

@@ -1,41 +1,46 @@
 Rails.application.routes.draw do
+  scope ':locale', locale: /#{I18n.available_locales.join("|")}/ do
+    post '/users', to: 'users#create'
+    devise_for :users, controllers: { confirmations: 'users/confirmations', omniauth: 'users/omniauth', passwords: 'users/passwords', registrations: 'users/registrations', sessions: 'users/sessions', unlocks: 'users/unlocks' }, constraints: { format: :html }
 
+    resources :tags
 
-  post '/users', to: 'users#create'
-  devise_for :users, controllers: { confirmations: "users/confirmations", omniauth: "users/omniauth", passwords: "users/passwords", registrations: "users/registrations", sessions: "users/sessions", unlocks: "users/unlocks" }, constraints: { format: :html }
-
-  resources :tags
-
-  resources :prisons do
-    collection do
-      get 'prison_prisoner_counts', constraints: { format: :json }, defaults: { format: :json }
+    resources :prisons do
+      collection do
+        get 'prison_prisoner_counts', constraints: { format: :json }, defaults: { format: :json }
+      end
     end
+
+    resources :criminal_codes
+
+    resources :articles do
+      collection do
+        get 'article_incident_counts', constraints: { format: :json }, defaults: { format: :json }
+      end
+    end
+
+    resources :prisoners do
+      collection do
+        get 'incidents_to_csv', constraints: { format: :csv }, defaults: { format: :csv }
+        get 'imprisoned_count_timeline', constraints: { format: :json }, defaults: { format: :json }
+      end
+    end
+
+    resources :users, constraints: { format: :html }
+
+    get '/csv_zip', to: 'root#to_csv_zip', constraints: { format: :csv }, defaults: { format: :csv }
+
+    # The priority is based upon order of creation: first created -> highest priority.
+    # See how all your routes lay out with "rake routes".
+
+    # You can have the root of your site routed with "root"
+    root 'root#index'
+
+    get "*path", to: redirect("/#{I18n.default_locale}") # handles /en/fake/path/whatever
   end
 
-  resources :criminal_codes
-
-  resources :articles do
-    collection do
-      get 'article_incident_counts', constraints: { format: :json }, defaults: { format: :json }
-    end
-  end
-
-  resources :prisoners do
-    collection do
-      get 'incidents_to_csv', constraints: { format: :csv }, defaults: { format: :csv }
-      get 'imprisoned_count_timeline', constraints: { format: :json }, defaults: { format: :json }
-    end
-  end
-
-  resources :users, constraints: { format: :html }
-
-  get '/csv_zip', to: 'root#to_csv_zip', constraints: { format: :csv }, defaults: { format: :csv }
-
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
-
-  # You can have the root of your site routed with "root"
-  root 'root#index'
+  get '', to: redirect("/#{I18n.default_locale}") # handles /
+	get '*path', to: redirect("/#{I18n.default_locale}/%{path}") # handles /not-a-locale/anything
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

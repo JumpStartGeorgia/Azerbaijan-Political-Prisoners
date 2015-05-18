@@ -36,21 +36,6 @@ class Prison < ActiveRecord::Base
     end
 
     return prison_names_links_counts
-
-    #
-    #prison_names_and_links = []
-    #prisoner_counts = []
-    #
-    #prison_names_prisoner_counts.each do |prison_name_prisoner_count|
-    #  prison_name = prison_name_prisoner_count[:prison_name]
-    #  prison_names_and_links.append({name: prison_name, link: Rails.application.routes.url_helpers.prison_path(prison_name_prisoner_count[:prison_id])})
-    #  prisoner_counts.append(prison_name_prisoner_count[:prisoner_count])
-    #end
-    #
-    #return {
-    #    prison_names_and_links: prison_names_and_links,
-    #    prisoner_counts: prisoner_counts
-    #}
   end
 
   def self.prison_names_prisoner_counts

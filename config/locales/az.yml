@@ -1,0 +1,38 @@
+az:
+  helpers:
+    actions: azActions
+    links:
+      admin: azAdmin Section
+      edit: azEdit
+      confirm: azAre you sure?
+      destroy: azDelete
+      new: azNew
+      list: azView All
+      back: azView All
+      cancel: azCancel
+      reset: azReset
+      view: azView
+      sign_in_facebook: azSign in with Facebook
+      forgot_password: azForgot Password?
+      change_password: azChange Your Password
+      change_password2: azChange Password
+      password_reset: azReset Password
+      sign_in2: azSign In
+      sign_in: "azAlready have an account?"
+      sign_up2: azSign Up
+      sign_up_question: "azNot a member yet?"
+      sign_up: "azRegister now"
+      sign_up_title: azJoin %{app_name}
+      sign_out: azSign Out
+      sign_in_provider: "azSign in with %{provider}"
+      sign_up_provider: "azSign up with %{provider}"
+      sign_in_local_or_provider: azor log in with your email and password
+      reset_or_sign_in: azsign in with facebook or reset your password
+      like: azLike
+      likes: azLikes
+      menu: azMenu
+    titles:
+      edit: "azEdit %{model}"
+      save: "azSave %{model}"
+      new: "azNew %{model}"
+      delete: "azDelete %{model}"

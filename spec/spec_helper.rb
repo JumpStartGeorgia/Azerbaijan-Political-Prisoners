@@ -124,6 +124,18 @@ RSpec.configure do |config|
     load "#{Rails.root}/db/seeds.rb"
   end
 
+  # Makes controllers work with default locale
+  # Taken from http://stackoverflow.com/a/19079076/3115911
+  class ActionController::TestCase
+    module Behavior
+      def process_with_default_locale(action, http_method = 'GET', parameters = nil, session = nil, flash = nil)
+        parameters = { :locale => I18n.locale }.merge( parameters || {} ) unless I18n.locale.nil?
+        process_without_default_locale(action, http_method, parameters, session, flash)
+      end
+      alias_method_chain :process, :default_locale
+    end
+  end
+
   # Helper function for Capybara to select options in multiple jQuery select2
   def select2_select_multiple(select_these, clickable_input)
     # This methods requires @javascript in the Scenario

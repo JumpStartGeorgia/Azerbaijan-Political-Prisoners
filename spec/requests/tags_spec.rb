@@ -20,7 +20,7 @@ RSpec.describe 'Tags', type: :request do
 
   describe 'GET /tags.csv' do
     it 'works' do
-      get '/tags.csv'
+      get tags_path(format: :csv)
       expect(response).to have_http_status(200)
       expect(response.body).to include(tag_name_1)
       expect(response.body).to include(tag_description_1)

@@ -27,7 +27,7 @@ RSpec.describe 'Articles', type: :request do
 
   describe 'GET /articles.csv' do
     it 'works' do
-      get '/articles.csv'
+      get articles_path(format: :csv)
       expect(response).to have_http_status(200)
       expect(response.body).to include(article_number_1)
       expect(response.body).to include(article_description_1)

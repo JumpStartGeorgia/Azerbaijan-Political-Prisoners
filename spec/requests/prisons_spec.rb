@@ -27,7 +27,7 @@ RSpec.describe 'Prisons', type: :request do
 
   describe 'GET /prisons.csv' do
     it 'works' do
-      get '/prisons.csv'
+      get prisons_path(format: :csv)
       expect(response).to have_http_status(200)
       expect(response.body).to include(prison_name_1)
       expect(response.body).to include(prison_description_1)

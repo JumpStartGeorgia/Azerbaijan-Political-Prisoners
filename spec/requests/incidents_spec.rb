@@ -34,7 +34,7 @@ RSpec.describe 'Incidents', type: :request do
 
   describe 'GET /prisoners/incidents_to_csv' do
     it 'works' do
-      get '/prisoners/incidents_to_csv'
+      get incidents_to_csv_prisoners_path
       expect(response).to have_http_status(200)
 
       [

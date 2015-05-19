@@ -137,6 +137,10 @@ RSpec.configure do |config|
     end
   end
 
+  config.before(:each, type: :feature) do
+    default_url_options[:locale] = I18n.default_locale
+  end
+
   # Helper function for Capybara to select options in multiple jQuery select2
   def select2_select_multiple(select_these, clickable_input)
     # This methods requires @javascript in the Scenario

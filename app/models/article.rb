@@ -33,7 +33,7 @@ class Article < ActiveRecord::Base
       article_info.append({
           y: article[:incident_count],
           number: article[:article_number],
-          link: Rails.application.routes.url_helpers.article_path(article[:article_id]),
+          link: "/articles/#{article[:article_id]}",
           code: article[:criminal_code_name]
                                                 })
     end

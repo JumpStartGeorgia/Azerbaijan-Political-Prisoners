@@ -31,7 +31,7 @@ class Prison < ActiveRecord::Base
       prison_names_links_counts.append({
           y: prison_name_prisoner_count[:prisoner_count],
           name: prison_name_prisoner_count[:prison_name],
-          link: Rails.application.routes.url_helpers.prison_path(prison_name_prisoner_count[:prison_id])
+          link: "/prisons/#{prison_name_prisoner_count[:prison_id]}"
                                        })
     end
 

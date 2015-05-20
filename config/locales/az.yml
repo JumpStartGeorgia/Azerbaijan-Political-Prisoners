@@ -38,5 +38,5 @@ az:
       delete: "azDelete %{model}"
   app:
     language:
-      en: azEnglish
-      az: azAzerbaijani
+      en: English
+      az: Azərbaycan

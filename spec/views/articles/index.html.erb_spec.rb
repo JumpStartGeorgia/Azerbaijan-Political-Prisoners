@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe "articles/index", :type => :view do
-  let(:user) { FactoryGirl.create(:user, role: Role.find_by_name("user_manager")) }
+RSpec.describe 'articles/index', type: :view do
+  let(:user) { FactoryGirl.create(:user, role: Role.find_by_name('user_manager')) }
 
   before(:example) do
     sign_in :user, user
@@ -14,7 +14,7 @@ RSpec.describe "articles/index", :type => :view do
     ])
   end
 
-  it "renders a list of articles" do
-    render
+  it 'renders a list of articles' do
+    render articles_path
   end
 end

@@ -144,6 +144,13 @@ RSpec.configure do |config|
     default_url_options[:locale] = I18n.default_locale
   end
 
+  # Makes routing specs work with default locale
+  class ActionDispatch::Routing::RouteSet
+    def default_url_options(options={})
+      { :locale => I18n.default_locale }
+    end
+  end
+
   # Helper function for Capybara to select options in multiple jQuery select2
   def select2_select_multiple(select_these, clickable_input)
     # This methods requires @javascript in the Scenario

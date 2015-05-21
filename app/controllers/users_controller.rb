@@ -31,7 +31,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.html { redirect_to @user, notice: t('app.msgs.success_created', obj: t('activerecord.models.user')) }
       else
         format.html { render :new }
       end
@@ -44,13 +44,13 @@ class UsersController < ApplicationController
     respond_to do |format|
       if user_params.key? :password && :password != ''
         if @user.update(user_params)
-          format.html { redirect_to @user, notice: 'User was successfully updated.' }
+          format.html { redirect_to @user, notice: t('app.msgs.success_updated', obj: t('activerecord.models.user')) }
         else
           format.html { render :edit }
         end
       else
         if @user.update_without_password(user_params)
-          format.html { redirect_to @user, notice: 'User was successfully updated.' }
+          format.html { redirect_to @user, notice: t('app.msgs.success_updated', obj: t('activerecord.models.user')) }
         else
           format.html { render :edit }
         end
@@ -63,7 +63,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      format.html { redirect_to users_url, notice: t('app.msgs.success_destroyed', obj: t('activerecord.models.user')) }
     end
   end
 

@@ -15,8 +15,8 @@ class TagsController < ApplicationController
       format.json
       format.csv do
         send_data Tag.to_csv,
-            filename: "tags_#{fileTimeStamp}.csv",
-            type: 'text/csv'
+                  filename: "tags_#{fileTimeStamp}.csv",
+                  type: 'text/csv'
       end
     end
   end
@@ -76,21 +76,22 @@ class TagsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_tag
-      @tag = Tag.find(params[:id])
-    end
 
-    def set_prisoners_with_tag
-      @prisoners_with_tag = Prisoner.by_tag(@tag.id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_tag
+    @tag = Tag.find(params[:id])
+  end
 
-    def set_gon_variables
-      gon.tinymce_config = YAML.load_file("config/tinymce.yml")
-    end
+  def set_prisoners_with_tag
+    @prisoners_with_tag = Prisoner.by_tag(@tag.id)
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def tag_params
-      params.require(:tag).permit(:name, :description)
-    end
+  def set_gon_variables
+    gon.tinymce_config = YAML.load_file('config/tinymce.yml')
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def tag_params
+    params.require(:tag).permit(:name, :description)
+  end
 end

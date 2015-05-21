@@ -64,13 +64,14 @@ class CriminalCodesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_criminal_code
-      @criminal_code = CriminalCode.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def criminal_code_params
-      params.require(:criminal_code).permit(:name)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_criminal_code
+    @criminal_code = CriminalCode.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def criminal_code_params
+    params.require(:criminal_code).permit(:name)
+  end
 end

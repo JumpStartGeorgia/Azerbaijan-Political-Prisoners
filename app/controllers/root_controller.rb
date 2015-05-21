@@ -4,7 +4,7 @@ class RootController < ApplicationController
   end
 
   def to_csv_zip
-    csv_zip = Dir.glob(Rails.root.join('public', 'system', 'csv', "political_prisoner_data_*.zip"))[0]
+    csv_zip = Dir.glob(Rails.root.join('public', 'system', 'csv', 'political_prisoner_data_*.zip'))[0]
     unless csv_zip
       timeStamp = fileTimeStamp
       csv_zip = Rails.root.join('public', 'system', 'csv', "political_prisoner_data_#{timeStamp}.zip")
@@ -42,6 +42,6 @@ class RootController < ApplicationController
   end
 
   def getCsvFileName(model, timeStamp)
-    return "#{model.model_name.plural}_#{timeStamp}.csv"
+    "#{model.model_name.plural}_#{timeStamp}.csv"
   end
 end

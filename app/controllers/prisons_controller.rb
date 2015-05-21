@@ -76,7 +76,7 @@ class PrisonsController < ApplicationController
   end
 
   def prison_prisoner_counts
-    if !File.exists?(Rails.public_path.join('system', 'json', 'prison_prisoner_count_chart.json'))
+    unless File.exist?(Rails.public_path.join('system', 'json', 'prison_prisoner_count_chart.json'))
       Prison.generate_prison_prisoner_count_chart_json
     end
 
@@ -86,21 +86,22 @@ class PrisonsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_prison
-      @prison = Prison.find(params[:id])
-    end
 
-    def set_prisoners_in_prison
-      @prisoners_in_prison = Prisoner.by_prison(@prison.id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_prison
+    @prison = Prison.find(params[:id])
+  end
 
-    def set_gon_variables
-      gon.tinymce_config = YAML.load_file("config/tinymce.yml")
-    end
+  def set_prisoners_in_prison
+    @prisoners_in_prison = Prisoner.by_prison(@prison.id)
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def prison_params
-      params.require(:prison).permit(:name, :description)
-    end
+  def set_gon_variables
+    gon.tinymce_config = YAML.load_file('config/tinymce.yml')
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def prison_params
+    params.require(:prison).permit(:name, :description)
+  end
 end

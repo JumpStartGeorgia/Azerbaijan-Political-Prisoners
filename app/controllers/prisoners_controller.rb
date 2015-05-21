@@ -83,7 +83,7 @@ class PrisonersController < ApplicationController
   end
 
   def imprisoned_count_timeline
-    if !File.exists?(Rails.public_path.join('system', 'json', 'imprisoned_count_timeline.json'))
+    unless File.exist?(Rails.public_path.join('system', 'json', 'imprisoned_count_timeline.json'))
       Prisoner.generate_imprisoned_count_timeline_json
     end
 
@@ -93,27 +93,28 @@ class PrisonersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_prisoner
-      @prisoner = Prisoner.find(params[:id])
-    end
 
-    def set_gon_variables
-      gon.tinymce_config = YAML.load_file("config/tinymce.yml")
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_prisoner
+    @prisoner = Prisoner.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def prisoner_params
-      params.require(:prisoner).permit(:name, :portrait, incidents_attributes:
-          [:id,
-           :date_of_arrest,
-           :description_of_arrest,
-           :prison_id,
-           :date_of_release,
-           :description_of_release,
-           :_destroy,
-           :article_ids => [],
-           :tag_ids => []
-      ])
-    end
+  def set_gon_variables
+    gon.tinymce_config = YAML.load_file('config/tinymce.yml')
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def prisoner_params
+    params.require(:prisoner).permit(:name, :portrait, incidents_attributes:
+        [:id,
+         :date_of_arrest,
+         :description_of_arrest,
+         :prison_id,
+         :date_of_release,
+         :description_of_release,
+         :_destroy,
+         article_ids: [],
+         tag_ids: []
+        ])
+  end
 end

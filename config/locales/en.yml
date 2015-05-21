@@ -86,5 +86,9 @@ en:
       not_authorized: You are not authorized to view that page.
       success_created: "%{obj} was successfully created."
       success_updated: "%{obj} was successfully updated."
+      success_destroyed: "%{obj} was successfully destroyed."
     datetime:
       full: '%Y-%m-%d_%H-%M-%S'
+  activerecord:
+    models:
+      article: Article

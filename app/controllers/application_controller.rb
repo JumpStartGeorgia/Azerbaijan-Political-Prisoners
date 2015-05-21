@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
     { locale: I18n.locale }.merge options
   end
 
-  rescue_from CanCan::AccessDenied do |exception|
+  rescue_from CanCan::AccessDenied do |_exception|
     if user_signed_in?
       not_authorized
     else
@@ -23,16 +23,16 @@ class ApplicationController < ActionController::Base
   end
 
   def not_authorized
-    redirect_to :back, alert: "You are not authorized to perform that action."
+    redirect_to :back, alert: t('app.msgs.not_authorized')
   rescue ActionController::RedirectBackError
     redirect_to root_path
   end
 
   def not_found
-    raise ActionController::RoutingError.new('Not Found')
+    fail ActionController::RoutingError.new(t('app.msgs.does_not_exist'))
   end
 
   def fileTimeStamp
-    return Time.now.strftime("%Y-%m-%d_%H-%M-%S")
+    Time.now.strftime(t('app.datetime.full'))
   end
 end

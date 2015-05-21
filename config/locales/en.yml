@@ -61,3 +61,30 @@ en:
     language:
       en: English
       az: Azərbaycan
+    buttons:
+      back: View All
+      list: View All
+      admin: Admin Section
+      delete: Delete
+      edit: Edit
+      show: Show
+      cancel: Cancel
+      update: Update
+      save: Save
+      create: Create
+      reset: Reset
+      remove: Remove
+      confirm: Are you sure?
+      new: New
+    common:
+      app_name: Bootstrap Starter Project
+      added_on: "Added on: %{date}"
+      jumpstart: JumpStart Georgia
+      js_link_title: JumpStart Georgia - We communicate data better!
+    msgs:
+      does_not_exist: You tried to access a page that does not exist.
+      not_authorized: You are not authorized to view that page.
+      success_created: "%{obj} was successfully created."
+      success_updated: "%{obj} was successfully updated."
+    datetime:
+      full: '%Y-%m-%d_%H-%M-%S'

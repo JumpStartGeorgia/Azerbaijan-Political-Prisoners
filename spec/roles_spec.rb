@@ -22,7 +22,7 @@ describe 'User' do
       expect(ability).to be_able_to(:update, site_admin_user)
     end
 
-    it 'can update user manager' do
+    it 'can update content manager' do
       expect(ability).to be_able_to(:update, content_manager_user)
     end
 
@@ -47,7 +47,7 @@ describe 'User' do
       expect(ability).to be_able_to(:update, site_admin_user2)
     end
 
-    it 'can update user manager' do
+    it 'can update content manager' do
       expect(ability).to be_able_to(:update, content_manager_user)
     end
 
@@ -60,20 +60,14 @@ describe 'User' do
     end
   end
 
-  describe 'when is user manager' do
+  describe 'when is content manager' do
     subject(:ability){ Ability.new(content_manager_user) }
-
-
-    it 'cannot update super admin' do
-      expect(ability).not_to be_able_to(:update, super_admin_user)
+    it 'cannot read users' do
+      expect(ability).not_to be_able_to(:read, User.new)
     end
 
-    it 'cannot update site admin' do
-      expect(ability).not_to be_able_to(:update, site_admin_user)
-    end
-
-    it 'can update user manager' do
-      expect(ability).to be_able_to(:update, content_manager_user2)
+    it 'cannot manage users' do
+      expect(ability).not_to be_able_to(:manage, User.new)
     end
 
     it 'can manage content' do
@@ -96,7 +90,7 @@ describe 'User' do
       expect(ability).not_to be_able_to(:update, site_admin_user)
     end
 
-    it 'cannot update user manager' do
+    it 'cannot update content manager' do
       expect(ability).not_to be_able_to(:update, content_manager_user)
     end
 

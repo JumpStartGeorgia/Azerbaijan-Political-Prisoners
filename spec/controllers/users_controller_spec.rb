@@ -42,13 +42,13 @@ RSpec.describe UsersController, type: :controller do
     end
 
     before(:example) do
-      sign_in :user, content_manager_user
+      sign_in :user, site_admin_user
     end
 
     it 'assigns all users as @users' do
       user = FactoryGirl.create(:user, valid_attributes)
       get :index, {}, valid_session
-      expect(assigns(:users)).to eq([content_manager_user, user])
+      expect(assigns(:users)).to eq([site_admin_user, user])
     end
 
     describe 'GET show' do
@@ -183,7 +183,7 @@ RSpec.describe UsersController, type: :controller do
         sign_in :user, super_admin_user
       end
 
-      it 'successfully updates a user manager to super admin role' do
+      it 'successfully updates a content manager to super admin role' do
         user = FactoryGirl.create(:user, content_manager_attributes)
         put :update, { id: user.to_param, user: super_admin_attributes }, valid_session
         user.reload
@@ -191,7 +191,7 @@ RSpec.describe UsersController, type: :controller do
         expect(user.role.name).to eq('super_admin')
       end
 
-      it 'successfully updates a user manager to site admin role' do
+      it 'successfully updates a content manager to site admin role' do
         user = FactoryGirl.create(:user, content_manager_attributes)
         put :update, { id: user.to_param, user: site_admin_attributes }, valid_session
         user.reload
@@ -222,7 +222,7 @@ RSpec.describe UsersController, type: :controller do
         expect(user.role.name).to eq('site_admin')
       end
 
-      it 'fails to update a user manager to super admin role' do
+      it 'fails to update a content manager to super admin role' do
         user = FactoryGirl.create(:user, content_manager_attributes)
         put :update, { id: user.to_param, user: super_admin_attributes }, valid_session
         user.reload
@@ -231,7 +231,7 @@ RSpec.describe UsersController, type: :controller do
         expect(user.role.name).to eq('content_manager')
       end
 
-      it 'successfully updates a user manager to site admin role' do
+      it 'successfully updates a content manager to site admin role' do
         user = FactoryGirl.create(:user, content_manager_attributes)
         put :update, { id: user.to_param, user: site_admin_attributes }, valid_session
         user.reload
@@ -248,12 +248,12 @@ RSpec.describe UsersController, type: :controller do
       end
     end
 
-    describe 'user manager' do
+    describe 'content manager' do
       before(:example) do
         sign_in :user, content_manager_user
       end
 
-      it 'fails to update another user manager to super_admin role' do
+      it 'fails to update another content manager to super_admin role' do
         user = FactoryGirl.create(:user, content_manager_attributes)
         put :update, { id: user.to_param, user: super_admin_attributes }, valid_session
         user.reload
@@ -262,7 +262,7 @@ RSpec.describe UsersController, type: :controller do
         expect(user.role.name).to eq('content_manager')
       end
 
-      it 'fails to update another user manager to site_admin role' do
+      it 'fails to update another content manager to site_admin role' do
         user = FactoryGirl.create(:user, content_manager_attributes)
         put :update, { id: user.to_param, user: site_admin_attributes }, valid_session
         user.reload

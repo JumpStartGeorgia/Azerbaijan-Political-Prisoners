@@ -14,9 +14,6 @@ class Ability
       can [:edit, :create, :update, :destroy], User, role: { name: 'content_manager' }
     elsif user.is? 'content_manager'
       can :manage, content_resources
-      can :read, User
-      can :new, User
-      can [:edit, :create, :update, :destroy], User, role: { name: 'content_manager' }
     else
       can :read, content_resources
       can :incidents_to_csv, Prisoner

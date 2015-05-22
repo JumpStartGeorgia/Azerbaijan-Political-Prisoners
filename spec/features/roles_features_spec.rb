@@ -51,13 +51,4 @@ RSpec.describe "Role", :type => :feature do
       expect(page).to have_select 'Role', options: [@site_admin_role.name, @content_manager_role.name]
     end
   end
-
-  describe "user manager" do
-    it "can only select content_manager in the Roles select on the user create page" do
-      login_as @content_manager_user, scope: :user
-
-      visit new_user_path
-      expect(page).to have_select 'Role', options: [@content_manager_role.name]
-    end
-  end
 end

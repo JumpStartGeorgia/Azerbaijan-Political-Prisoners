@@ -20,7 +20,7 @@ require 'rails_helper'
 
 RSpec.describe PrisonsController, :type => :controller do
 
-  let(:user) { FactoryGirl.create(:user, role: Role.find_by_name("user_manager")) }
+  let(:user) { FactoryGirl.create(:user, role: Role.find_by_name("content_manager")) }
 
   before(:example) {
     sign_in :user, user

@@ -19,7 +19,7 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe UsersController, type: :controller do
-  let(:user_manager_user) { FactoryGirl.create(:user, role: Role.find_by_name('user_manager')) }
+  let(:content_manager_user) { FactoryGirl.create(:user, role: Role.find_by_name('content_manager')) }
   let(:site_admin_user) { FactoryGirl.create(:user, role: Role.find_by_name('site_admin')) }
   let(:super_admin_user) { FactoryGirl.create(:user, role: Role.find_by_name('super_admin')) }
 
@@ -34,21 +34,21 @@ RSpec.describe UsersController, type: :controller do
 
   describe 'GET index' do
     let(:valid_attributes) do
-      FactoryGirl.attributes_for(:user, role_id: Role.find_by_name('user_manager').id)
+      FactoryGirl.attributes_for(:user, role_id: Role.find_by_name('content_manager').id)
     end
 
     let(:invalid_attributes) do
-      FactoryGirl.attributes_for(:user, email: '', role_id: Role.find_by_name('user_manager').id)
+      FactoryGirl.attributes_for(:user, email: '', role_id: Role.find_by_name('content_manager').id)
     end
 
     before(:example) do
-      sign_in :user, user_manager_user
+      sign_in :user, content_manager_user
     end
 
     it 'assigns all users as @users' do
       user = FactoryGirl.create(:user, valid_attributes)
       get :index, {}, valid_session
-      expect(assigns(:users)).to eq([user_manager_user, user])
+      expect(assigns(:users)).to eq([content_manager_user, user])
     end
 
     describe 'GET show' do
@@ -174,8 +174,8 @@ RSpec.describe UsersController, type: :controller do
       FactoryGirl.attributes_for(:user, role_id: Role.find_by_name('site_admin').id)
     end
 
-    let(:user_manager_attributes) do
-      FactoryGirl.attributes_for(:user, role_id: Role.find_by_name('user_manager').id)
+    let(:content_manager_attributes) do
+      FactoryGirl.attributes_for(:user, role_id: Role.find_by_name('content_manager').id)
     end
 
     describe 'super admin' do
@@ -184,7 +184,7 @@ RSpec.describe UsersController, type: :controller do
       end
 
       it 'successfully updates a user manager to super admin role' do
-        user = FactoryGirl.create(:user, user_manager_attributes)
+        user = FactoryGirl.create(:user, content_manager_attributes)
         put :update, { id: user.to_param, user: super_admin_attributes }, valid_session
         user.reload
         expect(response).to redirect_to(user)
@@ -192,7 +192,7 @@ RSpec.describe UsersController, type: :controller do
       end
 
       it 'successfully updates a user manager to site admin role' do
-        user = FactoryGirl.create(:user, user_manager_attributes)
+        user = FactoryGirl.create(:user, content_manager_attributes)
         put :update, { id: user.to_param, user: site_admin_attributes }, valid_session
         user.reload
         expect(response).to redirect_to(user)
@@ -223,16 +223,16 @@ RSpec.describe UsersController, type: :controller do
       end
 
       it 'fails to update a user manager to super admin role' do
-        user = FactoryGirl.create(:user, user_manager_attributes)
+        user = FactoryGirl.create(:user, content_manager_attributes)
         put :update, { id: user.to_param, user: super_admin_attributes }, valid_session
         user.reload
         expect(response).to redirect_to(root_path)
         expect(flash[:alert]).to eq(t('app.msgs.not_authorized'))
-        expect(user.role.name).to eq('user_manager')
+        expect(user.role.name).to eq('content_manager')
       end
 
       it 'successfully updates a user manager to site admin role' do
-        user = FactoryGirl.create(:user, user_manager_attributes)
+        user = FactoryGirl.create(:user, content_manager_attributes)
         put :update, { id: user.to_param, user: site_admin_attributes }, valid_session
         user.reload
         expect(response).to redirect_to(user)
@@ -250,41 +250,41 @@ RSpec.describe UsersController, type: :controller do
 
     describe 'user manager' do
       before(:example) do
-        sign_in :user, user_manager_user
+        sign_in :user, content_manager_user
       end
 
       it 'fails to update another user manager to super_admin role' do
-        user = FactoryGirl.create(:user, user_manager_attributes)
+        user = FactoryGirl.create(:user, content_manager_attributes)
         put :update, { id: user.to_param, user: super_admin_attributes }, valid_session
         user.reload
         expect(response).to redirect_to(root_path)
         expect(flash[:alert]).to eq(t('app.msgs.not_authorized'))
-        expect(user.role.name).to eq('user_manager')
+        expect(user.role.name).to eq('content_manager')
       end
 
       it 'fails to update another user manager to site_admin role' do
-        user = FactoryGirl.create(:user, user_manager_attributes)
+        user = FactoryGirl.create(:user, content_manager_attributes)
         put :update, { id: user.to_param, user: site_admin_attributes }, valid_session
         user.reload
         expect(response).to redirect_to(root_path)
         expect(flash[:alert]).to eq(t('app.msgs.not_authorized'))
-        expect(user.role.name).to eq('user_manager')
+        expect(user.role.name).to eq('content_manager')
       end
 
       it 'fails to update its own role to site_admin' do
-        put :update, { id: user_manager_user.to_param, user: site_admin_attributes }, valid_session
-        user_manager_user.reload
+        put :update, { id: content_manager_user.to_param, user: site_admin_attributes }, valid_session
+        content_manager_user.reload
         expect(response).to redirect_to(root_path)
         expect(flash[:alert]).to eq(t('app.msgs.not_authorized'))
-        expect(user_manager_user.role.name).to eq('user_manager')
+        expect(content_manager_user.role.name).to eq('content_manager')
       end
 
       it 'fails to update its own role to super_admin' do
-        put :update, { id: user_manager_user.to_param, user: super_admin_attributes }, valid_session
-        user_manager_user.reload
+        put :update, { id: content_manager_user.to_param, user: super_admin_attributes }, valid_session
+        content_manager_user.reload
         expect(response).to redirect_to(root_path)
         expect(flash[:alert]).to eq(t('app.msgs.not_authorized'))
-        expect(user_manager_user.role.name).to eq('user_manager')
+        expect(content_manager_user.role.name).to eq('content_manager')
       end
     end
   end

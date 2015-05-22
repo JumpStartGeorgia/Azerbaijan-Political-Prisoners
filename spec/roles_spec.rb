@@ -7,8 +7,8 @@ describe 'User' do
   let(:super_admin_user2) { FactoryGirl.create(:user, role: Role.find_by_name("super_admin")) }
   let(:site_admin_user) { FactoryGirl.create(:user, role: Role.find_by_name("site_admin")) }
   let(:site_admin_user2) { FactoryGirl.create(:user, role: Role.find_by_name("site_admin")) }
-  let(:user_manager_user) { FactoryGirl.create(:user, role: Role.find_by_name("user_manager")) }
-  let(:user_manager_user2) { FactoryGirl.create(:user, role: Role.find_by_name("user_manager")) }
+  let(:content_manager_user) { FactoryGirl.create(:user, role: Role.find_by_name("content_manager")) }
+  let(:content_manager_user2) { FactoryGirl.create(:user, role: Role.find_by_name("content_manager")) }
   let(:visitor) { nil }
 
   describe 'when is super admin' do
@@ -23,7 +23,7 @@ describe 'User' do
     end
 
     it 'can update user manager' do
-      expect(ability).to be_able_to(:update, user_manager_user)
+      expect(ability).to be_able_to(:update, content_manager_user)
     end
 
     it 'can manage content' do
@@ -48,7 +48,7 @@ describe 'User' do
     end
 
     it 'can update user manager' do
-      expect(ability).to be_able_to(:update, user_manager_user)
+      expect(ability).to be_able_to(:update, content_manager_user)
     end
 
     it 'can manage content' do
@@ -61,7 +61,7 @@ describe 'User' do
   end
 
   describe 'when is user manager' do
-    subject(:ability){ Ability.new(user_manager_user) }
+    subject(:ability){ Ability.new(content_manager_user) }
 
 
     it 'cannot update super admin' do
@@ -73,7 +73,7 @@ describe 'User' do
     end
 
     it 'can update user manager' do
-      expect(ability).to be_able_to(:update, user_manager_user2)
+      expect(ability).to be_able_to(:update, content_manager_user2)
     end
 
     it 'can manage content' do
@@ -97,7 +97,7 @@ describe 'User' do
     end
 
     it 'cannot update user manager' do
-      expect(ability).not_to be_able_to(:update, user_manager_user)
+      expect(ability).not_to be_able_to(:update, content_manager_user)
     end
 
     it 'cannot manage content' do

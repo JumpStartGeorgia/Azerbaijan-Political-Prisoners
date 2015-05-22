@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Users", :type => :request do
   before(:context) do
-    @role = FactoryGirl.create(:role, name: 'user_manager')
+    @role = FactoryGirl.create(:role, name: 'content_manager')
     @user = FactoryGirl.create(:user, role: @role)
   end
 

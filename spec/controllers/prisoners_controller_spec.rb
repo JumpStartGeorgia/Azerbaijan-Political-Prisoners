@@ -19,7 +19,7 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe PrisonersController, :type => :controller do
-  let(:user) { FactoryGirl.create(:user, role: Role.find_by_name("user_manager")) }
+  let(:user) { FactoryGirl.create(:user, role: Role.find_by_name("content_manager")) }
 
   before(:example) do
     sign_in :user, user

@@ -1,5 +1,5 @@
 FactoryGirl.define do
   factory :role do
-    name "user_manager"
+    name "content_manager"
   end
 end

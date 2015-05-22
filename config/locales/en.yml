@@ -92,3 +92,8 @@ en:
   activerecord:
     models:
       article: Article
+      criminal_code: Criminal Code
+      prisoner: Prisoner
+      prison: Prison
+      tag: Tag
+      user: User

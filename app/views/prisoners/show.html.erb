@@ -9,8 +9,9 @@
    end
 
    page_title (model_class.model_name.human.titleize + ': ' + @prisoner.name + ' — ' + currently_imprisoned_status + '<br>' + image_tag(@prisoner.portrait.url(:medium)))
-%>
 
+%>
+<p><strong><%= @prisoner.total_days_in_prison %></strong> total days spent in prison</p>
 <div id="incidents">
   <% @prisoner.incidents.each_with_index do |incident, index| %>
     <div id="incident-<%= incident.date_of_arrest %>" class="incident">

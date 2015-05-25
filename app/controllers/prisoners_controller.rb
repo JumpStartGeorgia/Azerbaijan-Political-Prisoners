@@ -9,7 +9,7 @@ class PrisonersController < ApplicationController
   # GET /prisoners
   # GET /prisoners.json
   def index
-    @prisoners = Prisoner.all
+    @prisoners = Prisoner.all.includes(:incidents)
 
     respond_to do |format|
       format.html

@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe Prisoner, :type => :model do
+RSpec.describe Prisoner, type: :model do
   let(:p1) { FactoryGirl.build(:prisoner) }
 
-  describe "cannot be saved" do
+  describe 'cannot be saved' do
     it 'if date of release is nil for any but the last incident' do
       i1 = FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 1), date_of_release: nil)
       p1.incidents << i1
@@ -15,7 +15,7 @@ RSpec.describe Prisoner, :type => :model do
       expect { p1.save! }.not_to raise_error
     end
 
-    it "if dates of arrest and dates of release are not in chronological order" do
+    it 'if dates of arrest and dates of release are not in chronological order' do
       i1 = FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 1), date_of_release: Date.new(2011, 1, 1))
       p1.incidents << i1
       i2 = FactoryGirl.create(:incident, date_of_arrest: Date.new(2010, 1, 1))
@@ -29,7 +29,7 @@ RSpec.describe Prisoner, :type => :model do
       expect { p1.save! }.not_to raise_error
     end
 
-    it "if a date of arrest or date of release is after today" do
+    it 'if a date of arrest or date of release is after today' do
       i1 = FactoryGirl.create(:incident, date_of_arrest: Date.tomorrow, date_of_release: 10.days.from_now)
       p1.incidents << i1
       expect { p1.save! }.to raise_error
@@ -42,7 +42,7 @@ RSpec.describe Prisoner, :type => :model do
     end
   end
 
-  it "returns the correct number of imprisoned for a certain date" do
+  it 'returns the correct number of imprisoned for a certain date' do
     # Two prisoners, each with one incident and no date of release
     p1 = FactoryGirl.create(:prisoner)
     p1.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 1))
@@ -81,7 +81,7 @@ RSpec.describe Prisoner, :type => :model do
     expect(imprisoned).to eq([p1.id, p5.id])
   end
 
-  it "returns the correct number of imprisoned counts over time for a certain period of time" do
+  it 'returns the correct number of imprisoned counts over time for a certain period of time' do
     # Imprisoned the whole time
     p1 = FactoryGirl.create(:prisoner)
     p1.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2011, 1, 1))
@@ -113,22 +113,22 @@ RSpec.describe Prisoner, :type => :model do
     p6.run_callbacks(:commit)
 
     expected_dates_and_counts = [
-        [Prisoner.convert_date_to_utc(Date.new(2012, 1, 1)), 1],
-        [Prisoner.convert_date_to_utc(Date.new(2012, 1, 2)), 1],
-        [Prisoner.convert_date_to_utc(Date.new(2012, 1, 3)), 3],
-        [Prisoner.convert_date_to_utc(Date.new(2012, 1, 4)), 3],
-        [Prisoner.convert_date_to_utc(Date.new(2012, 1, 5)), 4],
-        [Prisoner.convert_date_to_utc(Date.new(2012, 1, 6)), 4],
-        [Prisoner.convert_date_to_utc(Date.new(2012, 1, 7)), 4],
-        [Prisoner.convert_date_to_utc(Date.new(2012, 1, 8)), 2],
-        [Prisoner.convert_date_to_utc(Date.new(2012, 1, 9)), 2],
-        [Prisoner.convert_date_to_utc(Date.new(2012, 1, 10)), 2]
+      [Prisoner.convert_date_to_utc(Date.new(2012, 1, 1)), 1],
+      [Prisoner.convert_date_to_utc(Date.new(2012, 1, 2)), 1],
+      [Prisoner.convert_date_to_utc(Date.new(2012, 1, 3)), 3],
+      [Prisoner.convert_date_to_utc(Date.new(2012, 1, 4)), 3],
+      [Prisoner.convert_date_to_utc(Date.new(2012, 1, 5)), 4],
+      [Prisoner.convert_date_to_utc(Date.new(2012, 1, 6)), 4],
+      [Prisoner.convert_date_to_utc(Date.new(2012, 1, 7)), 4],
+      [Prisoner.convert_date_to_utc(Date.new(2012, 1, 8)), 2],
+      [Prisoner.convert_date_to_utc(Date.new(2012, 1, 9)), 2],
+      [Prisoner.convert_date_to_utc(Date.new(2012, 1, 10)), 2]
     ]
 
     expect(Prisoner.imprisoned_counts_from_date_to_date(Date.new(2012, 1, 1), Date.new(2012, 1, 10))).to eq(expected_dates_and_counts)
   end
 
-  it "returns the correct ids and count of currently imprisoned prisoners" do
+  it 'returns the correct ids and count of currently imprisoned prisoners' do
     # Currently imprisoned
     p1 = FactoryGirl.create(:prisoner)
     p1.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 1))
@@ -162,7 +162,7 @@ RSpec.describe Prisoner, :type => :model do
     expect(Prisoner.currently_imprisoned_count).to eq(3)
   end
 
-  it "returns the correct number of days in prison" do
+  it 'returns the correct number of days in prison' do
     p1 = FactoryGirl.create(:prisoner)
     p1.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.yesterday)
     p2 = FactoryGirl.create(:prisoner)

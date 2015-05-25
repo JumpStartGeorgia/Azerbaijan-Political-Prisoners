@@ -161,4 +161,15 @@ RSpec.describe Prisoner, :type => :model do
     expect(Prisoner.currently_imprisoned_ids).to eq([p1.id, p2.id, p3.id])
     expect(Prisoner.currently_imprisoned_count).to eq(3)
   end
+
+  it "returns the correct number of days in prison" do
+    p1 = FactoryGirl.create(:prisoner)
+    p1.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.yesterday)
+    p2 = FactoryGirl.create(:prisoner)
+    p2.incidents << FactoryGirl.create(:incident, date_of_arrest: Date.new(2005, 3, 5), date_of_release: Date.new(2005, 3, 20))
+    p2.incidents << FactoryGirl.create(:incident, date_of_arrest: 5.days.ago)
+
+    expect(p1.total_days_in_prison).to eq(1)
+    expect(p2.total_days_in_prison).to eq(20)
+  end
 end

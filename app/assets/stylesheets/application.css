@@ -14,12 +14,12 @@
  *= require jquery-ui
  *= require formtastic
  *= require formtastic-bootstrap
- *= require my_formtastic_changes
  *= require bootstrap_and_overrides
+ *= require my_formtastic_changes
  *= require_tree .
  *= require_self
  */
 
 .data-incomplete-warning {
-    color: red;
+   color: red;
 }

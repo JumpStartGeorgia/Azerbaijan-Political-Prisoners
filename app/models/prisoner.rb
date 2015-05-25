@@ -113,6 +113,21 @@ class Prisoner < ActiveRecord::Base
     return find_by_sql(sql).map { |x| x.attributes["prisoner_id"] }
   end
 
+  # Length spent in prison
+
+  def total_days_in_prison
+    time = 0
+    incidents.each do |inc|
+      if inc.released?
+        time += inc.date_of_release - inc.date_of_arrest
+      else
+        time += Date.today - inc.date_of_arrest
+      end
+    end
+
+    return time.numerator
+  end
+
   # Imprisoned count timeline
 
   def self.generate_imprisoned_count_timeline_json

@@ -7,6 +7,14 @@ class Incident < ActiveRecord::Base
 
   validates :date_of_arrest, presence: true
 
+  def released?
+    if date_of_release.nil?
+      return false
+    else
+      return true
+    end
+  end
+
   def self.to_csv
     require 'csv'
 

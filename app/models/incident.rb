@@ -25,28 +25,13 @@ class Incident < ActiveRecord::Base
             incident.prisoner.name,
             incident.date_of_arrest,
             incident.description_of_arrest,
-            incident.many_to_str(incident.tags, "name"),
-            incident.many_to_str(incident.articles, "number"),
+            incident.tags.map { |tag| tag.name }.join(', '),
+            incident.articles.map { |article| article.number }.join(', '),
             incident.prison ? incident.prison.name : 'No Prison Listed',
             incident.date_of_release,
             incident.description_of_release
         ]
       end
     end
-  end
-
-  def many_to_str(objects, attribute)
-    str = ""
-    objects.each_with_index do |object, index|
-      attribute_value = object[attribute]
-
-      if objects.length - 1 == index
-        str += attribute_value
-      else
-        str += attribute_value + ', '
-      end
-    end
-
-    return str
   end
 end

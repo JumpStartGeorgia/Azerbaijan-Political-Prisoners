@@ -7,9 +7,9 @@ class User < ActiveRecord::Base
   belongs_to :role
   validates :email, :role, presence: true
 
-  def is? ( requested_role )
-    if (self.role)
-      self.role.name == requested_role
+  def is?(requested_role)
+    if role
+      role.name == requested_role
     else
       return false
     end

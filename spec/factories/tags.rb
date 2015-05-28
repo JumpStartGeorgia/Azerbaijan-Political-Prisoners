@@ -7,10 +7,9 @@ FactoryGirl.define do
         incidents_count 2
       end
 
-      after :create do |tag, evaluator|
+      after :create do |_tag, evaluator|
         create_list(:incident, evaluator.incidents_count)
       end
     end
   end
-
 end

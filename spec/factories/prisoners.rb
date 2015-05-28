@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :prisoner do
-    sequence(:name) { |n| "prisoner##{n}"}
+    sequence(:name) { |n| "prisoner##{n}" }
 
     factory :prisoner_with_incidents do
       transient do

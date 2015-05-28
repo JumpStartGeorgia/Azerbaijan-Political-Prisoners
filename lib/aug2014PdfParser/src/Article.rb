@@ -1,14 +1,14 @@
 class List_Article
-    def initialize(criminalCode, number)
-        @criminalCode = criminalCode
-        @number = number
-    end
+  def initialize(criminalCode, number)
+    @criminalCode = criminalCode
+    @number = number
+  end
 
-    def getCriminalCode
-        return @criminalCode
-    end
+  def getCriminalCode
+    @criminalCode
+  end
 
-    def getNumber
-        return @number
-    end
+  def getNumber
+    @number
+  end
 end

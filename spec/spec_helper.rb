@@ -167,7 +167,7 @@ RSpec.configure do |config|
     end
   end
 
-  def t(string, options={})
+  def t(string, options = {})
     I18n.t(string, options)
   end
 end

@@ -5,8 +5,8 @@ class Tag < ActiveRecord::Base
   def self.to_csv
     require 'csv'
 
-    CSV.generate() do |csv|
-      csv << ['Name', 'Description']
+    CSV.generate do |csv|
+      csv << %w(Name Description)
       all.each do |tag|
         csv << [tag.name, tag.description]
       end

@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe "prisoners/edit", :type => :view do
-  describe "for prisoner with no incidents" do
+RSpec.describe 'prisoners/edit', type: :view do
+  describe 'for prisoner with no incidents' do
     it "only renders _incident_fields one time, in cocoon's data-association-insertion-template attribute" do
       @prisoner = assign(:prisoner, FactoryGirl.create(:prisoner))
       render edit_prisoner_path(@prisoner.id)
 
-      expect(view).to render_template(:partial => "_incident_fields", :count => 1)
+      expect(view).to render_template(partial: '_incident_fields', count: 1)
     end
   end
 
@@ -20,7 +20,7 @@ RSpec.describe "prisoners/edit", :type => :view do
     it "renders _incident_fields partial for both incidents, plus one time in cocoon's data-association-insertion-template attribute" do
       render edit_prisoner_path(@prisoner.id)
 
-      expect(view).to render_template(:partial => "_incident_fields", :count => 3)
+      expect(view).to render_template(partial: '_incident_fields', count: 3)
     end
   end
 end

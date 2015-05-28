@@ -1,8 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe "Prisoner display", :type => :feature do
-  describe "renders the names of two prisoners" do
-
+RSpec.describe 'Prisoner display', type: :feature do
+  describe 'renders the names of two prisoners' do
     let(:prisoner1) { FactoryGirl.create(:prisoner, name: 'pris#1') }
     let(:prisoner2) { FactoryGirl.create(:prisoner, name: 'pris#2') }
 

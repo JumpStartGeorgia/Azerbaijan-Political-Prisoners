@@ -5,6 +5,6 @@ module UsersHelper
       roles.append(role) if can? :create, User.new(email: 'assdfasdfasdf@asdfdsffsd.com', password: '1234231432143', role: role)
     end
 
-    return roles
+    roles
   end
 end

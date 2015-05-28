@@ -2,21 +2,19 @@ require 'nokogiri'
 require 'csv'
 require_relative 'List.rb'
 
-#Create list object containing cleaned and structured HTML
+# Create list object containing cleaned and structured HTML
 module Aug2014ListParser
   def self.parse
     input_path = File.dirname(__FILE__) + '/../input/list.html'
     list = List.new(input_path)
 
-#Find the prisoner type sections in the list
+    # Find the prisoner type sections in the list
     list.findPrisonerTypes
 
-#Find the prisoners in each of those sections
-    list.getPrisonerTypes.each do |prisonerType|
-      prisonerType.findPrisoners
-    end
+    # Find the prisoners in each of those sections
+    list.getPrisonerTypes.each(&:findPrisoners)
 
-#Output values to CSV
+    # Output values to CSV
     prisonersOutputPath = File.dirname(__FILE__) + '/../output/prisoners.csv'
     subtypesOutputPath = File.dirname(__FILE__) + '/../output/subtypes.csv'
     placesOfDetentionOutputPath = File.dirname(__FILE__) + '/../output/placesOfDetention.csv'

@@ -1,8 +1,8 @@
 namespace :aug2014_data do
   desc 'Transfer the data from the August 2014 Azeri Prisoner List (stored at lib/aug2014PdfParser/input/list.html) into Rails database'
-  task :migrate => :environment do
+  task migrate: :environment do
     puts 'Resetting database.'
-    Rake::Task["db:reset"].invoke
+    Rake::Task['db:reset'].invoke
 
     puts 'Parsing Azeri prisoner list data into lib/aug2014PdfParser/output'
     require 'aug2014PdfParser/src/parser'

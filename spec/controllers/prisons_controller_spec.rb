@@ -18,13 +18,12 @@ require 'rails_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-RSpec.describe PrisonsController, :type => :controller do
+RSpec.describe PrisonsController, type: :controller do
+  let(:user) { FactoryGirl.create(:user, role: Role.find_by_name('content_manager')) }
 
-  let(:user) { FactoryGirl.create(:user, role: Role.find_by_name("content_manager")) }
-
-  before(:example) {
+  before(:example) do
     sign_in :user, user
-  }
+  end
 
   # This should return the minimal set of attributes required to create a valid
   # Prison. As you add validations to Prison, be sure to
@@ -38,123 +37,122 @@ RSpec.describe PrisonsController, :type => :controller do
   # PrisonsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET index" do
-    it "assigns all prisons as @prisons" do
+  describe 'GET index' do
+    it 'assigns all prisons as @prisons' do
       prison = Prison.create! valid_attributes
       get :index, {}, valid_session
       expect(assigns(:prisons)).to eq([prison])
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested prison as @prison" do
+  describe 'GET show' do
+    it 'assigns the requested prison as @prison' do
       prison = Prison.create! valid_attributes
-      get :show, {:id => prison.to_param}, valid_session
+      get :show, { id: prison.to_param }, valid_session
       expect(assigns(:prison)).to eq(prison)
     end
   end
 
-  describe "GET new" do
-    it "assigns a new prison as @prison" do
+  describe 'GET new' do
+    it 'assigns a new prison as @prison' do
       get :new, {}, valid_session
       expect(assigns(:prison)).to be_a_new(Prison)
     end
   end
 
-  describe "GET edit" do
-    it "assigns the requested prison as @prison" do
+  describe 'GET edit' do
+    it 'assigns the requested prison as @prison' do
       prison = Prison.create! valid_attributes
-      get :edit, {:id => prison.to_param}, valid_session
+      get :edit, { id: prison.to_param }, valid_session
       expect(assigns(:prison)).to eq(prison)
     end
   end
 
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new Prison" do
-        expect {
-          post :create, {:prison => valid_attributes}, valid_session
-        }.to change(Prison, :count).by(1)
+  describe 'POST create' do
+    describe 'with valid params' do
+      it 'creates a new Prison' do
+        expect do
+          post :create, { prison: valid_attributes }, valid_session
+        end.to change(Prison, :count).by(1)
       end
 
-      it "assigns a newly created prison as @prison" do
-        post :create, {:prison => valid_attributes}, valid_session
+      it 'assigns a newly created prison as @prison' do
+        post :create, { prison: valid_attributes }, valid_session
         expect(assigns(:prison)).to be_a(Prison)
         expect(assigns(:prison)).to be_persisted
       end
 
-      it "redirects to the created prison" do
-        post :create, {:prison => valid_attributes}, valid_session
+      it 'redirects to the created prison' do
+        post :create, { prison: valid_attributes }, valid_session
         expect(response).to redirect_to(Prison.last)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved prison as @prison" do
-        post :create, {:prison => invalid_attributes}, valid_session
+    describe 'with invalid params' do
+      it 'assigns a newly created but unsaved prison as @prison' do
+        post :create, { prison: invalid_attributes }, valid_session
         expect(assigns(:prison)).to be_a_new(Prison)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:prison => invalid_attributes}, valid_session
-        expect(response).to render_template("new")
+        post :create, { prison: invalid_attributes }, valid_session
+        expect(response).to render_template('new')
       end
     end
   end
 
-  describe "PUT update" do
-    describe "with valid params" do
-      let(:new_attributes) {
-        FactoryGirl.attributes_for(:prison, {name: 'NewName'})
-      }
+  describe 'PUT update' do
+    describe 'with valid params' do
+      let(:new_attributes) do
+        FactoryGirl.attributes_for(:prison, name: 'NewName')
+      end
 
-      it "updates the requested prison" do
+      it 'updates the requested prison' do
         prison = Prison.create! valid_attributes
-        put :update, {:id => prison.to_param, :prison => new_attributes}, valid_session
+        put :update, { id: prison.to_param, prison: new_attributes }, valid_session
         prison.reload
       end
 
-      it "assigns the requested prison as @prison" do
+      it 'assigns the requested prison as @prison' do
         prison = Prison.create! valid_attributes
-        put :update, {:id => prison.to_param, :prison => valid_attributes}, valid_session
+        put :update, { id: prison.to_param, prison: valid_attributes }, valid_session
         expect(assigns(:prison)).to eq(prison)
       end
 
-      it "redirects to the prison" do
+      it 'redirects to the prison' do
         prison = Prison.create! valid_attributes
-        put :update, {:id => prison.to_param, :prison => valid_attributes}, valid_session
+        put :update, { id: prison.to_param, prison: valid_attributes }, valid_session
         expect(response).to redirect_to(prison)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns the prison as @prison" do
+    describe 'with invalid params' do
+      it 'assigns the prison as @prison' do
         prison = Prison.create! valid_attributes
-        put :update, {:id => prison.to_param, :prison => invalid_attributes}, valid_session
+        put :update, { id: prison.to_param, prison: invalid_attributes }, valid_session
         expect(assigns(:prison)).to eq(prison)
       end
 
       it "re-renders the 'edit' template" do
         prison = Prison.create! valid_attributes
-        put :update, {:id => prison.to_param, :prison => invalid_attributes}, valid_session
-        expect(response).to render_template("edit")
+        put :update, { id: prison.to_param, prison: invalid_attributes }, valid_session
+        expect(response).to render_template('edit')
       end
     end
   end
 
-  describe "DELETE destroy" do
-    it "destroys the requested prison" do
+  describe 'DELETE destroy' do
+    it 'destroys the requested prison' do
       prison = Prison.create! valid_attributes
-      expect {
-        delete :destroy, {:id => prison.to_param}, valid_session
-      }.to change(Prison, :count).by(-1)
+      expect do
+        delete :destroy, { id: prison.to_param }, valid_session
+      end.to change(Prison, :count).by(-1)
     end
 
-    it "redirects to the prisons list" do
+    it 'redirects to the prisons list' do
       prison = Prison.create! valid_attributes
-      delete :destroy, {:id => prison.to_param}, valid_session
+      delete :destroy, { id: prison.to_param }, valid_session
       expect(response).to redirect_to(prisons_url)
     end
   end
-
 end

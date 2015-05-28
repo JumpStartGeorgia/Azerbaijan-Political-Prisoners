@@ -36,11 +36,11 @@ Rails.application.routes.draw do
     # You can have the root of your site routed with "root"
     root 'root#index'
 
-    get "*path", to: redirect("/#{I18n.default_locale}") # handles /en/fake/path/whatever
+    get '*path', to: redirect("/#{I18n.default_locale}") # handles /en/fake/path/whatever
   end
 
   get '', to: redirect("/#{I18n.default_locale}") # handles /
-	get '*path', to: redirect("/#{I18n.default_locale}/%{path}") # handles /not-a-locale/anything
+  get '*path', to: redirect("/#{I18n.default_locale}/%{path}") # handles /not-a-locale/anything
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

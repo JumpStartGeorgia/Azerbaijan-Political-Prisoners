@@ -18,147 +18,145 @@ require 'rails_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-RSpec.describe TagsController, :type => :controller do
+RSpec.describe TagsController, type: :controller do
+  let(:user) { FactoryGirl.create(:user, role: Role.find_by_name('content_manager')) }
 
-  let(:user) { FactoryGirl.create(:user, role: Role.find_by_name("content_manager")) }
-
-  before(:example) {
+  before(:example) do
     sign_in :user, user
-  }
+  end
 
   # This should return the minimal set of attributes required to create a valid
   # Tag. As you add validations to Tag, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
+  let(:valid_attributes) do
     FactoryGirl.build(:tag, name: 'tag#1').attributes
-  }
+  end
 
-  let(:invalid_attributes) {
+  let(:invalid_attributes) do
     FactoryGirl.build(:tag, name: '').attributes
-  }
+  end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # TagsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET index" do
-    it "assigns all tags as @tags" do
+  describe 'GET index' do
+    it 'assigns all tags as @tags' do
       tag = Tag.create! valid_attributes
       get :index, {}, valid_session
       expect(assigns(:tags)).to eq([tag])
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested tag as @tag" do
+  describe 'GET show' do
+    it 'assigns the requested tag as @tag' do
       tag = Tag.create! valid_attributes
-      get :show, {:id => tag.to_param}, valid_session
+      get :show, { id: tag.to_param }, valid_session
       expect(assigns(:tag)).to eq(tag)
     end
   end
 
-  describe "GET new" do
-    it "assigns a new tag as @tag" do
+  describe 'GET new' do
+    it 'assigns a new tag as @tag' do
       get :new, {}, valid_session
       expect(assigns(:tag)).to be_a_new(Tag)
     end
   end
 
-  describe "GET edit" do
-    it "assigns the requested tag as @tag" do
+  describe 'GET edit' do
+    it 'assigns the requested tag as @tag' do
       tag = Tag.create! valid_attributes
-      get :edit, {:id => tag.to_param}, valid_session
+      get :edit, { id: tag.to_param }, valid_session
       expect(assigns(:tag)).to eq(tag)
     end
   end
 
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new Tag" do
-        expect {
-          post :create, {:tag => valid_attributes}, valid_session
-        }.to change(Tag, :count).by(1)
+  describe 'POST create' do
+    describe 'with valid params' do
+      it 'creates a new Tag' do
+        expect do
+          post :create, { tag: valid_attributes }, valid_session
+        end.to change(Tag, :count).by(1)
       end
 
-      it "assigns a newly created tag as @tag" do
-        post :create, {:tag => valid_attributes}, valid_session
+      it 'assigns a newly created tag as @tag' do
+        post :create, { tag: valid_attributes }, valid_session
         expect(assigns(:tag)).to be_a(Tag)
         expect(assigns(:tag)).to be_persisted
       end
 
-      it "redirects to the created tag" do
-        post :create, {:tag => valid_attributes}, valid_session
+      it 'redirects to the created tag' do
+        post :create, { tag: valid_attributes }, valid_session
         expect(response).to redirect_to(Tag.last)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved tag as @tag" do
-        post :create, {:tag => invalid_attributes}, valid_session
+    describe 'with invalid params' do
+      it 'assigns a newly created but unsaved tag as @tag' do
+        post :create, { tag: invalid_attributes }, valid_session
         expect(assigns(:tag)).to be_a_new(Tag)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:tag => invalid_attributes}, valid_session
-        expect(response).to render_template("new")
+        post :create, { tag: invalid_attributes }, valid_session
+        expect(response).to render_template('new')
       end
     end
   end
 
-  describe "PUT update" do
-    describe "with valid params" do
-      let(:new_attributes) {
+  describe 'PUT update' do
+    describe 'with valid params' do
+      let(:new_attributes) do
         FactoryGirl.build(:tag, name: 'tag#2').attributes
-      }
+      end
 
-      it "updates the requested tag" do
+      it 'updates the requested tag' do
         tag = Tag.create! valid_attributes
-        put :update, {:id => tag.to_param, :tag => new_attributes}, valid_session
+        put :update, { id: tag.to_param, tag: new_attributes }, valid_session
         tag.reload
       end
 
-      it "assigns the requested tag as @tag" do
+      it 'assigns the requested tag as @tag' do
         tag = Tag.create! valid_attributes
-        put :update, {:id => tag.to_param, :tag => valid_attributes}, valid_session
+        put :update, { id: tag.to_param, tag: valid_attributes }, valid_session
         expect(assigns(:tag)).to eq(tag)
       end
 
-      it "redirects to the tag" do
+      it 'redirects to the tag' do
         tag = Tag.create! valid_attributes
-        put :update, {:id => tag.to_param, :tag => valid_attributes}, valid_session
+        put :update, { id: tag.to_param, tag: valid_attributes }, valid_session
         expect(response).to redirect_to(tag)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns the tag as @tag" do
+    describe 'with invalid params' do
+      it 'assigns the tag as @tag' do
         tag = Tag.create! valid_attributes
-        put :update, {:id => tag.to_param, :tag => invalid_attributes}, valid_session
+        put :update, { id: tag.to_param, tag: invalid_attributes }, valid_session
         expect(assigns(:tag)).to eq(tag)
       end
 
       it "re-renders the 'edit' template" do
         tag = Tag.create! valid_attributes
-        put :update, {:id => tag.to_param, :tag => invalid_attributes}, valid_session
-        expect(response).to render_template("edit")
+        put :update, { id: tag.to_param, tag: invalid_attributes }, valid_session
+        expect(response).to render_template('edit')
       end
     end
   end
 
-  describe "DELETE destroy" do
-    it "destroys the requested tag" do
+  describe 'DELETE destroy' do
+    it 'destroys the requested tag' do
       tag = Tag.create! valid_attributes
-      expect {
-        delete :destroy, {:id => tag.to_param}, valid_session
-      }.to change(Tag, :count).by(-1)
+      expect do
+        delete :destroy, { id: tag.to_param }, valid_session
+      end.to change(Tag, :count).by(-1)
     end
 
-    it "redirects to the tags list" do
+    it 'redirects to the tags list' do
       tag = Tag.create! valid_attributes
-      delete :destroy, {:id => tag.to_param}, valid_session
+      delete :destroy, { id: tag.to_param }, valid_session
       expect(response).to redirect_to(tags_url)
     end
   end
-
 end

@@ -4,6 +4,6 @@ class CriminalCode < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
 
   def name_with_model_name
-    return name + ' Criminal Code'
+    name + ' Criminal Code'
   end
 end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Role", :type => :feature do
+RSpec.describe 'Role', type: :feature do
   before(:context) do
     @super_admin_role = FactoryGirl.create(:role, name: 'super_admin')
     @site_admin_role = FactoryGirl.create(:role, name: 'site_admin')
@@ -14,14 +14,14 @@ RSpec.describe "Role", :type => :feature do
     @content_manager_user = FactoryGirl.create(:user, role: @content_manager_role)
   end
 
-  describe "super admin" do
+  describe 'super admin' do
     it "can update another super admin's email and role without updating password" do
       login_as @super_admin_user, scope: :user
 
       visit edit_user_path(@super_admin_user2)
       within('.inputs') do
-        fill_in 'Email', :with => 'asdfsdfs@dsafdsf.com'
-        select('content_manager', :from => 'Role')
+        fill_in 'Email', with: 'asdfsdfs@dsafdsf.com'
+        select('content_manager', from: 'Role')
       end
 
       click_button 'Update User'
@@ -33,9 +33,9 @@ RSpec.describe "Role", :type => :feature do
 
       visit edit_user_path(@super_admin_user2)
       within('.inputs') do
-        fill_in 'Email', :with => 'asdfsdfs@dsafdsf.com'
+        fill_in 'Email', with: 'asdfsdfs@dsafdsf.com'
         fill_in 'Password', with: 'asdfsdfdsflkjk;l'
-        select('content_manager', :from => 'Role')
+        select('content_manager', from: 'Role')
       end
 
       click_button 'Update User'
@@ -43,8 +43,8 @@ RSpec.describe "Role", :type => :feature do
     end
   end
 
-  describe "site admin" do
-    it "can only select site_admin and content_manager in the Roles select on the user create page" do
+  describe 'site admin' do
+    it 'can only select site_admin and content_manager in the Roles select on the user create page' do
       login_as @site_admin_user, scope: :user
 
       visit new_user_path

@@ -7,9 +7,9 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 def self.create_roles
-  roles = ['super_admin', 'site_admin', 'content_manager']
+  roles = %w(super_admin site_admin content_manager)
   roles.each do |role|
-    Role.find_or_create_by({name: role})
+    Role.find_or_create_by(name: role)
   end
 end
 

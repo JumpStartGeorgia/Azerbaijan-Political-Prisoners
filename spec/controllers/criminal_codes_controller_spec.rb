@@ -18,13 +18,12 @@ require 'rails_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-RSpec.describe CriminalCodesController, :type => :controller do
+RSpec.describe CriminalCodesController, type: :controller do
+  let(:user) { FactoryGirl.create(:user, role: Role.find_by_name('content_manager')) }
 
-  let(:user) { FactoryGirl.create(:user, role: Role.find_by_name("content_manager")) }
-
-  before(:example) {
+  before(:example) do
     sign_in :user, user
-  }
+  end
 
   # This should return the minimal set of attributes required to create a valid
   # CriminalCode. As you add validations to CriminalCode, be sure to
@@ -38,121 +37,120 @@ RSpec.describe CriminalCodesController, :type => :controller do
   # CriminalCodesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET index" do
-    it "assigns all criminal_codes as @criminal_codes" do
+  describe 'GET index' do
+    it 'assigns all criminal_codes as @criminal_codes' do
       criminal_code = CriminalCode.create! valid_attributes
       get :index, {}, valid_session
       expect(assigns(:criminal_codes)).to eq([criminal_code])
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested criminal_code as @criminal_code" do
+  describe 'GET show' do
+    it 'assigns the requested criminal_code as @criminal_code' do
       criminal_code = CriminalCode.create! valid_attributes
-      get :show, {:id => criminal_code.to_param}, valid_session
+      get :show, { id: criminal_code.to_param }, valid_session
       expect(assigns(:criminal_code)).to eq(criminal_code)
     end
   end
 
-  describe "GET new" do
-    it "assigns a new criminal_code as @criminal_code" do
+  describe 'GET new' do
+    it 'assigns a new criminal_code as @criminal_code' do
       get :new, {}, valid_session
       expect(assigns(:criminal_code)).to be_a_new(CriminalCode)
     end
   end
 
-  describe "GET edit" do
-    it "assigns the requested criminal_code as @criminal_code" do
+  describe 'GET edit' do
+    it 'assigns the requested criminal_code as @criminal_code' do
       criminal_code = CriminalCode.create! valid_attributes
-      get :edit, {:id => criminal_code.to_param}, valid_session
+      get :edit, { id: criminal_code.to_param }, valid_session
       expect(assigns(:criminal_code)).to eq(criminal_code)
     end
   end
 
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new CriminalCode" do
-        expect {
-          post :create, {:criminal_code => valid_attributes}, valid_session
-        }.to change(CriminalCode, :count).by(1)
+  describe 'POST create' do
+    describe 'with valid params' do
+      it 'creates a new CriminalCode' do
+        expect do
+          post :create, { criminal_code: valid_attributes }, valid_session
+        end.to change(CriminalCode, :count).by(1)
       end
 
-      it "assigns a newly created criminal_code as @criminal_code" do
-        post :create, {:criminal_code => valid_attributes}, valid_session
+      it 'assigns a newly created criminal_code as @criminal_code' do
+        post :create, { criminal_code: valid_attributes }, valid_session
         expect(assigns(:criminal_code)).to be_a(CriminalCode)
         expect(assigns(:criminal_code)).to be_persisted
       end
 
-      it "redirects to the created criminal_code" do
-        post :create, {:criminal_code => valid_attributes}, valid_session
+      it 'redirects to the created criminal_code' do
+        post :create, { criminal_code: valid_attributes }, valid_session
         expect(response).to redirect_to(CriminalCode.last)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved criminal_code as @criminal_code" do
-        post :create, {:criminal_code => invalid_attributes}, valid_session
+    describe 'with invalid params' do
+      it 'assigns a newly created but unsaved criminal_code as @criminal_code' do
+        post :create, { criminal_code: invalid_attributes }, valid_session
         expect(assigns(:criminal_code)).to be_a_new(CriminalCode)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:criminal_code => invalid_attributes}, valid_session
-        expect(response).to render_template("new")
+        post :create, { criminal_code: invalid_attributes }, valid_session
+        expect(response).to render_template('new')
       end
     end
   end
 
-  describe "PUT update" do
-    describe "with valid params" do
+  describe 'PUT update' do
+    describe 'with valid params' do
       let(:new_attributes) { FactoryGirl.attributes_for(:criminal_code, name: 'MyNewString') }
 
-      it "updates the requested criminal_code" do
+      it 'updates the requested criminal_code' do
         criminal_code = CriminalCode.create! valid_attributes
-        put :update, {:id => criminal_code.to_param, :criminal_code => new_attributes}, valid_session
+        put :update, { id: criminal_code.to_param, criminal_code: new_attributes }, valid_session
         criminal_code.reload
       end
 
-      it "assigns the requested criminal_code as @criminal_code" do
+      it 'assigns the requested criminal_code as @criminal_code' do
         criminal_code = CriminalCode.create! valid_attributes
-        put :update, {:id => criminal_code.to_param, :criminal_code => valid_attributes}, valid_session
+        put :update, { id: criminal_code.to_param, criminal_code: valid_attributes }, valid_session
         expect(assigns(:criminal_code)).to eq(criminal_code)
       end
 
-      it "redirects to the criminal_code" do
+      it 'redirects to the criminal_code' do
         criminal_code = CriminalCode.create! valid_attributes
-        put :update, {:id => criminal_code.to_param, :criminal_code => valid_attributes}, valid_session
+        put :update, { id: criminal_code.to_param, criminal_code: valid_attributes }, valid_session
         expect(response).to redirect_to(criminal_code)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns the criminal_code as @criminal_code" do
+    describe 'with invalid params' do
+      it 'assigns the criminal_code as @criminal_code' do
         criminal_code = CriminalCode.create! valid_attributes
-        put :update, {:id => criminal_code.to_param, :criminal_code => invalid_attributes}, valid_session
+        put :update, { id: criminal_code.to_param, criminal_code: invalid_attributes }, valid_session
         expect(assigns(:criminal_code)).to eq(criminal_code)
       end
 
       it "re-renders the 'edit' template" do
         criminal_code = CriminalCode.create! valid_attributes
-        put :update, {:id => criminal_code.to_param, :criminal_code => invalid_attributes}, valid_session
-        expect(response).to render_template("edit")
+        put :update, { id: criminal_code.to_param, criminal_code: invalid_attributes }, valid_session
+        expect(response).to render_template('edit')
       end
     end
   end
 
-  describe "DELETE destroy" do
-    it "destroys the requested criminal_code" do
+  describe 'DELETE destroy' do
+    it 'destroys the requested criminal_code' do
       criminal_code = CriminalCode.create! valid_attributes
-      expect {
-        delete :destroy, {:id => criminal_code.to_param}, valid_session
-      }.to change(CriminalCode, :count).by(-1)
+      expect do
+        delete :destroy, { id: criminal_code.to_param }, valid_session
+      end.to change(CriminalCode, :count).by(-1)
     end
 
-    it "redirects to the criminal_codes list" do
+    it 'redirects to the criminal_codes list' do
       criminal_code = CriminalCode.create! valid_attributes
-      delete :destroy, {:id => criminal_code.to_param}, valid_session
+      delete :destroy, { id: criminal_code.to_param }, valid_session
       expect(response).to redirect_to(criminal_codes_url)
     end
   end
-
 end

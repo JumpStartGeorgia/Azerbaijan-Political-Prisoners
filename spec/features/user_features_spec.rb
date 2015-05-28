@@ -6,7 +6,7 @@ RSpec.describe 'User', type: :feature do
     @content_manager_user = FactoryGirl.create(:user, role: @content_manager_role)
   end
 
-  it "can successfully edit their own password" do
+  it 'can successfully edit their own password' do
     login_as @content_manager_user, scope: :user
     new_password = 'dsalfkdjsakfjds'
 

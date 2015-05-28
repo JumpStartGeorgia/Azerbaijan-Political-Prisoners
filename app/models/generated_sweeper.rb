@@ -1,7 +1,7 @@
 class GeneratedSweeper < ActionController::Caching::Sweeper
   observe Prisoner, Prison, Article, Tag, CriminalCode
 
-  def after_commit(record)
+  def after_commit(_record)
     remove_generated
   end
 
@@ -11,11 +11,11 @@ class GeneratedSweeper < ActionController::Caching::Sweeper
       Rails.public_path.join('system', 'json', 'imprisoned_count_timeline.json'),
       Rails.public_path.join('system', 'json', 'article_incident_counts_chart.json'),
       Rails.public_path.join('system', 'json', 'prison_prisoner_count_chart.json'),
-      Dir.glob(Rails.public_path.join('system', 'csv', "political_prisoner_data_*.zip"))[0]
+      Dir.glob(Rails.public_path.join('system', 'csv', 'political_prisoner_data_*.zip'))[0]
     ]
 
     remove_paths.each do |path|
-      File.delete(path) if path != nil && File.exists?(path)
+      File.delete(path) if !path.nil? && File.exist?(path)
     end
   end
 end

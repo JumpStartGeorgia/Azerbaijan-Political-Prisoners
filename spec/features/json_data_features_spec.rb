@@ -6,7 +6,7 @@ RSpec.describe 'JSON data', type: :feature do
     @user = FactoryGirl.create(:user, role: @role)
   end
 
-  it "for charts update when a new prisoner is created and when a prisoner is updated", js: true do
+  it 'for charts update when a new prisoner is created and when a prisoner is updated', js: true do
     login_as(@user, scope: :user)
 
     FactoryGirl.create(:prison, name: 'prison#1')
@@ -15,9 +15,9 @@ RSpec.describe 'JSON data', type: :feature do
     FactoryGirl.create(:article, number: 'article#1')
     FactoryGirl.create(:article, number: 'article#2')
 
-    timeline_json_path = "/prisoners/imprisoned_count_timeline"
-    prison_prisoner_counts_json_path = "/prisons/prison_prisoner_counts"
-    article_incident_counts_json_path = "/articles/article_incident_counts"
+    timeline_json_path = '/prisoners/imprisoned_count_timeline'
+    prison_prisoner_counts_json_path = '/prisons/prison_prisoner_counts'
+    article_incident_counts_json_path = '/articles/article_incident_counts'
 
     visit timeline_json_path
     timeline_json1 = page.body
@@ -31,7 +31,7 @@ RSpec.describe 'JSON data', type: :feature do
     visit new_prisoner_path
 
     within('.inputs') do
-      fill_in 'Name', :with => 'Bob Jones'
+      fill_in 'Name', with: 'Bob Jones'
     end
 
     click_link 'Add New Incident'
@@ -68,7 +68,7 @@ RSpec.describe 'JSON data', type: :feature do
     select2_select_multiple(['article#2'], find(:xpath, "//*[contains(@id, 's2id_prisoner_incidents_attributes')][contains(@id, 'article_ids')]//input"))
 
     click_button 'Update Prisoner'
-    expect(page).to have_content("Prisoner was successfully updated.")
+    expect(page).to have_content('Prisoner was successfully updated.')
 
     visit root_path
 

@@ -6,12 +6,12 @@ require 'rspec/rails'
 require 'capybara/rspec'
 require 'capybara-screenshot/rspec'
 
-#Only keeps html and png screenshots from the last test run
+# Only keeps html and png screenshots from the last test run
 Capybara::Screenshot.prune_strategy = :keep_last_run
 
 Capybara.server do |app, port|
   require 'rack/handler/thin'
-  Rack::Handler::Thin.run(app, :Port => port)
+  Rack::Handler::Thin.run(app, Port: port)
 end
 
 # Add additional requires below this line. Rails is not loaded until this point!

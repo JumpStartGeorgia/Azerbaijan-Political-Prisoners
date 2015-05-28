@@ -8,7 +8,7 @@ class Prisoner < ActiveRecord::Base
                     url: '/system/images/:class/:attachment/:id/:style/:basename.:extension'
   validates_attachment :portrait, content_type: { content_type: /\Aimage\/.*\Z/ }
   accepts_nested_attributes_for :incidents, allow_destroy: true
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
   validate :validate_all_incidents_released_except_last
   validate :validate_incident_dates
 

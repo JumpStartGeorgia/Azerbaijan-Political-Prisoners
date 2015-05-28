@@ -2,7 +2,7 @@ class Prisoner < ActiveRecord::Base
   has_many :incidents, inverse_of: :prisoner, dependent: :destroy
   has_attached_file :portrait,
                     styles: { medium: '200x200>' },
-                    default_url: '/images/:class/:attachment/:style/missing.png',
+                    default_url: ':class/:attachment/missing/:style.png',
                     url: '/system/images/:class/:attachment/:id/:style/:basename.:extension'
   validates_attachment :portrait, content_type: { content_type: /\Aimage\/.*\Z/ }
   accepts_nested_attributes_for :incidents, allow_destroy: true

@@ -82,7 +82,6 @@ RSpec.configure do |config|
   #   # test failures related to randomization by passing the same `--seed` value
   #   # as the one that triggered the failure.
   #   Kernel.srand config.seed
-
   config.include Devise::TestHelpers
 
   # Warden is used to stub authentication in feature specs: https://github.com/plataformatec/devise/wiki/How-To:-Test-with-Capybara

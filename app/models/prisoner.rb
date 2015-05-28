@@ -1,6 +1,4 @@
 class Prisoner < ActiveRecord::Base
-  after_commit :update_currently_imprisoned
-
   has_many :incidents, inverse_of: :prisoner
   has_attached_file :portrait,
                     styles: { medium: '200x200>' },
@@ -27,15 +25,17 @@ class Prisoner < ActiveRecord::Base
 
   # Callbacks
 
+  after_commit :update_currently_imprisoned, on: [:create, :update]
+
   def update_currently_imprisoned
     latest_incident = incidents.order('date_of_arrest').last
 
-    unless latest_incident.nil?
-      if latest_incident.date_of_release.present?
-        update_column(:currently_imprisoned, false)
-      else
-        update_column(:currently_imprisoned, true)
-      end
+    return false if latest_incident.nil?
+
+    if latest_incident.date_of_release.present?
+      update_column(:currently_imprisoned, false)
+    else
+      update_column(:currently_imprisoned, true)
     end
   end
 

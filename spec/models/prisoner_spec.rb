@@ -172,4 +172,26 @@ RSpec.describe Prisoner, type: :model do
     expect(p1.total_days_in_prison).to eq(1)
     expect(p2.total_days_in_prison).to eq(20)
   end
+
+  describe '#destroy' do
+    let(:a1) { FactoryGirl.create(:article) }
+    let(:i1) { FactoryGirl.create(:incident, articles: [a1]) }
+    let(:pris) { FactoryGirl.build(:prisoner, incidents: [i1]) }
+
+    before(:example) do
+      pris.save!
+    end
+
+    it 'reduces prisoner count by 1' do
+      expect { pris.destroy }.to change { Prisoner.count }.by(-1)
+    end
+
+    it 'destroys dependent incident' do
+      expect { pris.destroy }.to change { Incident.count }.by(-1)
+    end
+
+    it 'destroys dependent article' do
+      expect { pris.destroy }.to change { Charge.count }.by(-1)
+    end
+  end
 end

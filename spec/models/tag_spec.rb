@@ -16,7 +16,7 @@ RSpec.describe Tag, type: :model do
   end
 
   describe 'when destroyed' do
-    it 'should be removed from associated incidents' do
+    it 'is removed from associated incidents' do
       tag2 = FactoryGirl.create(:tag)
       pris = FactoryGirl.create(:prisoner)
       pris.incidents << FactoryGirl.create(:incident, tags: [tag1, tag2])

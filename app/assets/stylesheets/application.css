@@ -20,16 +20,9 @@
  *= require_self
  */
 
+/**************************************/
 .data-incomplete-warning {
    color: red;
 }
 
-/* make bootstrap button link color stay white */
-a.btn, a.btn:visited {
-  color: #000;
-}
-
-a.btn-primary, a.btn-primary:visited, a.btn-info, a.btn-info:visited, a.btn-success, a.btn-success:visited,
-a.btn-warning, a.btn-warning:visited, a.btn-danger, a.btn-danger:visited, a.btn-inverse, a.btn-inverse:visited {
-  color: #fff;
-}
+/**************************************/

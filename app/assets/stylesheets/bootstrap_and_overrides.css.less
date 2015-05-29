@@ -63,7 +63,8 @@
 @iconWhiteSpritePath: image-url("twitter/bootstrap/glyphicons-halflings-white.png");
 
 
-// Expands the width of the attribute label column so that "Description of release" fully displays on Prisoner show view
+/**************************************/
+/* Expands the width of the attribute label column so that "Description of release" fully displays on Prisoner show view */
 @media (min-width: 768px) {
   .dl-horizontal dt {
     width: 170px;
@@ -73,7 +74,20 @@
   }
 }
 
-// Removes height limit from select inputs so that jquery select2 is not cut off
+/**************************************/
+/* Removes height limit from select inputs so that jquery select2 is not cut off */
 .select2-container {
   height: inherit;
+}
+
+/**************************************/
+/* make bootstrap button link color stay white */
+a.btn, a.btn:visited {
+  color: #000;
+}
+
+a.btn-primary, a.btn-primary:visited, a.btn-info, a.btn-info:visited,
+a.btn-success, a.btn-success:visited, a.btn-warning, a.btn-warning:visited,
+a.btn-danger, a.btn-danger:visited, a.btn-inverse, a.btn-inverse:visited {
+  color: #fff;
 }

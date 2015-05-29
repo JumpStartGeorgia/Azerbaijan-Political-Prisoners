@@ -12,8 +12,10 @@
         <%= f.semantic_fields_for :incidents do |incident| %>
           <%= render "incident_fields", f: incident %>
         <% end %>
-        <div id="links"><%= link_to_add_association 'Add New Incident', f, :incidents %></div>
+        <div id="links"><%= link_to_add_association 'Add New Incident', f, :incidents, class: 'btn btn-success' %></div>
     </div>
   <% end %>
-  <%= f.actions :submit %>
+  <%= f.actions do %>
+    <%= f.action :submit, button_html: { class: 'btn btn-success' } %>
+  <% end %>
 <% end %>

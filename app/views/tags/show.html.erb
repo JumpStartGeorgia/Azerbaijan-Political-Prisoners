@@ -13,16 +13,11 @@
   </dd>
 </dl>
 
-<%= link_to t('.back', :default => t("helpers.links.back")),
-              tags_path, :class => 'btn btn-default'  %>
-<%= if can? :edit, @tag
-      link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_tag_path(@tag), :class => 'btn btn-default'
-end %>
-<%= if can? :destroy, @tag
-      link_to t('.destroy', :default => t("helpers.links.destroy")),
-              tag_path(@tag),
-              :method => 'delete',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-              :class => 'btn btn-danger'
-end %>
+<%= render partial: 'shared/show_actions',
+      locals: {
+        object: @tag,
+        index_path: tags_path,
+        show_path: tag_path,
+        edit_path: edit_tag_path
+              }
+%>

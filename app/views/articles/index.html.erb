@@ -1,19 +1,15 @@
 <%- model_class = Article -%>
 <% page_title "#{model_class.model_name.human.pluralize.titleize}" %>
 
-<ul class='list-inline'>
-  <li>
-    <%= render partial: 'shared/index_actions',
-          locals: {
-            model_class: model_class,
-            new_path: new_article_path
-          }
-    %>
-  </li>
-  <li>
-    <%= link_to "#{model_class.model_name.human.pluralize.titleize} CSV Download", articles_path(format: :csv), class: 'btn btn-default' %>
-  </li>
-</ul>
+<div class='actions-container'>
+  <%= render partial: 'shared/index_actions',
+        locals: {
+          model_class: model_class,
+          new_path: new_article_path
+        }
+  %>
+  <%= link_to "#{model_class.model_name.human.pluralize.titleize} CSV Download", articles_path(format: :csv), class: 'btn btn-default' %>
+</div>
 
 <table class="table table-striped">
   <thead>

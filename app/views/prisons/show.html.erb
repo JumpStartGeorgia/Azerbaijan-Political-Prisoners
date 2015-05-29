@@ -1,5 +1,17 @@
 <%- model_class = Prison -%>
 <% page_title model_class.model_name.human.titleize + ': ' + @prison.name %>
+
+<div class='actions-container'>
+  <%= render partial: 'shared/show_actions',
+        locals: {
+          object: @prison,
+          index_path: prisons_path,
+          show_path: prison_path,
+          edit_path: edit_prison_path
+                }
+  %>
+</div>
+
 <dl class="dl-horizontal">
   <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
   <dd><%= simple_format(@prison.description) if @prison.description.present? %></dd>  <dt>
@@ -12,12 +24,3 @@
     </ol>
   </dd>
 </dl>
-
-<%= render partial: 'shared/show_actions',
-      locals: {
-        object: @prison,
-        index_path: prisons_path,
-        show_path: prison_path,
-        edit_path: edit_prison_path
-              }
-%>

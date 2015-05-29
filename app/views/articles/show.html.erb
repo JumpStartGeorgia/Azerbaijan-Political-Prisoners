@@ -1,5 +1,17 @@
 <%- model_class = Article -%>
 <% page_title model_class.model_name.human.titleize + ': ' + @article.number %>
+
+<div class='actions-container'>
+  <%= render partial: 'shared/show_actions',
+        locals: {
+          object: @article,
+          index_path: articles_path,
+          show_path: article_path,
+          edit_path: edit_article_path
+                }
+  %>
+</div>
+
 <dl class="dl-horizontal">
   <dt><strong><%= model_class.human_attribute_name(:criminal_code_id) %>:</strong></dt>
   <dd><%= link_to @article.criminal_code.name, criminal_code_path(@article.criminal_code) %></dd>
@@ -14,12 +26,3 @@
     </ol>
   </dd>
 </dl>
-
-<%= render partial: 'shared/show_actions',
-      locals: {
-        object: @article,
-        index_path: articles_path,
-        show_path: article_path,
-        edit_path: edit_article_path
-              }
-%>

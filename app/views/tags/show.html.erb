@@ -1,5 +1,17 @@
 <%- model_class = Tag -%>
 <% page_title model_class.model_name.human.titleize + ': ' + @tag.name %>
+
+<div class='actions-container'>
+  <%= render partial: 'shared/show_actions',
+        locals: {
+          object: @tag,
+          index_path: tags_path,
+          show_path: tag_path,
+          edit_path: edit_tag_path
+                }
+  %>
+</div>
+
 <dl class="dl-horizontal">
   <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
   <dd><%= simple_format(@tag.description) if @tag.description.present? %></dd>
@@ -12,12 +24,3 @@
     </ul>
   </dd>
 </dl>
-
-<%= render partial: 'shared/show_actions',
-      locals: {
-        object: @tag,
-        index_path: tags_path,
-        show_path: tag_path,
-        edit_path: edit_tag_path
-              }
-%>

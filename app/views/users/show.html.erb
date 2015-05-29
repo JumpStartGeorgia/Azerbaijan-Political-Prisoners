@@ -1,6 +1,17 @@
 <%- model_class = User -%>
 <% page_title model_class.model_name.human.titleize + ': ' + @user.email %>
 
+<div class='actions-container'>
+  <%= render partial: 'shared/show_actions',
+        locals: {
+          object: @user,
+          index_path: users_path,
+          show_path: user_path,
+          edit_path: edit_user_path
+                }
+  %>
+</div>
+
 <dl class="dl-horizontal">
   <dt><strong><%= model_class.human_attribute_name(:email) %>:</strong></dt>
   <dd><%= @user.email %></dd>
@@ -11,12 +22,3 @@
   <dt><strong><%= model_class.human_attribute_name(:role_id) %>:</strong></dt>
   <dd><%= @user.role.name %></dd>
 </dl>
-
-<%= render partial: 'shared/show_actions',
-      locals: {
-        object: @user,
-        index_path: users_path,
-        show_path: user_path,
-        edit_path: edit_user_path
-              }
-%>

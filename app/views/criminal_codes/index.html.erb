@@ -1,5 +1,13 @@
 <%- model_class = CriminalCode -%>
 <% page_title "#{model_class.model_name.human.pluralize.titleize}" %>
+
+<%= render partial: 'shared/index_actions',
+      locals: {
+        model_class: model_class,
+        new_path: new_criminal_code_path
+      }
+%>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -34,10 +42,3 @@
     <% end %>
   </tbody>
 </table>
-
-<%= render partial: 'shared/index_actions',
-      locals: {
-        model_class: model_class,
-        new_path: new_criminal_code_path
-      }
-%>

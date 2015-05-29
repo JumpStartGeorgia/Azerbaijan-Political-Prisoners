@@ -1,6 +1,21 @@
 <%- model_class = Tag -%>
 <% page_title "#{model_class.model_name.human.pluralize.titleize}" %>
-<p><%= link_to "#{model_class.model_name.human.pluralize.titleize} CSV Download", tags_path(format: :csv) %></p>
+
+<ul class='list-inline'>
+  <li>
+    <%= render partial: 'shared/index_actions',
+          locals: {
+            model_class: model_class,
+            new_path: new_tag_path
+          }
+    %>
+  </li>
+  <li>
+    <%= link_to "#{model_class.model_name.human.pluralize.titleize} CSV Download", tags_path(format: :csv), class: 'btn btn-default' %>
+  </li>
+</ul>
+
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -35,10 +50,3 @@
     <% end %>
   </tbody>
 </table>
-
-<%= render partial: 'shared/index_actions',
-      locals: {
-        model_class: model_class,
-        new_path: new_tag_path
-      }
-%>

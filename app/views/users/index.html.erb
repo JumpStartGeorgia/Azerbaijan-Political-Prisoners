@@ -1,5 +1,13 @@
 <%- model_class = User -%>
 <% page_title "#{model_class.model_name.human.pluralize.titleize}" %>
+
+<%= render partial: 'shared/index_actions',
+      locals: {
+        model_class: model_class,
+        new_path: new_user_path
+      }
+%>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -36,10 +44,3 @@
     <% end %>
   </tbody>
 </table>
-
-<%= render partial: 'shared/index_actions',
-      locals: {
-        model_class: model_class,
-        new_path: new_user_path
-      }
-%>

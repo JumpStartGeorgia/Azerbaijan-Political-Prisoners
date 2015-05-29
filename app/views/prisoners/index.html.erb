@@ -1,7 +1,23 @@
 <%- model_class = Prisoner -%>
 <% page_title "#{model_class.model_name.human.pluralize.titleize}" %>
-<p><%= link_to "#{model_class.model_name.human.pluralize.titleize} CSV Download", prisoners_path(format: :csv) %></p>
-<p><%= link_to "#{Incident.model_name.human.pluralize.titleize} CSV Download", incidents_to_csv_prisoners_path %></p>
+
+<ul class='list-inline'>
+  <li>
+    <%= render partial: 'shared/index_actions',
+          locals: {
+            model_class: model_class,
+            new_path: new_prisoner_path
+          }
+    %>
+  </li>
+  <li>
+    <%= link_to "#{model_class.model_name.human.pluralize.titleize} CSV Download", prisoners_path(format: :csv), class: 'btn btn-default' %>
+  </li>
+  <li>
+    <%= link_to "#{Incident.model_name.human.pluralize.titleize} CSV Download", incidents_to_csv_prisoners_path, class: 'btn btn-default' %>
+  </li>
+</ul>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -42,10 +58,3 @@
     <% end %>
   </tbody>
 </table>
-
-<%= render partial: 'shared/index_actions',
-      locals: {
-        model_class: model_class,
-        new_path: new_prisoner_path
-      }
-%>

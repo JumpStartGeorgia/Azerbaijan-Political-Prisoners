@@ -38,8 +38,9 @@
   </tbody>
 </table>
 
-<%= if can? :new, Article
-      link_to t('.new', :default => t("helpers.links.new")),
-            new_article_path,
-            :class => 'btn btn-primary'
-end %>
+<%= render partial: 'shared/index_actions',
+      locals: {
+        model_class: model_class,
+        new_path: new_article_path
+      }
+%>

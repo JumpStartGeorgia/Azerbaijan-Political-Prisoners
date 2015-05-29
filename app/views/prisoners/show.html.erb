@@ -56,16 +56,11 @@
 <% end %>
 </div>
 
-<%= link_to t('.back', :default => t("helpers.links.back")),
-              prisoners_path, :class => 'btn btn-default'  %>
-<%= if can? :edit, @prisoner
-      link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_prisoner_path(@prisoner), :class => 'btn btn-default'
-end %>
-<%= if can? :destroy, @prisoner
-      link_to t('.destroy', :default => t("helpers.links.destroy")),
-              prisoner_path(@prisoner),
-              :method => 'delete',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-              :class => 'btn btn-danger'
-end %>
+<%= render partial: 'shared/show_actions',
+      locals: {
+        object: @prisoner,
+        index_path: prisoners_path,
+        show_path: prisoner_path,
+        edit_path: edit_prisoner_path
+              }
+%>

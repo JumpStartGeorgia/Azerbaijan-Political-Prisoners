@@ -20,7 +20,9 @@ RSpec.describe Tag, type: :model do
       tag2 = FactoryGirl.create(:tag)
       pris = FactoryGirl.create(:prisoner)
       pris.incidents << FactoryGirl.create(:incident, tags: [tag1, tag2])
-      expect { tag1.destroy }.to change { pris.incidents.first.tags }.from([tag1, tag2]).to([tag2])
+      tag1.destroy
+      pris.reload
+      expect(pris.incidents.first.tags).to eq([tag2])
     end
   end
 end

@@ -1,6 +1,7 @@
-$(document).ready(function(){
+$(document).on('page:change', function(){
 
   $('table.datatable').dataTable({
+    "destroy": true,
     "dom": '<"top"fli>t<"bottom"p><"clear">',
     "processing": true,
     "order": [[1, 'asc']],
@@ -8,6 +9,7 @@ $(document).ready(function(){
   });
 
   $('table.datatable-admin').dataTable({
+    "destroy": true,
     "dom": '<"top"fli>t<"bottom"p><"clear">',
     "processing": true,
     "order": [[1, 'asc']],

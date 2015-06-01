@@ -12,7 +12,7 @@
 </div>
 
 <%-
-  datatable_class = can? :edit, Article ? 'datatable-admin' : 'datatable'
+  datatable_class = (can? :edit, Article) ? 'datatable-admin' : 'datatable'
 -%>
 <table class="table table-striped <%= datatable_class %>">
   <thead>

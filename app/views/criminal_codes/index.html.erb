@@ -11,7 +11,7 @@
 </div>
 
 <%-
-  datatable_class = if_can_edit_or_destroy?(CriminalCode) ? 'datatable-admin' : 'datatable'
+  datatable_class = (can? :edit, CriminalCode) ? 'datatable-admin' : 'datatable'
 -%>
 <table class="table table-striped <%= datatable_class %>">
   <thead>
@@ -19,7 +19,7 @@
       <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:name) %></th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
-      <% if_can_edit_or_destroy?(CriminalCode) { %><th><%=t '.actions', :default => t("helpers.actions") %></th><% } %>
+      <% if can? :edit, CriminalCode %><th><%=t '.actions', :default => t("helpers.actions") %></th><% end %>
     </tr>
   </thead>
   <tbody>
@@ -28,21 +28,21 @@
         <td><%= link_to criminal_code.id, criminal_code_path(criminal_code) %></td>
         <td><%= link_to criminal_code.name, criminal_code_path(criminal_code) %></td>
         <td><%=l criminal_code.created_at %></td>
-          <% if_can_edit_or_destroy?(criminal_code) { %>
-        <td>
-          <%= if can? :edit, criminal_code
-              link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_criminal_code_path(criminal_code), :class => 'btn btn-default btn-xs'
-          end %>
-          <%= if can? :destroy, criminal_code
-                link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      criminal_code_path(criminal_code),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-xs btn-danger'
-          end %>
-        </td>
-          <% } %>
+        <% if (can? :edit, criminal_code) || (can? :destroy, criminal_code) %>
+          <td>
+            <%= if can? :edit, criminal_code
+                link_to t('.edit', :default => t("helpers.links.edit")),
+                        edit_criminal_code_path(criminal_code), :class => 'btn btn-default btn-xs'
+            end %>
+            <%= if can? :destroy, criminal_code
+                  link_to t('.destroy', :default => t("helpers.links.destroy")),
+                        criminal_code_path(criminal_code),
+                        :method => :delete,
+                        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                        :class => 'btn btn-xs btn-danger'
+            end %>
+          </td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

@@ -10,7 +10,10 @@
   %>
 </div>
 
-<table class="table table-striped">
+<%-
+  datatable_class = if_can_edit_or_destroy?(CriminalCode) ? 'datatable-admin' : 'datatable'
+-%>
+<table class="table table-striped <%= datatable_class %>">
   <thead>
     <tr>
       <th><%= model_class.human_attribute_name(:id) %></th>

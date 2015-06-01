@@ -4,6 +4,7 @@ class PrisonersController < ApplicationController
   load_and_authorize_resource
 
   before_action :set_prisoner, only: [:show, :edit, :update, :destroy]
+  before_action :set_form_collections, only: [:new, :edit]
   before_action :set_gon_variables
 
   # GET /prisoners
@@ -97,6 +98,10 @@ class PrisonersController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_prisoner
     @prisoner = Prisoner.find(params[:id])
+  end
+
+  def set_form_collections
+    @tags = Tag.all.order(:name)
   end
 
   def set_gon_variables

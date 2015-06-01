@@ -91,3 +91,59 @@ a.btn-success, a.btn-success:visited, a.btn-warning, a.btn-warning:visited,
 a.btn-danger, a.btn-danger:visited, a.btn-inverse, a.btn-inverse:visited {
   color: #fff;
 }
+
+
+
+
+/* Sticky footer styles
+from: http://getbootstrap.com/examples/sticky-footer-navbar/
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 41px;
+}
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 41px;
+  background-color: #D4D4D4;
+}
+
+/* footer styles */
+footer {
+  padding: 7px 20px 0;
+  font-size: 10pt;
+  color: #4f4f4f;
+
+  div#left {
+    margin: 0 !important;
+    float: left;
+    width: 30%;
+    margin-top: 20px;
+    padding-top: 3px;
+  }
+  a:hover {
+    background-color: transparent;
+  }
+
+  div#middle {
+    margin: 0;
+    font-size: 12px;
+    width: 38%;
+    text-align: center;
+    float: left;
+  }
+
+  div#right {
+    margin: 0 !important;
+    float: right;
+    width: 30%;
+    text-align: right;
+  }
+}

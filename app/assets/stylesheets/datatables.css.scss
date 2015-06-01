@@ -1,0 +1,31 @@
+/* datatable styles */
+.dataTables_wrapper {
+  .dataTables_filter {
+    float: left;
+    text-align: left;
+    label{
+      float: left;
+    }
+  }
+  .dataTables_info{
+    clear: none;
+    float: none;
+    text-align: center;
+  }
+  .dataTables_length{
+    float: right;
+    select{
+      width: auto !important;
+    }
+  }
+  .dataTables_paginate .paginate_button{
+    padding: 0.5em 0;
+  }
+
+  /* for some reason datatables is trying insert content and also use arrows - this removes the bad content so arrows can be used */
+  table thead {
+    .sorting:after, .sorting_asc:after, .sorting_desc:after{
+      content: " ";
+    }
+  }
+}

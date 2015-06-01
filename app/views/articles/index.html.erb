@@ -11,7 +11,10 @@
   <%= link_to "#{model_class.model_name.human.pluralize.titleize} CSV Download", articles_path(format: :csv), class: 'btn btn-default' %>
 </div>
 
-<table class="table table-striped">
+<%-
+  datatable_class = if_can_edit_or_destroy?(Article) ? 'datatable-admin' : 'datatable'
+-%>
+<table class="table table-striped <%= datatable_class %>">
   <thead>
     <tr>
       <th><%= model_class.human_attribute_name(:id) %></th>

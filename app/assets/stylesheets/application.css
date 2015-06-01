@@ -16,6 +16,8 @@
  *= require formtastic-bootstrap
  *= require bootstrap_and_overrides
  *= require my_formtastic_changes
+ *= require dataTables/jquery.dataTables
+ *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
  *= require_tree .
  *= require_self
  */

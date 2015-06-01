@@ -6,7 +6,7 @@ class CriminalCodesController < ApplicationController
   # GET /criminal_codes
   # GET /criminal_codes.json
   def index
-    @criminal_codes = CriminalCode.all
+    @criminal_codes = CriminalCode.all.order(:name)
   end
 
   # GET /criminal_codes/1

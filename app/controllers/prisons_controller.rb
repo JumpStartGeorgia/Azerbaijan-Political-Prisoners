@@ -8,7 +8,7 @@ class PrisonsController < ApplicationController
   # GET /prisons
   # GET /prisons.json
   def index
-    @prisons = Prison.all
+    @prisons = Prison.all.order(:name)
 
     respond_to do |format|
       format.html

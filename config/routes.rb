@@ -28,6 +28,7 @@ Rails.application.routes.draw do
 
     resources :users, constraints: { format: :html }
 
+    get '/about', to: 'root#about'
     get '/csv_zip', to: 'root#to_csv_zip', constraints: { format: :csv }, defaults: { format: :csv }
 
     # The priority is based upon order of creation: first created -> highest priority.

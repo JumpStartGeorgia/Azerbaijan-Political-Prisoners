@@ -3,6 +3,10 @@ class RootController < ApplicationController
     @currently_imprisoned_count = Prisoner.currently_imprisoned_count
   end
 
+  def about
+
+  end
+
   def to_csv_zip
     csv_zip = Dir.glob(Rails.root.join('public', 'system', 'csv', 'political_prisoner_data_*.zip'))[0]
     unless csv_zip

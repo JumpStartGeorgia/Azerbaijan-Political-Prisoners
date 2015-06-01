@@ -19,7 +19,7 @@
 //= require jquery-ui
 //= require cocoon
 //= require tinymce
-//= require select2.min
+//= require select2
 //= require highcharts
 //= require bootstrap
 //= require_tree .

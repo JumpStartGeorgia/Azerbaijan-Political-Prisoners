@@ -38,6 +38,7 @@
   <!-- Size should be 32 x 32 pixels -->
   <!--favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'-->
 
+  <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
 </head>
 <body class="<%= controller_name %> <%= action_name %>">
     <%= include_gon %>
@@ -127,9 +128,5 @@
             :title => t('app.common.js_link_title') ) %>
       </div>
     </footer>
-
-
-    <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
-
   </body>
 </html>

@@ -13,7 +13,7 @@
 </div>
 
 <%-
-  datatable_class = if_can_edit_or_destroy?(Prisoner) ? 'datatable-admin' : 'datatable'
+  datatable_class = can? :edit, Prisoner ? 'datatable-admin' : 'datatable'
 -%>
 <table class="table table-striped <%= datatable_class %>">
   <thead>
@@ -23,7 +23,7 @@
       <th><%= model_class.human_attribute_name(:currently_imprisoned) %></th>
       <th>Total Days in Prison</th>
       <th><%= model_class.human_attribute_name(:created_at) %></th>
-      <% if_can_edit_or_destroy?(Prisoner) { %><th><%=t '.actions', :default => t("helpers.actions") %></th><% } %>
+      <% if can? :edit, Prisoner %><th><%=t '.actions', :default => t("helpers.actions") %></th><% end %>
     </tr>
   </thead>
   <tbody>
@@ -36,7 +36,7 @@
           <%= prisoner.total_days_in_prison %>
         </td>
         <td><%= prisoner.created_at %></td>
-        <% if_can_edit_or_destroy?(prisoner) { %>
+        <% if (can? :edit, prisoner) || (can? :destroy, prisoner) %>
           <td>
             <%= if can? :edit, prisoner
                   link_to t('.edit', :default => t("helpers.links.edit")),
@@ -50,7 +50,7 @@
                         :class => 'btn btn-xs btn-danger'
             end %>
           </td>
-        <% } %>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

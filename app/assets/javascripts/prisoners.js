@@ -5,12 +5,12 @@
 var addSelect2 = function() {
     $('select.charges_select').select2({
         placeholder: 'Select Charges',
-        width: '110px'
+        width: '400px'
     });
 
     $('select.tags_select').select2({
         placeholder: 'Select Tags',
-        width: '300px'
+        width: '400px'
     });
 }
 

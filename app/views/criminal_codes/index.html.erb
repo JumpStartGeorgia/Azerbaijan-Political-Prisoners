@@ -16,18 +16,14 @@
 <table class="table table-striped <%= datatable_class %>">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:name) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
       <% if can? :edit, CriminalCode %><th><%=t '.actions', :default => t("helpers.actions") %></th><% end %>
     </tr>
   </thead>
   <tbody>
     <% @criminal_codes.each do |criminal_code| %>
       <tr>
-        <td><%= link_to criminal_code.id, criminal_code_path(criminal_code) %></td>
         <td><%= link_to criminal_code.name, criminal_code_path(criminal_code) %></td>
-        <td><%=l criminal_code.created_at %></td>
         <% if (can? :edit, criminal_code) || (can? :destroy, criminal_code) %>
           <td>
             <%= if can? :edit, criminal_code

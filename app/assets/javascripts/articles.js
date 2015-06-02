@@ -32,7 +32,9 @@ var article_incident_counts_chart = function() {
                         formatter: function() {
                             return '<a href="' + this.value.link + '">' + this.value.number + '</a>';
                         },
-                        useHTML: true
+                        useHTML: true,
+                        step: 1,
+                        style: { 'textAlign': 'right' }
                     }
                 },
                 tooltip: {

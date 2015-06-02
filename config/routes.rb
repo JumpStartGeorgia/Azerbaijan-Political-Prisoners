@@ -28,13 +28,13 @@ Rails.application.routes.draw do
 
     resources :users, constraints: { format: :html }
 
+    # root paths
     get '/about', to: 'root#about'
+    get '/methodology', to: 'root#methodology'
     get '/csv_zip', to: 'root#to_csv_zip', constraints: { format: :csv }, defaults: { format: :csv }
 
-    # The priority is based upon order of creation: first created -> highest priority.
-    # See how all your routes lay out with "rake routes".
 
-    # You can have the root of your site routed with "root"
+    # home page
     root 'root#index'
 
     get '*path', to: redirect("/#{I18n.default_locale}") # handles /en/fake/path/whatever

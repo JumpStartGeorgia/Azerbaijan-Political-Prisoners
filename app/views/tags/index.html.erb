@@ -24,9 +24,7 @@
   <tbody>
     <% @tags.each do |tag| %>
       <tr>
-        <td><%= link_to tag.id, tag_path(tag) %></td>
         <td><%= link_to tag.name, tag_path(tag) %></td>
-        <td><%=l tag.created_at %></td>
         <% if (can? :edit, tag) || (can? :destroy, tag) %>
           <td>
             <%= if can? :edit, tag

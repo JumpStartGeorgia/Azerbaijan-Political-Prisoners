@@ -2,7 +2,7 @@
   <%= f.semantic_errors *f.object.errors.keys %>
   <%= f.inputs do %>
     <%= f.input :number %>
-    <%= f.input :criminal_code, label: 'Criminal Code', hint: ('If the criminal code does not yet exist in the dropdown, <b>' + link_to('create it here', new_criminal_code_path) + '.</b>').html_safe %>
+    <%= f.input :criminal_code, label: 'Criminal Code', hint: ('If the criminal code does not yet exist in the dropdown, <b>' + link_to('create it here', new_criminal_code_path, target: '_blank') + '.</b>').html_safe %>
     <%= f.input :description, input_html: { class: 'tinymce' } %>
   <% end %>
   <%= f.actions do %>

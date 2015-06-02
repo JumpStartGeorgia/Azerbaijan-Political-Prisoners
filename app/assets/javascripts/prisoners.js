@@ -56,7 +56,7 @@ var imprisoned_count_timeline = function() {
                         }
                     },
                     title: {
-                        text: 'Number of Political Prisoners in Azerbaijan from 2007 through Today - <strong>DATA INCOMPLETE<sup>*</sup></strong>',
+                        text: 'Political Prisoners in Azerbaijan from 2012 through Today - <strong>DATA INCOMPLETE<sup>*</sup></strong>',
                         useHTML: true
                     },
                     subtitle: {

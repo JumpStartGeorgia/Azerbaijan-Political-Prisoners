@@ -15,7 +15,7 @@ var article_incident_counts_chart = function() {
                     type: 'bar'
                 },
                 title: {
-                    text: 'The Ten Charges Used Most Often to Sentence Political Prisoners'
+                    text: 'Ten Charges Used Most Often to Sentence Political Prisoners'
                 },
                 yAxis: {
                     title: {

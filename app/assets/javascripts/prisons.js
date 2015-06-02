@@ -15,7 +15,7 @@ var prison_prisoner_counts_chart = function() {
                     type: 'bar'
                 },
                 title: {
-                    text: 'Number of Prisoners by Prison'
+                    text: 'Ten Prisons with the Most Political Prisoners'
                 },
                 yAxis: {
                     title: {

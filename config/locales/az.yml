@@ -41,7 +41,7 @@ az:
       en: English
       az: Azərbaycan
     common:
-      app_name: Azeri Political Prisoners
+      app_name: Azerbaijani Political Prisoners
       added_on: "Added on: %{date}"
       jumpstart: JumpStart Georgia
       js_link_title: JumpStart Georgia - We communicate data better!

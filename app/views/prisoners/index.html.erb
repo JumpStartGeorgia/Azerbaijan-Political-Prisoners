@@ -18,24 +18,20 @@
 <table class="table table-striped <%= datatable_class %>">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:name) %></th>
       <th><%= model_class.human_attribute_name(:currently_imprisoned) %></th>
       <th>Total Days in Prison</th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
       <% if can? :edit, Prisoner %><th><%=t '.actions', :default => t("helpers.actions") %></th><% end %>
     </tr>
   </thead>
   <tbody>
     <% @prisoners.each do |prisoner| %>
       <tr>
-        <td><%= link_to prisoner.id, prisoner_path(prisoner) %></td>
         <td><%= link_to prisoner.name, prisoner_path(prisoner) %></td>
         <td><% if prisoner.currently_imprisoned %>Yes<% elsif prisoner.currently_imprisoned == false %>No<% end %></td>
         <td>
           <%= prisoner.total_days_in_prison %>
         </td>
-        <td><%= prisoner.created_at %></td>
         <% if (can? :edit, prisoner) || (can? :destroy, prisoner) %>
           <td>
             <%= if can? :edit, prisoner

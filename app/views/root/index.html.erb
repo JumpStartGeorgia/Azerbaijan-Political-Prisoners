@@ -1,6 +1,23 @@
 <% page_title 'Political Prisoners in Azerbaijan' %>
 <p>Number of people <strong>currently</strong> imprisoned in Azerbaijan for political purposes: <%= @currently_imprisoned_count %></p>
 
+<div class="row">
+  <div class="col-sm-4">
+    <div class="main-link">
+      <a href="<%= methodology_path %>">What is a political prisoner?</a>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="main-link">
+      <a type="button" href="<%= prisoners_path %>">Explore Azerbaijani Political Prisoners</a>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="main-link">
+      <a type="button" href="<%= csv_zip_path %>">Download Latest Data</a>
+    </div>
+  </div>
+</div>
 <div id="imprisoned-count-timeline" style="width:100%; height:400px;"></div>
 <p id="data-incomplete-warning-timeline" class="data-incomplete-warning">*The data for this timeline is currently incomplete and in the process of being updated.</p>
 <div class="row">

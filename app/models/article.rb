@@ -17,7 +17,7 @@ class Article < ActiveRecord::Base
     end
   end
 
-  def self.incident_counts_ordered(limit)
+  def self.incident_counts_ordered(limit=nil)
     primary_sql = 'select articles.id as article_id, articles.number as article_number, criminal_codes.name as criminal_code_name, count(*) as incident_count from incidents inner join charges on incidents.id = charges.incident_id inner join articles on charges.article_id = articles.id inner join criminal_codes on articles.criminal_code_id = criminal_codes.id group by articles.number order by count(*) desc'
     if limit.nil?
       return find_by_sql(primary_sql)
@@ -29,7 +29,7 @@ class Article < ActiveRecord::Base
   def self.article_incident_counts_chart
     article_info = []
 
-    Article.incident_counts_ordered(10).each do |article|
+    Article.incident_counts_ordered.each do |article|
       article_info.append(y: article[:incident_count],
                           number: article[:article_number],
                           link: "/articles/#{article[:article_id]}",

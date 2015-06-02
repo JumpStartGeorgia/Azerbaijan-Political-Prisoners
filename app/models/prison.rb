@@ -27,7 +27,7 @@ class Prison < ActiveRecord::Base
   def self.prison_prisoner_count_chart
     prison_names_links_counts = []
 
-    prison_names_prisoner_counts.each do |prison_name_prisoner_count|
+    prison_names_prisoner_counts(10).each do |prison_name_prisoner_count|
       prison_names_links_counts.append(y: prison_name_prisoner_count[:prisoner_count],
                                        name: prison_name_prisoner_count[:prison_name],
                                        link: "/prisons/#{prison_name_prisoner_count[:prison_id]}")
@@ -36,7 +36,9 @@ class Prison < ActiveRecord::Base
     prison_names_links_counts
   end
 
-  def self.prison_names_prisoner_counts
-    find_by_sql('select prisons.id as prison_id, prisons.name as prison_name, count(*) as prisoner_count from incidents inner join prisons on incidents.prison_id = prisons.id group by prisons.name order by count(*) desc')
+  def self.prison_names_prisoner_counts(limit=nil)
+    primary_sql = 'select prisons.id as prison_id, prisons.name as prison_name, count(*) as prisoner_count from incidents inner join prisons on incidents.prison_id = prisons.id group by prisons.name order by count(*) desc'
+
+    limit.nil? ? find_by_sql(primary_sql) : find_by_sql(primary_sql + ' limit ' + limit.to_s)
   end
 end

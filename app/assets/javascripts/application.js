@@ -15,12 +15,11 @@
 //= require jquery_ujs
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
-//= require dataTables/jquery.dataTables
 //= require turbolinks
 //= require jquery-ui
 //= require cocoon
 //= require tinymce
-//= require select2.min
+//= require select2
 //= require highcharts
 //= require bootstrap
 //= require_tree .

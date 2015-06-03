@@ -9,9 +9,23 @@
     </div>
   </div>
   <div class="col-sm-6">
-    <div id="featured-prisoner">
-      <%= @featured_prisoner.name %>
-    </div>
+    <a href="<%= prisoner_path(@featured_prisoner) %>">
+      <div id="featured-prisoner">
+        <p>
+          Meet: <%= @featured_prisoner.name %>
+        </p>
+        <%= image_tag(@featured_prisoner.portrait.url(:medium)) %>
+        <p>
+          Categories: <%= @featured_prisoner_inc.tags.map{ |tag| tag.name }.join(', ') %>
+        </p>
+        <p>
+          In prison since: <%= @featured_prisoner_inc.date_of_arrest %>
+        </p>
+        <p>
+          Charged under articles: <%= @featured_prisoner_inc.articles.map{ |art| art.number }.join(', ')%>
+        </p>
+      </div>
+    </a>
   </div>
 </div>
 <div class="row">

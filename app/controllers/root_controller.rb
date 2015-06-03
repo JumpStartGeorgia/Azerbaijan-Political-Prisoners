@@ -4,11 +4,12 @@ class RootController < ApplicationController
   end
 
   def about
-
   end
 
   def methodology
+  end
 
+  def disclaimer
   end
 
   def to_csv_zip

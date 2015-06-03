@@ -31,6 +31,7 @@ Rails.application.routes.draw do
     # root paths
     get '/about', to: 'root#about'
     get '/methodology', to: 'root#methodology'
+    get '/disclaimer', to: 'root#disclaimer'
     get '/csv_zip', to: 'root#to_csv_zip', constraints: { format: :csv }, defaults: { format: :csv }
 
 

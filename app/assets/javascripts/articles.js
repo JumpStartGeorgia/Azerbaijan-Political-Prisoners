@@ -15,7 +15,7 @@ var article_incident_counts_chart = function() {
                     type: 'bar'
                 },
                 title: {
-                    text: 'Most Common Charges Against Political Prisoners'
+                    text: 'What are the charges?'
                 },
                 yAxis: {
                     title: {

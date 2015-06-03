@@ -1,5 +1,6 @@
 class RootController < ApplicationController
   def index
+    @featured_prisoner = Prisoner.offset(rand(Prisoner.count)).first
     @currently_imprisoned_count = Prisoner.currently_imprisoned_count
   end
 

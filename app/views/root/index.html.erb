@@ -16,13 +16,16 @@
         </p>
         <%= image_tag(@featured_prisoner.portrait.url(:medium)) %>
         <p>
-          Categories: <%= @featured_prisoner_inc.tags.map{ |tag| tag.name }.join(', ') %>
-        </p>
-        <p>
           In prison since: <%= @featured_prisoner_inc.date_of_arrest %>
         </p>
         <p>
+          Imprisoned at: <%= @featured_prisoner_inc.prison.name %>
+        </p>
+        <p>
           Charged under articles: <%= @featured_prisoner_inc.articles.map{ |art| art.number }.join(', ')%>
+        </p>
+        <p>
+          Categories: <%= @featured_prisoner_inc.tags.map{ |tag| tag.name }.join(', ') %>
         </p>
       </div>
     </a>

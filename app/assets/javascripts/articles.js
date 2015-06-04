@@ -17,6 +17,10 @@ var article_incident_counts_chart = function() {
                 title: {
                     text: 'What are the charges?'
                 },
+                subtitle: {
+                    text: '<a href="' + gon.articles_path + '">Click here to explore charges</a>',
+                    useHTML: true
+                },
                 yAxis: {
                     title: {
                         text: 'Number of Sentences'

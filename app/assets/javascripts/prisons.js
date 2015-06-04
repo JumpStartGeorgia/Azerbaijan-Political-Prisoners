@@ -17,6 +17,10 @@ var prison_prisoner_counts_chart = function() {
                 title: {
                     text: 'Where are the prisoners being held?'
                 },
+                subtitle: {
+                    text: '<a href="' + gon.prisons_path + '">Click here to explore prisons</a>',
+                    useHTML: true
+                },
                 yAxis: {
                     title: {
                         text: 'Number of Prisoners'

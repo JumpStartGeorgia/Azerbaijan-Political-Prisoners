@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
   cache_sweeper :generated_sweeper
 
   before_action :set_locale
-  before_action :initialize_gon
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
@@ -13,12 +12,6 @@ class ApplicationController < ActionController::Base
 
   def default_url_options(options = {})
     { locale: I18n.locale }.merge options
-  end
-
-  def initialize_gon
-    gon.imprisoned_count_timeline_prisoners_path = imprisoned_count_timeline_prisoners_path
-    gon.article_incident_counts_articles_path = article_incident_counts_articles_path    
-    gon.prison_prisoner_counts_prisons_path = prison_prisoner_counts_prisons_path
   end
 
   def fileTimeStamp

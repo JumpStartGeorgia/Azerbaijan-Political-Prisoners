@@ -60,9 +60,8 @@ var imprisoned_count_timeline = function() {
                         useHTML: true
                     },
                     subtitle: {
-                        text: document.ontouchstart === undefined ?
-                            'Click and drag in the plot area to zoom in' :
-                            'Pinch the chart to zoom in'
+                        text: '<a href="' + gon.prisoners_path + '">Click here to explore prisoners</a>',
+                        useHTML: true
                     },
                     xAxis: {
                         type: 'datetime',

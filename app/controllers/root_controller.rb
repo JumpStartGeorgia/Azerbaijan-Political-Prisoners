@@ -1,5 +1,12 @@
 class RootController < ApplicationController
   def index
+    gon.imprisoned_count_timeline_prisoners_path = imprisoned_count_timeline_prisoners_path
+    gon.article_incident_counts_articles_path = article_incident_counts_articles_path
+    gon.prison_prisoner_counts_prisons_path = prison_prisoner_counts_prisons_path
+    gon.prisoners_path = prisoners_path
+    gon.articles_path = articles_path
+    gon.prisons_path = prisons_path
+
     @featured_prisoner = Prisoner.offset(rand(Prisoner.count)).first
     @featured_prisoner_inc = @featured_prisoner.incidents.last
     @currently_imprisoned_count = Prisoner.currently_imprisoned_count

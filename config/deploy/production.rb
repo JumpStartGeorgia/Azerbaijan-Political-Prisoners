@@ -1,5 +1,5 @@
 set :domain, 'prisoners.watch'
 set :user, 'prisoners'
-set :application, 'Azeri-Prisoners'
+set :application, 'Prisoners'
 set :repository, 'git@github.com:JumpStartGeorgia/Azerbaijan-Political-Prisoners.git'
 set :web_url, 'prisoners.watch'

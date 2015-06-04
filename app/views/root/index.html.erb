@@ -19,12 +19,12 @@
           </p>
           <% unless @featured_prisoner_inc.prison.blank? %>
             <p>
-              Imprisoned at: <%= @featured_prisoner_inc.prison.name %>
+              Imprisoned at: <a href="<%= prison_path(@featured_prisoner_inc.prison) %>"><%= @featured_prisoner_inc.prison.name %></a>
             </p>
           <% end %>
           <% unless @featured_prisoner_inc.articles.blank? %>
             <p>
-              Charged under articles: <%= @featured_prisoner_inc.articles.map{ |art| art.number }.join(', ') %>
+              Charged under articles: <%= @featured_prisoner_inc.articles.map{ |art| link_to art.number, article_path(art) }.join(', ').html_safe %>
             </p>
           <% end %>
         </div>

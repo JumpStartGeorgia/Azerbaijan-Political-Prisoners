@@ -11,118 +11,120 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_150_226_085_730) do
-  create_table 'articles', force: true do |t|
-    t.string 'number'
-    t.integer 'criminal_code_id'
-    t.text 'description'
-    t.datetime 'created_at'
-    t.datetime 'updated_at'
+ActiveRecord::Schema.define(version: 20150604122100) do
+
+  create_table "articles", force: :cascade do |t|
+    t.string   "number",           limit: 255
+    t.integer  "criminal_code_id", limit: 4
+    t.text     "description",      limit: 65535
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  add_index 'articles', ['criminal_code_id'], name: 'index_articles_on_criminal_code_id', using: :btree
-  add_index 'articles', ['number'], name: 'index_articles_on_number', using: :btree
+  add_index "articles", ["criminal_code_id"], name: "index_articles_on_criminal_code_id", using: :btree
+  add_index "articles", ["number"], name: "index_articles_on_number", using: :btree
 
-  create_table 'charges', force: true do |t|
-    t.integer 'incident_id'
-    t.integer 'article_id'
-    t.datetime 'created_at'
-    t.datetime 'updated_at'
+  create_table "charges", force: :cascade do |t|
+    t.integer  "incident_id", limit: 4
+    t.integer  "article_id",  limit: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  add_index 'charges', ['article_id'], name: 'index_charges_on_article_id', using: :btree
-  add_index 'charges', ['incident_id'], name: 'index_charges_on_incident_id', using: :btree
+  add_index "charges", ["article_id"], name: "index_charges_on_article_id", using: :btree
+  add_index "charges", ["incident_id"], name: "index_charges_on_incident_id", using: :btree
 
-  create_table 'criminal_codes', force: true do |t|
-    t.string 'name'
-    t.datetime 'created_at'
-    t.datetime 'updated_at'
+  create_table "criminal_codes", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table 'incidents', force: true do |t|
-    t.integer 'prisoner_id'
-    t.date 'date_of_arrest'
-    t.text 'description_of_arrest'
-    t.integer 'prison_id'
-    t.integer 'type_id'
-    t.integer 'subtype_id'
-    t.date 'date_of_release'
-    t.text 'description_of_release'
-    t.datetime 'created_at'
-    t.datetime 'updated_at'
+  create_table "incidents", force: :cascade do |t|
+    t.integer  "prisoner_id",            limit: 4
+    t.date     "date_of_arrest"
+    t.text     "description_of_arrest",  limit: 65535
+    t.integer  "prison_id",              limit: 4
+    t.integer  "type_id",                limit: 4
+    t.integer  "subtype_id",             limit: 4
+    t.date     "date_of_release"
+    t.text     "description_of_release", limit: 65535
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  add_index 'incidents', ['date_of_arrest'], name: 'index_incidents_on_date_of_arrest', using: :btree
-  add_index 'incidents', ['date_of_release'], name: 'index_incidents_on_date_of_release', using: :btree
-  add_index 'incidents', ['prison_id'], name: 'index_incidents_on_prison_id', using: :btree
-  add_index 'incidents', ['prisoner_id'], name: 'index_incidents_on_prisoner_id', using: :btree
-  add_index 'incidents', ['subtype_id'], name: 'index_incidents_on_subtype_id', using: :btree
-  add_index 'incidents', ['type_id'], name: 'index_incidents_on_type_id', using: :btree
+  add_index "incidents", ["date_of_arrest"], name: "index_incidents_on_date_of_arrest", using: :btree
+  add_index "incidents", ["date_of_release"], name: "index_incidents_on_date_of_release", using: :btree
+  add_index "incidents", ["prison_id"], name: "index_incidents_on_prison_id", using: :btree
+  add_index "incidents", ["prisoner_id"], name: "index_incidents_on_prisoner_id", using: :btree
+  add_index "incidents", ["subtype_id"], name: "index_incidents_on_subtype_id", using: :btree
+  add_index "incidents", ["type_id"], name: "index_incidents_on_type_id", using: :btree
 
-  create_table 'incidents_tags', id: false, force: true do |t|
-    t.integer 'incident_id'
-    t.integer 'tag_id'
+  create_table "incidents_tags", id: false, force: :cascade do |t|
+    t.integer "incident_id", limit: 4
+    t.integer "tag_id",      limit: 4
   end
 
-  add_index 'incidents_tags', ['incident_id'], name: 'index_incidents_tags_on_incident_id', using: :btree
-  add_index 'incidents_tags', ['tag_id'], name: 'index_incidents_tags_on_tag_id', using: :btree
+  add_index "incidents_tags", ["incident_id"], name: "index_incidents_tags_on_incident_id", using: :btree
+  add_index "incidents_tags", ["tag_id"], name: "index_incidents_tags_on_tag_id", using: :btree
 
-  create_table 'prisoners', force: true do |t|
-    t.string 'name'
-    t.datetime 'created_at'
-    t.datetime 'updated_at'
-    t.string 'portrait_file_name'
-    t.string 'portrait_content_type'
-    t.integer 'portrait_file_size'
-    t.datetime 'portrait_updated_at'
-    t.boolean 'currently_imprisoned'
+  create_table "prisoners", force: :cascade do |t|
+    t.string   "name",                  limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "portrait_file_name",    limit: 255
+    t.string   "portrait_content_type", limit: 255
+    t.integer  "portrait_file_size",    limit: 4
+    t.datetime "portrait_updated_at"
+    t.boolean  "currently_imprisoned",  limit: 1
   end
 
-  add_index 'prisoners', ['name'], name: 'index_prisoners_on_name', using: :btree
+  add_index "prisoners", ["name"], name: "index_prisoners_on_name", using: :btree
 
-  create_table 'prisons', force: true do |t|
-    t.string 'name'
-    t.datetime 'created_at'
-    t.datetime 'updated_at'
-    t.text 'description'
+  create_table "prisons", force: :cascade do |t|
+    t.string   "name",        limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "description", limit: 65535
   end
 
-  add_index 'prisons', ['name'], name: 'index_prisons_on_name', using: :btree
+  add_index "prisons", ["name"], name: "index_prisons_on_name", using: :btree
 
-  create_table 'roles', force: true do |t|
-    t.string 'name'
-    t.datetime 'created_at'
-    t.datetime 'updated_at'
+  create_table "roles", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  add_index 'roles', ['name'], name: 'index_roles_on_name', using: :btree
+  add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
 
-  create_table 'tags', force: true do |t|
-    t.string 'name'
-    t.text 'description'
-    t.datetime 'created_at'
-    t.datetime 'updated_at'
+  create_table "tags", force: :cascade do |t|
+    t.string   "name",        limit: 255
+    t.text     "description", limit: 65535
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  add_index 'tags', ['name'], name: 'index_tags_on_name', using: :btree
+  add_index "tags", ["name"], name: "index_tags_on_name", using: :btree
 
-  create_table 'users', force: true do |t|
-    t.string 'email',                  default: '', null: false
-    t.string 'encrypted_password',     default: '', null: false
-    t.string 'reset_password_token'
-    t.datetime 'reset_password_sent_at'
-    t.datetime 'remember_created_at'
-    t.integer 'sign_in_count',          default: 0,  null: false
-    t.datetime 'current_sign_in_at'
-    t.datetime 'last_sign_in_at'
-    t.string 'current_sign_in_ip'
-    t.string 'last_sign_in_ip'
-    t.datetime 'created_at'
-    t.datetime 'updated_at'
-    t.integer 'role_id'
+  create_table "users", force: :cascade do |t|
+    t.string   "email",                  limit: 255, default: "", null: false
+    t.string   "encrypted_password",     limit: 255, default: "", null: false
+    t.string   "reset_password_token",   limit: 255
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          limit: 4,   default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip",     limit: 255
+    t.string   "last_sign_in_ip",        limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "role_id",                limit: 4
   end
 
-  add_index 'users', ['email'], name: 'index_users_on_email', unique: true, using: :btree
-  add_index 'users', ['reset_password_token'], name: 'index_users_on_reset_password_token', unique: true, using: :btree
-  add_index 'users', ['role_id'], name: 'index_users_on_role_id', using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["role_id"], name: "index_users_on_role_id", using: :btree
+
 end

@@ -13,7 +13,7 @@
           <%= link_to('Meet: ' + @featured_prisoner.name, prisoner_path(@featured_prisoner)) %>
         </h2>
 
-        <%= link_to image_tag(@featured_prisoner.portrait.url(:medium), height: '150px'), prisoner_path(@featured_prisoner) %>
+        <%= link_to image_tag(@featured_prisoner.portrait.url(:thumb)), prisoner_path(@featured_prisoner) %>
 
         <p>
           In prison since: <%= l @featured_prisoner_inc.date_of_arrest, format: :long %>
@@ -33,7 +33,7 @@
 
         <% if @featured_prisoner_inc.description_of_arrest.present? %>
           <div id="featured-description">
-            <%= simple_format(strip_tags(truncate(@featured_prisoner_inc.description_of_arrest, separator: ' ', length: 300))) %>
+            <%= simple_format(truncate(strip_tags(@featured_prisoner_inc.description_of_arrest), separator: ' ', length: 300)) %>
           </div>
         <% end %>
       </div>

@@ -10,22 +10,24 @@
   <div class="col-sm-6">
     <a href="<%= prisoner_path(@featured_prisoner) %>">
       <div id="featured-prisoner">
-        <p>
+        <p id="featured-name">
           Meet: <%= @featured_prisoner.name %>
         </p>
-        <%= image_tag(@featured_prisoner.portrait.url(:medium)) %>
-        <p>
-          In prison since: <%= @featured_prisoner_inc.date_of_arrest %>
-        </p>
-        <p>
-          Imprisoned at: <%= @featured_prisoner_inc.prison.name %>
-        </p>
-        <p>
-          Charged under articles: <%= @featured_prisoner_inc.articles.map{ |art| art.number }.join(', ')%>
-        </p>
-        <p>
-          Categories: <%= @featured_prisoner_inc.tags.map{ |tag| tag.name }.join(', ') %>
-        </p>
+        <%= image_tag(@featured_prisoner.portrait.url(:medium), ) %>
+        <div id="featured-info">
+          <p>
+            In prison since: <%= @featured_prisoner_inc.date_of_arrest %>
+          </p>
+          <p>
+            Imprisoned at: <%= @featured_prisoner_inc.prison.name %>
+          </p>
+          <p>
+            Charged under articles: <%= @featured_prisoner_inc.articles.map{ |art| art.number }.join(', ')%>
+          </p>
+        </div>
+        <div id="featured-description">
+          <%= @featured_prisoner_inc.description_of_arrest %>
+        </div>
       </div>
     </a>
   </div>
@@ -42,8 +44,8 @@
     </a>
   </div>
   <div class="col-sm-4 main-link">
-    <a class="btn btn-success" type="button" href="<%= csv_zip_path %>">
-      <span>Download Latest Data</span>
+    <a class="btn btn-success" type="button" href="<%= articles_path %>">
+      <span>See the Charges</span>
     </a>
   </div>
 </div>

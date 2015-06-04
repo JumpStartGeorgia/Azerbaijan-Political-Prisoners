@@ -8,12 +8,11 @@
     </div>
   </div>
   <div class="col-sm-6">
-    <a href="<%= prisoner_path(@featured_prisoner) %>">
       <div id="featured-prisoner">
         <p id="featured-name">
-          Meet: <%= @featured_prisoner.name %>
+          <a href="<%= prisoner_path(@featured_prisoner) %>">Meet: <%= @featured_prisoner.name %></a>
         </p>
-        <%= image_tag(@featured_prisoner.portrait.url(:medium), ) %>
+        <a href="<%= prisoner_path(@featured_prisoner) %>"><%= image_tag(@featured_prisoner.portrait.url(:medium), ) %></a>
         <div id="featured-info">
           <p>
             In prison since: <%= @featured_prisoner_inc.date_of_arrest %>
@@ -31,11 +30,10 @@
         </div>
         <% unless @featured_prisoner_inc.description_of_arrest.blank? %>
           <div id="featured-description">
-            <%= @featured_prisoner_inc.description_of_arrest %>
+            <a href="<%= prisoner_path(@featured_prisoner) %>"><%= @featured_prisoner_inc.description_of_arrest %></a>
           </div>
         <% end %>
       </div>
-    </a>
   </div>
 </div>
 <div class="row">

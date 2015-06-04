@@ -8,26 +8,32 @@
     </div>
   </div>
   <div class="col-sm-6">
-    <a href="<%= prisoner_path(@featured_prisoner) %>">
       <div id="featured-prisoner">
-        <p>
-          Meet: <%= @featured_prisoner.name %>
+        <p id="featured-name">
+          <a href="<%= prisoner_path(@featured_prisoner) %>">Meet: <%= @featured_prisoner.name %></a>
         </p>
-        <%= image_tag(@featured_prisoner.portrait.url(:medium)) %>
-        <p>
-          In prison since: <%= @featured_prisoner_inc.date_of_arrest %>
-        </p>
-        <p>
-          Imprisoned at: <%= @featured_prisoner_inc.prison.name %>
-        </p>
-        <p>
-          Charged under articles: <%= @featured_prisoner_inc.articles.map{ |art| art.number }.join(', ')%>
-        </p>
-        <p>
-          Categories: <%= @featured_prisoner_inc.tags.map{ |tag| tag.name }.join(', ') %>
-        </p>
+        <a href="<%= prisoner_path(@featured_prisoner) %>"><%= image_tag(@featured_prisoner.portrait.url(:medium), ) %></a>
+        <div id="featured-info">
+          <p>
+            In prison since: <%= @featured_prisoner_inc.date_of_arrest %>
+          </p>
+          <% unless @featured_prisoner_inc.prison.blank? %>
+            <p>
+              Imprisoned at: <a href="<%= prison_path(@featured_prisoner_inc.prison) %>"><%= @featured_prisoner_inc.prison.name %></a>
+            </p>
+          <% end %>
+          <% unless @featured_prisoner_inc.articles.blank? %>
+            <p>
+              Charged under articles: <%= @featured_prisoner_inc.articles.map{ |art| link_to art.number, article_path(art) }.join(', ').html_safe %>
+            </p>
+          <% end %>
+        </div>
+        <% unless @featured_prisoner_inc.description_of_arrest.blank? %>
+          <div id="featured-description">
+            <a href="<%= prisoner_path(@featured_prisoner) %>"><%= @featured_prisoner_inc.description_of_arrest %></a>
+          </div>
+        <% end %>
       </div>
-    </a>
   </div>
 </div>
 <div class="row">
@@ -42,8 +48,8 @@
     </a>
   </div>
   <div class="col-sm-4 main-link">
-    <a class="btn btn-success" type="button" href="<%= csv_zip_path %>">
-      <span>Download Latest Data</span>
+    <a class="btn btn-success" type="button" href="<%= articles_path %>">
+      <span>See the Charges</span>
     </a>
   </div>
 </div>

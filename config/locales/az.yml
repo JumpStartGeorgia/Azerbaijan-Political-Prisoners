@@ -41,7 +41,7 @@ az:
       en: English
       az: Azərbaycan
     common:
-      app_name: Political Prisoner Watch
+      app_name: Political Prisoners Watch
       added_on: "Added on: %{date}"
       jumpstart: JumpStart Georgia
       js_link_title: JumpStart Georgia - We communicate data better!

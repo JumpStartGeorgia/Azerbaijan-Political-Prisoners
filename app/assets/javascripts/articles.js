@@ -15,7 +15,8 @@ var article_incident_counts_chart = function() {
                     type: 'bar'
                 },
                 title: {
-                    text: 'What are the charges?'
+                    text: 'What are the charges?',
+                    useHTML: true
                 },
                 subtitle: {
                     text: '<a href="' + gon.articles_path + '">Click here to explore charges</a>',

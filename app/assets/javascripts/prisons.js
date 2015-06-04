@@ -15,7 +15,8 @@ var prison_prisoner_counts_chart = function() {
                     type: 'bar'
                 },
                 title: {
-                    text: 'Where are the prisoners being held?'
+                    text: 'Where are the prisoners being held?',
+                    useHTML: true
                 },
                 subtitle: {
                     text: '<a href="' + gon.prisons_path + '">Click here to explore prisons</a>',

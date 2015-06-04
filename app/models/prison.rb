@@ -30,7 +30,7 @@ class Prison < ActiveRecord::Base
     prison_names_prisoner_counts(10).each do |prison_name_prisoner_count|
       prison_names_links_counts.append(y: prison_name_prisoner_count[:prisoner_count],
                                        name: prison_name_prisoner_count[:prison_name],
-                                       link: "/prisons/#{prison_name_prisoner_count[:prison_id]}")
+                                       link: "/#{I18n.locale}/prisons/#{prison_name_prisoner_count[:prison_id]}")
     end
 
     prison_names_links_counts

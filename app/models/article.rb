@@ -29,7 +29,7 @@ class Article < ActiveRecord::Base
     Article.incident_counts_ordered(10).each do |article|
       article_info.append(y: article[:incident_count],
                           number: article[:article_number],
-                          link: "/articles/#{article[:article_id]}",
+                          link: "/#{I18n.locale}/articles/#{article[:article_id]}",
                           code: article[:criminal_code_name])
     end
 

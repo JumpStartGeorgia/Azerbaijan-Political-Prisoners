@@ -3,34 +3,36 @@
     <div id="prisoner-count">
       <span><%= @currently_imprisoned_count %></span> Azerbaijanis currently imprisoned in Azerbaijan for political reasons
     </div>
-    <div id="description">
+    <div id="main-description">
       As Azerbaijan hosts this year's European Games this month, it is important to remember that there are many that cannot participate. They cannot because they are in Azerbaijani prisons for speaking the truth. For defending human rights. For documenting corruption. Here you can meet these political prisoners, and you can explore the scope of Azerbaijan's efforts to stifle freedoms of expression.
     </div>
   </div>
   <div class="col-sm-6">
       <div id="featured-prisoner">
-        <p id="featured-name">
-          <a href="<%= prisoner_path(@featured_prisoner) %>">Meet: <%= @featured_prisoner.name %></a>
-        </p>
-        <a href="<%= prisoner_path(@featured_prisoner) %>"><%= image_tag(@featured_prisoner.portrait.url(:medium), ) %></a>
         <div id="featured-info">
-          <p>
-            In prison since: <%= @featured_prisoner_inc.date_of_arrest %>
-          </p>
-          <% unless @featured_prisoner_inc.prison.blank? %>
+          <h2>
+            <%= link_to('Meet: ' + @featured_prisoner.name, prisoner_path(@featured_prisoner)) %>
+          </h2>
+          <%= link_to image_tag(@featured_prisoner.portrait.url(:medium), height: '150px'), prisoner_path(@featured_prisoner) %>
+          <div>
             <p>
-              Imprisoned at: <a href="<%= prison_path(@featured_prisoner_inc.prison) %>"><%= @featured_prisoner_inc.prison.name %></a>
+              In prison since: <%= @featured_prisoner_inc.date_of_arrest %>
             </p>
-          <% end %>
-          <% unless @featured_prisoner_inc.articles.blank? %>
-            <p>
-              Charged under articles: <%= @featured_prisoner_inc.articles.map{ |art| link_to art.number, article_path(art) }.join(', ').html_safe %>
-            </p>
-          <% end %>
+            <% if @featured_prisoner_inc.prison.present? %>
+              <p>
+                Imprisoned at: <%= link_to @featured_prisoner_inc.prison.name, prison_path(@featured_prisoner_inc.prison) %>
+              </p>
+            <% end %>
+            <% if @featured_prisoner_inc.articles.present? %>
+              <p>
+                Charged under articles: <%= @featured_prisoner_inc.articles.map{ |art| link_to art.number, article_path(art) }.join(', ').html_safe %>
+              </p>
+            <% end %>
+          </div>
         </div>
-        <% unless @featured_prisoner_inc.description_of_arrest.blank? %>
+        <% if @featured_prisoner_inc.description_of_arrest.present? %>
           <div id="featured-description">
-            <a href="<%= prisoner_path(@featured_prisoner) %>"><%= @featured_prisoner_inc.description_of_arrest %></a>
+            <%= link_to simple_format(@featured_prisoner_inc.description_of_arrest), prisoner_path(@featured_prisoner) %>
           </div>
         <% end %>
       </div>

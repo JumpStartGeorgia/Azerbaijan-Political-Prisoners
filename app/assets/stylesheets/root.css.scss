@@ -1,7 +1,42 @@
 /********************************************************/
 /* Prisoner count */
+#prisoner-count {
+  height: 20em;
+}
+
 #prisoner-count span {
   font-size: 5em;
+}
+
+/********************************************************/
+/* Featured Prisoner */
+div#featured-prisoner {
+  padding: 0;
+}
+
+div#featured-info {
+  height: 20em;
+}
+
+div#featured-prisoner h2 {
+  font-size: 2em;
+  margin-top: 0;
+}
+
+div#featured-prisoner img {
+  margin: 10px;
+  float: left;
+}
+
+#featured-description {
+  clear: both;
+  height: 10em;
+  overflow: hidden;
+}
+
+#featured-description a:hover {
+  color: #000;
+
 }
 
 /********************************************************/

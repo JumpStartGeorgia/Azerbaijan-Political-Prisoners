@@ -38,7 +38,7 @@ $(document).ready(function() {
 
 var imprisoned_count_timeline = function() {
     $.ajax({
-        url: 'prisoners/imprisoned_count_timeline',
+        url: gon.imprisoned_count_timeline_prisoners_path,
         async: true,
         dataType: 'json',
         success: function (response) {

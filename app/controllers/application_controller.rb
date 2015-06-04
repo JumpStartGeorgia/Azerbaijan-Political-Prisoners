@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   cache_sweeper :generated_sweeper
 
   before_action :set_locale
+  before_action :initialize_gon
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
@@ -14,6 +15,17 @@ class ApplicationController < ActionController::Base
     { locale: I18n.locale }.merge options
   end
 
+  def initialize_gon
+    gon.imprisoned_count_timeline_prisoners_path = imprisoned_count_timeline_prisoners_path
+    gon.article_incident_counts_articles_path = article_incident_counts_articles_path    
+    gon.prison_prisoner_counts_prisons_path = prison_prisoner_counts_prisons_path
+  end
+
+  def fileTimeStamp
+    Time.now.strftime(t('app.datetime.full'))
+  end
+
+
   rescue_from CanCan::AccessDenied do |_exception|
     if user_signed_in?
       not_authorized
@@ -22,6 +34,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  #######################
+  #######################
   def not_authorized
     redirect_to :back, alert: t('app.msgs.not_authorized')
   rescue ActionController::RedirectBackError
@@ -32,7 +46,4 @@ class ApplicationController < ActionController::Base
     fail ActionController::RoutingError.new(t('app.msgs.does_not_exist'))
   end
 
-  def fileTimeStamp
-    Time.now.strftime(t('app.datetime.full'))
-  end
 end

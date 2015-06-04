@@ -6,7 +6,7 @@ $(document).ready(function() {
 
 var article_incident_counts_chart = function() {
     $.ajax({
-        url: 'articles/article_incident_counts',
+        url: gon.article_incident_counts_articles_path,
         async: true,
         dataType: 'json',
         success: function (response) {

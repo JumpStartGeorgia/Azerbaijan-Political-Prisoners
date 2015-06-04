@@ -77,4 +77,32 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Disable delivery errors, bad email addresses will be ignored
+  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.default_url_options = { :host => 'prisoners.watch' }
+  config.action_mailer.delivery_method = :smtp
+
+  config.action_mailer.smtp_settings = {
+    address:              'smtp.gmail.com',
+    port:                 587,
+    domain:               'www.jumpstart.ge',
+    user_name:            ENV['APPLICATION_FEEDBACK_FROM_EMAIL'],
+    password:             ENV['APPLICATION_FEEDBACK_FROM_EMAIL'],
+    authentication:       'plain',
+    enable_starttls_auto: true  
+  }
+
+
+  # need this so can use url_helpers in modules
+  Rails.application.routes.default_url_options = config.action_mailer.default_url_options
+
+  # send emails when error occurs
+  config.middleware.use ExceptionNotification::Rack,
+  :email => {
+    :email_prefix => "[Political Prisoners App Error (#{Rails.env})] ",
+    :sender_address => ENV['APPLICATION_ERROR_FROM_EMAIL'],
+    :exception_recipients => [ENV['APPLICATION_FEEDBACK_TO_EMAIL']]
+  }
+
 end

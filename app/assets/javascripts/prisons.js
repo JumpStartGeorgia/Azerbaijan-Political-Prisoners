@@ -6,7 +6,7 @@ $(document).ready(function() {
 
 var prison_prisoner_counts_chart = function() {
     $.ajax({
-        url: 'prisons/prison_prisoner_counts',
+        url: gon.prison_prisoner_counts_prisons_path,
         async: true,
         dataType: 'json',
         success: function (response) {

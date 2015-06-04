@@ -54,4 +54,20 @@ Rails.application.configure do
     Bullet.console = true
     Bullet.rails_logger = true
   end
+
+
+  # need this so can use url_helpers in modules
+  Rails.application.routes.default_url_options = config.action_mailer.default_url_options
+
+  # small smtp server for dev, http://mailcatcher.me/
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = { :address => "localhost", :port => 1025 }
+
+  config.middleware.use ExceptionNotification::Rack,
+  :email => {
+    :email_prefix => "[Political Prisoners App Error (#{Rails.env})] ",
+    :sender_address => ENV['APPLICATION_ERROR_FROM_EMAIL'],
+    :exception_recipients => [ENV['APPLICATION_FEEDBACK_TO_EMAIL']]
+  }
+
 end

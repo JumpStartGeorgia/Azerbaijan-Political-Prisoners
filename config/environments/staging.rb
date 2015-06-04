@@ -89,7 +89,7 @@ Rails.application.configure do
     port:                 587,
     domain:               'www.jumpstart.ge',
     user_name:            ENV['APPLICATION_FEEDBACK_FROM_EMAIL'],
-    password:             ENV['APPLICATION_FEEDBACK_FROM_EMAIL'],
+    password:             ENV['APPLICATION_FEEDBACK_FROM_PWD'],
     authentication:       'plain',
     enable_starttls_auto: true  
   }

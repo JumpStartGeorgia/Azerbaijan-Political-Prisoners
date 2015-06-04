@@ -33,7 +33,7 @@
 
         <% if @featured_prisoner_inc.description_of_arrest.present? %>
           <div id="featured-description">
-            <%= link_to simple_format(@featured_prisoner_inc.description_of_arrest), prisoner_path(@featured_prisoner) %>
+            <%= link_to simple_format(strip_tags(truncate(@featured_prisoner_inc.description_of_arrest, separator: ' ', length: 300))), prisoner_path(@featured_prisoner) %>
           </div>
         <% end %>
       </div>

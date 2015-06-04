@@ -1,5 +1,5 @@
-set :domain, 'alpha.jumpstart.ge'
-set :user, 'prisoners-prod'
+set :domain, 'prisoners.watch'
+set :user, 'prisoners'
 set :application, 'Azeri-Prisoners'
 set :repository, 'git@github.com:JumpStartGeorgia/Azerbaijan-Political-Prisoners.git'
-set :web_url, 'prisoners.jumpstart.ge'
+set :web_url, 'prisoners.watch'

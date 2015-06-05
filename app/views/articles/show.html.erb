@@ -16,7 +16,7 @@
   <dt><strong><%= model_class.human_attribute_name(:criminal_code_id) %>:</strong></dt>
   <dd><%= link_to @article.criminal_code.name, criminal_code_path(@article.criminal_code) %></dd>
   <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
-  <dd><%= simple_format(@article.description) if @article.description.present? %></dd>
+  <dd><%= simple_format_no_tags(@article.description) if @article.description.present? %></dd>
   <dt><strong><%= model_class.human_attribute_name(:prisoners) %>:</strong></dt>
   <dd>
     <ol>

@@ -33,7 +33,7 @@
 
         <% if @featured_prisoner_inc.description_of_arrest.present? %>
           <div id="featured-description">
-            <%= simple_format(truncate(strip_tags(@featured_prisoner_inc.description_of_arrest), separator: ' ', length: 300)) %>
+            <%= simple_format_no_tags(truncate(strip_tags(@featured_prisoner_inc.description_of_arrest), separator: ' ', length: 300)) %>
           </div>
         <% end %>
       </div>

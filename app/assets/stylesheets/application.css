@@ -24,3 +24,41 @@
  */
 
 /**************************************/
+
+.actions-container {
+  background-color: #CCC;
+  padding: 10px;
+  margin: 20px 0px;
+}
+
+#page-header {
+  margin:0px 0px 30px;
+  padding:0px;
+  border-bottom:1px solid #ccc;
+}
+ 
+#page-header h1 {
+  margin-top: 10px;
+}
+
+#page-header h1 span#page-title-right{
+  font-size: 14px;
+}
+
+table.table-nonfluid {
+  width: auto;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+table.datatable th, table.datatable-admin th{
+  text-align: center;
+}
+
+table.datatable td, table.datatable-admin td{
+  vertical-align: middle !important;
+}
+
+.datatable-topmargin{
+  margin-top: 20px
+}

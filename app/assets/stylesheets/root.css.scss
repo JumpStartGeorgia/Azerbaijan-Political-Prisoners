@@ -24,7 +24,6 @@
 /* Featured Prisoner */
 div#featured-prisoner {
   padding: 0;
-  height: 23em;
 }
 
 div#featured-prisoner h2 {
@@ -63,4 +62,15 @@ div.main-link a span {
   margin-right: -50%;
   transform: translate(-50%, -50%);
   width: 90%;
+}
+
+/********************************************************/
+/* Highcharts */
+.highcharts-tooltip span {
+  margin-top: 10px;
+  top: 25px !important;
+  height:auto;
+  width: 30em;
+  overflow: auto;
+  white-space:normal !important;
 }

@@ -18,7 +18,7 @@ class Article < ActiveRecord::Base
   end
 
   def self.incident_counts_ordered(limit=nil)
-    primary_sql = 'select articles.id as article_id, articles.number as article_number, criminal_codes.name as criminal_code_name, count(*) as incident_count from incidents inner join charges on incidents.id = charges.incident_id inner join articles on charges.article_id = articles.id inner join criminal_codes on articles.criminal_code_id = criminal_codes.id group by articles.number order by count(*) desc'
+    primary_sql = 'select articles.id as article_id, articles.number as article_number, criminal_codes.name as criminal_code_name, articles.description as description, count(*) as incident_count from incidents inner join charges on incidents.id = charges.incident_id inner join articles on charges.article_id = articles.id inner join criminal_codes on articles.criminal_code_id = criminal_codes.id group by articles.number order by count(*) desc'
 
     limit.nil? ? find_by_sql(primary_sql) : find_by_sql(primary_sql + ' limit ' + limit.to_s)
   end
@@ -30,7 +30,8 @@ class Article < ActiveRecord::Base
       article_info.append(y: article[:incident_count],
                           number: article[:article_number],
                           link: "/#{I18n.locale}/articles/#{article[:article_id]}",
-                          code: article[:criminal_code_name])
+                          code: article[:criminal_code_name],
+                          description: article[:description])
     end
 
     article_info

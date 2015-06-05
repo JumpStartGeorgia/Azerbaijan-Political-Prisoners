@@ -84,7 +84,8 @@ var imprisoned_count_timeline = function() {
                             else {
                                 return 'There were <strong>' + prisoner_count + "</strong> political prisoners in Azerbaijan on <strong>" + date + "</strong>";
                             }
-                        }
+                        },
+                        useHTML: true
                     },
                     series: [{
                         name: 'Number of Political Prisoners',

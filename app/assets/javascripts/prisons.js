@@ -49,7 +49,8 @@ var prison_prisoner_counts_chart = function() {
                         else {
                             return 'There are <strong>' + this.point.y + '</strong> political prisoners at <strong>' + this.point.name + '</strong>'
                         }
-                    }
+                    },
+                    useHTML: true
                 },
                 series: [{
                     name: 'Number of Prisoners',

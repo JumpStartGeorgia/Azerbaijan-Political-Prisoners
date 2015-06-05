@@ -4,7 +4,7 @@
       <span><%= @currently_imprisoned_count %></span><span> Azerbaijanis currently imprisoned in Azerbaijan for political reasons</span>
     </div>
     <div id="main-description">
-      As Azerbaijan hosts this year's European Games this month, it is important to remember that there are many that cannot participate. They cannot because they are in Azerbaijani prisons for speaking the truth. For defending human rights. For documenting corruption. Here you can meet these political prisoners, and you can explore the scope of Azerbaijan's efforts to stifle freedoms of expression.
+      As Azerbaijan hosts the first ever European Games this month, it is important to remember that there are many that cannot participate. They cannot because they are in Azerbaijani prisons for speaking the truth. For defending human rights. For documenting corruption. Here you can meet these political prisoners, and you can explore the scope of Azerbaijan's efforts to stifle freedoms of expression.
     </div>
   </div>
   <div class="col-sm-6">
@@ -33,7 +33,7 @@
 
         <% if @featured_prisoner_inc.description_of_arrest.present? %>
           <div id="featured-description">
-            <%= simple_format(truncate(strip_tags(@featured_prisoner_inc.description_of_arrest), separator: ' ', length: 300)) %>
+            <%= simple_format_no_tags(truncate(strip_tags(@featured_prisoner_inc.description_of_arrest), separator: ' ', length: 300)) %>
           </div>
         <% end %>
       </div>

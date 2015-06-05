@@ -63,3 +63,14 @@ div.main-link a span {
   transform: translate(-50%, -50%);
   width: 90%;
 }
+
+/********************************************************/
+/* Highcharts */
+.highcharts-tooltip span {
+  margin-top: 10px;
+  top: 25px !important;
+  height:auto;
+  width: 30em;
+  overflow: auto;
+  white-space:normal !important;
+}

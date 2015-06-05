@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'User', type: :feature do
   before (:context) do
+    FactoryGirl.create(:prisoner, incidents: [FactoryGirl.create(:incident)])
+
     @content_manager_role = FactoryGirl.create(:role, name: 'content_manager')
     @content_manager_user = FactoryGirl.create(:user, role: @content_manager_role)
   end

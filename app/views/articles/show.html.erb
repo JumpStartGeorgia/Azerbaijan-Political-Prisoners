@@ -1,28 +1,47 @@
-<%- model_class = Article -%>
-<% page_title model_class.model_name.human.titleize + ': ' + @article.number %>
+<%- 
+  model_class = Article 
+  page_title 'Arrest Charge: ' + @article.number
+  page_title_right link_to('View All Arrest Charges', articles_path, class: 'btn btn-default')
+-%>
 
-<div class='actions-container'>
-  <%= render partial: 'shared/show_actions',
-        locals: {
-          object: @article,
-          index_path: articles_path,
-          show_path: article_path,
-          edit_path: edit_article_path
-                }
-  %>
+<% if user_signed_in? %>
+  <div class='actions-container'>
+    <%= render partial: 'shared/show_actions',
+          locals: {
+            object: @article,
+            index_path: articles_path,
+            show_path: article_path,
+            edit_path: edit_article_path
+                  }
+    %>
+  </div>
+<% end %>
+
+
+<p><strong><%= model_class.human_attribute_name(:criminal_code_id) %>:</strong>
+  <%= link_to @article.criminal_code.name, criminal_code_path(@article.criminal_code) %></p>
+
+<%= simple_format_no_tags(@article.description) if @article.description.present? %>
+
+<div class="datatable-topmargin">
+  <table class="table table-striped table-hover datatable table-nonfluid">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Prisoners with this Arrest Charge</th>
+        <th>Total Days in Prison</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @prisoners_with_article.each do |prisoner| %>
+        <tr>
+          <td><%= link_to t('helpers.links.view'), prisoner_path(prisoner), class: 'btn btn-default' %></td>
+          <td><%= prisoner.name %></td>
+          <td>
+            <%= number_with_delimiter(prisoner.total_days_in_prison) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
-
-<dl class="dl-horizontal">
-  <dt><strong><%= model_class.human_attribute_name(:criminal_code_id) %>:</strong></dt>
-  <dd><%= link_to @article.criminal_code.name, criminal_code_path(@article.criminal_code) %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
-  <dd><%= simple_format(@article.description) if @article.description.present? %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:prisoners) %>:</strong></dt>
-  <dd>
-    <ol>
-    <% @prisoners_with_article.each do |prisoner| %>
-      <li><%= link_to prisoner.name, prisoner %></li>
-    <% end %>
-    </ol>
-  </dd>
-</dl>

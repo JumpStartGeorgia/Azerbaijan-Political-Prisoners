@@ -1,23 +1,29 @@
-<%- model_class = Prisoner -%>
-<% page_title "#{model_class.model_name.human.pluralize.titleize}" %>
+<%- 
+  model_class = Prisoner 
+  page_title "#{model_class.model_name.human.pluralize.titleize}"
+  links = link_to("#{model_class.model_name.human.pluralize.titleize} CSV Download", prisoners_path(format: :csv), class: 'btn btn-default')
+  links << link_to("#{Incident.model_name.human.pluralize.titleize} CSV Download", incidents_to_csv_prisoners_path, class: 'btn btn-default')
+  page_title_right links
+-%>
 
-<div class='actions-container'>
-  <%= render partial: 'shared/index_actions',
-        locals: {
-          model_class: model_class,
-          new_path: new_prisoner_path
-        }
-  %>
-  <%= link_to "#{model_class.model_name.human.pluralize.titleize} CSV Download", prisoners_path(format: :csv), class: 'btn btn-default' %>
-  <%= link_to "#{Incident.model_name.human.pluralize.titleize} CSV Download", incidents_to_csv_prisoners_path, class: 'btn btn-default' %>
-</div>
+<% if user_signed_in? %>
+  <div class='actions-container'>
+    <%= render partial: 'shared/index_actions',
+          locals: {
+            model_class: model_class,
+            new_path: new_prisoner_path
+          }
+    %>
+  </div>
+<% end %>
 
 <%-
   datatable_class = (can? :edit, Prisoner) ? 'datatable-admin' : 'datatable'
 -%>
-<table class="table table-striped <%= datatable_class %>">
+<table class="table table-striped table-hover table-nonfluid <%= datatable_class %>">
   <thead>
     <tr>
+      <th></th>
       <th><%= model_class.human_attribute_name(:name) %></th>
       <th><%= model_class.human_attribute_name(:currently_imprisoned) %></th>
       <th>Total Days in Prison</th>
@@ -27,10 +33,11 @@
   <tbody>
     <% @prisoners.each do |prisoner| %>
       <tr>
-        <td><%= link_to prisoner.name, prisoner_path(prisoner) %></td>
+        <td><%= link_to t('helpers.links.view'), prisoner_path(prisoner), class: 'btn btn-default' %></td>
+        <td><%= prisoner.name %></td>
         <td><% if prisoner.currently_imprisoned %>Yes<% elsif prisoner.currently_imprisoned == false %>No<% end %></td>
         <td>
-          <%= prisoner.total_days_in_prison %>
+          <%= number_with_delimiter(prisoner.total_days_in_prison) %>
         </td>
         <% if (can? :edit, prisoner) || (can? :destroy, prisoner) %>
           <td>

@@ -1,26 +1,31 @@
-<%- model_class = Prisoner -%>
-<%
-   if @prisoner.currently_imprisoned
-     currently_imprisoned_status = 'Currently Imprisoned'
-   elsif @prisoner.currently_imprisoned == false
-     currently_imprisoned_status = 'Released'
-   else
-     currently_imprisoned_status = 'No Arrest Information'
-   end
+<%- 
+  model_class = Prisoner
 
-   page_title (model_class.model_name.human.titleize + ': ' + @prisoner.name + ' — ' + currently_imprisoned_status)
+  if @prisoner.currently_imprisoned
+   currently_imprisoned_status = 'Currently Imprisoned'
+  elsif @prisoner.currently_imprisoned == false
+   currently_imprisoned_status = 'Released'
+  else
+   currently_imprisoned_status = 'No Arrest Information'
+  end
 
-%>
-<div class='actions-container'>
-  <%= render partial: 'shared/show_actions',
-        locals: {
-          object: @prisoner,
-          index_path: prisoners_path,
-          show_path: prisoner_path,
-          edit_path: edit_prisoner_path
-                }
-  %>
-</div>
+  page_title (model_class.model_name.human.titleize + ': ' + @prisoner.name + ' — ' + currently_imprisoned_status)
+
+  page_title_right link_to('View All Prisoners', prisoners_path, class: 'btn btn-default')
+-%>
+
+<% if user_signed_in? %>
+  <div class='actions-container'>
+    <%= render partial: 'shared/show_actions',
+          locals: {
+            object: @prisoner,
+            index_path: prisoners_path,
+            show_path: prisoner_path,
+            edit_path: edit_prisoner_path
+                  }
+    %>
+  </div>
+<% end %>
 
 <%= image_tag(@prisoner.portrait.url(:medium)) %>
 <p><strong><%= @prisoner.total_days_in_prison %></strong> total days spent in prison</p>

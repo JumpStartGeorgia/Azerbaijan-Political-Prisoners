@@ -7,6 +7,11 @@ module ApplicationHelper
     content_for(:page_subtitle) { page_subtitle.html_safe }
   end
 
+  def page_title_right(page_title_right)
+    content_for(:page_title_right) { page_title_right.html_safe }
+  end
+
+
   # from http://www.kensodev.com/2012/03/06/better-simple_format-for-rails-3-x-projects/
   # same as simple_format except it does not wrap all text in p tags
   def simple_format_no_tags(text, html_options = {}, options = {})

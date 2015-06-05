@@ -116,16 +116,24 @@
         <div>
             <%= bootstrap_flash %>
 
-            <% if (content_for? :page_title) && (content_for? :page_subtitle) %>
-              <hgroup id="page-header">
-                  <h1><%= yield(:page_title) %></h1>
-                  <h2><%= yield(:page_subtitle) %></h2>
-              </hgroup>
-            <% elsif content_for? :page_title %>
-              <h1><%= yield(:page_title) %></h1>
+            <% if content_for? :page_title %>
+              <div id="page-header">
+                <% if (content_for? :page_subtitle) %>
+                  <hgroup>
+                      <h1><%= yield(:page_title) %><span id="page-title-right" class="pull-right"><%= yield(:page_title_right) %></span></h1>
+                      <h2><%= yield(:page_subtitle) %></h2>
+                  </hgroup>
+                <% else %>
+                    <h1><%= yield(:page_title) %><span id="page-title-right" class="pull-right"><%= yield(:page_title_right) %></span></h1>
+                  </div>
+                <% end %>
+              </div>
             <% end %>
 
+
             <%= yield %>
+
+
         </div>
     </div>
 

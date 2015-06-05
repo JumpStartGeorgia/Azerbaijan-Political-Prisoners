@@ -1,3 +1,16 @@
 <%- model_class = Prisoner -%>
 <% page_title "New #{model_class.model_name.human.titleize}" %>
+
+<% if user_signed_in? %>
+  <div class='actions-container'>
+    <%= render partial: 'shared/form_actions',
+          locals: {
+            object: @prisoner,
+            index_path: prisoners_path,
+            show_path: prisoner_path
+                  }
+    %>
+  </div>
+<% end %>
+
 <%= render :partial => 'form' %>

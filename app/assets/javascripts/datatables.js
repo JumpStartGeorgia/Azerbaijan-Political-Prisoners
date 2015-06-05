@@ -4,7 +4,10 @@ $(document).on('page:change', function(){
     "destroy": true,
     "dom": '<"top"fli>t<"bottom"p><"clear">',
     "processing": true,
-    "order": [[0, 'asc']],
+    "order": [[1, 'asc']],
+    "columnDefs": [
+      { orderable: false, targets: [0] }
+    ],
     "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
   });
 
@@ -12,9 +15,9 @@ $(document).on('page:change', function(){
     "destroy": true,
     "dom": '<"top"fli>t<"bottom"p><"clear">',
     "processing": true,
-    "order": [[0, 'asc']],
+    "order": [[1, 'asc']],
     "columnDefs": [
-      { orderable: false, targets: [-1] }
+      { orderable: false, targets: [0, -1] }
     ],
     "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
   });

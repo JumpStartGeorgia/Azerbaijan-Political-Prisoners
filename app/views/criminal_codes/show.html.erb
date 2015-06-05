@@ -1,13 +1,18 @@
-<%- model_class = CriminalCode -%>
-<% page_title model_class.model_name.human.titleize + ': ' + @criminal_code.name %>
+<%- 
+  model_class = CriminalCode 
+  page_title model_class.model_name.human.titleize + ': ' + @criminal_code.name
+  page_title_right link_to('View All Criminal Codes', criminal_codes_path, class: 'btn btn-default')
+-%>
 
-<div class='actions-container'>
-  <%= render partial: 'shared/show_actions',
-        locals: {
-          object: @criminal_code,
-          index_path: criminal_codes_path,
-          show_path: criminal_code_path,
-          edit_path: edit_criminal_code_path
-                }
-  %>
-</div>
+<% if user_signed_in? %>
+  <div class='actions-container'>
+    <%= render partial: 'shared/show_actions',
+          locals: {
+            object: @criminal_code,
+            index_path: criminal_codes_path,
+            show_path: criminal_code_path,
+            edit_path: edit_criminal_code_path
+                  }
+    %>
+  </div>
+<% end %>

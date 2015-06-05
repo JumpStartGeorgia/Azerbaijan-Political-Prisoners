@@ -1,3 +1,16 @@
 <%- model_class = CriminalCode -%>
 <% page_title "Edit #{model_class.model_name.human.titleize}" %>
+
+<% if user_signed_in? %>
+  <div class='actions-container'>
+    <%= render partial: 'shared/form_actions',
+          locals: {
+            object: @criminal_code,
+            index_path: criminal_codes_path,
+            show_path: criminal_code_path
+                  }
+    %>
+  </div>
+<% end %>
+
 <%= render :partial => 'form' %>

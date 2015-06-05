@@ -1,30 +1,35 @@
-<%- model_class = Prison -%>
-<% page_title "#{model_class.model_name.human.pluralize.titleize}" %>
+<%- 
+  model_class = Prison 
+  page_title "#{model_class.model_name.human.pluralize.titleize}"
+  page_title_right link_to("#{model_class.model_name.human.pluralize.titleize} CSV Download", prisons_path(format: :csv), class: 'btn btn-default')
+-%>
 
-<div class='actions-container'>
-  <%= render partial: 'shared/index_actions',
-        locals: {
-          model_class: model_class,
-          new_path: new_prison_path
-        }
-  %>
-  <%= link_to "#{model_class.model_name.human.pluralize.titleize} CSV Download", prisons_path(format: :csv), class: 'btn btn-default' %>
-</div>
-
+<% if user_signed_in? %>
+  <div class='actions-container'>
+    <%= render partial: 'shared/index_actions',
+          locals: {
+            model_class: model_class,
+            new_path: new_prison_path
+          }
+    %>
+  </div>
+<% end %>
 <%-
   datatable_class = (can? :edit, Prison) ? 'datatable-admin' : 'datatable'
 -%>
-<table class="table table-striped <%= datatable_class %>">
+<table class="table table-striped table-hover table-nonfluid <%= datatable_class %>">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th></th>
+      <th>Prison Name</th>
         <% if can? :edit, Prison %><th><%=t '.actions', :default => t("helpers.actions") %></th><% end %>
     </tr>
   </thead>
   <tbody>
     <% @prisons.each do |prison| %>
       <tr>
-        <td><%= link_to prison.name, prison_path(prison) %></td>
+        <td><%= link_to t('helpers.links.view'), prison_path(prison), class: 'btn btn-default' %></td>
+        <td><%= prison.name  %></td>
         <% if (can? :edit, prison) || (can? :destroy, prison) %>
           <td>
             <%= if can? :edit, prison

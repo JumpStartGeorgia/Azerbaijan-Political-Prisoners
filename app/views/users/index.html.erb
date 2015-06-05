@@ -1,21 +1,26 @@
-<%- model_class = User -%>
-<% page_title "#{model_class.model_name.human.pluralize.titleize}" %>
+<%- 
+  model_class = User 
+  page_title "#{model_class.model_name.human.pluralize.titleize}"
+-%>
 
-<div class='actions-container'>
-  <%= render partial: 'shared/index_actions',
-        locals: {
-          model_class: model_class,
-          new_path: new_user_path
-        }
-  %>
-</div>
+<% if user_signed_in? %>
+  <div class='actions-container'>
+    <%= render partial: 'shared/index_actions',
+          locals: {
+            model_class: model_class,
+            new_path: new_user_path
+          }
+    %>
+  </div>
+<% end %>
 
 <%-
   datatable_class = (can? :edit, User) ? 'datatable-admin' : 'datatable'
 -%>
-<table class="table table-striped <%= datatable_class %>">
+<table class="table table-striped table-hover table-nonfluid <%= datatable_class %>">
   <thead>
     <tr>
+      <th></th>
       <th><%= model_class.human_attribute_name(:email) %></th>
       <th><%= model_class.human_attribute_name(:role_id) %></th>
       <th><%= model_class.human_attribute_name(:last_sign_in_at) %></th>
@@ -25,7 +30,8 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
-        <td><%= link_to user.email, user_path(user) %></td>
+        <td><%= link_to t('helpers.links.view'), user_path(user), class: 'btn btn-default' %></td>
+        <td><%= user.email %></td>
         <td><%= user.role.name if user.role.present? %></td>
         <td><%= user.last_sign_in_at %></td>
         <% if (can? :edit, user) || (can? :destroy, user) %>

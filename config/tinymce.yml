@@ -1,4 +1,13 @@
 default:
+  statusbar: false
+  browser_spellcheck: true
+  convert_urls: false
+  width: "100%"
   menubar: false
-  toolbar:
-    - styleselect | bold italic | undo redo | alignleft aligncenter alignright | link
+  plugins: "autolink paste fullscreen link anchor lists hr code"
+  toolbar_items_size: 'small'
+  toolbar1: "cut copy paste searchreplace | undo redo | removeformat | fullscreen code"
+  toolbar2: "formatselect | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent blockquote | link unlink anchor | hr "
+  paste_auto_cleanup_on_paste: true
+  paste_remove_spans: true
+  paste_strip_class_attributes: 'mso'

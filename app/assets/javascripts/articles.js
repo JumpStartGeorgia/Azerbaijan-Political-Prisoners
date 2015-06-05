@@ -43,7 +43,14 @@ var article_incident_counts_chart = function() {
                     }
                 },
                 tooltip: {
-                    formatter: function() { return 'Article <strong>#' + this.point.number + '</strong> (' + this.point.code + ' Criminal Code) has been<br/>used to sentence political prisoners <strong>' + this.point.y + '</strong> times.';
+                    formatter: function() {
+                      var info = 'Article <strong>#' + this.point.number + '</strong> (' + this.point.code + ' Criminal Code) — <strong>' + this.point.y + '</strong> sentences';
+
+                      if (this.point.description) {
+                        info = info + ' — ' + this.point.description;
+                      }
+
+                      return info;
                     }
                 },
                 series: [{

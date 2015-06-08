@@ -114,6 +114,14 @@
 
     <div class="container">
         <div>
+          <% if Rails.env.staging? %>
+            <div class="alert alert-danger">
+              5 June 2015 - Please use <a href="http://prisoners.watch">prisoners.watch</a> to enter data from now on.
+
+            </div>
+          <% end %>
+
+
             <%= bootstrap_flash %>
 
             <% if content_for? :page_title %>

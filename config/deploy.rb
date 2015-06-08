@@ -11,7 +11,7 @@ set :deploy_to, -> { "#{user_path}/#{application}" }
 set :full_current_path, -> { "#{deploy_to}/#{current_path}" }
 set :full_shared_path, -> { "#{deploy_to}/#{shared_path}" }
 set :full_tmp_path, -> { "#{deploy_to}/tmp" }
-set :branch, 'master'
+set :branch, -> { "#{repo_branch}" }
 set :initial_directories, -> { ["#{full_shared_path}/log", "#{full_shared_path}/config", "#{full_shared_path}/public/system", "#{full_tmp_path}/puma/sockets", "#{full_tmp_path}/assets"] }
 set :shared_paths, %w(.env log public/system)
 set :forward_agent, true
@@ -55,7 +55,13 @@ end
 namespace :nginx do
   desc "Generates a new Nginx configuration in the app's shared folder from the local nginx.conf.erb layout."
   task :generate_conf do
-    conf = ERB.new(File.read('./config/nginx.conf.erb')).result
+    conf = if nginx_ssl == true
+      queue %(echo "-----> Generating SSL Nginx Config file")
+      ERB.new(File.read('./config/nginx_ssl.conf.erb')).result
+    else
+      queue %(echo "-----> Generating Non-SSL Nginx Config file")
+      ERB.new(File.read('./config/nginx.conf.erb')).result
+    end
     queue %(echo "-----> Generating new config/nginx.conf")
     queue %(echo '#{conf}' > #{full_shared_path}/config/nginx.conf)
   end

@@ -1,12 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe 'User', type: :feature, js: true do
+RSpec.describe 'User', type: :feature do
   content_manager_password = 'eqwroipjzvjpo'
   new_content_manager_password = 'dsalfkdjsakfjds'
 
   before (:example) do
-    FactoryGirl.create(:prisoner, incidents: [FactoryGirl.create(:incident)])
-
     @content_manager_role = FactoryGirl.create(:role, name: 'content_manager')
     @content_manager_user = FactoryGirl.create(:user, role: @content_manager_role, password: content_manager_password)
   end
@@ -49,8 +47,6 @@ RSpec.describe 'User', type: :feature, js: true do
 
   describe 'site admin' do
     it 'can successfully edit someone else\'s password' do
-      FactoryGirl.create(:prisoner, incidents: [FactoryGirl.create(:incident)])
-
       site_admin_password = 'kqpiojgipoeczvipn@#!!'
       @site_admin_role = FactoryGirl.create(:role, name: 'site_admin')
       @site_admin_user = FactoryGirl.create(:user, role: @site_admin_role, password: site_admin_password)

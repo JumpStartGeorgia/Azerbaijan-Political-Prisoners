@@ -8,6 +8,7 @@
     </div>
   </div>
   <div class="col-sm-6">
+    <% unless (@featured_prisoner.blank?) || (@featured_prisoner.incidents.blank?) %>
       <div id="featured-prisoner">
         <h2>
           <%= link_to('Meet: ' + @featured_prisoner.name, prisoner_path(@featured_prisoner)) %>
@@ -37,6 +38,7 @@
           </div>
         <% end %>
       </div>
+    <% end %>
   </div>
 </div>
 <div class="row">

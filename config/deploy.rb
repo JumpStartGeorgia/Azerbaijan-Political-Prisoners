@@ -55,7 +55,13 @@ end
 namespace :nginx do
   desc "Generates a new Nginx configuration in the app's shared folder from the local nginx.conf.erb layout."
   task :generate_conf do
-    conf = ERB.new(File.read('./config/nginx.conf.erb')).result
+    conf = if nginx_ssl == true
+      queue %(echo "-----> Generating SSL Nginx Config file")
+      ERB.new(File.read('./config/nginx_ssl.conf.erb')).result
+    else
+      queue %(echo "-----> Generating Non-SSL Nginx Config file")
+      ERB.new(File.read('./config/nginx.conf.erb')).result
+    end
     queue %(echo "-----> Generating new config/nginx.conf")
     queue %(echo '#{conf}' > #{full_shared_path}/config/nginx.conf)
   end

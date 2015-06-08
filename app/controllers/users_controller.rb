@@ -42,8 +42,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
-
-      if (user_params.key? :password) && (:password != '')
+      if (user_params[:password].present?)
         if @user.update(user_params)
           format.html { redirect_to @user, notice: t('app.msgs.success_updated', obj: t('activerecord.models.user')) }
         else

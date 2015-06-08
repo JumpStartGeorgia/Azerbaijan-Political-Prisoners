@@ -117,10 +117,6 @@ RSpec.configure do |config|
     end
   end
 
-  config.before(:suite) do
-    load "#{Rails.root}/db/seeds.rb"
-  end
-
   # Makes controllers work with default locale
   # Taken from http://stackoverflow.com/a/19079076/3115911
   class ActionController::TestCase

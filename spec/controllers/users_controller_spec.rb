@@ -19,9 +19,13 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe UsersController, type: :controller do
-  let(:content_manager_user) { FactoryGirl.create(:user, role: Role.find_by_name('content_manager')) }
-  let(:site_admin_user) { FactoryGirl.create(:user, role: Role.find_by_name('site_admin')) }
-  let(:super_admin_user) { FactoryGirl.create(:user, role: Role.find_by_name('super_admin')) }
+  let(:content_manager_role) { FactoryGirl.create(:role, name: 'content_manager') }
+  let(:site_admin_role) { FactoryGirl.create(:role, name: 'site_admin') }
+  let(:super_admin_role) { FactoryGirl.create(:role, name: 'super_admin') }
+
+  let(:content_manager_user) { FactoryGirl.create(:user, role: content_manager_role) }
+  let(:site_admin_user) { FactoryGirl.create(:user, role: site_admin_role) }
+  let(:super_admin_user) { FactoryGirl.create(:user, role: super_admin_role) }
 
   # This should return the minimal set of attributes required to create a valid
   # User. As you add validations to User, be sure to
@@ -34,11 +38,11 @@ RSpec.describe UsersController, type: :controller do
 
   describe 'GET index' do
     let(:valid_attributes) do
-      FactoryGirl.attributes_for(:user, role_id: Role.find_by_name('content_manager').id)
+      FactoryGirl.attributes_for(:user, role_id: content_manager_role.id)
     end
 
     let(:invalid_attributes) do
-      FactoryGirl.attributes_for(:user, email: '', role_id: Role.find_by_name('content_manager').id)
+      FactoryGirl.attributes_for(:user, email: '', role_id: content_manager_role.id)
     end
 
     before(:example) do
@@ -167,15 +171,15 @@ RSpec.describe UsersController, type: :controller do
 
   describe 'role' do
     let(:super_admin_attributes) do
-      FactoryGirl.attributes_for(:user, role_id: Role.find_by_name('super_admin').id)
+      FactoryGirl.attributes_for(:user, role_id: super_admin_role.id)
     end
 
     let(:site_admin_attributes) do
-      FactoryGirl.attributes_for(:user, role_id: Role.find_by_name('site_admin').id)
+      FactoryGirl.attributes_for(:user, role_id: site_admin_role.id)
     end
 
     let(:content_manager_attributes) do
-      FactoryGirl.attributes_for(:user, role_id: Role.find_by_name('content_manager').id)
+      FactoryGirl.attributes_for(:user, role_id: content_manager_role.id)
     end
 
     describe 'super admin' do

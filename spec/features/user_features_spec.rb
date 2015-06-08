@@ -6,10 +6,14 @@ RSpec.describe 'User', type: :feature do
   site_admin_password = 'kqpiojgipoeczvipn@#!!'
 
   before (:example) do
-    @super_admin_user = FactoryGirl.create(:user, role: Role.find_by_name('super_admin'))
-    @super_admin_user2 = FactoryGirl.create(:user, role: Role.find_by_name('super_admin'))
-    @site_admin_user = FactoryGirl.create(:user, role: Role.find_by_name('site_admin'), password: site_admin_password)
-    @content_manager_user = FactoryGirl.create(:user, role: Role.find_by_name('content_manager'), password: content_manager_password)
+    @content_manager_role = FactoryGirl.create(:role, name: 'content_manager')
+    @site_admin_role = FactoryGirl.create(:role, name: 'site_admin')
+    @super_admin_role = FactoryGirl.create(:role, name: 'super_admin')
+
+    @super_admin_user = FactoryGirl.create(:user, role: @super_admin_role)
+    @super_admin_user2 = FactoryGirl.create(:user, role: @super_admin_role)
+    @site_admin_user = FactoryGirl.create(:user, role: @site_admin_role, password: site_admin_password)
+    @content_manager_user = FactoryGirl.create(:user, role: @content_manager_role, password: content_manager_password)
   end
 
   describe 'super admin' do
@@ -78,7 +82,7 @@ RSpec.describe 'User', type: :feature do
       login_as @site_admin_user, scope: :user
 
       visit new_user_path
-      expect(page).to have_select 'Role', options: [Role.find_by_name('site_admin').name, Role.find_by_name('content_manager').name]
+      expect(page).to have_select 'Role', options: [@site_admin_role.name, @content_manager_role.name]
     end
   end
 

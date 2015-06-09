@@ -52,7 +52,8 @@ var article_incident_counts_chart = function() {
 
                       return info;
                     },
-                    useHTML: true
+                    useHTML: true,
+                    style: { padding: '1px' }
                 },
                 series: [{
                     name: 'Number of Sentences',

@@ -68,9 +68,11 @@ div.main-link a span {
 /* Highcharts */
 .highcharts-tooltip span {
   margin-top: 10px;
-  // top: 25px !important;
   height:auto;
   width: 30em;
   overflow: auto;
   white-space:normal !important;
+  z-index:10 !important;
+  background-color: rgba(249,249,249,1);
+  padding: 6px 10px;
 }

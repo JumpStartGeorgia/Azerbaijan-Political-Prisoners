@@ -4,7 +4,7 @@
     <%= f.input :name %>
     <%= f.input :portrait, as: :file %>
     <%= if @prisoner.has_attribute?(:portrait_file_name)
-          image_tag @prisoner.portrait.url(:medium)
+          image_tag @prisoner.portrait.url(:full)
         end %>
 
     <h3>Incidents</h3>

@@ -9,66 +9,93 @@
    currently_imprisoned_status = 'No Arrest Information'
   end
 
-  page_title (model_class.model_name.human.titleize + ': ' + @prisoner.name + ' — ' + currently_imprisoned_status)
+  #page_title (model_class.model_name.human.titleize + ': ' + @prisoner.name + ' — ' + currently_imprisoned_status)
 
-  page_title_right link_to('View All Prisoners', prisoners_path, class: 'btn btn-default')
+  #page_title_right link_to('View All Prisoners', prisoners_path, class: 'btn btn-default')
 -%>
 
 <% if user_signed_in? %>
   <div class='actions-container'>
     <%= render partial: 'shared/show_actions',
-          locals: {
-            object: @prisoner,
-            index_path: prisoners_path,
-            show_path: prisoner_path,
-            edit_path: edit_prisoner_path
-                  }
+      locals: {
+        object: @prisoner,
+        index_path: prisoners_path,
+        show_path: prisoner_path,
+        edit_path: edit_prisoner_path
+      }
     %>
   </div>
 <% end %>
 
-<%= image_tag(@prisoner.portrait.url(:medium)) %>
-<p><strong><%= @prisoner.total_days_in_prison %></strong> total days spent in prison</p>
-<div id="incidents">
-  <% @prisoner.incidents.each_with_index do |incident, index| %>
-    <div id="incident-<%= incident.date_of_arrest %>" class="incident">
-      <h2>Incident #<%= index + 1 %></h2>
-      <dl class="dl-horizontal">
-          <dt><strong><%= model_class.human_attribute_name(:date_of_arrest) %>:</strong></dt>
-          <dd><%= incident.date_of_arrest.strftime('%B %d, %Y') %></dd>
-          <dt><strong><%= model_class.human_attribute_name(:description_of_arrest) %>:</strong></dt>
-          <dd><%= simple_format_no_tags(incident.description_of_arrest) if incident.description_of_arrest.present? %></dd>
-          <dt><strong><%= model_class.human_attribute_name(:tags) %>:</strong></dt>
-          <dd>
-            <ul>
-              <% incident.tags.each do |tag| %>
-                <li><%= link_to tag.name, tag %></li>
-              <% end %>
-            </ul>
-          </dd>
-          <dt><strong><%= model_class.human_attribute_name(:charges) %>:</strong></dt>
-          <dd>
-            <ul>
-              <% incident.articles.each do |article| %>
-                <li><%= link_to article.number, article %></li>
-              <% end %>
-            </ul>
-          </dd>
-          <dt><strong><%= model_class.human_attribute_name(:prison) %>:</strong></dt>
-          <dd>
-              <%= if incident.prison
-                    link_to incident.prison.name, incident.prison
-                  end %>
-          </dd>
-          <dt><strong><%= model_class.human_attribute_name(:date_of_release) %>:</strong></dt>
-          <dd>
-              <%= if incident.date_of_release
-                    incident.date_of_release.strftime('%B %d, %Y')
-                  end %>
-          </dd>
-          <dt><strong><%= model_class.human_attribute_name(:description_of_release) %>:</strong></dt>
-          <dd><%= simple_format_no_tags(incident.description_of_release) if incident.description_of_release.present? %></dd>
-      </dl>
+<div class="info row">
+  <div class="col-md-9 left-box">
+    <div class="figure"><%= image_tag(@prisoner.portrait.url(:large), class: "img-responsive") %></div>
+    <div class="name h1"><%= @prisoner.name %></div>
+  </div>
+  <div class="col-md-3 right-box">
+    <div class="total">
+      <div class="days"><%= @prisoner.total_days_in_prison %></div>
+      <div class="in-prison">total days spent in prison</div>
     </div>
-<% end %>
+    <div class="status"><%= currently_imprisoned_status %></div>
+  </div>
+</div>
+<div class="arrests">
+  <div class="header"><div>Arrests</div><div><div class="hor-line"></div></div></div>
+    <% @prisoner.incidents.order(date_of_arrest: :desc).each_with_index do |incident, index| %>
+    <div class="arrest">
+      <div class="row">
+        <div class="col-md-6">
+          <label><%= model_class.human_attribute_name(:date_of_arrest) %>: </label>
+          <div class="value"><%= incident.date_of_arrest.strftime('%B %d, %Y') %></div>
+        </div>
+        <div class="col-md-6">
+          <label><%= model_class.human_attribute_name(:charges) %>: </label>
+          <div class="value">
+            <% len = incident.articles.length
+             incident.articles.each_with_index do |article, index| %>
+                <%= link_to article.number, article %>
+                <% if index != len-1 %>
+                  <span></span>
+                <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <label><%= model_class.human_attribute_name(:prison) %>: </label>
+          <div class="value">                      
+            <%=  link_to incident.prison.name, incident.prison if incident.prison %>       
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label><%= model_class.human_attribute_name(:tags) %>: </label>
+          <div class="value">
+            <% len = incident.tags.length
+             incident.tags.each_with_index do |tag, index| %>
+                <%= link_to tag.name, tag %>
+                <% if index != len-1 %>
+                  <span></span>
+                <% end %>
+            <% end %>          
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="description col-md-12"><%= simple_format_no_tags(incident.description_of_arrest) if incident.description_of_arrest.present? %></div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <label><%= model_class.human_attribute_name(:date_of_release) %>: </label> 
+          <div class="value"><%=  incident.date_of_release ? incident.date_of_release.strftime('%B %d, %Y') : 'None' %></div>
+          </div>
+      </div>
+      <div class="row">
+        <div class="description col-md-12">
+          <%= simple_format_no_tags(incident.description_of_release) if incident.description_of_release.present? %>
+        </div>    
+      </div>
+  <% end %>
+  </div>
 </div>

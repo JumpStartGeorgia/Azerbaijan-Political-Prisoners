@@ -11,33 +11,24 @@
   <div class="col-sm-6">
     <% unless (@featured_prisoner.blank?) || (@featured_prisoner.incidents.blank?) %>
       <div id="featured-prisoner">
-        <h2>
-          <%= link_to('Meet: ' + @featured_prisoner.name, prisoner_path(@featured_prisoner)) %>
-        </h2>
-
-        <%= link_to image_tag(@featured_prisoner.portrait.url(:thumb)), prisoner_path(@featured_prisoner) %>
-
-        <p>
-          In prison since: <%= l @featured_prisoner_inc.date_of_arrest, format: :long %>
-        </p>
-
-        <% if @featured_prisoner_inc.prison.present? %>
-          <p>
-            Imprisoned at: <%= link_to @featured_prisoner_inc.prison.name, prison_path(@featured_prisoner_inc.prison) %>
-          </p>
-        <% end %>
-
-        <% if @featured_prisoner_inc.articles.present? %>
-          <p>
-            Charged under articles: <%= @featured_prisoner_inc.articles.map{ |art| link_to art.number, article_path(art) }.join(', ').html_safe %>
-          </p>
-        <% end %>
-
-        <% if @featured_prisoner_inc.description_of_arrest.present? %>
-          <div id="featured-description">
-            <%= simple_format_no_tags(truncate(strip_tags(@featured_prisoner_inc.description_of_arrest), separator: ' ', length: 300)) %>
-          </div>
-        <% end %>
+        <h2><%= link_to('Meet: ' + @featured_prisoner.name, prisoner_path(@featured_prisoner)) %></h2>
+        <div class="figure">
+          <%= link_to image_tag(@featured_prisoner.portrait.url(:large)), prisoner_path(@featured_prisoner) %>
+        </div>
+        <div class="info">
+          <p>In prison since: <%= l @featured_prisoner_inc.date_of_arrest, format: :long %></p>
+          <% if @featured_prisoner_inc.prison.present? %>
+            <p>Imprisoned at: <%= link_to @featured_prisoner_inc.prison.name, prison_path(@featured_prisoner_inc.prison) %></p>
+          <% end %>
+          <% if @featured_prisoner_inc.articles.present? %>
+            <p>Charged under articles: <%= @featured_prisoner_inc.articles.map{ |art| link_to art.number, article_path(art) }.join(', ').html_safe %></p>
+          <% end %>
+          <% if @featured_prisoner_inc.description_of_arrest.present? %>
+            <div id="featured-description">
+              <%= simple_format_no_tags(truncate(strip_tags(@featured_prisoner_inc.description_of_arrest), separator: ' ', length: 300)) %>
+            </div>
+          <% end %>
+        </div>
       </div>
     <% end %>
   </div>

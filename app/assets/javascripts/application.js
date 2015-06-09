@@ -16,7 +16,7 @@
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require turbolinks
-//= require jquery-ui
+// require jquery-ui
 //= require cocoon
 //= require tinymce
 //= require select2

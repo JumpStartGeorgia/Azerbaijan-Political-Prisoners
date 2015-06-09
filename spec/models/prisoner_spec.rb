@@ -4,8 +4,8 @@ RSpec.describe Prisoner, type: :model do
   let(:p1) { FactoryGirl.build(:prisoner) }
 
   describe 'cannot be saved' do
-    it 'if date of release is nil for any but the last incident' do
-      i1 = FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 1), date_of_release: nil)
+    it 'if date of release is nil for any but the most recent incident' do
+      i1 = FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 1))
       p1.incidents << i1
       i2 = FactoryGirl.create(:incident, date_of_arrest: Date.new(2014, 1, 1))
       p1.incidents << i2
@@ -22,10 +22,10 @@ RSpec.describe Prisoner, type: :model do
       p1.incidents << i2
       expect { p1.save! }.to raise_error
 
-      i1.update(date_of_release: Date.new(2013, 1, 1))
+      i1.date_of_release = Date.new(2013, 1, 1)
       expect { p1.save! }.to raise_error
 
-      i2.update(date_of_arrest: Date.new(2014, 1, 1))
+      i2.date_of_arrest = Date.new(2014, 1, 1)
       expect { p1.save! }.not_to raise_error
     end
 
@@ -38,6 +38,16 @@ RSpec.describe Prisoner, type: :model do
       expect { p1.save! }.to raise_error
 
       i1.update(date_of_release: Date.yesterday)
+      expect { p1.save! }.not_to raise_error
+    end
+  end
+
+  describe 'can be saved' do
+    it 'when older incident is entered after newer incident and both are valid' do
+      i1 = FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 1))
+      p1.incidents << i1
+      i2 = FactoryGirl.create(:incident, date_of_arrest: Date.new(2010, 1, 1), date_of_release: Date.new(2011, 1, 1))
+      p1.incidents << i2
       expect { p1.save! }.not_to raise_error
     end
   end

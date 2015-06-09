@@ -30,7 +30,7 @@ RSpec.describe Prison, type: :model do
           prisoner1.incidents << FactoryGirl.create(:incident, prison: prison1)
           prisoner2.incidents << FactoryGirl.create(:incident, prison: prison2)
 
-          names_counts = Prison.prison_prisoner_count_chart
+          names_counts = Prison.current_prisoner_counts
 
           expect(names_counts.select { |x| x[:name] == 'prison1' }[0][:y]).to eq(1)
           expect(names_counts.select { |x| x[:name] == 'prison2' }[0][:y]).to eq(1)
@@ -45,7 +45,7 @@ RSpec.describe Prison, type: :model do
           prisoner1.incidents << FactoryGirl.create(:incident, prison: prison1, date_of_arrest: 10.days.ago)
           prisoner2.incidents << FactoryGirl.create(:incident, prison: prison2, date_of_arrest: 10.days.ago)
 
-          names_counts = Prison.prison_prisoner_count_chart
+          names_counts = Prison.current_prisoner_counts
 
           expect(names_counts.select { |x| x[:name] == 'prison1' }[0][:y]).to eq(1)
           expect(names_counts.select { |x| x[:name] == 'prison2' }[0][:y]).to eq(1)
@@ -57,7 +57,7 @@ RSpec.describe Prison, type: :model do
           prisoner1.incidents << FactoryGirl.create(:incident, prison: prison1)
           prisoner2.incidents << FactoryGirl.create(:incident, prison: prison1)
 
-          names_counts = Prison.prison_prisoner_count_chart
+          names_counts = Prison.current_prisoner_counts
 
           expect(names_counts.select { |x| x[:name] == 'prison1' }[0][:y]).to eq(2)
           expect(names_counts.select { |x| x[:name] == 'prison2' }).to eq([])
@@ -72,7 +72,7 @@ RSpec.describe Prison, type: :model do
           prisoner1.incidents << FactoryGirl.create(:incident, prison: prison1, date_of_arrest: 10.days.ago)
           prisoner2.incidents << FactoryGirl.create(:incident, prison: prison1, date_of_arrest: 10.days.ago)
 
-          names_counts = Prison.prison_prisoner_count_chart
+          names_counts = Prison.current_prisoner_counts
 
           expect(names_counts.select { |x| x[:name] == 'prison1' }[0][:y]).to eq(2)
           expect(names_counts.select { |x| x[:name] == 'prison2' }).to eq([])

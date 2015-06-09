@@ -11,7 +11,7 @@ RSpec.describe Prisoner, type: :model do
       p1.incidents << i2
       expect { p1.save! }.to raise_error
 
-      i1.update(date_of_release: Date.new(2013, 1, 1))
+      i1.date_of_release = Date.new(2013, 1, 1)
       expect { p1.save! }.not_to raise_error
     end
 
@@ -34,10 +34,10 @@ RSpec.describe Prisoner, type: :model do
       p1.incidents << i1
       expect { p1.save! }.to raise_error
 
-      i1.update(date_of_arrest: 10.days.ago)
+      i1.date_of_arrest = 10.days.ago
       expect { p1.save! }.to raise_error
 
-      i1.update(date_of_release: Date.yesterday)
+      i1.date_of_release = Date.yesterday
       expect { p1.save! }.not_to raise_error
     end
   end

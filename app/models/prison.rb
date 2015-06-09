@@ -25,15 +25,15 @@ class Prison < ActiveRecord::Base
   private
 
   def self.prison_prisoner_count_chart
-    prison_names_links_counts = []
+    prisons = []
 
     prison_names_prisoner_counts(10).each do |prison_name_prisoner_count|
-      prison_names_links_counts.append(y: prison_name_prisoner_count[:prisoner_count],
-                                       name: prison_name_prisoner_count[:prison_name],
-                                       link: "/#{I18n.locale}/prisons/#{prison_name_prisoner_count[:prison_id]}")
+      prisons.append(y: prison_name_prisoner_count[:prisoner_count],
+                     name: prison_name_prisoner_count[:prison_name],
+                     link: "/#{I18n.locale}/prisons/#{prison_name_prisoner_count[:prison_id]}")
     end
 
-    prison_names_links_counts
+    prisons
   end
 
   def self.prison_names_prisoner_counts(limit=nil)

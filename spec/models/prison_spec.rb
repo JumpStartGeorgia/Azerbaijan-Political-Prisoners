@@ -32,8 +32,8 @@ RSpec.describe Prison, type: :model do
 
           names_counts = Prison.prison_prisoner_count_chart
 
-          expect(names_counts.select { |x| x[:name] == "prison1" }[0][:y]).to eq(1)
-          expect(names_counts.select { |x| x[:name] == "prison2" }[0][:y]).to eq(1)
+          expect(names_counts.select { |x| x[:name] == 'prison1' }[0][:y]).to eq(1)
+          expect(names_counts.select { |x| x[:name] == 'prison2' }[0][:y]).to eq(1)
         end
 
         it 'with two incidents each' do
@@ -47,8 +47,8 @@ RSpec.describe Prison, type: :model do
 
           names_counts = Prison.prison_prisoner_count_chart
 
-          expect(names_counts.select { |x| x[:name] == "prison1" }[0][:y]).to eq(1)
-          expect(names_counts.select { |x| x[:name] == "prison2" }[0][:y]).to eq(1)
+          expect(names_counts.select { |x| x[:name] == 'prison1' }[0][:y]).to eq(1)
+          expect(names_counts.select { |x| x[:name] == 'prison2' }[0][:y]).to eq(1)
         end
       end
 
@@ -59,8 +59,8 @@ RSpec.describe Prison, type: :model do
 
           names_counts = Prison.prison_prisoner_count_chart
 
-          expect(names_counts.select { |x| x[:name] == "prison1" }[0][:y]).to eq(2)
-          expect(names_counts.select { |x| x[:name] == "prison2" }[0][:y]).to eq(0)
+          expect(names_counts.select { |x| x[:name] == 'prison1' }[0][:y]).to eq(2)
+          expect(names_counts.select { |x| x[:name] == 'prison2' }).to eq([])
         end
 
         it 'with two incidents each' do
@@ -74,8 +74,8 @@ RSpec.describe Prison, type: :model do
 
           names_counts = Prison.prison_prisoner_count_chart
 
-          expect(names_counts.select { |x| x[:name] == "prison1" }[0][:y]).to eq(2)
-          expect(names_counts.select { |x| x[:name] == "prison2" }[0][:y]).to eq(0)
+          expect(names_counts.select { |x| x[:name] == 'prison1' }[0][:y]).to eq(2)
+          expect(names_counts.select { |x| x[:name] == 'prison2' }).to eq([])
         end
       end
     end

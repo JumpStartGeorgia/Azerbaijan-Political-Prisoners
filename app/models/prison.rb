@@ -37,7 +37,7 @@ class Prison < ActiveRecord::Base
   end
 
   def self.prison_names_prisoner_counts(limit=nil)
-    primary_sql = 'select prisons.id as prison_id, prisons.name as prison_name, count(*) as prisoner_count from incidents inner join prisons on incidents.prison_id = prisons.id group by prisons.name order by count(*) desc'
+    primary_sql = 'select prisons.id as prison_id, prisons.name as prison_name, count(*) as prisoner_count from incidents inner join prisons on incidents.prison_id = prisons.id where incidents.date_of_release is null group by prisons.name order by count(*) desc'
 
     limit.nil? ? find_by_sql(primary_sql) : find_by_sql(primary_sql + ' limit ' + limit.to_s)
   end

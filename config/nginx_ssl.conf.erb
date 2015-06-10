@@ -1,5 +1,5 @@
 upstream puma_<%= application %> {
-  server 127.0.0.1:<%= puma_port %> fail_timeout=0;
+  server unix:<%= puma_socket %> fail_timeout=0;
 }
 
 server {

@@ -125,14 +125,8 @@ end
 namespace :puma do
   desc "Generates a new Puma configuration in the app's shared folder from the local puma.rb.erb layout."
   task :generate_conf do
-    conf = if use_ssl
-      queue %(echo "-----> Generating SSL Puma Config file")
-      ERB.new(File.read('./config/puma_ssl.conf.erb')).result
-    else
-      queue %(echo "-----> Generating Non-SSL Puma Config file")
-      ERB.new(File.read('./config/puma.conf.erb')).result
-    end
-
+    conf = ERB.new(File.read('./config/puma.rb.erb')).result
+    queue %(echo "-----> Generating new config/puma.rb")
     queue %(echo '#{conf}' > #{full_shared_path}/config/puma.rb)
   end
 

@@ -30,10 +30,15 @@ set :puma_error_log, -> { "#{full_shared_path}/log/puma.error.log" }
 set :puma_access_log, -> { "#{full_shared_path}/log/puma.access.log" }
 set :puma_log, -> { "#{full_shared_path}/log/puma.log" }
 set :puma_env, -> { "#{rails_env}" }
+set :puma_port, '9292'
 
 # Nginx settings
 set :nginx_conf, -> { "#{full_shared_path}/config/nginx.conf" }
 set :nginx_symlink, -> { "/etc/nginx/sites-enabled/#{application}" }
+
+# SSL settings
+set :ssl_key, -> { "/etc/sslmate/#{web_url}.key" }
+set :ssl_cert, -> { "/etc/sslmate/#{web_url}.chained.crt" }
 
 # Assets settings
 set :precompiled_assets_dir, 'public/assets'
@@ -58,15 +63,22 @@ end
 namespace :nginx do
   desc "Generates a new Nginx configuration in the app's shared folder from the local nginx.conf.erb layout."
   task :generate_conf do
-    conf = if nginx_ssl == true
+    conf = if use_ssl
       queue %(echo "-----> Generating SSL Nginx Config file")
       ERB.new(File.read('./config/nginx_ssl.conf.erb')).result
     else
       queue %(echo "-----> Generating Non-SSL Nginx Config file")
       ERB.new(File.read('./config/nginx.conf.erb')).result
     end
-    queue %(echo "-----> Generating new config/nginx.conf")
     queue %(echo '#{conf}' > #{full_shared_path}/config/nginx.conf)
+  end
+
+  desc 'Tests all Nginx configuration files for validity.'
+  task :test do |task|
+    system %(echo "")
+    system %(echo "Testing Nginx configuration files for validity")
+    system %(#{sudo_ssh_cmd(task)} 'sudo nginx -t')
+    system %(echo "")
   end
 
   desc "Creates a symlink to the app's Nginx configuration in the server's sites-enabled directory."
@@ -113,8 +125,14 @@ end
 namespace :puma do
   desc "Generates a new Puma configuration in the app's shared folder from the local puma.rb.erb layout."
   task :generate_conf do
-    conf = ERB.new(File.read('./config/puma.rb.erb')).result
-    queue %(echo "-----> Generating new config/puma.rb")
+    conf = if use_ssl
+      queue %(echo "-----> Generating SSL Puma Config file")
+      ERB.new(File.read('./config/puma_ssl.conf.erb')).result
+    else
+      queue %(echo "-----> Generating Non-SSL Puma Config file")
+      ERB.new(File.read('./config/puma.conf.erb')).result
+    end
+
     queue %(echo '#{conf}' > #{full_shared_path}/config/puma.rb)
   end
 
@@ -133,7 +151,7 @@ namespace :puma do
   task stop: :environment do
     queue! %[
       if [ -e '#{pumactl_socket}' ]; then
-        cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -S #{puma_state} stop
+        cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -S #{puma_state} -F #{puma_config} stop
         rm -f '#{pumactl_socket}'
       else
         echo 'Puma is not running!';
@@ -152,7 +170,7 @@ namespace :puma do
   task phased_restart: :environment do
     queue! %[
       if [ -e '#{pumactl_socket}' ]; then
-        cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -S #{puma_state} phased-restart
+        cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -S #{puma_state} -F #{puma_config} phased-restart
       else
         echo 'Puma is not running!';
       fi

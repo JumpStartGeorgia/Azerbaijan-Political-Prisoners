@@ -48,10 +48,9 @@
 .value {
   display:inline-block;
 }
-
-.arrests{
-  margin-top: 30px;
-  .header {
+.arrests, .prisoner
+{
+   .header {
     font-size:2em;
     line-height:1em;
     color: #d9534f;
@@ -72,6 +71,13 @@
       background-color:#e4e4e4;
     }
   }
+}
+.prisoner .header {
+   margin-bottom:10px;
+}
+
+.arrests{
+  margin-top: 30px;  
   .arrest 
   {
     padding:1em 2em;
@@ -125,4 +131,18 @@
       
     }
   }
+}
+form
+{
+   label + img { display:block; }
+   h3 { margin-top:10px; }
+   h3:hover {
+      cursor:pointer;
+   }
+   h3 > span.fa {
+      font-size:16px;
+      margin-right:5px;
+      vertical-align: middle;
+      cursor:pointer;
+   }
 }

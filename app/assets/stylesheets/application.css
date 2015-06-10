@@ -26,9 +26,10 @@
 /**************************************/
 
 .actions-container {
-  background-color: #CCC;
+  background-color: #f9f9f9;
   padding: 10px;
   margin: 20px 0px;
+  text-align: right;
 }
 
 #page-header {
@@ -61,4 +62,10 @@ table.datatable td, table.datatable-admin td{
 
 .datatable-topmargin{
   margin-top: 20px
+}
+
+.remove_fields {
+   float:right;
+   position: relative;
+   top: -4px;
 }

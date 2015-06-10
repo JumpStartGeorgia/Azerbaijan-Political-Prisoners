@@ -1,21 +1,29 @@
 <%= semantic_form_for(@prisoner) do |f| %>
   <%= f.semantic_errors *f.object.errors.keys %>
   <%= f.inputs do %>
-    <%= f.input :name %>
-    <%= f.input :portrait, as: :file %>
-    <%= if @prisoner.has_attribute?(:portrait_file_name)
-          image_tag @prisoner.portrait.url(:full)
-        end %>
+   
+  <div class="row">
+    <div class="col-md-3">
+      <%= f.label :portrait %>
+      <%= image_tag @prisoner.portrait.url(:large)  if @prisoner.has_attribute?(:portrait_file_name) %>
+      <%= f.input :portrait, as: :file, label: false %>
+    </div>
+    <div class="col-md-9">
+      <%= f.input :name %>
+    </div>
+  </div>
 
-    <h3>Incidents</h3>
+    <div class="header h3"><div>Incidents</div><div><div class="hor-line"></div></div></div>
     <div id="incidents">
         <%= f.semantic_fields_for :incidents do |incident| %>
           <%= render "incident_fields", f: incident %>
         <% end %>
-        <div id="links"><%= link_to_add_association 'Add New Incident', f, :incidents, class: 'btn btn-success' %></div>
+        
     </div>
   <% end %>
   <%= f.actions do %>
+    <%= link_to_add_association 'Add New Incident', f, :incidents, class: 'btn btn-success', :data => {"association-insertion-node" => "#incidents",
+   "association-insertion-method" => "append" } %>
     <%= f.action :submit, button_html: { class: 'btn btn-success' } %>
   <% end %>
 <% end %>

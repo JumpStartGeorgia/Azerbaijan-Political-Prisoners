@@ -34,6 +34,11 @@ $(document).ready(function() {
             addDatePickers();
         });
     }
+  $(document).on('click', '.nested-fields h3', function(){
+    var t = $(this);
+    t.find('span').toggleClass('fa-caret-right fa-caret-down');
+    t.parent().find('.container').toggle();
+  });
 });
 
 var imprisoned_count_timeline = function() {

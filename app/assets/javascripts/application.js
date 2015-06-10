@@ -16,7 +16,7 @@
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require turbolinks
-// require jquery-ui
+//= require jquery-ui
 //= require cocoon
 //= require tinymce
 //= require select2
@@ -39,11 +39,11 @@
 //= require twitter/bootstrap/affix
 
 var loadTinymce = function() {
-    var tinymceOptions = {selector: "textarea.tinymce"};
+    var tinymceOptions = {selector: "textarea.tinymce", height: 300};
     var tinymceDefaultConfig = gon.tinymce_config.default;
 
     // Add default config attributes to tinymce options
     for (var attrname in tinymceDefaultConfig) { tinymceOptions[attrname] = tinymceDefaultConfig[attrname]; }
-
+console.log(tinymceOptions);
     tinyMCE.init(tinymceOptions);
 }

@@ -3,13 +3,7 @@
 
 <% if user_signed_in? %>
   <div class='actions-container'>
-    <%= render partial: 'shared/form_actions',
-          locals: {
-            object: @user,
-            index_path: users_path,
-            show_path: user_path
-                  }
-    %>
+    <%= render partial: 'shared/form_actions', locals: { object: @user, index_path: users_path, show_path: user_path } %>
   </div>
 <% end %>
 

@@ -50,7 +50,8 @@
 @import "twitter/bootstrap/utilities.less";
 @import "twitter/bootstrap/responsive-utilities.less";
 
-// Overrides Bootstrap's Glyphicons with Font Awesome
+
+// Font Awesome
 @fontAwesomeEotPath: asset-url("fontawesome-webfont.eot");
 @fontAwesomeEotPath_iefix: asset-url("fontawesome-webfont.eot?#iefix");
 @fontAwesomeWoffPath: asset-url("fontawesome-webfont.woff");
@@ -59,9 +60,9 @@
 @import "fontawesome/font-awesome";
 
 // Set the correct sprite paths
-@iconSpritePath: image-url("twitter/bootstrap/glyphicons-halflings.png");
-@iconWhiteSpritePath: image-url("twitter/bootstrap/glyphicons-halflings-white.png");
-
+//@iconSpritePath: image-url("twitter/bootstrap/glyphicons-halflings.png");
+//@iconWhiteSpritePath: image-url("twitter/bootstrap/glyphicons-halflings-white.png");
+//
 
 /**************************************/
 /* Expands the width of the attribute label column so that "Description of release" fully displays on Prisoner show view */
@@ -112,13 +113,16 @@ body {
   /* Margin bottom by footer height */
   margin-bottom: 41px;
 }
+body > .container {
+  padding-bottom:20px;
+}
 footer {
   position: absolute;
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
   height: 41px;
-  background-color: #D4D4D4;
+  background-color: #f8f8f8;
 }
 
 /* footer styles */
@@ -132,7 +136,7 @@ footer {
     float: left;
     width: 30%;
     margin-top: 20px;
-    padding-top: 3px;
+    padding-top: 5px;
   }
   a:hover {
     background-color: transparent;
@@ -144,6 +148,7 @@ footer {
     width: 38%;
     text-align: center;
     float: left;
+    padding-top:5px;
   }
 
   div#right {
@@ -152,4 +157,14 @@ footer {
     width: 30%;
     text-align: right;
   }
+}
+abbr[title], abbr[data-original-title] {
+  border-bottom: 0px dotted #777777;
+  padding-left: 3px;
+}
+.help-block {
+  font-size:12px;
+  line-height:16px;
+  margin-bottom: 0px;
+  padding-left: 5px;
 }

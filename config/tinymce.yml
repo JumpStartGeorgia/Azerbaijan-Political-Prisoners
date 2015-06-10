@@ -1,13 +1,11 @@
 default:
   statusbar: false
   browser_spellcheck: true
-  convert_urls: false
-  width: "100%"
+  convert_urls: false  
   menubar: false
-  plugins: "autolink paste fullscreen link anchor lists hr code"
+  plugins: "autolink paste fullscreen link anchor lists hr code searchreplace"
   toolbar_items_size: 'small'
-  toolbar1: "cut copy paste searchreplace | undo redo | removeformat | fullscreen code"
-  toolbar2: "formatselect | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent blockquote | link unlink anchor | hr "
+  toolbar1: "undo redo | cut copy paste searchreplace | removeformat | formatselect | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent blockquote | link unlink anchor | hr | fullscreen code"
   paste_auto_cleanup_on_paste: true
   paste_remove_spans: true
   paste_strip_class_attributes: 'mso'

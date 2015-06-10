@@ -119,16 +119,12 @@ namespace :puma do
   end
 
   desc 'Start puma'
-  task :start => :environment do
+  task start: :environment do
     queue! %[
       if [ -e '#{pumactl_socket}' ]; then
         echo 'Puma is already running!';
       else
-        if [ -e '#{puma_config}' ]; then
-          cd #{deploy_to}/#{current_path} && #{puma_cmd} -q -d -e #{puma_env} -C #{puma_config}
-        else
-          cd #{deploy_to}/#{current_path} && #{puma_cmd} -q -d -e #{puma_env} -b 'unix://#{puma_socket}' -S #{puma_state} --control 'unix://#{pumactl_socket}'
-        fi
+        cd #{deploy_to}/#{current_path} && #{puma_cmd} -q -d -e #{puma_env} -C #{puma_config}
       fi
     ]
   end
@@ -152,6 +148,7 @@ namespace :puma do
   end
 
   desc 'Restart puma (phased restart)'
+
   task phased_restart: :environment do
     queue! %[
       if [ -e '#{pumactl_socket}' ]; then

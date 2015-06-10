@@ -1,6 +1,5 @@
 require 'erb'
 require 'mina/multistage'
-require 'mina/puma'
 require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
@@ -18,11 +17,15 @@ set :forward_agent, true
 set :rails_env, -> { "#{stage}" }
 
 # Puma settings
+set :web_server, :puma
+set :puma_role, -> { user }
 set :puma_socket, -> { "#{deploy_to}/tmp/puma/sockets/puma.sock" }
 set :puma_pid, -> { "#{deploy_to}/tmp/puma/pid" }
 set :puma_state, -> { "#{deploy_to}/tmp/puma/state" }
 set :pumactl_socket, -> { "#{deploy_to}/tmp/puma/sockets/pumactl.sock" }
 set :puma_config, -> { "#{full_shared_path}/config/puma.rb" }
+set :puma_cmd,       -> { "#{bundle_prefix} puma" }
+set :pumactl_cmd,    -> { "#{bundle_prefix} pumactl" }
 set :puma_error_log, -> { "#{full_shared_path}/log/puma.error.log" }
 set :puma_access_log, -> { "#{full_shared_path}/log/puma.access.log" }
 set :puma_log, -> { "#{full_shared_path}/log/puma.log" }
@@ -113,6 +116,50 @@ namespace :puma do
     conf = ERB.new(File.read('./config/puma.rb.erb')).result
     queue %(echo "-----> Generating new config/puma.rb")
     queue %(echo '#{conf}' > #{full_shared_path}/config/puma.rb)
+  end
+
+  desc 'Start puma'
+  task :start => :environment do
+    queue! %[
+      if [ -e '#{pumactl_socket}' ]; then
+        echo 'Puma is already running!';
+      else
+        if [ -e '#{puma_config}' ]; then
+          cd #{deploy_to}/#{current_path} && #{puma_cmd} -q -d -e #{puma_env} -C #{puma_config}
+        else
+          cd #{deploy_to}/#{current_path} && #{puma_cmd} -q -d -e #{puma_env} -b 'unix://#{puma_socket}' -S #{puma_state} --control 'unix://#{pumactl_socket}'
+        fi
+      fi
+    ]
+  end
+
+  desc 'Stop puma'
+  task stop: :environment do
+    queue! %[
+      if [ -e '#{pumactl_socket}' ]; then
+        cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -S #{puma_state} stop
+        rm -f '#{pumactl_socket}'
+      else
+        echo 'Puma is not running!';
+      fi
+    ]
+  end
+
+  desc 'Restart puma'
+  task restart: :environment do
+    invoke :'puma:stop'
+    invoke :'puma:start'
+  end
+
+  desc 'Restart puma (phased restart)'
+  task phased_restart: :environment do
+    queue! %[
+      if [ -e '#{pumactl_socket}' ]; then
+        cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -S #{puma_state} phased-restart
+      else
+        echo 'Puma is not running!';
+      fi
+    ]
   end
 
   namespace :jungle do

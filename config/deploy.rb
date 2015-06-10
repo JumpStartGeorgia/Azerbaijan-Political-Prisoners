@@ -160,11 +160,32 @@ namespace :puma do
   end
 
   desc 'Restart puma (phased restart)'
-
   task phased_restart: :environment do
     queue! %[
       if [ -e '#{pumactl_socket}' ]; then
         cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -F #{puma_config} phased-restart
+      else
+        echo 'Puma is not running!';
+      fi
+    ]
+  end
+
+  desc 'View status of puma server'
+  task status: :environment do
+    queue! %[
+      if [ -e '#{pumactl_socket}' ]; then
+        cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -F #{puma_config} status
+      else
+        echo 'Puma is not running!';
+      fi
+    ]
+  end
+
+  desc 'View information about puma server'
+  task stats: :environment do
+    queue! %[
+      if [ -e '#{pumactl_socket}' ]; then
+        cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -F #{puma_config} stats
       else
         echo 'Puma is not running!';
       fi

@@ -69,3 +69,9 @@ table.datatable td, table.datatable-admin td{
    position: relative;
    top: -4px;
 }
+.article.about {   
+   .partners {
+      text-align:center;
+      a:not(:last-of-type) { padding-right:80px; }
+   }
+}

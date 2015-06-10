@@ -44,6 +44,5 @@ var loadTinymce = function() {
 
     // Add default config attributes to tinymce options
     for (var attrname in tinymceDefaultConfig) { tinymceOptions[attrname] = tinymceDefaultConfig[attrname]; }
-console.log(tinymceOptions);
     tinyMCE.init(tinymceOptions);
 }

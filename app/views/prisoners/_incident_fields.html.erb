@@ -1,5 +1,9 @@
 <div class="nested-fields" style="display: <%= f.object.marked_for_destruction? ? 'none' : 'block' %>">
-    <h3><span class="fa fa-caret-down"></span>Incident (Arrest Date <%= f.object.date_of_arrest %>) 
+    <h3>
+      <div class="tree-toggle">
+         <span class="fa fa-caret-down"></span>
+         Incident (Arrest Date <%= f.object.date_of_arrest %>)
+      </div>
       <%= link_to_remove_association "Remove Incident", f, class: 'btn btn-danger' %>      
     </h3>
   <div class="container">

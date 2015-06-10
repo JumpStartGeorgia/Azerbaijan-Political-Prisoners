@@ -27,17 +27,16 @@ $(document).ready(function() {
         addSelect2();
         loadTinymce();
         addDatePickers();
-
-        $('#links').on('cocoon:after-insert', function(e, insertedItem) {
+        $('.container, #links').on('cocoon:after-insert', function(e, insertedItem) {
             addSelect2();
             loadTinymce();
             addDatePickers();
         });
     }
-  $(document).on('click', '.nested-fields h3', function(){
+  $(document).on('click', '.nested-fields h3 .tree-toggle', function(){
     var t = $(this);
     t.find('span').toggleClass('fa-caret-right fa-caret-down');
-    t.parent().find('.container').toggle();
+    t.closest('.nested-fields').find('.container').toggle();
   });
 });
 

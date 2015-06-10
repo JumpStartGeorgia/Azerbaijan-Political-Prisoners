@@ -136,13 +136,17 @@ form
 {
    label + img { display:block; }
    h3 { margin-top:10px; }
-   h3:hover {
-      cursor:pointer;
-   }
-   h3 > span.fa {
-      font-size:16px;
-      margin-right:5px;
-      vertical-align: middle;
-      cursor:pointer;
+   h3 > .tree-toggle
+   {
+      display:inline-block;
+      &:hover {
+         cursor:pointer;
+      }
+      > span.fa {
+         font-size:16px;
+         margin-right:5px;
+         vertical-align: middle;
+         cursor:pointer;
+      }
    }
 }

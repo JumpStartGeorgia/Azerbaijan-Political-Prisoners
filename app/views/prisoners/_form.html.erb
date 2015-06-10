@@ -22,8 +22,8 @@
     </div>
   <% end %>
   <%= f.actions do %>
-    <%= link_to_add_association 'Add New Incident', f, :incidents, class: 'btn btn-success', :data => {"association-insertion-node" => "#incidents",
-   "association-insertion-method" => "append" } %>
+   <div id="links"><%= link_to_add_association 'Add New Incident', f, :incidents, class: 'btn btn-success', :data => {"association-insertion-node" => "#incidents",
+   "association-insertion-method" => "append" } %></div>
     <%= f.action :submit, button_html: { class: 'btn btn-success' } %>
   <% end %>
 <% end %>

@@ -1,5 +1,5 @@
-<%- 
-  model_class = Article 
+<%-
+  model_class = Article
   page_title 'Arrest Charges'
   page_title_right link_to("#{model_class.model_name.human.pluralize.titleize} CSV Download", articles_path(format: :csv), class: 'btn btn-default')
 -%>
@@ -24,6 +24,7 @@
       <th></th>
       <th><%= model_class.human_attribute_name(:criminal_code_id) %></th>
       <th>Article Number</th>
+      <th>Number of Sentences</th>
       <th><%= model_class.human_attribute_name(:description) %></th>
       <% if can? :edit, Article %><th><%=t '.actions', :default => t("helpers.actions") %></th><% end %>
     </tr>
@@ -34,6 +35,7 @@
         <td><%= link_to t('helpers.links.view'), article_path(article), class: 'btn btn-default' %></td>
         <td><%= article.criminal_code.name %></td>
         <td><%= article.number %></td>
+        <td><%= article.incidents.count %></td>
         <td><%= simple_format_no_tags(article.description) if article.description.present? %></td>
         <% if (can? :edit, article) || (can? :destroy, article) %>
           <td>

@@ -99,7 +99,12 @@
                     </ul>
                   </li>
 
-                  <li><%= link_to "Download Latest Data", csv_zip_path %></li>
+                  <li>
+                    <%= link_to csv_zip_path, title: "Download Latest Data" do %>
+                      <i class="fa fa-download"></i>
+                    <% end %>
+                  </li>
+                  
 
                   <li>
                     <!-- Go to www.addthis.com/dashboard to customize your tools -->
@@ -108,7 +113,10 @@
 
                   <% if user_signed_in? %>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><%= current_user.email %><span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                          <i class="fa fa-user"></i>
+                          <span class="caret"></span>
+                        </a>
                         <ul class="dropdown-menu" role="menu">
                           <li><%= link_to "Prisoners", prisoners_path  %></li>
                           <li><%= link_to "Prisons", prisons_path  %></li>

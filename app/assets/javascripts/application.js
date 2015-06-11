@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery.turbolinks
 //= require jquery_ujs
+//= require twitter/bootstrap
 //= require dataTables/jquery.dataTables
 //= require dataTables/extras/dataTables.responsive
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
@@ -25,20 +26,6 @@
 //= require highcharts/modules/exporting
 //= require bootstrap
 //= require_tree .
-
-// Bootstrap Javascript
-//= require twitter/bootstrap/transition
-//= require twitter/bootstrap/alert
-//= require twitter/bootstrap/modal
-//= require twitter/bootstrap/dropdown
-//= require twitter/bootstrap/scrollspy
-//= require twitter/bootstrap/tab
-//= require twitter/bootstrap/tooltip
-//= require twitter/bootstrap/popover
-//= require twitter/bootstrap/button
-//= require twitter/bootstrap/collapse
-//= require twitter/bootstrap/carousel
-//= require twitter/bootstrap/affix
 
 var loadTinymce = function() {
     var tinymceOptions = {selector: "textarea.tinymce", height: 300};

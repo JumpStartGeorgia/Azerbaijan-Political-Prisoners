@@ -88,7 +88,10 @@ table.datatable td, table.datatable-admin td{
 .article.about {   
    .partners {
       text-align:center;
-      a:not(:last-of-type) { padding-right:80px; }
+      a { display:inline-block; 
+          padding-right:80px;
+          max-width:100%; }
+      a:last-of-type { padding-top:20px; }
    }
 }
 

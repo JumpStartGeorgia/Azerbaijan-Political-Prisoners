@@ -1,7 +1,9 @@
 class TagsController < ApplicationController
-  load_and_authorize_resource
+  before_action :redirect_to_newest_url, only: [:show, :edit, :update, :destroy]
 
-  before_action :set_tag, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource :find_by => :slug
+
+  # before_action :set_tag, only: [:show, :edit, :update, :destroy]
   before_action :set_prisoners_with_tag, only: [:show]
   before_action :set_gon_variables
 
@@ -77,10 +79,10 @@ class TagsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
-  def set_tag
-    @tag = Tag.find(params[:id])
-  end
+  # # Use callbacks to share common setup or constraints between actions.
+  # def set_tag
+  #   @tag = Tag.find(params[:id])
+  # end
 
   def set_prisoners_with_tag
     @prisoners_with_tag = Prisoner.by_tag(@tag.id)
@@ -94,4 +96,16 @@ class TagsController < ApplicationController
   def tag_params
     params.require(:tag).permit(:name, :description)
   end
+
+  # using history for friendly_ids
+  # so this checks if an old slug is being used, if so, redirect to correct one
+  def redirect_to_newest_url
+    @tag = Tag.friendly.find params[:id]
+
+    if request.path != tag_path(@tag)
+      return redirect_to @tag, :status => :moved_permanently
+    end
+  end
+
+
 end

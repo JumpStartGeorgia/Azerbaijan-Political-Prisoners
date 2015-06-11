@@ -1,4 +1,6 @@
 class Prisoner < ActiveRecord::Base
+  extend FriendlyId
+
   has_many :incidents, inverse_of: :prisoner, dependent: :destroy
   has_attached_file :portrait,
   styles: { thumb: '150x150>', large: '150x200>' },
@@ -11,8 +13,25 @@ class Prisoner < ActiveRecord::Base
   validate :validate_all_incidents_released_except_last
   validate :validate_incident_dates
 
+
   # strip extra spaces before saving
   auto_strip_attributes :name
+
+  # permalink
+  friendly_id :name, use: :history
+
+  # pagination
+  self.per_page = 10
+
+  # fields to search for in a story
+  scoped_search :on => [:name]
+  scoped_search :in => :incidents, :on => [:date_of_arrest, :date_of_release, :description_of_arrest, :description_of_release]
+
+  # SCOPES
+  scope :with_meta_data, -> { includes(incidents: [:prison, :tags, :articles]) }
+  scope :ordered, -> { order(:name) } 
+  scope :ordered_date_of_arrest, -> { order('incidents.date_of_arrest desc') }
+
 
   # CSV format
 
@@ -123,7 +142,7 @@ class Prisoner < ActiveRecord::Base
 
   def total_days_in_prison
     time = 0
-    incidents.each do |inc|
+    self.incidents.each do |inc|
       if inc.released?
         time += inc.date_of_release - inc.date_of_arrest
       else
@@ -224,6 +243,17 @@ class Prisoner < ActiveRecord::Base
   def self.convert_date_to_utc(date)
     Time.parse(date.to_s).utc.to_i * 1000
   end
+
+  def currently_imprisoned_status
+    if self.currently_imprisoned
+      'Currently<br/> Imprisoned'
+    elsif self.currently_imprisoned == false
+      'Released'
+    else
+      'No Arrest<br/> Information'
+    end
+  end
+
 
   private :update_currently_imprisoned, :validate_incident_dates, :validate_all_incidents_released_except_last
   private_class_method :arrest_counts_by_day, :release_counts_by_day, :create_date_from_hash

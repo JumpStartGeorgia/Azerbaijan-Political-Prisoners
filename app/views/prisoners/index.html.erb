@@ -17,44 +17,81 @@
   </div>
 <% end %>
 
-<%-
-  datatable_class = (can? :edit, Prisoner) ? 'datatable-admin' : 'datatable'
--%>
-<table class="table table-striped table-hover table-nonfluid <%= datatable_class %> no-wrap">
-  <thead>
-    <tr>
-      <th></th>
-      <th><%= model_class.human_attribute_name(:name) %></th>
-      <th><%= model_class.human_attribute_name(:currently_imprisoned) %></th>
-      <th>Total Days in Prison</th>
-      <% if can? :edit, Prisoner %><th><%=t '.actions', :default => t("helpers.actions") %></th><% end %>
-    </tr>
-  </thead>
-  <tbody>
+<div>
+  <form action="<%= prisoners_path %>" method="get" id="search-form2" role="search">
+    <div class="form-group">            
+      <%= text_field_tag :q, params[:q], :placeholder => 'Search Prisoners', :class=>"form-control search-input", :autocomplete=>'off', :tabindex => 1 %>
+      <%- if params[:q].present? -%>
+        <div class="search-result-count">
+          <%= @prisoners.total_entries %> Prisoners Found
+        </div>
+      <%- end %>
+    </div>
+  </form>
+</div>
+
+<hr />
+
+<% if @prisoners.present? %>
+  <div class="prisoners-container infos">
     <% @prisoners.each do |prisoner| %>
-      <tr>
-        <td><%= link_to t('helpers.links.view'), prisoner_path(prisoner), class: 'btn btn-default' %></td>
-        <td><%= prisoner.name %></td>
-        <td><% if prisoner.currently_imprisoned %>Yes<% elsif prisoner.currently_imprisoned == false %>No<% end %></td>
-        <td>
-          <%= number_with_delimiter(prisoner.total_days_in_prison) %>
-        </td>
-        <% if (can? :edit, prisoner) || (can? :destroy, prisoner) %>
-          <td>
-            <%= if can? :edit, prisoner
-                  link_to t('.edit', :default => t("helpers.links.edit")),
-                        edit_prisoner_path(prisoner), :class => 'btn btn-default'
+      <div class="info row">
+        <div class="col-md-9 left-box">
+          <div class="figure col-md-3">
+            <%= link_to image_tag(prisoner.portrait.url(:large), class: "img-responsive"), prisoner_path(prisoner) %>
+            <% if (can? :edit, prisoner) || (can? :destroy, prisoner) %>
+              <div class="actions">
+                <%= if can? :edit, prisoner
+                      link_to t('.edit', :default => t("helpers.links.edit")),
+                            edit_prisoner_path(prisoner), :class => 'btn btn-default'
+                    end %>
+                <%= if can? :destroy, prisoner
+                      link_to t('.destroy', :default => t("helpers.links.destroy")),
+                            prisoner_path(prisoner),
+                            :method => :delete,
+                            :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                            :class => 'btn btn-danger'
                 end %>
-            <%= if can? :destroy, prisoner
-                  link_to t('.destroy', :default => t("helpers.links.destroy")),
-                        prisoner_path(prisoner),
-                        :method => :delete,
-                        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                        :class => 'btn btn-danger'
-            end %>
-          </td>
-        <% end %>
-      </tr>
+              </div>
+            <% end %>
+          </div>
+          <div class="about col-md-9">
+            <div class="name h1"><%= link_to prisoner.name, prisoner_path(prisoner) %></div>
+            <% incident = prisoner.incidents.first %>
+            <% if incident.date_of_release.present? %>
+              <div class="kv">In Prison From: <span><%= l incident.date_of_arrest, format: :long %></span> - <span><%= l incident.date_of_release, format: :long %></span></div>
+            <% else %>
+              <div class="kv">In Prison Since: <span><%= l incident.date_of_arrest, format: :long %></span></div>
+            <% end %>
+            <% if incident.prison.present? %>
+              <div class="kv">Imprisoned At: <span><%= link_to incident.prison.name, prison_path(incident.prison) %></span></div>
+            <% end %>
+            <% if incident.articles.present? %>
+              <div class="kv">Charged Under Article(s): <span><%= incident.articles.map{ |art| link_to art.number, article_path(art) }.join(', ').html_safe %></span></div>
+            <% end %>
+            <% if incident.description_of_arrest.present? %>
+              <div class="descr">
+                <%= simple_format_no_tags(truncate(strip_tags(incident.description_of_arrest), separator: ' ', length: 300)) %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <div class="col-md-3 right-box">
+          <div class="total">
+            <div class="days"><%= number_with_delimiter(prisoner.total_days_in_prison) %></div>
+            <div class="in-prison">total days spent in prison</div>
+          </div>
+          <% klass = prisoner.currently_imprisoned == false ? ' green' : '' %>
+          <div class="status<%= klass %>"><%= prisoner.currently_imprisoned_status.html_safe %></div>
+        </div>
+      </div>
     <% end %>
-  </tbody>
-</table>
+  </div>
+  <%= will_paginate @prisoners, renderer: BootstrapPagination::Rails %>
+<% else %>
+
+  <p class="alert alert-warning">
+    Sorry, there are no prisoners on file that match your search request.
+  </p>
+
+<% end %>

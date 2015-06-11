@@ -1,7 +1,40 @@
 // Place all the styles related to the Prisoners controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-
+.infos
+{
+  .info {
+    &:not(:last-of-type) {
+      padding-bottom:10px;
+      border-bottom:1px solid #e4e4e4;
+      margin-bottom:10px;
+    }
+    .name {
+      margin:0px;
+    }
+    .actions
+    {
+      margin:10px 0px 0px;      
+      div { display:inline-block; }
+    }
+    .figure {
+      max-width:160px;
+    }
+    .kv {
+      padding:2px 0px;
+      font-weight:bold;
+      span {
+        font-weight:normal;
+      }
+    }
+    .descr {
+      padding:6px 0px 0px;
+    }
+    .right-box {
+      margin:0px;
+    }
+  }
+}
 .info {
   > div > div { display:inline-block; }
   .figure img {
@@ -16,15 +49,17 @@
     transform: translateY(-50%);
   }
   .total {
-    border-bottom: 1px solid rgb(228, 228, 228);
-    padding-bottom:10px;
-    margin-bottom:10px;
     display:block;
+    max-width:240px;
+    padding-bottom:10px;
+    border-bottom: 1px solid rgb(228, 228, 228);
+    margin-bottom:10px;
     .days {
       font-size: 6em;
-      line-height:1em;
+      line-height:1.2em;
       text-align:center;
       color: #d9534f;
+
     }
     .in-prison {
       white-space:nowrap;
@@ -32,11 +67,13 @@
     }
   }
   .status {
+    display:block;
     font-size: 1.6em;
     line-height: 1.3em;
     text-align: center;
     color: #d9534f;
-    text-transform: uppercase; 
+    text-transform: uppercase;
+    max-width:240px;
   }
   .status.green {
       color:#5cb85c;
@@ -80,6 +117,15 @@
 }
 .prisoner .header {
    margin-bottom:10px;
+}
+
+/* no abs position on prisoner index page */
+.prisoners-container .info {
+  .name {
+    position: inherit;
+    transform: inherit;
+    top: inherit;
+  }
 }
 
 .arrests{

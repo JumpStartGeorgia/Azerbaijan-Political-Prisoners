@@ -1,16 +1,8 @@
 <%- 
   model_class = Prisoner
-  klass = ''
-  if @prisoner.currently_imprisoned
-   currently_imprisoned_status = 'Currently<br/> Imprisoned'
-  elsif @prisoner.currently_imprisoned == false
-   currently_imprisoned_status = 'Released'
-   klass=' green'
-  else
-   currently_imprisoned_status = 'No Arrest<br/> Information'
-  end
+  klass = @prisoner.currently_imprisoned == false ? ' green' : ''
 
-  page_title strip_tags(@prisoner.name + ' | ' + currently_imprisoned_status)
+  page_title strip_tags(@prisoner.name + ' | ' + @prisoner.currently_imprisoned_status)
 
   #page_title_right link_to('View All Prisoners', prisoners_path, class: 'btn btn-default')
 
@@ -37,10 +29,10 @@
   </div>
   <div class="col-md-3 right-box">
     <div class="total">
-      <div class="days"><%= @prisoner.total_days_in_prison %></div>
+      <div class="days"><%= number_with_delimiter(@prisoner.total_days_in_prison) %></div>
       <div class="in-prison">total days spent in prison</div>
     </div>
-    <div class="status<%= klass %>"><%= currently_imprisoned_status.html_safe %></div>
+    <div class="status<%= klass %>"><%= @prisoner.currently_imprisoned_status.html_safe %></div>
   </div>
 </div>
 <div class="arrests">
@@ -49,11 +41,11 @@
     <div class="arrest">
       <div class="row">
         <div class="col-md-6">
-          <label><%= model_class.human_attribute_name(:date_of_arrest) %>: </label>
+          <label>In Prison Since: </label>
           <div class="value"><%= incident.date_of_arrest.strftime('%B %d, %Y') %></div>
         </div>
         <div class="col-md-6">
-          <label><%= model_class.human_attribute_name(:charges) %>: </label>
+          <label>Charged Under Article(s): </label>
           <div class="value">
             <% len = incident.articles.length
              incident.articles.each_with_index do |article, index| %>
@@ -67,13 +59,13 @@
       </div>
       <div class="row">
         <div class="col-md-6">
-          <label><%= model_class.human_attribute_name(:prison) %>: </label>
+          <label>Imprisoned At: </label>
           <div class="value">                      
             <%=  link_to incident.prison.name, incident.prison if incident.prison %>       
           </div>
         </div>
         <div class="col-md-6">
-          <label><%= model_class.human_attribute_name(:tags) %>: </label>
+          <label>Categories: </label>
           <div class="value">
             <% len = incident.tags.length
              incident.tags.each_with_index do |tag, index| %>

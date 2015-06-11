@@ -1,4 +1,6 @@
 class Article < ActiveRecord::Base
+  extend FriendlyId
+
   belongs_to :criminal_code
   has_many :charges, dependent: :destroy
   has_many :incidents, through: :charges
@@ -8,6 +10,17 @@ class Article < ActiveRecord::Base
 
   validates :number, :criminal_code, presence: true
   validates_uniqueness_of :number, scope: :criminal_code, message: 'already exists for selected Criminal Code. Enter new Number or select different Criminal Code'
+
+  # permalink
+  friendly_id :slug_candidates, use: :history
+  def slug_candidates
+    [
+      [self.criminal_code.name, :number]
+    ]
+  end  
+
+  scope :with_criminal_code, -> { includes(:criminal_code) }
+
 
   def self.to_csv
     require 'csv'

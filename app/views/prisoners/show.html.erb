@@ -1,10 +1,11 @@
 <%- 
   model_class = Prisoner
-
+  klass = ''
   if @prisoner.currently_imprisoned
    currently_imprisoned_status = 'Currently<br/>Imprisoned'
   elsif @prisoner.currently_imprisoned == false
    currently_imprisoned_status = 'Released'
+   klass=' green'
   else
    currently_imprisoned_status = 'No Arrest<br/>Information'
   end
@@ -37,7 +38,7 @@
       <div class="days"><%= @prisoner.total_days_in_prison %></div>
       <div class="in-prison">total days spent in prison</div>
     </div>
-    <div class="status"><%= currently_imprisoned_status.html_safe %></div>
+    <div class="status<%= klass %>"><%= currently_imprisoned_status.html_safe %></div>
   </div>
 </div>
 <div class="arrests">
@@ -88,7 +89,7 @@
       <div class="row">
         <div class="col-md-12">
           <label><%= model_class.human_attribute_name(:date_of_release) %>: </label> 
-          <div class="value"><%=  incident.date_of_release ? incident.date_of_release.strftime('%B %d, %Y') : 'None' %></div>
+          <div class="value"><%=  incident.date_of_release ? incident.date_of_release.strftime('%B %d, %Y') : 'Currently in prison' %></div>
           </div>
       </div>
       <div class="row">

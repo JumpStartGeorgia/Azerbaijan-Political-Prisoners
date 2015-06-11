@@ -14,6 +14,7 @@
 //= require jquery.turbolinks
 //= require jquery_ujs
 //= require dataTables/jquery.dataTables
+//= require dataTables/extras/dataTables.responsive
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require turbolinks
 //= require jquery-ui

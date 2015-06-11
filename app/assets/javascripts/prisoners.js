@@ -50,6 +50,7 @@ var imprisoned_count_timeline = function() {
                 $('#imprisoned-count-timeline').highcharts({
                     chart: {
                         zoomType: 'x',
+                        pinchType: 'none',
                         resetZoomButton: {
                             position: {
                                 align: 'left',

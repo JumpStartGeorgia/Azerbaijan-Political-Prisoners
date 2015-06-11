@@ -15,10 +15,11 @@
  *= require jquery-ui
  *= require formtastic
  *= require formtastic-bootstrap
- *= require bootstrap_and_overrides
  *= require my_formtastic_changes
  *= require dataTables/jquery.dataTables
  *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+ *= require dataTables/extras/dataTables.responsive
+ *= require bootstrap_and_overrides
  *= require_tree .
  *= require_self
  */
@@ -34,17 +35,32 @@
 
 #page-header {
   margin:0px 0px 30px;
-  padding:0px;
+  padding:0px 0px 10px;
   border-bottom:1px solid #ccc;
+   h1 {
+    display:inline-block;
+    margin-top: 10px;
+  }
+  .pull-right
+  {
+    display: block;
+    float: none !important;
+ 
+    a { margin:12px 10px 0px 0px; }
+    a:last-child { margin:12px 0px 0px 0px; }
+  }
+  @media (min-width: 768px) {
+    .pull-right {
+      float:right !important;
+      display:inline-block;
+    }
+  }
 }
  
-#page-header h1 {
-  margin-top: 10px;
-}
 
-#page-header h1 span#page-title-right{
-  font-size: 14px;
-}
+// #page-header h1 span#page-title-right{
+//   font-size: 14px;
+// }
 
 table.table-nonfluid {
   width: auto;
@@ -74,4 +90,56 @@ table.datatable td, table.datatable-admin td{
       text-align:center;
       a:not(:last-of-type) { padding-right:80px; }
    }
+}
+
+.formtastic input:not([type='button']):not([type='submit']):not([type='hidden']):not([type='reset']):not([type='file']):not([type='image']),
+.formtastic textarea
+{
+  padding:4px 34px 4px 14px;
+  font-size:14px;
+  box-sizing:content-box;
+
+  &[type="number"]{
+    width: 100px;  
+  }
+}
+.formtastic input[type='submit'], .formtastic input[type='reset'], .formtastic button
+{
+  padding:6px 12px;
+  font-size:14px;
+  box-sizing:content-box;
+}
+.formtastic 
+{
+  .input
+  {
+    overflow:visible;
+  }
+  .form-control
+  {
+    display:inline-block;
+  }
+  .control-label
+  {
+    display:block;
+    clear:both;
+    margin-bottom:3px;
+  }
+  .control-label, table th
+  {
+    abbr
+    {
+      font:12px 'sourcesans_pro', 'sans-serif';
+      color: #d95d6a;
+      width:10px;
+      display:inline-block; 
+      border: 0;
+      margin:0;
+      padding:0;
+    }
+  }  
+  .select select 
+  {
+    max-width: 72%;
+  }
 }

@@ -12,7 +12,7 @@ class PrisonersController < ApplicationController
   # GET /prisoners
   # GET /prisoners.json
   def index
-    @prisoners = Prisoner.with_incidents.ordered.search_for(params[:q]).paginate(page: params[:page])
+    @prisoners = Prisoner.search_for(params[:q]).with_meta_data.ordered.paginate(page: params[:page])
 
     respond_to do |format|
       format.html
@@ -131,7 +131,7 @@ class PrisonersController < ApplicationController
   # using history for friendly_ids
   # so this checks if an old slug is being used, if so, redirect to correct one
   def redirect_to_newest_url
-    @prisoner = Prisoner.with_incidents.friendly.find params[:id]
+    @prisoner = Prisoner.with_meta_data.friendly.find params[:id]
 
     if request.path != prisoner_path(@prisoner)
       return redirect_to @prisoner, :status => :moved_permanently

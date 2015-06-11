@@ -2,17 +2,19 @@
   model_class = Prisoner
   klass = ''
   if @prisoner.currently_imprisoned
-   currently_imprisoned_status = 'Currently<br/>Imprisoned'
+   currently_imprisoned_status = 'Currently<br/> Imprisoned'
   elsif @prisoner.currently_imprisoned == false
    currently_imprisoned_status = 'Released'
    klass=' green'
   else
-   currently_imprisoned_status = 'No Arrest<br/>Information'
+   currently_imprisoned_status = 'No Arrest<br/> Information'
   end
 
-  #page_title (model_class.model_name.human.titleize + ': ' + @prisoner.name + ' — ' + currently_imprisoned_status)
+  page_title strip_tags(@prisoner.name + ' | ' + currently_imprisoned_status)
 
   #page_title_right link_to('View All Prisoners', prisoners_path, class: 'btn btn-default')
+
+  @show_page_title = false
 -%>
 
 <% if user_signed_in? %>

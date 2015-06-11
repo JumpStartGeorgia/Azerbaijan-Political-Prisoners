@@ -288,6 +288,11 @@ namespace :deploy do
     end
   end
 
+  task :puma_rollback do
+    invoke:'deploy:rollback'
+    invoke:'puma:restart'
+  end
+
   namespace :assets do
     desc 'Decides whether to precompile assets based on whether there have been changes to the assets since last deploy.'
     task :decide_whether_to_precompile do

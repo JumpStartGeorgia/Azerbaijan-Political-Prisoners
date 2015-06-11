@@ -18,39 +18,61 @@
 <% end %>
 
 
-<div class="prisoners-container">
-  <% @prisoners.each do |prisoner| %>
-    <div class="info row">
-      <div class="col-md-9 left-box">
-        <div class="figure">
-          <%= image_tag(prisoner.portrait.url(:large), class: "img-responsive") %>
-          <% if (can? :edit, prisoner) || (can? :destroy, prisoner) %>
-            <div>
-              <%= if can? :edit, prisoner
-                    link_to t('.edit', :default => t("helpers.links.edit")),
-                          edit_prisoner_path(prisoner), :class => 'btn btn-default'
-                  end %>
-              <%= if can? :destroy, prisoner
-                    link_to t('.destroy', :default => t("helpers.links.destroy")),
-                          prisoner_path(prisoner),
-                          :method => :delete,
-                          :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                          :class => 'btn btn-danger'
-              end %>
-            </div>
-          <% end %>
+<div>
+  <form action="<%= prisoners_path %>" method="get" id="search-form2" role="search">
+    <div class="form-group">            
+      <%= text_field_tag :q, params[:q], :placeholder => 'Search Prisoners', :class=>"form-control search-input", :autocomplete=>'off', :tabindex => 1 %>
+      <%- if params[:q].present? -%>
+        <div class="search-result-count">
+          <%= @prisoners.total_entries %> Prisoners Found
         </div>
-        <div class="name h1"><%= prisoner.name %></div>
-      </div>
-      <div class="col-md-3 right-box">
-        <div class="total">
-          <div class="days"><%= prisoner.total_days_in_prison %></div>
-          <div class="in-prison">total days spent in prison</div>
-        </div>
-        <div class="status"><%= prisoner.currently_imprisoned_status.html_safe %></div>
-      </div>
+      <%- end %>
     </div>
-  <% end %>
+  </form>
 </div>
-<%= will_paginate @prisoners, renderer: BootstrapPagination::Rails %>
 
+<hr />
+
+<% if @prisoners.present? %>
+  <div class="prisoners-container">
+    <% @prisoners.each do |prisoner| %>
+      <div class="info row">
+        <div class="col-md-9 left-box">
+          <div class="figure">
+            <%= image_tag(prisoner.portrait.url(:large), class: "img-responsive") %>
+            <% if (can? :edit, prisoner) || (can? :destroy, prisoner) %>
+              <div>
+                <%= if can? :edit, prisoner
+                      link_to t('.edit', :default => t("helpers.links.edit")),
+                            edit_prisoner_path(prisoner), :class => 'btn btn-default'
+                    end %>
+                <%= if can? :destroy, prisoner
+                      link_to t('.destroy', :default => t("helpers.links.destroy")),
+                            prisoner_path(prisoner),
+                            :method => :delete,
+                            :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                            :class => 'btn btn-danger'
+                end %>
+              </div>
+            <% end %>
+          </div>
+          <div class="name h1"><%= prisoner.name %></div>
+        </div>
+        <div class="col-md-3 right-box">
+          <div class="total">
+            <div class="days"><%= prisoner.total_days_in_prison %></div>
+            <div class="in-prison">total days spent in prison</div>
+          </div>
+          <div class="status"><%= prisoner.currently_imprisoned_status.html_safe %></div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <%= will_paginate @prisoners, renderer: BootstrapPagination::Rails %>
+<% else %>
+
+  <p class="alert alert-warning">
+    Sorry, there are no prisoners on file that match your search request.
+  </p>
+
+<% end %>

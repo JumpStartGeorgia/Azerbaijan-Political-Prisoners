@@ -1,4 +1,6 @@
 class Prisoner < ActiveRecord::Base
+  extend FriendlyId
+
   has_many :incidents, inverse_of: :prisoner, dependent: :destroy
   has_attached_file :portrait,
   styles: { thumb: '150x150>', large: '150x200>' },
@@ -11,6 +13,8 @@ class Prisoner < ActiveRecord::Base
   validate :validate_all_incidents_released_except_last
   validate :validate_incident_dates
 
+  # permalink
+  friendly_id :name, use: :history
 
   # pagination
   self.per_page = 10

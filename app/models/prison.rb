@@ -1,5 +1,11 @@
 class Prison < ActiveRecord::Base
+  extend FriendlyId
+
   validates :name, presence: true, uniqueness: true
+
+  # permalink
+  friendly_id :name, use: :history
+
 
   def self.to_csv
     require 'csv'

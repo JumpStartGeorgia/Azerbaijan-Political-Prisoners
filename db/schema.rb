@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150609113636) do
+ActiveRecord::Schema.define(version: 20150611091535) do
 
   create_table "articles", force: :cascade do |t|
     t.string   "number",           limit: 255
@@ -19,10 +19,12 @@ ActiveRecord::Schema.define(version: 20150609113636) do
     t.text     "description",      limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "slug",             limit: 255
   end
 
   add_index "articles", ["criminal_code_id"], name: "index_articles_on_criminal_code_id", using: :btree
   add_index "articles", ["number"], name: "index_articles_on_number", using: :btree
+  add_index "articles", ["slug"], name: "index_articles_on_slug", using: :btree
 
   create_table "charges", force: :cascade do |t|
     t.integer  "incident_id", limit: 4
@@ -39,6 +41,19 @@ ActiveRecord::Schema.define(version: 20150609113636) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "friendly_id_slugs", force: :cascade do |t|
+    t.string   "slug",           limit: 255, null: false
+    t.integer  "sluggable_id",   limit: 4,   null: false
+    t.string   "sluggable_type", limit: 50
+    t.string   "scope",          limit: 255
+    t.datetime "created_at"
+  end
+
+  add_index "friendly_id_slugs", ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, using: :btree
+  add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
+  add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
+  add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
   create_table "incidents", force: :cascade do |t|
     t.integer  "prisoner_id",            limit: 4
@@ -77,18 +92,22 @@ ActiveRecord::Schema.define(version: 20150609113636) do
     t.integer  "portrait_file_size",    limit: 4
     t.datetime "portrait_updated_at"
     t.boolean  "currently_imprisoned",  limit: 1
+    t.string   "slug",                  limit: 255
   end
 
   add_index "prisoners", ["name"], name: "index_prisoners_on_name", using: :btree
+  add_index "prisoners", ["slug"], name: "index_prisoners_on_slug", using: :btree
 
   create_table "prisons", force: :cascade do |t|
     t.string   "name",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "description", limit: 65535
+    t.string   "slug",        limit: 255
   end
 
   add_index "prisons", ["name"], name: "index_prisons_on_name", using: :btree
+  add_index "prisons", ["slug"], name: "index_prisons_on_slug", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -103,9 +122,11 @@ ActiveRecord::Schema.define(version: 20150609113636) do
     t.text     "description", limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "slug",        limit: 255
   end
 
   add_index "tags", ["name"], name: "index_tags_on_name", using: :btree
+  add_index "tags", ["slug"], name: "index_tags_on_slug", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false

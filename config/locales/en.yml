@@ -97,3 +97,8 @@ en:
       prison: Prison
       tag: Tag
       user: User
+    attributes:
+      prisoner:
+        name: Name
+        date_of_arrest: Date of Arrest
+        date_of_release: Date of Release

@@ -115,7 +115,7 @@
         <div>
             <%= bootstrap_flash %>
 
-            <% if content_for? :page_title %>
+            <% if @show_page_title && content_for?(:page_title) %>
               <div id="page-header">
                 <% if (content_for? :page_subtitle) %>
                   <hgroup>

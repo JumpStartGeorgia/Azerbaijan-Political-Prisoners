@@ -28,7 +28,7 @@
   </div>
   <div class="col-md-3 right-box">
     <div class="total">
-      <div class="days"><%= @prisoner.total_days_in_prison %></div>
+      <div class="days"><%= number_with_delimiter(@prisoner.total_days_in_prison) %></div>
       <div class="in-prison">total days spent in prison</div>
     </div>
     <div class="status"><%= @prisoner.currently_imprisoned_status.html_safe %></div>

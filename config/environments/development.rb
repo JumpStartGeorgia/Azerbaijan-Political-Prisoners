@@ -46,13 +46,13 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
   Paperclip.options[:command_path] = '/usr/local/bin/'
-
+  bullet = false
   config.after_initialize do
-    Bullet.enable = true
-    Bullet.alert = true
-    Bullet.bullet_logger = true
-    Bullet.console = true
-    Bullet.rails_logger = true
+    Bullet.enable = bullet
+    Bullet.alert = bullet
+    Bullet.bullet_logger = bullet
+    Bullet.console = bullet
+    Bullet.rails_logger = bullet
   end
 
 

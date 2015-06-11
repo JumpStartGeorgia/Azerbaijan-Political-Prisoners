@@ -26,7 +26,7 @@ class Prisoner < ActiveRecord::Base
   # SCOPES
   scope :with_incidents, -> { includes(:incidents) }
   scope :ordered, -> { order(:name) } 
-
+  scope :ordered_date_of_arrest, -> { order('incidents.date_of_arrest desc') }
 
   # CSV format
 

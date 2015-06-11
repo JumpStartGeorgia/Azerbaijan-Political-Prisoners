@@ -23,7 +23,7 @@ set :puma_socket, -> { "#{deploy_to}/tmp/puma/sockets/puma.sock" }
 set :puma_pid, -> { "#{deploy_to}/tmp/puma/pid" }
 set :puma_state, -> { "#{deploy_to}/tmp/puma/state" }
 set :pumactl_socket, -> { "#{deploy_to}/tmp/puma/sockets/pumactl.sock" }
-set :puma_config, -> { "#{full_shared_path}/config/puma.rb" }
+set :puma_conf, -> { "#{full_current_path}/config/puma.rb" }
 set :puma_cmd,       -> { "#{bundle_prefix} puma" }
 set :pumactl_cmd,    -> { "#{bundle_prefix} pumactl" }
 set :puma_error_log, -> { "#{full_shared_path}/log/puma.error.log" }
@@ -33,7 +33,7 @@ set :puma_env, -> { "#{rails_env}" }
 set :puma_port, '9292'
 
 # Nginx settings
-set :nginx_conf, -> { "#{full_shared_path}/config/nginx.conf" }
+set :nginx_conf, -> { "#{full_current_path}/config/nginx.conf" }
 set :nginx_symlink, -> { "/etc/nginx/sites-enabled/#{application}" }
 
 # SSL settings
@@ -70,7 +70,7 @@ namespace :nginx do
       queue %(echo "-----> Generating Non-SSL Nginx Config file")
       ERB.new(File.read('./config/nginx.conf.erb')).result
     end
-    queue %(echo '#{conf}' > #{full_shared_path}/config/nginx.conf)
+    queue %(echo '#{conf}' > #{nginx_conf})
   end
 
   desc 'Tests all Nginx configuration files for validity.'
@@ -127,7 +127,7 @@ namespace :puma do
   task :generate_conf do
     conf = ERB.new(File.read('./config/puma.rb.erb')).result
     queue %(echo "-----> Generating new config/puma.rb")
-    queue %(echo '#{conf}' > #{full_shared_path}/config/puma.rb)
+    queue %(echo '#{conf}' > #{puma_conf})
   end
 
   desc 'Start puma'
@@ -136,7 +136,7 @@ namespace :puma do
       if [ -e '#{pumactl_socket}' ]; then
         echo 'Puma is already running!';
       else
-        cd #{deploy_to}/#{current_path} && #{puma_cmd} -q -d -e #{puma_env} -C #{puma_config}
+        cd #{deploy_to}/#{current_path} && #{puma_cmd} -q -d -e #{puma_env} -C #{puma_conf}
       fi
     ]
   end
@@ -145,7 +145,7 @@ namespace :puma do
   task stop: :environment do
     queue! %[
       if [ -e '#{pumactl_socket}' ]; then
-        cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -F #{puma_config} stop
+        cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -F #{puma_conf} stop
         rm -f '#{pumactl_socket}'
       else
         echo 'Puma is not running!';
@@ -163,7 +163,7 @@ namespace :puma do
   task phased_restart: :environment do
     queue! %[
       if [ -e '#{pumactl_socket}' ]; then
-        cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -F #{puma_config} phased-restart
+        cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -F #{puma_conf} phased-restart
       else
         echo 'Puma is not running!';
       fi
@@ -174,7 +174,7 @@ namespace :puma do
   task status: :environment do
     queue! %[
       if [ -e '#{pumactl_socket}' ]; then
-        cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -F #{puma_config} status
+        cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -F #{puma_conf} status
       else
         echo 'Puma is not running!';
       fi
@@ -185,7 +185,7 @@ namespace :puma do
   task stats: :environment do
     queue! %[
       if [ -e '#{pumactl_socket}' ]; then
-        cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -F #{puma_config} stats
+        cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -F #{puma_conf} stats
       else
         echo 'Puma is not running!';
       fi
@@ -197,7 +197,7 @@ namespace :puma do
     task :add do |task|
       system %(echo "")
       system %(echo "Adding application to puma jungle at /etc/puma.conf")
-      system %(#{sudo_ssh_cmd(task)} 'sudo /etc/init.d/puma add #{deploy_to} #{user} #{puma_config} #{puma_log}')
+      system %(#{sudo_ssh_cmd(task)} 'sudo /etc/init.d/puma add #{deploy_to} #{user} #{puma_conf} #{puma_log}')
       system %(echo "")
     end
 

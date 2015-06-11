@@ -10,7 +10,7 @@ class PrisonersController < ApplicationController
   # GET /prisoners
   # GET /prisoners.json
   def index
-    @prisoners = Prisoner.all.includes(:incidents).order(:name)
+    @prisoners = Prisoner.with_incidents.ordered.search_for(params[:q]).paginate(page: params[:page])
 
     respond_to do |format|
       format.html

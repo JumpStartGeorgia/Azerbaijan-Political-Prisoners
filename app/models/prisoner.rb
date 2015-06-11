@@ -11,6 +11,19 @@ class Prisoner < ActiveRecord::Base
   validate :validate_all_incidents_released_except_last
   validate :validate_incident_dates
 
+
+  # pagination
+  self.per_page = 10
+
+  # fields to search for in a story
+  scoped_search :on => [:name]
+  scoped_search :in => :incidents, :on => [:date_of_arrest, :description_of_arrest, :description_of_release]
+
+  # SCOPES
+  scope :with_incidents, -> { includes(:incidents) }
+  scope :ordered, -> { order(:name) } 
+
+
   # CSV format
 
   def self.to_csv
@@ -118,7 +131,7 @@ class Prisoner < ActiveRecord::Base
 
   def total_days_in_prison
     time = 0
-    incidents.each do |inc|
+    self.incidents.each do |inc|
       if inc.released?
         time += inc.date_of_release - inc.date_of_arrest
       else
@@ -219,6 +232,17 @@ class Prisoner < ActiveRecord::Base
   def self.convert_date_to_utc(date)
     Time.parse(date.to_s).utc.to_i * 1000
   end
+
+  def currently_imprisoned_status
+    if self.currently_imprisoned
+      'Currently<br/> Imprisoned'
+    elsif self.currently_imprisoned == false
+      'Released'
+    else
+      'No Arrest<br/> Information'
+    end
+  end
+
 
   private :update_currently_imprisoned, :validate_incident_dates, :validate_all_incidents_released_except_last
   private_class_method :arrest_counts_by_day, :release_counts_by_day, :create_date_from_hash

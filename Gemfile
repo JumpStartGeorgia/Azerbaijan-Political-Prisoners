@@ -61,3 +61,6 @@ gem 'rails-observers', '~> 0.1.2'
 gem 'jquery-datatables-rails', '~> 3.3.0' # jquery datatables
 gem 'select2-rails', '~> 3.5.9'
 gem 'exception_notification', '~> 4.1.0' # send an email when exception occurs
+gem 'scoped_search', '~> 3.2.0' # search a model
+#gem "will_paginate", "~> 3.0.7" # pagination
+gem 'will_paginate-bootstrap', '~> 1.0.1' # pagination

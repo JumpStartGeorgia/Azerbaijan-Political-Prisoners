@@ -288,9 +288,11 @@ namespace :deploy do
     end
   end
 
+  desc 'Stops puma server, rolls back to previous deploy, and starts puma server'
   task :puma_rollback do
+    invoke:'puma:stop'
     invoke:'deploy:rollback'
-    invoke:'puma:restart'
+    invoke:'puma:start'
   end
 
   namespace :assets do

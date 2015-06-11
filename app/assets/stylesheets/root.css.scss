@@ -76,3 +76,21 @@ div.main-link a span {
   background-color: rgba(249,249,249,1);
   padding: 6px 10px;
 }
+
+
+/********************************************************/
+/* about page */
+#about ul#logos{
+  margin: 15px 0;
+  li {
+    margin-right: 15px;
+    a{
+      display: block;
+      &:hover{
+        img{opacity: 0.8;}
+        background-color: transparent;
+        text-decoration: none;
+      }
+    }
+  }
+}

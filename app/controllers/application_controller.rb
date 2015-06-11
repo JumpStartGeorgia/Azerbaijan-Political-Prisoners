@@ -5,9 +5,14 @@ class ApplicationController < ActionController::Base
   cache_sweeper :generated_sweeper
 
   before_action :set_locale
+  before_action :set_global_variables
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
+  end
+
+  def set_global_variables
+    @show_page_title = true
   end
 
   def default_url_options(options = {})

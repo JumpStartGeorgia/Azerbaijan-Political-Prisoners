@@ -8,7 +8,8 @@ $(document).on('page:change', function(){
     "columnDefs": [
       { orderable: false, targets: [0] }
     ],
-    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+    responsive: true
   });
 
   $('table.datatable-admin').dataTable({
@@ -19,7 +20,8 @@ $(document).on('page:change', function(){
     "columnDefs": [
       { orderable: false, targets: [0, -1] }
     ],
-    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+    responsive: true
   });
 
 });

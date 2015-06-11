@@ -1,0 +1,139 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require select2
+ *= require select2-bootstrap
+ *= require jquery-ui
+ *= require formtastic
+ *= require formtastic-bootstrap
+ *= require my_formtastic_changes
+ *= require dataTables/jquery.dataTables
+ *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+ *= require dataTables/extras/dataTables.responsive
+ *= require bootstrap_and_overrides
+ *= require_tree .
+ *= require_self
+ */
+
+/**************************************/
+
+.actions-container {
+  background-color: #f9f9f9;
+  padding: 10px;
+  margin: 20px 0px;
+  text-align: right;
+}
+
+#page-header {
+  margin:0px 0px 30px;
+  padding:0px 0px 10px;
+  border-bottom:1px solid #ccc;
+   h1 {
+    display:inline-block;
+    margin-top: 10px;
+  }
+  .pull-right
+  {
+    display: block;
+    float: none !important;
+ 
+    a { margin:12px 10px 0px 0px; }
+    a:last-child { margin:12px 0px 0px 0px; }
+  }
+  @media (min-width: 768px) {
+    .pull-right {
+      float:right !important;
+      display:inline-block;
+    }
+  }
+}
+ 
+
+// #page-header h1 span#page-title-right{
+//   font-size: 14px;
+// }
+
+table.table-nonfluid {
+  width: auto;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+table.datatable th, table.datatable-admin th{
+  text-align: center;
+}
+
+table.datatable td, table.datatable-admin td{
+  vertical-align: middle !important;
+}
+
+.datatable-topmargin{
+  margin-top: 20px
+}
+
+.remove_fields {
+   float:right;
+   position: relative;
+   top: -4px;
+}
+
+.formtastic input:not([type='button']):not([type='submit']):not([type='hidden']):not([type='reset']):not([type='file']):not([type='image']),
+.formtastic textarea
+{
+  padding:4px 34px 4px 14px;
+  font-size:14px;
+  box-sizing:content-box;
+
+  &[type="number"]{
+    width: 100px;  
+  }
+}
+.formtastic input[type='submit'], .formtastic input[type='reset'], .formtastic button
+{
+  padding:6px 12px;
+  font-size:14px;
+  box-sizing:content-box;
+}
+.formtastic 
+{
+  .input
+  {
+    overflow:visible;
+  }
+  .form-control
+  {
+    display:inline-block;
+  }
+  .control-label
+  {
+    display:block;
+    clear:both;
+    margin-bottom:3px;
+  }
+  .control-label, table th
+  {
+    abbr
+    {
+      font:12px 'sourcesans_pro', 'sans-serif';
+      color: #d95d6a;
+      width:10px;
+      display:inline-block; 
+      border: 0;
+      margin:0;
+      padding:0;
+    }
+  }  
+  .select select 
+  {
+    max-width: 72%;
+  }
+}

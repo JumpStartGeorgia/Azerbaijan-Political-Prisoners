@@ -14,6 +14,7 @@
 //= require jquery.turbolinks
 //= require jquery_ujs
 //= require dataTables/jquery.dataTables
+//= require dataTables/extras/dataTables.responsive
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require turbolinks
 //= require jquery-ui
@@ -40,11 +41,10 @@
 //= require twitter/bootstrap/affix
 
 var loadTinymce = function() {
-    var tinymceOptions = {selector: "textarea.tinymce"};
+    var tinymceOptions = {selector: "textarea.tinymce", height: 300};
     var tinymceDefaultConfig = gon.tinymce_config.default;
 
     // Add default config attributes to tinymce options
     for (var attrname in tinymceDefaultConfig) { tinymceOptions[attrname] = tinymceDefaultConfig[attrname]; }
-
     tinyMCE.init(tinymceOptions);
 }

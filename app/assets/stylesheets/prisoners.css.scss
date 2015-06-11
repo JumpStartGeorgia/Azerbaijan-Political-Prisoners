@@ -1,3 +1,169 @@
 // Place all the styles related to the Prisoners controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.info {
+  > div > div { display:inline-block; }
+  .figure img {
+    border:1px solid #ddd;
+    padding:3px;
+  }
+  .name {
+    margin:0px 0px 0px 10px;
+    vertical-align: top;
+    position:absolute;
+    top:50%;
+    transform: translateY(-50%);
+  }
+  .total {
+    border-bottom: 1px solid rgb(228, 228, 228);
+    padding-bottom:10px;
+    margin-bottom:10px;
+    display:block;
+    .days {
+      font-size: 6em;
+      line-height:1em;
+      text-align:center;
+      color: #d9534f;
+    }
+    .in-prison {
+      white-space:nowrap;
+      font-size:12px;
+    }
+  }
+  .status {
+    font-size: 1.6em;
+    line-height: 1.3em;
+    text-align: center;
+    color: #d9534f;
+    text-transform: uppercase; 
+  }
+  .status.green {
+      color:#5cb85c;
+    }
+  .left-box {
+    position:relative;
+  }
+  .right-box {
+    vertical-align:middle;
+    text-align:center;
+    margin-top: 20px;
+  }
+}
+
+.value {
+  display:inline-block;
+}
+.arrests, .prisoner
+{
+   .header {
+    font-size:2em;
+    line-height:1em;
+    color: #d9534f;
+    margin-bottom:20px;
+    
+    >div {
+      display:table-cell;
+    }
+    > div:last-child {
+      width:100%;
+      vertical-align: middle;
+      padding: 6px 10px 0px;
+    }
+    .hor-line
+    {
+      width:100%;
+      height:1px;
+      background-color:#e4e4e4;
+    }
+  }
+}
+.prisoner .header {
+   margin-bottom:10px;
+}
+
+.arrests{
+  margin-top: 30px;  
+  .arrest 
+  {
+    padding:1em 2em;
+    &:not(:last-child)
+    {
+      border-bottom:1px solid #e4e4e4;
+    }
+    .row {
+      margin-bottom:5px;
+    }
+    label {
+      display:table-cell;
+      vertical-align:top;
+      font-size: 13px;
+      color: #5E5E5E;
+      padding:0px 10px 0px 0px;
+    }
+    a {
+      color: #5cb85c;
+       text-decoration:none;
+      &:hover, &:focus
+      {
+        color: #008E00;
+        text-decoration:none;
+      }
+    }
+    ul {
+      color:#5cb85c;
+      list-style:none;
+      padding:0px;
+    }
+    li:before {
+      color: red; 
+    }
+    .description {
+      font-size: 12px;
+      text-align: justify;
+      line-height: 20px;
+      margin-top: 20px;
+    }
+    .value {
+      display:table-cell;
+      vertical-align:top;
+      span {
+        background-color: #cacaca;
+        display: inline-block;
+        vertical-align: middle;
+        height: 16px;
+        width: 1px;
+        margin: 0px 10px;
+      }
+      
+    }
+  }
+}
+form
+{
+   label + img { display:block; }
+   h3 { margin-top:10px; }
+   h3 > .tree-toggle
+   {
+      display:inline-block;
+      &:hover {
+         cursor:pointer;
+      }
+      > span.fa {
+         font-size:16px;
+         margin-right:5px;
+         vertical-align: middle;
+         cursor:pointer;
+      }
+   }   
+}
+#imprisoned-count-timeline
+{
+  pointer-events:none;
+}
+@media (min-width: 992px) {
+  #imprisoned-count-timeline
+  {
+    pointer-events:initial;
+  }
+}

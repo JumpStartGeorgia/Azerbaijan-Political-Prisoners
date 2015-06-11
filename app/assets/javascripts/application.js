@@ -21,6 +21,7 @@
 //= require tinymce
 //= require select2
 //= require highcharts
+//= require highcharts/modules/exporting
 //= require bootstrap
 //= require_tree .
 

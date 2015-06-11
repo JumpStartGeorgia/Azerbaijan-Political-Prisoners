@@ -56,7 +56,7 @@ var imprisoned_count_timeline = function() {
                         }
                     },
                     title: {
-                        text: 'How has the number of political prisoners changed over time? - <strong>DATA INCOMPLETE<sup>*</sup></strong>',
+                        text: 'How has the number of political prisoners changed over time?',
                         useHTML: true
                     },
                     subtitle: {

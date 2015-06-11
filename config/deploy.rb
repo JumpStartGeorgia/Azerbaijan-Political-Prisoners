@@ -289,10 +289,11 @@ namespace :deploy do
   end
 
   desc 'Stops puma server, rolls back to previous deploy, and starts puma server'
-  task :puma_rollback do
+  task :custom_rollback do
     invoke:'puma:stop'
     invoke:'deploy:rollback'
     invoke:'puma:start'
+    invoke:'deploy:assets:copy_current_to_tmp'
   end
 
   namespace :assets do
@@ -348,9 +349,15 @@ namespace :deploy do
       system %(rsync #{rsync_verbose} --recursive --times --delete ./#{precompiled_assets_dir}/. #{user}@#{domain}:#{deploy_to}/tmp/assets)
     end
 
-    task :copy do
+    task :copy_tmp_to_current do
       queue %(echo "-----> Copying assets from tmp/assets to current/#{precompiled_assets_dir}")
       queue %(cp -a #{deploy_to}/tmp/assets/. ./#{precompiled_assets_dir})
+    end
+
+    task :copy_current_to_tmp do
+      queue %(echo "-----> Replacing tmp/assets with current/#{precompiled_assets_dir}")
+      queue %(rm -r #{deploy_to}/tmp/assets)
+      queue %(cp -a #{full_current_path}/#{precompiled_assets_dir}/. #{deploy_to}/tmp/assets)
     end
   end
 end
@@ -408,7 +415,7 @@ task deploy: :environment do
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
-    invoke :'deploy:assets:copy'
+    invoke :'deploy:assets:copy_tmp_to_current'
     invoke :'nginx:generate_conf'
     invoke :'puma:generate_conf'
     invoke :'deploy:cleanup'

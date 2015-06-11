@@ -47,6 +47,9 @@ set :precompiled_assets_dir, 'public/assets'
 set :temp_env_example_path, -> { "#{user_path}/.env.example-#{application}" }
 set :shared_env_path, -> { "#{full_shared_path}/.env" }
 
+# Fetch Head location: this file contains the currently deployed git commit hash
+set :fetch_head, -> { "#{deploy_to}/scm/FETCH_HEAD" }
+
 # This task is the environment that is loaded for most commands, such as
 # `mina deploy` or `mina rake`.
 task :environment do
@@ -271,6 +274,16 @@ namespace :puma do
   end
 end
 
+namespace :git do
+  desc "Remove FETCH_HEAD file containing currently deployed git commit hash; this will force user to precompile on next deploy"
+  task :remove_fetch_head do
+    queue! %[
+      echo '-----> Removing #{fetch_head}'
+      rm #{fetch_head}
+    ]
+  end
+end
+
 namespace :deploy do
   desc 'Ensures that local git repository is clean and in sync with the origin repository used for deploy.'
   task :check_revision do
@@ -294,6 +307,7 @@ namespace :deploy do
     invoke:'deploy:rollback'
     invoke:'puma:start'
     invoke:'deploy:assets:copy_current_to_tmp'
+    invoke:'git:remove_fetch_head'
   end
 
   namespace :assets do
@@ -309,7 +323,7 @@ namespace :deploy do
         current_commit = `git rev-parse HEAD`.strip
 
         # Get deployed commit hash
-        deployed_commit = capture(%(cat #{deploy_to}/scm/FETCH_HEAD)).split(' ')[0]
+        deployed_commit = capture(%(cat #{fetch_head})).split(' ')[0]
 
         # If FETCH_HEAD file does not exist or deployed_commit doesn't look like a hash, ask user to force precompile
         if deployed_commit.nil? || deployed_commit.length != 40
@@ -318,7 +332,7 @@ namespace :deploy do
           system %(echo "")
           system %(echo "mina #{stage} deploy first_deploy=true --verbose")
           system %(echo "")
-          system %(echo "To skip this error and force precompile, deploy like this:")
+          system %(echo "If not, you can force precompile like this:")
           system %(echo "")
           system %(echo "mina #{stage} deploy precompile=true --verbose")
           system %(echo "")
@@ -436,7 +450,8 @@ task deploy: :environment do
         queue! %(echo "------------------------- IMPORTANT -------------------------")
         queue! %(echo "")
       else
-        invoke :'puma:phased_restart'
+        invoke :'puma:stop'
+        invoke :'puma:start'
       end
     end
   end

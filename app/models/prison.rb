@@ -1,6 +1,9 @@
 class Prison < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
 
+  # strip extra spaces before saving
+  auto_strip_attributes :name, :description
+
   def self.to_csv
     require 'csv'
 

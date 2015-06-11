@@ -2,6 +2,9 @@ class Tag < ActiveRecord::Base
   has_and_belongs_to_many :incidents
   validates :name, presence: true, uniqueness: true
 
+  # strip extra spaces before saving
+  auto_strip_attributes :name, :description
+
   def self.to_csv
     require 'csv'
 

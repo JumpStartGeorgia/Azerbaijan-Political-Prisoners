@@ -10,6 +10,9 @@ class Prisoner < ActiveRecord::Base
   validate :validate_all_incidents_released_except_last
   validate :validate_incident_dates
 
+  # strip extra spaces before saving
+  auto_strip_attributes :name
+
   # CSV format
 
   def self.to_csv

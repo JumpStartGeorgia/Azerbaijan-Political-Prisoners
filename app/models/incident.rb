@@ -7,6 +7,9 @@ class Incident < ActiveRecord::Base
 
   validates :date_of_arrest, presence: true
 
+  # strip extra spaces before saving
+  auto_strip_attributes :description_of_arrest, :description_of_release
+
   def released?
     if date_of_release.nil?
       return false

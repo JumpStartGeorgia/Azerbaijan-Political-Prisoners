@@ -3,6 +3,9 @@ class Article < ActiveRecord::Base
   has_many :charges, dependent: :destroy
   has_many :incidents, through: :charges
 
+  # strip extra spaces before saving
+  auto_strip_attributes :number, :description
+
   validates :number, :criminal_code, presence: true
   validates_uniqueness_of :number, scope: :criminal_code, message: 'already exists for selected Criminal Code. Enter new Number or select different Criminal Code'
 

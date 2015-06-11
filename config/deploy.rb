@@ -70,7 +70,17 @@ namespace :nginx do
       queue %(echo "-----> Generating Non-SSL Nginx Config file")
       ERB.new(File.read('./config/nginx.conf.erb')).result
     end
-    queue %(echo '#{conf}' > ./config/nginx.conf)
+
+    queue %(
+    PWD="$(pwd)"
+    if [ $PWD = #{user_path} ]; then
+      echo "-----> Copying new nginx.conf to: #{nginx_conf}"
+      echo '#{conf}' > #{nginx_conf};
+    else
+      echo "-----> Copying new nginx.conf to: $PWD/config/nginx.conf"
+      echo '#{conf}' > ./config/nginx.conf;
+    fi
+    )
   end
 
   desc 'Tests all Nginx configuration files for validity.'
@@ -127,7 +137,17 @@ namespace :puma do
   task :generate_conf do
     conf = ERB.new(File.read('./config/puma.rb.erb')).result
     queue %(echo "-----> Generating new config/puma.rb")
-    queue %(echo '#{conf}' > ./config/puma.rb)
+
+    queue %(
+    PWD="$(pwd)"
+    if [ $PWD = #{user_path} ]; then
+      echo "-----> Copying new puma.rb to: #{puma_conf}"
+      echo '#{conf}' > #{puma_conf};
+    else
+      echo "-----> Copying new puma.rb to: $PWD/config/puma.rb"
+      echo '#{conf}' > ./config/puma.rb;
+    fi
+    )
   end
 
   desc 'Start puma'

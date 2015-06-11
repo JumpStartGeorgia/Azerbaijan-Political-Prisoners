@@ -1,6 +1,5 @@
 require 'erb'
 require 'mina/multistage'
-require 'mina/puma'
 require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
@@ -18,19 +17,28 @@ set :forward_agent, true
 set :rails_env, -> { "#{stage}" }
 
 # Puma settings
+set :web_server, :puma
+set :puma_role, -> { user }
 set :puma_socket, -> { "#{deploy_to}/tmp/puma/sockets/puma.sock" }
 set :puma_pid, -> { "#{deploy_to}/tmp/puma/pid" }
 set :puma_state, -> { "#{deploy_to}/tmp/puma/state" }
 set :pumactl_socket, -> { "#{deploy_to}/tmp/puma/sockets/pumactl.sock" }
-set :puma_config, -> { "#{full_shared_path}/config/puma.rb" }
+set :puma_conf, -> { "#{full_current_path}/config/puma.rb" }
+set :puma_cmd,       -> { "#{bundle_prefix} puma" }
+set :pumactl_cmd,    -> { "#{bundle_prefix} pumactl" }
 set :puma_error_log, -> { "#{full_shared_path}/log/puma.error.log" }
 set :puma_access_log, -> { "#{full_shared_path}/log/puma.access.log" }
 set :puma_log, -> { "#{full_shared_path}/log/puma.log" }
 set :puma_env, -> { "#{rails_env}" }
+set :puma_port, '9292'
 
 # Nginx settings
-set :nginx_conf, -> { "#{full_shared_path}/config/nginx.conf" }
+set :nginx_conf, -> { "#{full_current_path}/config/nginx.conf" }
 set :nginx_symlink, -> { "/etc/nginx/sites-enabled/#{application}" }
+
+# SSL settings
+set :ssl_key, -> { "/etc/sslmate/#{web_url}.key" }
+set :ssl_cert, -> { "/etc/sslmate/#{web_url}.chained.crt" }
 
 # Assets settings
 set :precompiled_assets_dir, 'public/assets'
@@ -55,15 +63,32 @@ end
 namespace :nginx do
   desc "Generates a new Nginx configuration in the app's shared folder from the local nginx.conf.erb layout."
   task :generate_conf do
-    conf = if nginx_ssl == true
+    conf = if use_ssl
       queue %(echo "-----> Generating SSL Nginx Config file")
       ERB.new(File.read('./config/nginx_ssl.conf.erb')).result
     else
       queue %(echo "-----> Generating Non-SSL Nginx Config file")
       ERB.new(File.read('./config/nginx.conf.erb')).result
     end
-    queue %(echo "-----> Generating new config/nginx.conf")
-    queue %(echo '#{conf}' > #{full_shared_path}/config/nginx.conf)
+
+    queue %(
+    PWD="$(pwd)"
+    if [ $PWD = #{user_path} ]; then
+      echo "-----> Copying new nginx.conf to: #{nginx_conf}"
+      echo '#{conf}' > #{nginx_conf};
+    else
+      echo "-----> Copying new nginx.conf to: $PWD/config/nginx.conf"
+      echo '#{conf}' > ./config/nginx.conf;
+    fi
+    )
+  end
+
+  desc 'Tests all Nginx configuration files for validity.'
+  task :test do |task|
+    system %(echo "")
+    system %(echo "Testing Nginx configuration files for validity")
+    system %(#{sudo_ssh_cmd(task)} 'sudo nginx -t')
+    system %(echo "")
   end
 
   desc "Creates a symlink to the app's Nginx configuration in the server's sites-enabled directory."
@@ -112,7 +137,79 @@ namespace :puma do
   task :generate_conf do
     conf = ERB.new(File.read('./config/puma.rb.erb')).result
     queue %(echo "-----> Generating new config/puma.rb")
-    queue %(echo '#{conf}' > #{full_shared_path}/config/puma.rb)
+
+    queue %(
+    PWD="$(pwd)"
+    if [ $PWD = #{user_path} ]; then
+      echo "-----> Copying new puma.rb to: #{puma_conf}"
+      echo '#{conf}' > #{puma_conf};
+    else
+      echo "-----> Copying new puma.rb to: $PWD/config/puma.rb"
+      echo '#{conf}' > ./config/puma.rb;
+    fi
+    )
+  end
+
+  desc 'Start puma'
+  task start: :environment do
+    queue! %[
+      if [ -e '#{pumactl_socket}' ]; then
+        echo 'Puma is already running!';
+      else
+        cd #{deploy_to}/#{current_path} && #{puma_cmd} -q -d -e #{puma_env} -C #{puma_conf}
+      fi
+    ]
+  end
+
+  desc 'Stop puma'
+  task stop: :environment do
+    queue! %[
+      if [ -e '#{pumactl_socket}' ]; then
+        cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -F #{puma_conf} stop
+        rm -f '#{pumactl_socket}'
+      else
+        echo 'Puma is not running!';
+      fi
+    ]
+  end
+
+  desc 'Restart puma'
+  task restart: :environment do
+    invoke :'puma:stop'
+    invoke :'puma:start'
+  end
+
+  desc 'Restart puma (phased restart)'
+  task phased_restart: :environment do
+    queue! %[
+      if [ -e '#{pumactl_socket}' ]; then
+        cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -F #{puma_conf} phased-restart
+      else
+        echo 'Puma is not running!';
+      fi
+    ]
+  end
+
+  desc 'View status of puma server'
+  task status: :environment do
+    queue! %[
+      if [ -e '#{pumactl_socket}' ]; then
+        cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -F #{puma_conf} status
+      else
+        echo 'Puma is not running!';
+      fi
+    ]
+  end
+
+  desc 'View information about puma server'
+  task stats: :environment do
+    queue! %[
+      if [ -e '#{pumactl_socket}' ]; then
+        cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -F #{puma_conf} stats
+      else
+        echo 'Puma is not running!';
+      fi
+    ]
   end
 
   namespace :jungle do
@@ -120,7 +217,7 @@ namespace :puma do
     task :add do |task|
       system %(echo "")
       system %(echo "Adding application to puma jungle at /etc/puma.conf")
-      system %(#{sudo_ssh_cmd(task)} 'sudo /etc/init.d/puma add #{deploy_to} #{user} #{puma_config} #{puma_log}')
+      system %(#{sudo_ssh_cmd(task)} 'sudo /etc/init.d/puma add #{deploy_to} #{user} #{puma_conf} #{puma_log}')
       system %(echo "")
     end
 
@@ -189,6 +286,13 @@ namespace :deploy do
       system %(echo "Please clean local repository with 'git stash' or 'git reset'.")
       exit
     end
+  end
+
+  desc 'Stops puma server, rolls back to previous deploy, and starts puma server'
+  task :puma_rollback do
+    invoke:'puma:stop'
+    invoke:'deploy:rollback'
+    invoke:'puma:start'
   end
 
   namespace :assets do

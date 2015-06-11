@@ -24,7 +24,7 @@ class Prisoner < ActiveRecord::Base
   scoped_search :in => :incidents, :on => [:date_of_arrest, :date_of_release, :description_of_arrest, :description_of_release]
 
   # SCOPES
-  scope :with_incidents, -> { includes(:incidents) }
+  scope :with_meta_data, -> { includes(incidents: [:prison, :tags, :articles]) }
   scope :ordered, -> { order(:name) } 
   scope :ordered_date_of_arrest, -> { order('incidents.date_of_arrest desc') }
 

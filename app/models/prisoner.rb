@@ -21,7 +21,7 @@ class Prisoner < ActiveRecord::Base
 
   # fields to search for in a story
   scoped_search :on => [:name]
-  scoped_search :in => :incidents, :on => [:date_of_arrest, :description_of_arrest, :description_of_release]
+  scoped_search :in => :incidents, :on => [:date_of_arrest, :date_of_release, :description_of_arrest, :description_of_release]
 
   # SCOPES
   scope :with_incidents, -> { includes(:incidents) }

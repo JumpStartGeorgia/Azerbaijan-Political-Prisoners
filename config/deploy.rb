@@ -450,7 +450,8 @@ task deploy: :environment do
         queue! %(echo "------------------------- IMPORTANT -------------------------")
         queue! %(echo "")
       else
-        invoke :'puma:phased_restart'
+        invoke :'puma:stop'
+        invoke :'puma:start'
       end
     end
   end

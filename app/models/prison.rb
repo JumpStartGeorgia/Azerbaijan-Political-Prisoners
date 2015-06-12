@@ -1,6 +1,10 @@
 class Prison < ActiveRecord::Base
   extend FriendlyId
 
+  attr_accessor :current_prisoner_count
+
+  has_many :incidents, dependent: :nullify
+
   validates :name, presence: true, uniqueness: true
 
   # strip extra spaces before saving
@@ -48,5 +52,13 @@ class Prison < ActiveRecord::Base
     primary_sql = 'select prisons.id as prison_id, prisons.name as prison_name, count(*) as prisoner_count from incidents inner join prisons on incidents.prison_id = prisons.id where incidents.date_of_release is null group by prisons.name order by count(*) desc'
 
     limit.nil? ? find_by_sql(primary_sql) : find_by_sql(primary_sql + ' limit ' + limit.to_s)
+  end
+
+
+  # include the current prisoner count with the prisons
+  def self.with_currnet_prisoner_count  
+    counts = Incident.where(date_of_release: nil).group(:prison_id).count
+
+    
   end
 end

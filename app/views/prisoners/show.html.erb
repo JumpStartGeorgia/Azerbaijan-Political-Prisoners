@@ -23,9 +23,9 @@
 <% end %>
 
 <div class="info row">
-  <div class="col-md-9 left-box">
+  <div class="col-md-9 left-box">    
     <div class="figure"><%= image_tag(@prisoner.portrait.url(:large), class: "img-responsive") %></div>
-    <div class="name h1"><%= @prisoner.name %></div>
+    <div class="name h1 vice"><%= @prisoner.name %></div>
   </div>
   <div class="col-md-3 right-box">
     <div class="total">
@@ -65,7 +65,7 @@
         </div>
         <div class="col-md-6">
           <label>Categories: </label>
-          <div class="value">
+          <div class="value pipe">
             <%= incident.tags.map{ |tag| link_to tag.name, tag }.join('<i></i>').html_safe %>              
           </div>
         </div>

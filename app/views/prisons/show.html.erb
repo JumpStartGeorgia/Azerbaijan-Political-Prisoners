@@ -17,6 +17,21 @@
   </div>
 <% end %>
 
+<div id="show-counts" class="row">
+  <div class="col-sm-3 col-sm-offset-2">
+    <div class="prisoner-count">
+      <div class="count"><%= number_with_delimiter(@prison_with_counts['current_prisoner_count']) %></div>
+      <div class="intro intro-small"> Currently Imprisoned In This Prison</div>
+    </div>
+  </div>
+  <div class="col-sm-3 col-sm-offset-2">
+    <div class="prisoner-count">
+      <div class="count"><%= number_with_delimiter(@prison_with_counts['all_prisoner_count']) %></div>
+      <div class="intro intro-small"> Have Been Imprisoned In This Prison</div>
+    </div>
+  </div>
+</div>
+
 <%= simple_format_no_tags(@prison.description) if @prison.description.present? %>
 
 <div class="datatable-topmargin">
@@ -24,7 +39,7 @@
     <thead>
       <tr>
         <th></th>
-        <th>Prisoners in this Prison</th>
+        <th>People That Have Been Imprisoned In This Prison</th>
         <th>Total Days in Prison</th>
       </tr>
     </thead>

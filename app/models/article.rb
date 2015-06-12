@@ -34,7 +34,7 @@ class Article < ActiveRecord::Base
   end
 
   def self.incident_counts_ordered(limit=nil)
-    primary_sql = 'select articles.id as article_id, articles.number as article_number, criminal_codes.name as criminal_code_name, articles.description as description, count(*) as incident_count from incidents inner join charges on incidents.id = charges.incident_id inner join articles on charges.article_id = articles.id inner join criminal_codes on articles.criminal_code_id = criminal_codes.id group by articles.number order by count(*) desc'
+    primary_sql = 'select articles.id as article_id, articles.slug as slug, articles.number as article_number, criminal_codes.name as criminal_code_name, articles.description as description, count(*) as incident_count from incidents inner join charges on incidents.id = charges.incident_id inner join articles on charges.article_id = articles.id inner join criminal_codes on articles.criminal_code_id = criminal_codes.id group by articles.number order by count(*) desc'
 
     limit.nil? ? find_by_sql(primary_sql) : find_by_sql(primary_sql + ' limit ' + limit.to_s)
   end
@@ -45,7 +45,7 @@ class Article < ActiveRecord::Base
     Article.incident_counts_ordered(10).each do |article|
       article_info.append(y: article[:incident_count],
                           number: article[:article_number],
-                          link: "/#{I18n.locale}/articles/#{article[:article_id]}",
+                          link: "/#{I18n.locale}/articles/#{article[:slug]}",
                           code: article[:criminal_code_name],
                           description: article[:description])
     end
@@ -62,7 +62,19 @@ class Article < ActiveRecord::Base
       f.write(article_incident_counts_chart.to_json)
     end
   end
+
   def desc
     self.description.present? ? ActionController::Base.helpers.strip_tags(self.description) : 'No description available'
   end
+
+
+  # include the current prisoner count with the article
+  def self.with_current_and_all_prisoner_count(article_id=nil)
+    sql = 'select a.*, if(i_current.count is null, 0, i_current.count) as current_prisoner_count, if(i_all.count is null, 0, i_all.count) as all_prisoner_count from articles as a left join (select article_id, count(*) as count from charges group by article_id) as i_all on i_all.article_id = a.id left join (select article_id, count(*) as count from charges as c inner join incidents as i on i.id = c.incident_id where i.date_of_release is null group by c.article_id) as i_current on i_current.article_id = a.id'
+    if article_id.present?
+      sql << ' where a.id = ?'
+    end
+    find_by_sql([sql, article_id])   
+  end
+
 end

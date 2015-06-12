@@ -2,7 +2,7 @@
 <div class="row">
   <div class="col-sm-6">
     <div class="prisoner-count">
-      <div class="count"><%= @currently_imprisoned_count %></div>
+      <div class="count"><%= number_with_delimiter(@currently_imprisoned_count) %></div>
       <div class="intro"> Azerbaijanis currently imprisoned in Azerbaijan for political reasons</div>
       <div class="descr"><%= t('app.common.app_description') %></div>
     </div>

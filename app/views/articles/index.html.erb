@@ -16,16 +16,16 @@
 <% end %>
 
 <%-
-  datatable_class = (can? :edit, Article) ? 'datatable-admin' : 'datatable'
+  datatable_class = (can? :edit, Article) ? 'datatable-article-admin' : 'datatable-article'
 -%>
 <table class="table table-striped table-hover table-nonfluid <%= datatable_class %>">
   <thead>
     <tr>
       <th></th>
-      <th><%= model_class.human_attribute_name(:criminal_code_id) %></th>
-      <th>Article Number</th>
-      <th>Number of Sentences</th>
+      <th>Criminal Code - Article Number</th>
       <th><%= model_class.human_attribute_name(:description) %></th>
+      <th>Number of People Currently Imprisoned With This Charge</th>
+      <th>Number of People That Have Been Imprisoned With This Charge</th>
       <% if can? :edit, Article %><th class="action-col"><%=t '.actions', :default => t("helpers.actions") %></th><% end %>
     </tr>
   </thead>
@@ -33,10 +33,10 @@
     <% @articles.each do |article| %>
       <tr>
         <td><%= link_to t('helpers.links.view'), article_path(article), class: 'btn btn-default' %></td>
-        <td><%= article.criminal_code.name %></td>
-        <td><%= article.number %></td>
-        <td><%= article.incidents.count %></td>
+        <td><%= article.criminal_code.name %> - <%= article.number %></td>
         <td><%= simple_format_no_tags(article.description) if article.description.present? %></td>
+        <td><%= number_with_delimiter(article['current_prisoner_count'])  %></td>
+        <td><%= number_with_delimiter(article['all_prisoner_count'])  %></td>
         <% if (can? :edit, article) || (can? :destroy, article) %>
           <td>
             <%= if can? :edit, article

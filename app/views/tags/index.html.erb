@@ -16,13 +16,15 @@
 <% end %>
 
 <%-
-  datatable_class = (can? :edit, Tag) ? 'datatable-admin' : 'datatable'
+  datatable_class = (can? :edit, Tag) ? 'datatable-tag-admin' : 'datatable-tag'
 -%>
 <table class="table table-striped table-hover table-nonfluid <%= datatable_class %>">
   <thead>
     <tr>
       <th></th>
       <th>Category</th>
+      <th>Number of People Currently Imprisoned With This Category</th>
+      <th>Number of People That Have Been Imprisoned With This Category</th>
       <% if can? :edit, Tag %><th class="action-col"><%=t '.actions', :default => t("helpers.actions") %></th><% end %>
     </tr>
   </thead>
@@ -31,6 +33,8 @@
       <tr>
         <td><%= link_to t('helpers.links.view'), tag_path(tag), class: 'btn btn-default' %></td>
         <td><%= tag.name %></td>
+        <td><%= number_with_delimiter(tag['current_prisoner_count'])  %></td>
+        <td><%= number_with_delimiter(tag['all_prisoner_count'])  %></td>
         <% if (can? :edit, tag) || (can? :destroy, tag) %>
           <td>
             <%= if can? :edit, tag

@@ -3,14 +3,14 @@ class PrisonsController < ApplicationController
 
   load_and_authorize_resource :find_by => :slug
 
-  before_action :set_prison, only: [:show, :edit, :update, :destroy]
+  before_action :set_prison, only: [:edit, :update, :destroy]
   before_action :set_prisoners_in_prison, only: [:show]
   before_action :set_gon_variables
 
   # GET /prisons
   # GET /prisons.json
   def index
-    @prisons = Prison.all.order(:name)
+    @prisons = Prison.with_current_and_all_prisoner_count  
 
     respond_to do |format|
       format.html
@@ -26,6 +26,7 @@ class PrisonsController < ApplicationController
   # GET /prisons/1
   # GET /prisons/1.json
   def show
+    @prison_with_counts = Prison.with_current_and_all_prisoner_count(@prison.id).first
   end
 
   # GET /prisons/new

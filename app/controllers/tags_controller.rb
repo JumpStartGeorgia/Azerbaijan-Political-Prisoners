@@ -10,7 +10,7 @@ class TagsController < ApplicationController
   # GET /tags
   # GET /tags.json
   def index
-    @tags = Tag.all.order(:name)
+    @tags = Tag.with_current_and_all_prisoner_count
 
     respond_to do |format|
       format.html
@@ -26,6 +26,7 @@ class TagsController < ApplicationController
   # GET /tags/1
   # GET /tags/1.json
   def show
+    @tag_with_counts = Tag.with_current_and_all_prisoner_count(@tag.id).first
   end
 
   # GET /tags/new

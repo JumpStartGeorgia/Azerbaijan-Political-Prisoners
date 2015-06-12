@@ -33,6 +33,9 @@
     font-size: 2em;
     line-height: 1.2em;
     padding:20px 0px 0px 10px;
+    &.intro-small{
+      font-size: 1.7em;
+    }
   }
   .descr {
     margin:10px 0px;

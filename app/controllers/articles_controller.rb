@@ -10,7 +10,8 @@ class ArticlesController < ApplicationController
   # GET /articles
   # GET /articles.json
   def index
-    @articles = Article.includes(:criminal_code).order(criminal_code_id: :asc, number: :asc)
+    # @articles = Article.includes(:criminal_code)
+    @articles = Article.with_current_and_all_prisoner_count
 
     respond_to do |format|
       format.html
@@ -26,6 +27,7 @@ class ArticlesController < ApplicationController
   # GET /articles/1
   # GET /articles/1.json
   def show
+    @article_with_counts = Article.with_current_and_all_prisoner_count(@article.id).first
   end
 
   # GET /articles/new

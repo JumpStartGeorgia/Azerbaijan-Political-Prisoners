@@ -22,7 +22,7 @@
     <tr>
       <th></th>
       <th><%= model_class.human_attribute_name(:name) %></th>
-      <% if can? :edit, CriminalCode %><th><%=t '.actions', :default => t("helpers.actions") %></th><% end %>
+      <% if can? :edit, CriminalCode %><th class="action-col"><%=t '.actions', :default => t("helpers.actions") %></th><% end %>
     </tr>
   </thead>
   <tbody>

@@ -208,7 +208,8 @@ table.datatable td, table.datatable-admin td{
   }
 }
 
- .pipe {
+
+.pipe {
   display:table-cell;
   vertical-align:top;
   i {
@@ -219,5 +220,9 @@ table.datatable td, table.datatable-admin td{
     width: 1px;
     margin: 0px 10px;
   }
-  
+}  
+
+/* put space after show page counts */
+#show-counts{
+  margin-bottom: 20px;
 }

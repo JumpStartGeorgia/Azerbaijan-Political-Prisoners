@@ -15,14 +15,16 @@
   </div>
 <% end %>
 <%-
-  datatable_class = (can? :edit, Prison) ? 'datatable-admin' : 'datatable'
+  datatable_class = (can? :edit, Prison) ? 'datatable-prison-admin' : 'datatable-prison'
 -%>
 <table class="table table-striped table-hover table-nonfluid <%= datatable_class %>">
   <thead>
     <tr>
       <th></th>
       <th>Prison Name</th>
-        <% if can? :edit, Prison %><th class="action-col"><%=t '.actions', :default => t("helpers.actions") %></th><% end %>
+      <th>Number of People Currently Imprisoned In This Prison</th>
+      <th>Number of People That Have Been Imprisoned In This Prison</th>
+      <% if can? :edit, Prison %><th class="action-col"><%=t '.actions', :default => t("helpers.actions") %></th><% end %>
     </tr>
   </thead>
   <tbody>
@@ -30,6 +32,8 @@
       <tr>
         <td><%= link_to t('helpers.links.view'), prison_path(prison), class: 'btn btn-default' %></td>
         <td><%= prison.name  %></td>
+        <td><%= number_with_delimiter(prison['current_prisoner_count'])  %></td>
+        <td><%= number_with_delimiter(prison['all_prisoner_count'])  %></td>
         <% if (can? :edit, prison) || (can? :destroy, prison) %>
           <td>
             <%= if can? :edit, prison

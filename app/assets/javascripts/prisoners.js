@@ -38,6 +38,8 @@ $(document).ready(function() {
     t.find('span').toggleClass('fa-caret-right fa-caret-down');
     t.closest('.nested-fields').find('.container').toggle();
   });
+
+    $('[data-toggle="tooltip"]').tooltip()  
 });
 
 var imprisoned_count_timeline = function() {

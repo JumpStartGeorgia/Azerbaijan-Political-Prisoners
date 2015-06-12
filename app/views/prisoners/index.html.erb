@@ -67,7 +67,7 @@
               <div class="kv">Imprisoned At: <span><%= link_to incident.prison.name, prison_path(incident.prison) %></span></div>
             <% end %>
             <% if incident.articles.present? %>
-              <div class="kv">Charged Under Article(s): <span><%= incident.articles.map{ |art| link_to art.number, article_path(art) }.join(', ').html_safe %></span></div>
+              <div class="kv pipe">Charged Under Article(s): <span><%= incident.articles.map{ |art| link_to art.number, article_path(art), title: art.desc, "data-toggle" => "tooltip" }.join('<i></i>').html_safe %></span></div>
             <% end %>
             <% if incident.description_of_arrest.present? %>
               <div class="descr">

@@ -41,19 +41,18 @@
     <div class="arrest">
       <div class="row">
         <div class="col-md-6">
-          <label>In Prison Since: </label>
-          <div class="value"><%= incident.date_of_arrest.strftime('%B %d, %Y') %></div>
+          <% if incident.date_of_release.present? %>
+            <label>In Prison From: </label>
+            <div class="value"><%= l incident.date_of_arrest, format: :long %> - <%= l incident.date_of_release, format: :long %></div>
+          <% else %>
+            <label>In Prison Since: </label>
+            <div class="value"><%= l incident.date_of_arrest, format: :long %></div>
+          <% end %>
         </div>
         <div class="col-md-6">
           <label>Charged Under Article(s): </label>
-          <div class="value">
-            <% len = incident.articles.length
-             incident.articles.each_with_index do |article, index| %>
-                <%= link_to article.number, article %>
-                <% if index != len-1 %>
-                  <span></span>
-                <% end %>
-            <% end %>
+          <div class="value pipe">
+            <%= incident.articles.map{ |art| link_to art.number, article_path(art), title: art.desc, "data-toggle" => "tooltip" }.join('<i></i>').html_safe %>
           </div>
         </div>
       </div>
@@ -67,30 +66,24 @@
         <div class="col-md-6">
           <label>Categories: </label>
           <div class="value">
-            <% len = incident.tags.length
-             incident.tags.each_with_index do |tag, index| %>
-                <%= link_to tag.name, tag %>
-                <% if index != len-1 %>
-                  <span></span>
-                <% end %>
-            <% end %>          
+            <%= incident.tags.map{ |tag| link_to tag.name, tag }.join('<i></i>').html_safe %>              
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="description col-md-12"><%= simple_format_no_tags(incident.description_of_arrest) if incident.description_of_arrest.present? %></div>
-      </div>
-      <div class="row">
         <div class="col-md-12">
-          <label><%= model_class.human_attribute_name(:date_of_release) %>: </label> 
-          <div class="value"><%=  incident.date_of_release ? incident.date_of_release.strftime('%B %d, %Y') : 'Currently in prison' %></div>
-          </div>
+          <label>Arrest Description: </label>
+          <div class="descr"><%= simple_format_no_tags(incident.description_of_arrest) if incident.description_of_arrest.present? %></div>
+        </div>
       </div>
-      <div class="row">
-        <div class="description col-md-12">
-          <%= simple_format_no_tags(incident.description_of_release) if incident.description_of_release.present? %>
-        </div>    
-      </div>
+      <% if incident.description_of_release.present? %>
+        <div class="row">
+          <div class="col-md-12">
+            <label>Release Description: </label>      
+            <div class="descr"><%= simple_format_no_tags(incident.description_of_release) if incident.description_of_release.present? %></div>   
+          </div> 
+        </div>
+      <% end %>
   <% end %>
   </div>
 </div>

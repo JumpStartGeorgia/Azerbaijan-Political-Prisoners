@@ -207,3 +207,17 @@ table.datatable td, table.datatable-admin td{
     margin-left: 10px;
   }
 }
+
+ .pipe {
+  display:table-cell;
+  vertical-align:top;
+  i {
+    background-color: #cacaca;
+    display: inline-block;
+    vertical-align: middle;
+    height: 16px;
+    width: 1px;
+    margin: 0px 10px;
+  }
+  
+}

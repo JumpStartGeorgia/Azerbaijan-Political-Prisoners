@@ -32,7 +32,7 @@
     }
     .right-box {
       margin:0px;
-    }
+    }   
   }
 }
 .info {
@@ -113,7 +113,7 @@
       height:1px;
       background-color:#e4e4e4;
     }
-  }
+  } 
 }
 .prisoner .header {
    margin-bottom:10px;
@@ -164,24 +164,15 @@
     li:before {
       color: red; 
     }
-    .description {
+    .description, .descr {
       font-size: 12px;
       text-align: justify;
       line-height: 20px;
-      margin-top: 20px;
+      margin-top: 4px;
     }
     .value {
       display:table-cell;
-      vertical-align:top;
-      span {
-        background-color: #cacaca;
-        display: inline-block;
-        vertical-align: middle;
-        height: 16px;
-        width: 1px;
-        margin: 0px 10px;
-      }
-      
+      vertical-align:top;   
     }
   }
 }

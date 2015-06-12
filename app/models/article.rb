@@ -62,4 +62,7 @@ class Article < ActiveRecord::Base
       f.write(article_incident_counts_chart.to_json)
     end
   end
+  def desc
+    self.description.present? ? ActionController::Base.helpers.strip_tags(self.description) : 'No description available'
+  end
 end

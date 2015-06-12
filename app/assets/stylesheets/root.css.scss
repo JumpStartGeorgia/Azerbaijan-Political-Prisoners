@@ -34,7 +34,7 @@
     line-height: 1.2em;
     padding:20px 0px 0px 10px;
   }
-  .description {
+  .descr {
     margin:10px 0px;
   }
 }
@@ -90,17 +90,22 @@ div.main-link a span {
 
 /********************************************************/
 /* Highcharts */
-.highcharts-tooltip span {
-  margin-top: 10px;
-  height:auto;
-  width: 30em;
-  overflow: auto;
-  white-space:normal !important;
-  z-index:10 !important;
-  background-color: rgba(249,249,249,1);
-  padding: 6px 10px;
+.highcharts-tooltip {
+  > span {
+    margin-top: 10px;
+    height:auto;
+    width: 30em;
+    overflow: auto;
+    white-space:normal !important;
+    z-index:10 !important;
+    background-color: rgba(249,249,249,1);
+    padding: 6px 10px;
+  }
+  p {
+    padding:0px;
+    margin:0px;
+  }
 }
-
 
 /********************************************************/
 /* about page */

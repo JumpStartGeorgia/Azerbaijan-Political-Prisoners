@@ -4,7 +4,7 @@
     <div class="prisoner-count">
       <div class="count"><%= @currently_imprisoned_count %></div>
       <div class="intro"> Azerbaijanis currently imprisoned in Azerbaijan for political reasons</div>
-      <div class="description"><%= t('app.common.app_description') %></div>
+      <div class="descr"><%= t('app.common.app_description') %></div>
     </div>
   </div>
   <div class="col-sm-6">
@@ -20,7 +20,8 @@
             <p><strong>Imprisoned At:</strong> <%= link_to @featured_prisoner_inc.prison.name, prison_path(@featured_prisoner_inc.prison) %></p>
           <% end %>
           <% if @featured_prisoner_inc.articles.present? %>
-            <p><strong>Charged Under Article(s) :</strong> <%= @featured_prisoner_inc.articles.map{ |art| link_to art.number, article_path(art) }.join(', ').html_safe %></p>
+            <p class="pipe"><strong>Charged Under Article(s) :</strong> 
+            <%= @featured_prisoner_inc.articles.map{ |art| link_to art.number, article_path(art), title: art.desc, "data-toggle" => "tooltip" }.join('<i></i>').html_safe %></p>
           <% end %>
           <% if @featured_prisoner_inc.description_of_arrest.present? %>
             <div id="featured-description">

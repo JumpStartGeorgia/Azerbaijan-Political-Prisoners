@@ -25,7 +25,7 @@
           <% end %>
           <% if @featured_prisoner_inc.description_of_arrest.present? %>
             <div id="featured-description">
-              <%= simple_format_no_tags(truncate(sanitize(incident.description_of_arrest.gsub(/<.*?>/, '')), separator: ' ', length: 300)) %>
+              <%= simple_format_no_tags(truncate(sanitize(@featured_prisoner_inc.description_of_arrest.gsub(/<.*?>/, '')), separator: ' ', length: 300)) %>
             </div>
           <% end %>
         </div>

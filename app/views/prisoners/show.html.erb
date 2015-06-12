@@ -21,20 +21,36 @@
     %>
   </div>
 <% end %>
-
-<div class="info row">
-  <div class="col-md-9 left-box">    
-    <div class="figure"><%= image_tag(@prisoner.portrait.url(:large), class: "img-responsive") %></div>
-    <div class="name h1 vice"><%= @prisoner.name %></div>
+<div class="info">
+  <div class="row">
+    <div class="name h1 col-md-12"><%= @prisoner.name %></div>
   </div>
-  <div class="col-md-3 right-box">
-    <div class="total">
-      <div class="days"><%= number_with_delimiter(@prisoner.total_days_in_prison) %></div>
-      <div class="in-prison">total days spent in prison</div>
+  <div class="row">
+    <div class="col-md-9 col-sm-12 left-box">      
+      <div class="figure col-md-3 col-sm-4"><%= image_tag(@prisoner.portrait.url(:large), class: "img-responsive") %></div>
+
+      <% klass = @prisoner.currently_imprisoned == false ? ' green' : '' %>
+      <div class="about col-md-9 col-sm-8">
+          <div class="name h1 name-desktop"><%= @prisoner.name %></div>
+        <div class="state-board">
+          <div class="kv total">Total days spent in prison: <span class="days"><%= number_with_delimiter(@prisoner.total_days_in_prison) %></span></div>
+          <div class="kv status<%= klass %>">Status: <span><%= @prisoner.currently_imprisoned_status.html_safe %></span></div>
+        </div>
+      </div>
+
     </div>
-    <div class="status<%= klass %>"><%= @prisoner.currently_imprisoned_status.html_safe %></div>
+    <div class="col-md-3 right-box">
+        <div class="state-board state-board-desktop">
+          <div class="total">
+            <div class="days"><%= number_with_delimiter(@prisoner.total_days_in_prison) %></div>
+            <div class="in-prison">total days spent in prison</div>
+          </div>
+          <div class="status<%= klass %>"><%= @prisoner.currently_imprisoned_status.html_safe %></div>
+        </div>
+    </div>
   </div>
 </div>
+
 <div class="arrests">
   <div class="header"><div>Arrests</div><div><div class="hor-line"></div></div></div>
     <% @prisoner.incidents.order(date_of_arrest: :desc).each_with_index do |incident, index| %>

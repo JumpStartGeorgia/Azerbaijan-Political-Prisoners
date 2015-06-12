@@ -10,8 +10,8 @@
       margin-bottom:10px;
     }
     .name {
-      margin:0px;
-    }
+      margin:0px 0px 10px 10px;
+    }    
     .actions
     {
       margin:10px 0px 0px;      
@@ -35,56 +35,79 @@
     }   
   }
 }
-.info {
-  > div > div { display:inline-block; }
+.info {  
   .figure img {
     border:1px solid #ddd;
     padding:3px;
   }
   .name {
-    margin:0px 0px 0px 10px;
+    margin:0px 0px 10px 10px;
     vertical-align: top;
-    position:absolute;
-    top:50%;
-    transform: translateY(-50%);
   }
-  .total {
-    display:block;
-    max-width:240px;
-    padding-bottom:10px;
-    border-bottom: 1px solid rgb(228, 228, 228);
-    margin-bottom:10px;
-    .days {
-      font-size: 6em;
-      line-height:1.2em;
-      text-align:center;
+  .name.name-desktop
+  {
+    // position:absolute;
+    // top:50%;
+    // transform: translateY(-50%);
+    display:none;
+    margin:0px 0px 10px 0px;
+  }
+  .state-board {
+    display:initial;
+    .total {
+      .days {
+        color: #d9534f;
+      }
+    }
+    .status span{
       color: #d9534f;
-
+      br { display:none; }
     }
-    .in-prison {
-      white-space:nowrap;
-      font-size:12px;
-    }
-  }
-  .status {
-    display:block;
-    font-size: 1.6em;
-    line-height: 1.3em;
-    text-align: center;
-    color: #d9534f;
-    text-transform: uppercase;
-    max-width:240px;
-  }
-  .status.green {
+    .status.green span{
       color:#5cb85c;
     }
+  }
+  .state-board.state-board-desktop {
+      display:none;
+    .total {
+      display:block;
+      max-width:240px;
+      padding-bottom:10px;
+      border-bottom: 1px solid rgb(228, 228, 228);
+      margin-bottom:10px;
+      .days {
+        font-size: 6em;
+        line-height:1em;
+        text-align:center;
+      }
+      .in-prison {
+        white-space:nowrap;
+        font-size:12px;
+      }
+    }
+    .status {
+      color: #d9534f;
+      display:block;
+      font-size: 1.6em;
+      line-height: 1.3em;
+      text-align: center;
+      text-transform: uppercase;
+      max-width:240px;
+      br { display:initial; }
+    }
+    .status.green {
+      color:#5cb85c;
+    }
+
+  }
+
   .left-box {
     position:relative;
   }
   .right-box {
     vertical-align:middle;
     text-align:center;
-    margin-top: 20px;
+    margin-top: 10px;
   }
 }
 
@@ -202,5 +225,22 @@ form
   #imprisoned-count-timeline
   {
     pointer-events:initial;
+  }
+  .info {
+    .name {
+      display:none;
+    }
+    .name.name-desktop {
+      display:inline-block;
+    }
+    .right-box {
+      margin-top: 20px;
+    }
+    .state-board {
+      display:none;
+    }
+    .state-board.state-board-desktop {
+      display:initial;
+    }
   }
 }

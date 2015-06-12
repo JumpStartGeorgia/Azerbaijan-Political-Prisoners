@@ -107,15 +107,15 @@ class Prisoner < ActiveRecord::Base
   # Get prisoner by attribute
 
   def self.by_tag(tag_id)
-    Prisoner.joins(incidents: :tags).where(tags: { id: tag_id })
+    Prisoner.joins(incidents: :tags).where(tags: { id: tag_id }).uniq
   end
 
   def self.by_prison(prison_id)
-    Prisoner.joins(:incidents).where(incidents: { prison_id: prison_id })
+    Prisoner.joins(:incidents).where(incidents: { prison_id: prison_id }).uniq
   end
 
   def self.by_article(article_id)
-    Prisoner.joins(incidents: :charges).where(charges: { article_id: article_id })
+    Prisoner.joins(incidents: :charges).where(charges: { article_id: article_id }).uniq
   end
 
   # Get prisoners by whether they are imprisoned or were imprisoned on a certain date

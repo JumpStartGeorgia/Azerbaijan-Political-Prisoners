@@ -34,7 +34,9 @@ class Prison < ActiveRecord::Base
 
   # include the current prisoner count with the prisons
   def self.with_current_and_all_prisoner_count(prison_id=nil)
-    sql = 'select p.*, if(i_current.count is null, 0, i_current.count) as current_prisoner_count, if(i_all.count is null, 0, i_all.count) as all_prisoner_count from prisons as p left join (select prison_id, count(*) as count from incidents group by prison_id) as i_all on i_all.prison_id = p.id left join (select prison_id, count(*) as count from incidents where date_of_release is null group by prison_id) as i_current on i_current.prison_id = p.id'
+    # this old query counts number of incidents, not people
+    # sql = 'select p.*, if(i_current.count is null, 0, i_current.count) as current_prisoner_count, if(i_all.count is null, 0, i_all.count) as all_prisoner_count from prisons as p left join (select prison_id, count(*) as count from incidents group by prison_id) as i_all on i_all.prison_id = p.id left join (select prison_id, count(*) as count from incidents where date_of_release is null group by prison_id) as i_current on i_current.prison_id = p.id'
+    sql = 'select p.*, if(i_current.count is null, 0, i_current.count) as current_prisoner_count, if(i_all.count is null, 0, i_all.count) as all_prisoner_count  from prisons as p  left join (select x.prison_id, count(*) as count from  (select prison_id from incidents group by prison_id,prisoner_id) as x group by x.prison_id) as i_all on i_all.prison_id = p.id  left join (select prison_id, count(*) as count from incidents where date_of_release is null group by prison_id) as i_current on i_current.prison_id = p.id'
     if prison_id.present?
       sql << ' where p.id = ?'
     end

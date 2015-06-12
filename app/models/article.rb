@@ -70,7 +70,9 @@ class Article < ActiveRecord::Base
 
   # include the current prisoner count with the article
   def self.with_current_and_all_prisoner_count(article_id=nil)
-    sql = 'select a.*, if(i_current.count is null, 0, i_current.count) as current_prisoner_count, if(i_all.count is null, 0, i_all.count) as all_prisoner_count from articles as a left join (select article_id, count(*) as count from charges group by article_id) as i_all on i_all.article_id = a.id left join (select article_id, count(*) as count from charges as c inner join incidents as i on i.id = c.incident_id where i.date_of_release is null group by c.article_id) as i_current on i_current.article_id = a.id'
+    # this old query counts number of incidents, not people
+    # sql = 'select a.*, if(i_current.count is null, 0, i_current.count) as current_prisoner_count, if(i_all.count is null, 0, i_all.count) as all_prisoner_count from articles as a left join (select article_id, count(*) as count from charges group by article_id) as i_all on i_all.article_id = a.id left join (select article_id, count(*) as count from charges as c inner join incidents as i on i.id = c.incident_id where i.date_of_release is null group by c.article_id) as i_current on i_current.article_id = a.id'
+    sql = 'select a.*, if(i_current.count is null, 0, i_current.count) as current_prisoner_count, if(i_all.count is null, 0, i_all.count) as all_prisoner_count  from articles as a  left join (select x.article_id, count(*) as count from (select c.article_id from charges as c  inner join incidents as i on i.id = c.incident_id  group by c.article_id, i.prisoner_id) as x group by x.article_id) as i_all on i_all.article_id = a.id  left join (select article_id, count(*) as count from charges as c inner join incidents as i on i.id = c.incident_id where i.date_of_release is null group by c.article_id) as i_current on i_current.article_id = a.id'
     if article_id.present?
       sql << ' where a.id = ?'
     end

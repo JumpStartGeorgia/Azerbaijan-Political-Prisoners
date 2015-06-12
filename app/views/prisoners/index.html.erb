@@ -1,5 +1,5 @@
-<%- 
-  model_class = Prisoner 
+<%-
+  model_class = Prisoner
   page_title "#{model_class.model_name.human.pluralize.titleize}"
   links = link_to("#{model_class.model_name.human.pluralize.titleize} CSV Download", prisoners_path(format: :csv), class: 'btn btn-default')
   links << link_to("#{Incident.model_name.human.pluralize.titleize} CSV Download", incidents_to_csv_prisoners_path, class: 'btn btn-default')
@@ -19,7 +19,7 @@
 
 <div>
   <form action="<%= prisoners_path %>" method="get" id="search-form2" role="search">
-    <div class="form-group">            
+    <div class="form-group">
       <%= text_field_tag :q, params[:q], :placeholder => 'Search Prisoners', :class=>"form-control search-input", :autocomplete=>'off', :tabindex => 1 %>
       <%- if params[:q].present? -%>
         <div class="search-result-count">
@@ -81,7 +81,7 @@
               <% end %>
               <% if incident.description_of_arrest.present? %>
                 <div class="descr">
-                  <%= simple_format_no_tags(truncate(strip_tags(incident.description_of_arrest), separator: ' ', length: 300)) %>
+                  <%= simple_format_no_tags(truncate(sanitize(incident.description_of_arrest.gsub(/<.*?>/, '')), separator: ' ', length: 300)) %>
                 </div>
               <% end %>
             </div>

@@ -1,9 +1,9 @@
 class PrisonsController < ApplicationController
-  before_action :redirect_to_newest_url, only: [:show, :edit, :update, :destroy]
+  # before_action :redirect_to_newest_url, only: [:show, :edit, :update, :destroy]
 
   load_and_authorize_resource :find_by => :slug
 
-  # before_action :set_prison, only: [:show, :edit, :update, :destroy]
+  before_action :set_prison, only: [:show, :edit, :update, :destroy]
   before_action :set_prisoners_in_prison, only: [:show]
   before_action :set_gon_variables
 
@@ -94,9 +94,9 @@ class PrisonsController < ApplicationController
   private
 
   # # Use callbacks to share common setup or constraints between actions.
-  # def set_prison
-  #   @prison = Prison.find(params[:id])
-  # end
+  def set_prison
+    @prison = Prison.friendly.find(params[:id])
+  end
 
   def set_prisoners_in_prison
     @prisoners_in_prison = Prisoner.by_prison(@prison.id)
@@ -113,12 +113,12 @@ class PrisonsController < ApplicationController
 
   # using history for friendly_ids
   # so this checks if an old slug is being used, if so, redirect to correct one
-  def redirect_to_newest_url
-    @prison = Prison.friendly.find params[:id]
+  # def redirect_to_newest_url
+  #   @prison = Prison.friendly.find params[:id]
 
-    if request.path != prison_path(@prison)
-      return redirect_to @prison, :status => :moved_permanently
-    end
-  end
+  #   if request.path != prison_path(@prison)
+  #     return redirect_to @prison, :status => :moved_permanently
+  #   end
+  # end
 
 end

@@ -31,4 +31,22 @@ RSpec.describe 'Prisoners', type: :request do
       expect(response.body).to include(prisoner_name_2)
     end
   end
+
+  it 'timeline json is different after adding incident to prisoner' do
+    FileUtils.rm_rf(Rails.public_path.join('system',
+                                           'json',
+                                           'imprisoned_count_timeline.json'))
+
+    get imprisoned_count_timeline_prisoners_path
+    timeline_json1 = response.body
+
+    pris1 = Prisoner.find_by_name(prisoner_name_1)
+    pris1.incidents <<
+      FactoryGirl.create(:incident, date_of_arrest: 10.days.ago)
+    pris1.save!
+    pris1.run_callbacks(:commit)
+
+    get imprisoned_count_timeline_prisoners_path
+    expect(timeline_json1).not_to eq(response.body)
+  end
 end

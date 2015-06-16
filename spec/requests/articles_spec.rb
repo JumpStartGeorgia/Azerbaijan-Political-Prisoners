@@ -35,4 +35,22 @@ RSpec.describe 'Articles', type: :request do
       expect(response.body).to include(article_description_2)
     end
   end
+
+  it 'sentence count json is different after adding new sentence to prisoner' do
+    FileUtils.rm_rf(Rails.public_path.join('system',
+                                           'json',
+                                           'article_incident_counts_chart.json'))
+
+    get article_incident_counts_articles_path
+    orig_json = response.body
+
+    prisoner1 = FactoryGirl.create(:prisoner)
+    prisoner1.incidents <<
+      FactoryGirl.create(:incident, articles: [Article.find_by_number(article_number_1)])
+    prisoner1.save!
+    prisoner1.run_callbacks(:commit)
+
+    get article_incident_counts_articles_path
+    expect(orig_json).not_to eq(response.body)
+  end
 end

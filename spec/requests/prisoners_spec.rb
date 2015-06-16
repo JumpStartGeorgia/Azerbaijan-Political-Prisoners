@@ -38,7 +38,7 @@ RSpec.describe 'Prisoners', type: :request do
                                            'imprisoned_count_timeline.json'))
 
     get imprisoned_count_timeline_prisoners_path
-    timeline_json1 = response.body
+    orig_json = response.body
 
     pris1 = Prisoner.find_by_name(prisoner_name_1)
     pris1.incidents <<
@@ -47,6 +47,6 @@ RSpec.describe 'Prisoners', type: :request do
     pris1.run_callbacks(:commit)
 
     get imprisoned_count_timeline_prisoners_path
-    expect(timeline_json1).not_to eq(response.body)
+    expect(orig_json).not_to eq(response.body)
   end
 end

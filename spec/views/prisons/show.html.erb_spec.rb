@@ -10,14 +10,14 @@ RSpec.describe 'prisons/show', type: :view do
 
   it 'renders two prisoners with incidents that belong_to the prison' do
     @prison = assign(:prison, FactoryGirl.create(:prison))
-    prisoner1 = FactoryGirl.create(:prisoner, name: 'pris#1')
-    prisoner2 = FactoryGirl.create(:prisoner, name: 'pris#2')
+    prisoner1 = FactoryGirl.create(:prisoner, name: 'prisoner#1')
+    prisoner2 = FactoryGirl.create(:prisoner, name: 'prisoner#2')
     FactoryGirl.create(:incident, prison: @prison, prisoner: prisoner1)
     FactoryGirl.create(:incident, prison: @prison, prisoner: prisoner2)
     @prisoners_in_prison = assign(:prisoners_in_prison, Prisoner.by_prison(@prison))
 
     render_template prison_path(I18n.default_locale, @prison)
-    expect(rendered).to include('pris#1')
-    expect(rendered).to include('pris#2')
+    expect(rendered).to include('prisoner#1')
+    expect(rendered).to include('prisoner#2')
   end
 end

@@ -16,7 +16,6 @@ RSpec.describe 'articles/index', type: :view do
   end
 
   it 'renders a list of articles' do
-    allow(view).to receive(:articles_path).and_return("/en/articles")
     render_template articles_path
   end
 end

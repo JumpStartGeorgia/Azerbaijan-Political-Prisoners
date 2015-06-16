@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'prisons/show', type: :view do
   let(:content_manager_role) { FactoryGirl.create(:role, name: 'content_manager') }
   let(:user) { FactoryGirl.create(:user, role: content_manager_role ) }
-  
+
   before(:example) do
     sign_in :user, user
   end
@@ -16,7 +16,7 @@ RSpec.describe 'prisons/show', type: :view do
     FactoryGirl.create(:incident, prison: @prison, prisoner: prisoner2)
     @prisoners_in_prison = assign(:prisoners_in_prison, Prisoner.by_prison(@prison))
 
-    render prison_path(@prison.id)
+    render prison_path(I18n.default_locale, @prison)
     expect(rendered).to include('pris#1')
     expect(rendered).to include('pris#2')
   end

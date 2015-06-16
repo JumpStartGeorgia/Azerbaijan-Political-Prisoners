@@ -4,7 +4,7 @@ RSpec.describe 'prisoners/edit', type: :view do
   describe 'for prisoner with no incidents' do
     it "only renders _incident_fields one time, in cocoon's data-association-insertion-template attribute" do
       @prisoner = assign(:prisoner, FactoryGirl.create(:prisoner))
-      render edit_prisoner_path(@prisoner.id)
+      render edit_prisoner_path(I18n.default_locale, @prisoner)
 
       expect(view).to render_template(partial: '_incident_fields', count: 1)
     end
@@ -18,7 +18,7 @@ RSpec.describe 'prisoners/edit', type: :view do
     end
 
     it "renders _incident_fields partial for both incidents, plus one time in cocoon's data-association-insertion-template attribute" do
-      render edit_prisoner_path(@prisoner.id)
+      render edit_prisoner_path(I18n.default_locale, @prisoner)
 
       expect(view).to render_template(partial: '_incident_fields', count: 3)
     end

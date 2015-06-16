@@ -15,6 +15,6 @@ RSpec.describe 'prisoners/index', type: :view do
   end
 
   it 'renders a list of prisoners' do
-    render prisoners_path
+    render_template prisoners_path
   end
 end

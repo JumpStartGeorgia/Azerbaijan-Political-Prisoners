@@ -64,7 +64,7 @@ RSpec.describe 'User', type: :feature do
       click_on 'Update User'
       expect(page).to have_content('User was successfully updated.')
 
-      click_on @site_admin_user.email
+      find('#user-dropdown').click
       click_on 'Logout'
       expect(page).to have_content('Signed out successfully.')
 
@@ -107,7 +107,7 @@ RSpec.describe 'User', type: :feature do
       click_button 'Update'
       expect(page).to have_content('Your account has been updated successfully.')
 
-      click_on @content_manager_user.email
+      find('#user-dropdown').click
       click_on 'Logout'
       expect(page).to have_content('Signed out successfully.')
 

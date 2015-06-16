@@ -66,16 +66,16 @@
                         <span class="icon-bar"></span>
                     </button>
             <a class="navbar-brand" href="<%= root_path %>"><%= t('app.common.app_name') %></a>
-          </div>          
+          </div>
             <div class="navbar-collapse collapse navbar-responsive-collapse">
                 <ul class="nav navbar-nav navbar-right">
                   <li class='li-search'>
                     <form action="<%= prisoners_path %>" method="get" id="search-form" class="navbar-form navbar-left" role="search">
-                      <div class="form-group">            
+                      <div class="form-group">
                         <%= text_field_tag :q, nil, :placeholder => 'Search Prisoners', :class=>"form-control search-input", :autocomplete=>'off', :tabindex => 1 %>
                       </div>
                     </form>
-                  </li>      
+                  </li>
                   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                       Find By <span class="caret"></span>
@@ -104,7 +104,7 @@
                       <i class="fa fa-download"></i>
                     <% end %>
                   </li>
-                  
+
 
                   <li>
                     <!-- Go to www.addthis.com/dashboard to customize your tools -->
@@ -113,7 +113,7 @@
 
                   <% if user_signed_in? %>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        <a href="#" id="user-dropdown" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                           <i class="fa fa-user"></i>
                           <span class="caret"></span>
                         </a>

@@ -1,0 +1,3 @@
+<%= link_to 'View ' + object.model_name.human.titleize + ' Page' , show_path, class: 'btn btn-default' %>
+<%= link_to t('.back', :default => t("helpers.links.back")),
+              index_path, :class => 'btn btn-default'  %>

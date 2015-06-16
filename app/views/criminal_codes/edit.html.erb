@@ -3,7 +3,7 @@
 
 <% if user_signed_in? %>
   <div class='actions-container'>
-    <%= render partial: 'shared/form_actions',
+    <%= render partial: 'shared/edit_actions',
           locals: {
             object: @criminal_code,
             index_path: criminal_codes_path,

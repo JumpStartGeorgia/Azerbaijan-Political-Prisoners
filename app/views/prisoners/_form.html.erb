@@ -28,7 +28,7 @@
    <% end %></div>
     <button name="button" type="submit" class="btn btn-success" id="prisoner_submit_action">
       <span class="fa fa-floppy-o"></span>
-      <% if action_name == 'new' %>
+      <% if @prisoner.new_record? %>
         Create Prisoner
       <% else %>
         Update Prisoner

@@ -3,14 +3,14 @@ class PrisonsController < ApplicationController
 
   load_and_authorize_resource :find_by => :slug
 
-  before_action :set_prison, only: [:edit, :update, :destroy]
+  before_action :set_prison, only: [:show, :edit, :update, :destroy]
   before_action :set_prisoners_in_prison, only: [:show]
   before_action :set_gon_variables
 
   # GET /prisons
   # GET /prisons.json
   def index
-    @prisons = Prison.with_current_and_all_prisoner_count  
+    @prisons = Prison.with_current_and_all_prisoner_count
 
     respond_to do |format|
       format.html
@@ -82,7 +82,7 @@ class PrisonsController < ApplicationController
     unless File.exist?(Rails.public_path.join('system', 'json', 'prison_prisoner_count_chart.json'))
       Prison.generate_prison_prisoner_count_chart_json
     end
-    
+
     require 'json'
     file = JSON.parse File.read(Rails.public_path.join('system', 'json', 'prison_prisoner_count_chart.json'))
     file.each{|item| item['description'] = view_context.strip_tags(item['description']) }

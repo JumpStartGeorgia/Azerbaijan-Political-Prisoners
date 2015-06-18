@@ -23,18 +23,24 @@ class Incident < ActiveRecord::Base
 
     CSV.generate do |csv|
       csv << ['Prisoner Name', 'Date of Arrest', 'Description of Arrest', 'Tags', 'Charges', 'Prison', 'Date of Release', 'Description of Release']
-      all.includes(:prisoner).includes(:prison).includes(:tags).includes(:articles).each do |incident|
+
+      all.includes(:prisoner).includes(:prison)
+        .includes(:tags).includes(:articles).each do |incident|
         csv << [
           incident.prisoner.name,
           incident.date_of_arrest,
-          incident.description_of_arrest,
+          remove_tags(incident.description_of_arrest),
           incident.tags.map(&:name).join(', '),
           incident.articles.map(&:number).join(', '),
           incident.prison ? incident.prison.name : 'No Prison Listed',
           incident.date_of_release,
-          incident.description_of_release
+          remove_tags(incident.description_of_release)
         ]
       end
     end
+  end
+
+  def self.remove_tags(str)
+    str.gsub(/<.*?>/, '') if str.present?
   end
 end

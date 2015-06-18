@@ -1,7 +1,7 @@
 class ArticlesController < ApplicationController
   # before_action :redirect_to_newest_url, only: [:show, :edit, :update, :destroy]
 
-  load_and_authorize_resource :find_by => :slug
+  load_and_authorize_resource find_by: :slug
 
   before_action :set_article, only: [:show, :edit, :update, :destroy]
   before_action :set_prisoners_with_article, only: [:show]
@@ -86,7 +86,7 @@ class ArticlesController < ApplicationController
 
     require 'json'
     file = JSON.parse File.read(Rails.public_path.join('system', 'json', 'article_incident_counts_chart.json'))
-    file.each{|item| item['description'] = view_context.strip_tags(item['description']) }
+    file.each { |item| item['description'] = view_context.strip_tags(item['description']) }
 
     respond_to do |format|
       format.json { render json: file }
@@ -122,5 +122,4 @@ class ArticlesController < ApplicationController
   #     return redirect_to @article, :status => :moved_permanently
   #   end
   # end
-
 end

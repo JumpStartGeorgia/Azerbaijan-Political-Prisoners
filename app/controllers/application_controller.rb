@@ -23,7 +23,6 @@ class ApplicationController < ActionController::Base
     Time.now.strftime(t('app.datetime.full'))
   end
 
-
   rescue_from CanCan::AccessDenied do |_exception|
     if user_signed_in?
       not_authorized
@@ -43,5 +42,4 @@ class ApplicationController < ActionController::Base
   def not_found
     fail ActionController::RoutingError.new(t('app.msgs.does_not_exist'))
   end
-
 end

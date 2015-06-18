@@ -67,11 +67,11 @@ namespace :nginx do
   desc "Generates a new Nginx configuration in the app's shared folder from the local nginx.conf.erb layout."
   task :generate_conf do
     conf = if use_ssl
-      queue %(echo "-----> Generating SSL Nginx Config file")
-      ERB.new(File.read('./config/nginx_ssl.conf.erb')).result
-    else
-      queue %(echo "-----> Generating Non-SSL Nginx Config file")
-      ERB.new(File.read('./config/nginx.conf.erb')).result
+             queue %(echo "-----> Generating SSL Nginx Config file")
+             ERB.new(File.read('./config/nginx_ssl.conf.erb')).result
+           else
+             queue %(echo "-----> Generating Non-SSL Nginx Config file")
+             ERB.new(File.read('./config/nginx.conf.erb')).result
     end
 
     queue %(
@@ -155,25 +155,25 @@ namespace :puma do
 
   desc 'Start puma'
   task start: :environment do
-    queue! %[
+    queue! %(
       if [ -e '#{pumactl_socket}' ]; then
         echo 'Puma is already running!';
       else
         cd #{deploy_to}/#{current_path} && #{puma_cmd} -q -d -e #{puma_env} -C #{puma_conf}
       fi
-    ]
+        )
   end
 
   desc 'Stop puma'
   task stop: :environment do
-    queue! %[
+    queue! %(
       if [ -e '#{pumactl_socket}' ]; then
         cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -F #{puma_conf} stop
         rm -f '#{pumactl_socket}'
       else
         echo 'Puma is not running!';
       fi
-    ]
+        )
   end
 
   desc 'Restart puma'
@@ -184,35 +184,35 @@ namespace :puma do
 
   desc 'Restart puma (phased restart)'
   task phased_restart: :environment do
-    queue! %[
+    queue! %(
       if [ -e '#{pumactl_socket}' ]; then
         cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -F #{puma_conf} phased-restart
       else
         echo 'Puma is not running!';
       fi
-    ]
+        )
   end
 
   desc 'View status of puma server'
   task status: :environment do
-    queue! %[
+    queue! %(
       if [ -e '#{pumactl_socket}' ]; then
         cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -F #{puma_conf} status
       else
         echo 'Puma is not running!';
       fi
-    ]
+        )
   end
 
   desc 'View information about puma server'
   task stats: :environment do
-    queue! %[
+    queue! %(
       if [ -e '#{pumactl_socket}' ]; then
         cd #{deploy_to}/#{current_path} && #{pumactl_cmd} -F #{puma_conf} stats
       else
         echo 'Puma is not running!';
       fi
-    ]
+        )
   end
 
   namespace :jungle do
@@ -275,12 +275,12 @@ namespace :puma do
 end
 
 namespace :git do
-  desc "Remove FETCH_HEAD file containing currently deployed git commit hash; this will force user to precompile on next deploy"
+  desc 'Remove FETCH_HEAD file containing currently deployed git commit hash; this will force user to precompile on next deploy'
   task :remove_fetch_head do
-    queue! %[
+    queue! %(
       echo '-----> Removing #{fetch_head}'
       rm #{fetch_head}
-    ]
+        )
   end
 end
 
@@ -303,11 +303,11 @@ namespace :deploy do
 
   desc 'Stops puma server, rolls back to previous deploy, and starts puma server'
   task :custom_rollback do
-    invoke:'puma:stop'
-    invoke:'deploy:rollback'
-    invoke:'puma:start'
-    invoke:'deploy:assets:copy_current_to_tmp'
-    invoke:'git:remove_fetch_head'
+    invoke :'puma:stop'
+    invoke :'deploy:rollback'
+    invoke :'puma:start'
+    invoke :'deploy:assets:copy_current_to_tmp'
+    invoke :'git:remove_fetch_head'
   end
 
   namespace :assets do

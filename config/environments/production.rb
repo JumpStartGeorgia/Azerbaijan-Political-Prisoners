@@ -80,7 +80,7 @@ Rails.application.configure do
 
   # Disable delivery errors, bad email addresses will be ignored
   config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.default_url_options = { :host => 'prisoners.watch' }
+  config.action_mailer.default_url_options = { host: 'prisoners.watch' }
   config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.smtp_settings = {
@@ -90,19 +90,17 @@ Rails.application.configure do
     user_name:            ENV['APPLICATION_FEEDBACK_FROM_EMAIL'],
     password:             ENV['APPLICATION_FEEDBACK_FROM_PWD'],
     authentication:       'plain',
-    enable_starttls_auto: true  
+    enable_starttls_auto: true
   }
-
 
   # need this so can use url_helpers in modules
   Rails.application.routes.default_url_options = config.action_mailer.default_url_options
 
   # send emails when error occurs
   config.middleware.use ExceptionNotification::Rack,
-  :email => {
-    :email_prefix => "[Political Prisoners App Error (#{Rails.env})] ",
-    :sender_address => ENV['APPLICATION_ERROR_FROM_EMAIL'],
-    :exception_recipients => [ENV['APPLICATION_FEEDBACK_TO_EMAIL']]
-  }
-
+                        email: {
+                          email_prefix: "[Political Prisoners App Error (#{Rails.env})] ",
+                          sender_address: ENV['APPLICATION_ERROR_FROM_EMAIL'],
+                          exception_recipients: [ENV['APPLICATION_FEEDBACK_TO_EMAIL']]
+                        }
 end

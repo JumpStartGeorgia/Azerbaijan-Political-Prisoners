@@ -1,7 +1,7 @@
 class TagsController < ApplicationController
   # before_action :redirect_to_newest_url, only: [:show, :edit, :update, :destroy]
 
-  load_and_authorize_resource :find_by => :slug
+  load_and_authorize_resource find_by: :slug
 
   before_action :set_tag, only: [:show, :edit, :update, :destroy]
   before_action :set_prisoners_with_tag, only: [:show]
@@ -107,6 +107,4 @@ class TagsController < ApplicationController
   #     return redirect_to @tag, :status => :moved_permanently
   #   end
   # end
-
-
 end

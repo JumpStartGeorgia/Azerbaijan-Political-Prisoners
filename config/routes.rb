@@ -34,7 +34,6 @@ Rails.application.routes.draw do
     get '/disclaimer', to: 'root#disclaimer'
     get '/csv_zip', to: 'root#to_csv_zip', constraints: { format: :csv }, defaults: { format: :csv }
 
-
     # home page
     root 'root#index'
 

@@ -2,7 +2,7 @@ class AddPrisonerSlugs < ActiveRecord::Migration
   def up
     add_column :prisoners, :slug, :string
     add_index :prisoners, :slug
-     
+
     # slug is created when record is saved
     Prisoner.transaction do
       Prisoner.find_each(&:save)
@@ -14,6 +14,6 @@ class AddPrisonerSlugs < ActiveRecord::Migration
     remove_column :prisoners, :slug
 
     connection = ActiveRecord::Base.connection
-    connection.execute("delete from friendly_id_slugs where sluggable_type='Prisoner'") 
+    connection.execute("delete from friendly_id_slugs where sluggable_type='Prisoner'")
   end
 end

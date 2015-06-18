@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'prisons/show', type: :view do
   let(:content_manager_role) { FactoryGirl.create(:role, name: 'content_manager') }
-  let(:user) { FactoryGirl.create(:user, role: content_manager_role ) }
+  let(:user) { FactoryGirl.create(:user, role: content_manager_role) }
 
   before(:example) do
     sign_in :user, user

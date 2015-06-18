@@ -15,12 +15,11 @@ class Article < ActiveRecord::Base
   friendly_id :slug_candidates, use: :history
   def slug_candidates
     [
-      [self.criminal_code.name, :number]
+      [criminal_code.name, :number]
     ]
-  end  
+  end
 
   scope :with_criminal_code, -> { includes(:criminal_code) }
-
 
   def self.to_csv
     require 'csv'
@@ -33,7 +32,7 @@ class Article < ActiveRecord::Base
     end
   end
 
-  def self.incident_counts_ordered(limit=nil)
+  def self.incident_counts_ordered(limit = nil)
     primary_sql = 'select articles.id as article_id, articles.slug as slug, articles.number as article_number, criminal_codes.name as criminal_code_name, articles.description as description, count(*) as incident_count from incidents inner join charges on incidents.id = charges.incident_id inner join articles on charges.article_id = articles.id inner join criminal_codes on articles.criminal_code_id = criminal_codes.id group by articles.number order by count(*) desc'
 
     limit.nil? ? find_by_sql(primary_sql) : find_by_sql(primary_sql + ' limit ' + limit.to_s)
@@ -64,19 +63,15 @@ class Article < ActiveRecord::Base
   end
 
   def desc
-    self.description.present? ? ActionController::Base.helpers.strip_tags(self.description) : 'No description available'
+    description.present? ? ActionController::Base.helpers.strip_tags(description) : 'No description available'
   end
 
-
   # include the current prisoner count with the article
-  def self.with_current_and_all_prisoner_count(article_id=nil)
+  def self.with_current_and_all_prisoner_count(article_id = nil)
     # this old query counts number of incidents, not people
     # sql = 'select a.*, if(i_current.count is null, 0, i_current.count) as current_prisoner_count, if(i_all.count is null, 0, i_all.count) as all_prisoner_count from articles as a left join (select article_id, count(*) as count from charges group by article_id) as i_all on i_all.article_id = a.id left join (select article_id, count(*) as count from charges as c inner join incidents as i on i.id = c.incident_id where i.date_of_release is null group by c.article_id) as i_current on i_current.article_id = a.id'
     sql = 'select a.*, if(i_current.count is null, 0, i_current.count) as current_prisoner_count, if(i_all.count is null, 0, i_all.count) as all_prisoner_count  from articles as a  left join (select x.article_id, count(*) as count from (select c.article_id from charges as c  inner join incidents as i on i.id = c.incident_id  group by c.article_id, i.prisoner_id) as x group by x.article_id) as i_all on i_all.article_id = a.id  left join (select article_id, count(*) as count from charges as c inner join incidents as i on i.id = c.incident_id where i.date_of_release is null group by c.article_id) as i_current on i_current.article_id = a.id'
-    if article_id.present?
-      sql << ' where a.id = ?'
-    end
-    find_by_sql([sql, article_id])   
+    sql << ' where a.id = ?' if article_id.present?
+    find_by_sql([sql, article_id])
   end
-
 end

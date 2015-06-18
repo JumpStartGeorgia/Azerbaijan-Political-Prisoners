@@ -3,16 +3,15 @@ class Prisoner < ActiveRecord::Base
 
   has_many :incidents, inverse_of: :prisoner, dependent: :destroy
   has_attached_file :portrait,
-  styles: { thumb: '150x150>', large: '150x200>' },
-  default_url: 'missing/:style.png',
+                    styles: { thumb: '150x150>', large: '150x200>' },
+                    default_url: 'missing/:style.png',
                     url: '/system/images/:class/:attachment/:id/:style/:basename.:extension',
-  convert_options: {:large => "-resize 150x200 -gravity center -extent 150x200"}
+                    convert_options: { large: '-resize 150x200 -gravity center -extent 150x200' }
   validates_attachment :portrait, content_type: { content_type: /\Aimage\/.*\Z/ }
   accepts_nested_attributes_for :incidents, allow_destroy: true
   validates :name, presence: true, uniqueness: true
   validate :validate_all_incidents_released_except_last
   validate :validate_incident_dates
-
 
   # strip extra spaces before saving
   auto_strip_attributes :name
@@ -24,14 +23,13 @@ class Prisoner < ActiveRecord::Base
   self.per_page = 10
 
   # fields to search for in a story
-  scoped_search :on => [:name]
-  scoped_search :in => :incidents, :on => [:date_of_arrest, :date_of_release, :description_of_arrest, :description_of_release]
+  scoped_search on: [:name]
+  scoped_search in: :incidents, on: [:date_of_arrest, :date_of_release, :description_of_arrest, :description_of_release]
 
   # SCOPES
   scope :with_meta_data, -> { includes(incidents: [:prison, :tags, :articles]) }
-  scope :ordered, -> { order(:name) } 
+  scope :ordered, -> { order(:name) }
   scope :ordered_date_of_arrest, -> { order('incidents.date_of_arrest desc') }
-
 
   # CSV format
 
@@ -142,7 +140,7 @@ class Prisoner < ActiveRecord::Base
 
   def total_days_in_prison
     time = 0
-    self.incidents.each do |inc|
+    incidents.each do |inc|
       if inc.released?
         time += inc.date_of_release - inc.date_of_arrest
       else
@@ -245,15 +243,14 @@ class Prisoner < ActiveRecord::Base
   end
 
   def currently_imprisoned_status
-    if self.currently_imprisoned
+    if currently_imprisoned
       'Currently<br/> Imprisoned'
-    elsif self.currently_imprisoned == false
+    elsif currently_imprisoned == false
       'Released'
     else
       'No Arrest<br/> Information'
     end
   end
-
 
   private :update_currently_imprisoned, :validate_incident_dates, :validate_all_incidents_released_except_last
   private_class_method :arrest_counts_by_day, :release_counts_by_day, :create_date_from_hash

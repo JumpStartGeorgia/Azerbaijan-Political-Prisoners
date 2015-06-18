@@ -3,7 +3,7 @@ require 'yaml'
 class PrisonersController < ApplicationController
   # before_action :redirect_to_newest_url, only: [:show, :edit, :update, :destroy]
 
-  load_and_authorize_resource :find_by => :slug
+  load_and_authorize_resource find_by: :slug
 
   before_action :set_prisoner, only: [:show, :edit, :update, :destroy]
   before_action :set_form_collections, only: [:new, :edit]
@@ -126,7 +126,6 @@ class PrisonersController < ApplicationController
         ])
   end
 
-
   # using history for friendly_ids
   # so this checks if an old slug is being used, if so, redirect to correct one
   # def redirect_to_newest_url
@@ -136,5 +135,4 @@ class PrisonersController < ApplicationController
   #     return redirect_to @prisoner, :status => :moved_permanently
   #   end
   # end
-
 end

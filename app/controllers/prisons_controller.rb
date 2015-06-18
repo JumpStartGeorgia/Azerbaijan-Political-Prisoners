@@ -1,7 +1,7 @@
 class PrisonsController < ApplicationController
   # before_action :redirect_to_newest_url, only: [:show, :edit, :update, :destroy]
 
-  load_and_authorize_resource :find_by => :slug
+  load_and_authorize_resource find_by: :slug
 
   before_action :set_prison, only: [:show, :edit, :update, :destroy]
   before_action :set_prisoners_in_prison, only: [:show]
@@ -85,7 +85,7 @@ class PrisonsController < ApplicationController
 
     require 'json'
     file = JSON.parse File.read(Rails.public_path.join('system', 'json', 'prison_prisoner_count_chart.json'))
-    file.each{|item| item['description'] = view_context.strip_tags(item['description']) }
+    file.each { |item| item['description'] = view_context.strip_tags(item['description']) }
 
     respond_to do |format|
       format.json { render json: File.read(Rails.public_path.join('system', 'json', 'prison_prisoner_count_chart.json')) }
@@ -121,5 +121,4 @@ class PrisonsController < ApplicationController
   #     return redirect_to @prison, :status => :moved_permanently
   #   end
   # end
-
 end

@@ -1,5 +1,6 @@
 # An official article of law
 class Article < ActiveRecord::Base
+  include StringOutput
   extend FriendlyId
 
   belongs_to :criminal_code
@@ -34,7 +35,7 @@ class Article < ActiveRecord::Base
         .order(criminal_code_id: :asc, number: :asc).each do |article|
         csv << [article.number,
                 article.criminal_code.name,
-                article.description]
+                remove_tags(article.description)]
       end
     end
   end

@@ -1,4 +1,5 @@
 class Tag < ActiveRecord::Base
+  include StringOutput
   extend FriendlyId
 
   has_and_belongs_to_many :incidents
@@ -16,7 +17,7 @@ class Tag < ActiveRecord::Base
     CSV.generate do |csv|
       csv << %w(Name Description)
       all.each do |tag|
-        csv << [tag.name, tag.description]
+        csv << [tag.name, remove_tags(tag.description)]
       end
     end
   end

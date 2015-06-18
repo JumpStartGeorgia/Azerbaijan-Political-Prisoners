@@ -1,4 +1,5 @@
 class Prison < ActiveRecord::Base
+  include StringOutput
   extend FriendlyId
 
   has_many :incidents, dependent: :nullify
@@ -17,7 +18,7 @@ class Prison < ActiveRecord::Base
     CSV.generate do |csv|
       csv << %w(Name Description)
       all.each do |prison|
-        csv << [prison.name, prison.description]
+        csv << [prison.name, remove_tags(prison.description)]
       end
     end
   end

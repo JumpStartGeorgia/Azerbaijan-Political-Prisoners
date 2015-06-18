@@ -1,4 +1,6 @@
 class Incident < ActiveRecord::Base
+  include StringOutput
+
   belongs_to :prisoner
   belongs_to :prison
   has_and_belongs_to_many :tags
@@ -38,9 +40,5 @@ class Incident < ActiveRecord::Base
         ]
       end
     end
-  end
-
-  def self.remove_tags(str)
-    str.gsub(/<.*?>/, '') if str.present?
   end
 end

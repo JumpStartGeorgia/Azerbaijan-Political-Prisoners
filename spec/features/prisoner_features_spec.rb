@@ -34,7 +34,8 @@ RSpec.describe 'Prisoner', type: :feature do
 
     login_as(@user, scope: :user)
 
-    visit new_prisoner_path
+    visit prisoners_path
+    click_on 'New'
     within('.inputs') do
       fill_in 'Name', with: 'Bob Jones'
     end

@@ -20,3 +20,6 @@
 # lib/prisonersPdfParser output
 lib/aug2014PdfParser/output/*
 !lib/aug2014PdfParser/output/.gitkeep
+
+# Temporary files often end with ~ character
+*~

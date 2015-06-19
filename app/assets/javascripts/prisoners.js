@@ -1,8 +1,30 @@
-// Place all the behaviors and hooks related to the matching controller here.
-// All this logic will automatically be available in application.js.
+$(document).ready(function() {
+  if ($('form.prisoner').length) {
+    addSelect2();
+    loadTinymce();
+    addDatePickers();
+    $('.container, #links').on('cocoon:after-insert', function(e, insertedItem) {
+      addSelect2();
+      loadTinymce();
+      addDatePickers();
+    });
+  }
+
+  $(document).on('click', '.nested-fields h3 .tree-toggle', function(){
+    var t = $(this);
+    t.find('span').toggleClass('fa-caret-right fa-caret-down');
+    t.closest('.nested-fields').find('.container').toggle();
+  });
+
+  $('[data-toggle="tooltip"]').tooltip()
+});
+
+$(document).on('page:receive', function() {
+    tinymce.remove();
+});
 
 // Add jQuery Select2 extra functionality to Charges multiple select
-var addSelect2 = function() {
+function addSelect2() {
     $('select.charges_select').select2({
         placeholder: 'Select Charges',
         width: '400px'
@@ -14,37 +36,13 @@ var addSelect2 = function() {
     });
 }
 
-var addDatePickers = function() {
+function addDatePickers() {
     $('.date_of_arrest_select, .date_of_release_select').datepicker({
         dateFormat: 'yy-mm-dd',
         changeMonth: true,
         changeYear: true
     });
 };
-
-$(document).on('page:receive', function() {
-    tinymce.remove();
-});
-
-$(document).ready(function() {
-    if ($('body').hasClass('prisoners')) {
-        addSelect2();
-        loadTinymce();
-        addDatePickers();
-        $('.container, #links').on('cocoon:after-insert', function(e, insertedItem) {
-            addSelect2();
-            loadTinymce();
-            addDatePickers();
-        });
-    }
-  $(document).on('click', '.nested-fields h3 .tree-toggle', function(){
-    var t = $(this);
-    t.find('span').toggleClass('fa-caret-right fa-caret-down');
-    t.closest('.nested-fields').find('.container').toggle();
-  });
-
-    $('[data-toggle="tooltip"]').tooltip()
-});
 
 function imprisoned_count_timeline() {
     $.ajax({

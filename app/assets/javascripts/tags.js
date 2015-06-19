@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    if ($('body').hasClass('tags')) {
+    if ($('form.tag').length) {
         loadTinymce();
     }
 });

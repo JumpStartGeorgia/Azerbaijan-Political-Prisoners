@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    if ($('body').hasClass('articles')) {
+    if ($('form.article').length) {
         loadTinymce();
     }
 });
@@ -63,4 +63,4 @@ function article_incident_counts_chart() {
             });
         }
     });
-};
+}

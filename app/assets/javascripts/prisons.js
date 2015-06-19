@@ -4,7 +4,7 @@ $(document).ready(function() {
     }
 });
 
-var prison_prisoner_counts_chart = function() {
+function prison_prisoner_counts_chart() {
     $.ajax({
         url: gon.prison_prisoner_counts_prisons_path,
         async: true,

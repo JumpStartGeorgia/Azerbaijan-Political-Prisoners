@@ -4,7 +4,7 @@ $(document).ready(function() {
     }
 });
 
-var article_incident_counts_chart = function() {
+function article_incident_counts_chart() {
     $.ajax({
         url: gon.article_incident_counts_articles_path,
         async: true,

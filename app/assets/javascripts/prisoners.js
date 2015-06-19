@@ -15,8 +15,8 @@ var addSelect2 = function() {
 }
 
 var addDatePickers = function() {
-    $('.date_of_arrest_select, .date_of_release_select').datepicker({ 
-        dateFormat: 'yy-mm-dd', 
+    $('.date_of_arrest_select, .date_of_release_select').datepicker({
+        dateFormat: 'yy-mm-dd',
         changeMonth: true,
         changeYear: true
     });
@@ -43,10 +43,10 @@ $(document).ready(function() {
     t.closest('.nested-fields').find('.container').toggle();
   });
 
-    $('[data-toggle="tooltip"]').tooltip()  
+    $('[data-toggle="tooltip"]').tooltip()
 });
 
-var imprisoned_count_timeline = function() {
+function imprisoned_count_timeline() {
     $.ajax({
         url: gon.imprisoned_count_timeline_prisoners_path,
         async: true,

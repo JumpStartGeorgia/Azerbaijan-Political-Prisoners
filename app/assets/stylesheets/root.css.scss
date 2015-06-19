@@ -20,14 +20,12 @@
 .prisoner-count
 {
   .count {
-    display:table-cell;
     vertical-align:top;
     font-size: 10em;
     line-height: 1em;
     color: #d9534f;
   }
   .intro {
-    display:table-cell;
     vertical-align:top;
     width:100%;
     font-size: 2em;
@@ -40,7 +38,15 @@
   .descr {
     margin:10px 0px;
   }
+
+  @media (min-width: 420px) {
+    .intro, .count {
+      display:table-cell;
+    }
+  }
 }
+
+
 /********************************************************/
 /* Featured Prisoner */
 div#featured-prisoner {

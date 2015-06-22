@@ -105,11 +105,12 @@
                     <% end %>
                   </li>
 
-
-                  <li>
-                    <!-- Go to www.addthis.com/dashboard to customize your tools -->
-                    <div class="addthis_sharing_toolbox"></div>
-                  </li>
+                  <% if Rails.env.production? || Rails.env.staging? %>
+                    <li>
+                      <!-- Go to www.addthis.com/dashboard to customize your tools -->
+                      <div class="addthis_sharing_toolbox"></div>
+                    </li>
+                  <% end %>
 
                   <% if user_signed_in? %>
                     <li class="dropdown">
@@ -187,7 +188,10 @@
       </div>
     </footer>
 
-    <script type="text/javascript" src="https://s7.addthis.com/js/300/addthis_widget.js#pubid=<%= ENV['ADD_THIS_TOOLBOX'] %>" async="async"></script>
+
+    <% if Rails.env.production? || Rails.env.staging? %>
+      <script type="text/javascript" src="https://s7.addthis.com/js/300/addthis_widget.js#pubid=<%= ENV['ADD_THIS_TOOLBOX'] %>" async="async"></script>
+    <% end %>
 
     <% if Rails.env.production? %>
       <script>

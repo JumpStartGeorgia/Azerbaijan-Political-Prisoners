@@ -10,9 +10,16 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//
+// For turbolinks to work, these jQuery libraries must be loaded first and
+// turbolinks last. Put other libraries in the marked area in the middle.
+//
 //= require jquery
 //= require jquery.turbolinks
 //= require jquery_ujs
+
+////////////////////////////////////////
+///////  Load dependencies here  ///////
 
 //= require twitter/bootstrap
 //= require dataTables/jquery.dataTables
@@ -26,5 +33,7 @@
 //= require highcharts/modules/exporting
 //= require bootstrap
 //= require_tree .
+
+////////////////////////////////////////
 
 //= require turbolinks

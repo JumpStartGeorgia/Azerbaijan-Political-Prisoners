@@ -14,7 +14,7 @@ function homePage() {
 }
 
 function loadCharts() {
-  imprisoned_count_timeline();
+  imprisonedCountTimeline();
   prison_prisoner_counts_chart();
   article_incident_counts_chart();
 }

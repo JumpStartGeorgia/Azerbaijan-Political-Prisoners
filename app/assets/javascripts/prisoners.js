@@ -29,13 +29,13 @@ $(document).ready(function() {
       loadTinymce();
       addDatePickers();
     });
-  }
 
-  $(document).on("click", ".nested-fields h3 .tree-toggle", function(){
-    var t = $(this);
-    t.find("span").toggleClass("fa-caret-right fa-caret-down");
-    t.closest(".nested-fields").find(".container").toggle();
-  });
+    $(document).on("click", ".nested-fields h3 .tree-toggle", function(){
+      var t = $(this);
+      t.find("span").toggleClass("fa-caret-right fa-caret-down");
+      t.closest(".nested-fields").find(".container").toggle();
+    });
+  }
 
   $("[data-toggle=\"tooltip\"]").tooltip();
 });

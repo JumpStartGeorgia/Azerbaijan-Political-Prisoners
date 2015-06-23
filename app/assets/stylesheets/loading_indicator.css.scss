@@ -7,8 +7,7 @@ $spinner-size: 125px;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.2);
 
-  .fa-spinner {
-    font-size: $spinner-size;
+  img {
     position: fixed;
     width: $spinner-size;
     height: $spinner-size;

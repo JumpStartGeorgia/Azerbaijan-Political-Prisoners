@@ -11,7 +11,7 @@ initAdthis = function(){
   window.addthis_share = null;
 
   // Finally, load addthis
-  $.getScript("https://s7.addthis.com/js/300/addthis_widget.js#pubid=<%= ENV['ADD_THIS_TOOLBOX'] %>");
+  $.getScript("https://s7.addthis.com/js/300/addthis_widget.js#pubid=" + gon.addthis_id);
 };
 
 // Trigger the function on both jquery's ready event and turbolinks page:change event

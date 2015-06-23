@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
 
   before_action :set_locale
   before_action :set_global_variables
+  before_action :set_addthis_id
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
@@ -13,6 +14,10 @@ class ApplicationController < ActionController::Base
 
   def set_global_variables
     @show_page_title = true
+  end
+
+  def set_addthis_id
+    gon.addthis_id = ENV['ADD_THIS_TOOLBOX']
   end
 
   def default_url_options(options = {})

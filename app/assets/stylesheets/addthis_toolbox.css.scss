@@ -1,11 +1,13 @@
 /********************************************************/
 /* Share links (facebook, twitter, etc.) */
 .addthis_toolbox {
-  padding-top: 14px;
+  margin-top: 14px;
+  margin-left: 6px;
+  margin-bottom: 2px;
 }
 
 .addthis_default_style .at300b,
 .addthis_default_style .at300bo,
 .addthis_default_style .at300m {
-  padding: 0 4px;
+  padding: 0 8px !important;
 }

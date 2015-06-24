@@ -12,7 +12,8 @@ initAdthis = function(){
 
   // Finally, load addthis
   $.getScript("https://s7.addthis.com/js/300/addthis_widget.js#pubid=" + gon.addthis_id, function(){
-    addthis.toolbox('.addthis_sharing_toolbox');
+    // addthis.init();
+    addthis.toolbox(".addthis_toolbox");
   });
 };
 

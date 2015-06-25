@@ -18,6 +18,20 @@ RSpec.describe 'Articles', type: :request do
     end
   end
 
+  describe 'GET article' do
+    it 'works with id' do
+      get article_path(Article.find_by_number(article_number_1).id)
+      expect(response).to have_http_status(200)
+      expect(response.body).to include(article_number_1)
+    end
+
+    it 'works with friendly id' do
+      get article_path(Article.find_by_number(article_number_1))
+      expect(response).to have_http_status(200)
+      expect(response.body).to include(article_number_1)
+    end
+  end
+
   describe 'GET /articles/article_incident_counts' do
     it 'works' do
       get article_incident_counts_articles_path

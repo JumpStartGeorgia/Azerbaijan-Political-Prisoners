@@ -18,6 +18,20 @@ RSpec.describe 'Prisons', type: :request do
     end
   end
 
+  describe 'GET prison' do
+    it 'works with id' do
+      get prison_path(Prison.find_by_name(prison_name_1).id)
+      expect(response).to have_http_status(200)
+      expect(response.body).to include(prison_name_1)
+    end
+
+    it 'works with friendly id' do
+      get prison_path(Prison.find_by_name(prison_name_1))
+      expect(response).to have_http_status(200)
+      expect(response.body).to include(prison_name_1)
+    end
+  end
+
   describe 'GET /prisoners/prison_prisoner_counts' do
     it 'works' do
       get prison_prisoner_counts_prisons_path

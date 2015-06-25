@@ -18,6 +18,20 @@ RSpec.describe 'Tags', type: :request do
     end
   end
 
+  describe 'GET tag' do
+    it 'works with id' do
+      get tag_path(Tag.find_by_name(tag_name_1).id)
+      expect(response).to have_http_status(200)
+      expect(response.body).to include(tag_name_1)
+    end
+
+    it 'works with friendly id' do
+      get tag_path(Tag.find_by_name(tag_name_1))
+      expect(response).to have_http_status(200)
+      expect(response.body).to include(tag_name_1)
+    end
+  end
+
   describe 'GET /tags.csv' do
     it 'works' do
       get tags_path(format: :csv)

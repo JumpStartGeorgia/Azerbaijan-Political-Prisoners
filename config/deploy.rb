@@ -61,6 +61,22 @@ namespace :rails do
   task :edit_env do
     queue %(vim #{shared_env_path})
   end
+
+  namespace :log do
+    desc "Tail a log file; set `lines` to number of lines and `log` to log file name; example: 'mina rails:log lines=100 log=production.log'"
+    task :tail do
+      ENV['n'] ||= '10'
+      ENV['f'] ||= "#{stage}.log"
+
+      puts "Tailing file #{ENV['f']}; showing last #{ENV['n']} lines"
+      queue %(tail -n #{ENV['n']} -f #{full_current_path}/log/#{ENV['f']})
+    end
+
+    desc 'List all log files'
+    task :list do
+      queue %(ls -la #{full_current_path}/log/)
+    end
+  end
 end
 
 namespace :nginx do

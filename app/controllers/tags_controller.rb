@@ -1,9 +1,9 @@
 class TagsController < ApplicationController
   # before_action :redirect_to_newest_url, only: [:show, :edit, :update, :destroy]
 
-  load_and_authorize_resource find_by: :slug
-
   before_action :set_tag, only: [:show, :edit, :update, :destroy]
+  authorize_resource
+
   before_action :set_prisoners_with_tag, only: [:show]
   before_action :set_gon_variables
 

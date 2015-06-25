@@ -3,9 +3,9 @@ require 'yaml'
 class PrisonersController < ApplicationController
   # before_action :redirect_to_newest_url, only: [:show, :edit, :update, :destroy]
 
-  load_and_authorize_resource find_by: :slug
-
   before_action :set_prisoner, only: [:show, :edit, :update, :destroy]
+  authorize_resource
+
   before_action :set_form_collections, only: [:new, :edit]
   before_action :set_gon_variables
 

@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-  # before_action :redirect_to_newest_url, only: [:show, :edit, :update, :destroy]
+  before_action :redirect_to_newest_url, only: [:show, :edit, :update, :destroy]
 
   before_action :set_article, only: [:show, :edit, :update, :destroy]
   authorize_resource
@@ -113,13 +113,10 @@ class ArticlesController < ApplicationController
     params.require(:article).permit(:number, :criminal_code_id, :description)
   end
 
-  # using history for friendly_ids
-  # so this checks if an old slug is being used, if so, redirect to correct one
-  # def redirect_to_newest_url
-  #   @article = Article.with_criminal_code.friendly.find params[:id]
-
-  #   if request.path != article_path(@article)
-  #     return redirect_to @article, :status => :moved_permanently
-  #   end
-  # end
+  # if request uses id instead of slug, corrects to use the right path
+  def redirect_to_newest_url
+    @article = Article.friendly.find params[:id]
+    return false if request.path == (url_for action: action_name, id: @article.slug, only_path: true)
+    redirect_to (url_for action: action_name, id: @article.slug, only_path: true), status: :moved_permanently
+  end
 end

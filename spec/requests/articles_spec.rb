@@ -22,6 +22,7 @@ RSpec.describe 'Articles', type: :request do
     it 'works with id' do
       get article_path(Article.find_by_number(article_number_1).id)
 
+      expect(response).to have_http_status(301)
       expect(response).to redirect_to(
         article_path(Article.find_by_number(article_number_1)))
       follow_redirect!
@@ -83,9 +84,9 @@ RSpec.describe 'Articles', type: :request do
 
     describe 'EDIT article' do
       it 'works with id' do
-        host! 'localhost'
         get edit_article_path(Article.find_by_number(article_number_1).id)
 
+        expect(response).to have_http_status(301)
         expect(response).to redirect_to(
           edit_article_path(Article.find_by_number(article_number_1)))
         follow_redirect!

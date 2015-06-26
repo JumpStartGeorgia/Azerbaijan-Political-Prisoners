@@ -22,6 +22,7 @@ RSpec.describe 'Prisons', type: :request do
     it 'works with id' do
       get prison_path(Prison.find_by_name(prison_name_1).id)
 
+      expect(response).to have_http_status(301)
       expect(response).to redirect_to(
         prison_path(Prison.find_by_name(prison_name_1)))
       follow_redirect!
@@ -84,9 +85,9 @@ RSpec.describe 'Prisons', type: :request do
 
     describe 'EDIT prison' do
       it 'works with id' do
-        host! 'localhost'
         get edit_prison_path(Prison.find_by_name(prison_name_1).id)
 
+        expect(response).to have_http_status(301)
         expect(response).to redirect_to(
           edit_prison_path(Prison.find_by_name(prison_name_1)))
         follow_redirect!

@@ -22,6 +22,7 @@ RSpec.describe 'Tags', type: :request do
     it 'works with id' do
       get tag_path(Tag.find_by_name(tag_name_1).id)
 
+      expect(response).to have_http_status(301)
       expect(response).to redirect_to(
         tag_path(Tag.find_by_name(tag_name_1)))
       follow_redirect!
@@ -58,9 +59,9 @@ RSpec.describe 'Tags', type: :request do
 
     describe 'EDIT tag' do
       it 'works with id' do
-        host! 'localhost'
         get edit_tag_path(Tag.find_by_name(tag_name_1).id)
 
+        expect(response).to have_http_status(301)
         expect(response).to redirect_to(
           edit_tag_path(Tag.find_by_name(tag_name_1)))
         follow_redirect!

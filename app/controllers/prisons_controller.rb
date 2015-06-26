@@ -1,5 +1,5 @@
 class PrisonsController < ApplicationController
-  # before_action :redirect_to_newest_url, only: [:show, :edit, :update, :destroy]
+  before_action :redirect_to_newest_url, only: [:show, :edit, :update, :destroy]
 
   before_action :set_prison, only: [:show, :edit, :update, :destroy]
   authorize_resource
@@ -112,13 +112,10 @@ class PrisonsController < ApplicationController
     params.require(:prison).permit(:name, :description)
   end
 
-  # using history for friendly_ids
-  # so this checks if an old slug is being used, if so, redirect to correct one
-  # def redirect_to_newest_url
-  #   @prison = Prison.friendly.find params[:id]
-
-  #   if request.path != prison_path(@prison)
-  #     return redirect_to @prison, :status => :moved_permanently
-  #   end
-  # end
+  # if request uses id instead of slug, corrects to use the right path
+  def redirect_to_newest_url
+    @prison = Prison.friendly.find params[:id]
+    return false if request.path == (url_for action: action_name, id: @prison.slug, only_path: true)
+    redirect_to (url_for action: action_name, id: @prison.slug, only_path: true), status: :moved_permanently
+  end
 end

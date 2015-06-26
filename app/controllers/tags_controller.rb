@@ -1,5 +1,5 @@
 class TagsController < ApplicationController
-  # before_action :redirect_to_newest_url, only: [:show, :edit, :update, :destroy]
+  before_action :redirect_to_newest_url, only: [:show, :edit, :update, :destroy]
 
   before_action :set_tag, only: [:show, :edit, :update, :destroy]
   authorize_resource
@@ -98,13 +98,10 @@ class TagsController < ApplicationController
     params.require(:tag).permit(:name, :description)
   end
 
-  # using history for friendly_ids
-  # so this checks if an old slug is being used, if so, redirect to correct one
-  # def redirect_to_newest_url
-  #   @tag = Tag.friendly.find params[:id]
-
-  #   if request.path != tag_path(@tag)
-  #     return redirect_to @tag, :status => :moved_permanently
-  #   end
-  # end
+  # if request uses id instead of slug, corrects to use the right path
+  def redirect_to_newest_url
+    @tag = Tag.friendly.find params[:id]
+    return false if request.path == (url_for action: action_name, id: @tag.slug, only_path: true)
+    redirect_to (url_for action: action_name, id: @tag.slug, only_path: true), status: :moved_permanently
+  end
 end

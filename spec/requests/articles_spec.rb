@@ -67,4 +67,33 @@ RSpec.describe 'Articles', type: :request do
     get article_incident_counts_articles_path
     expect(orig_json).not_to eq(response.body)
   end
+
+  describe 'content manager user' do
+    before(:example) do
+      @role = FactoryGirl.create(:role, name: 'content_manager')
+      @user = FactoryGirl.create(:user, role: @role)
+
+      login_as(@user, scope: :user)
+    end
+
+    describe 'EDIT article' do
+      it 'works with id' do
+        host! 'localhost'
+        get edit_article_path(Article.find_by_number(article_number_1).id)
+
+        expect(response).to redirect_to(
+          edit_article_path(Article.find_by_number(article_number_1)))
+        follow_redirect!
+
+        expect(response).to have_http_status(200)
+        expect(response.body).to include(article_number_1)
+      end
+
+      it 'works with friendly id' do
+        get edit_article_path(Article.find_by_number(article_number_1))
+        expect(response).to have_http_status(200)
+        expect(response.body).to include(article_number_1)
+      end
+    end
+  end
 end

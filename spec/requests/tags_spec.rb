@@ -42,4 +42,33 @@ RSpec.describe 'Tags', type: :request do
       expect(response.body).to include(tag_description_2)
     end
   end
+
+  describe 'content manager user' do
+    before(:example) do
+      @role = FactoryGirl.create(:role, name: 'content_manager')
+      @user = FactoryGirl.create(:user, role: @role)
+
+      login_as(@user, scope: :user)
+    end
+
+    describe 'EDIT tag' do
+      it 'works with id' do
+        host! 'localhost'
+        get edit_tag_path(Tag.find_by_name(tag_name_1).id)
+
+        expect(response).to redirect_to(
+          edit_tag_path(Tag.find_by_name(tag_name_1)))
+        follow_redirect!
+
+        expect(response).to have_http_status(200)
+        expect(response.body).to include(tag_name_1)
+      end
+
+      it 'works with friendly id' do
+        get edit_tag_path(Tag.find_by_name(tag_name_1))
+        expect(response).to have_http_status(200)
+        expect(response.body).to include(tag_name_1)
+      end
+    end
+  end
 end

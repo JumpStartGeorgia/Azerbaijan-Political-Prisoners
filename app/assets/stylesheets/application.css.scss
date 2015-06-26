@@ -56,7 +56,7 @@
     }
   }
 }
- 
+
 
 // #page-header h1 span#page-title-right{
 //   font-size: 14px;
@@ -94,7 +94,7 @@ table.datatable td, table.datatable-admin td{
   box-sizing:content-box;
 
   &[type="number"]{
-    width: 100px;  
+    width: 100px;
   }
 }
 .formtastic input[type='submit'], .formtastic input[type='reset'], .formtastic button
@@ -103,7 +103,7 @@ table.datatable td, table.datatable-admin td{
   font-size:14px;
   box-sizing:content-box;
 }
-.formtastic 
+.formtastic
 {
   .input
   {
@@ -126,13 +126,13 @@ table.datatable td, table.datatable-admin td{
       font:12px 'sourcesans_pro', 'sans-serif';
       color: #d95d6a;
       width:10px;
-      display:inline-block; 
+      display:inline-block;
       border: 0;
       margin:0;
       padding:0;
     }
-  }  
-  .select select 
+  }
+  .select select
   {
     max-width: 72%;
   }
@@ -151,15 +151,15 @@ table.datatable td, table.datatable-admin td{
   ::-moz-placeholder {  /* Firefox 19+ */
      color: #777777;
   }
-  :-ms-input-placeholder {  
-     color: #777777;  
+  :-ms-input-placeholder {
+     color: #777777;
   }
-  input[type="text"] 
-  {    
+  input[type="text"]
+  {
     padding: 6px 35px 6px 6px;
     background:#fff url('/assets/svg/search.svg') no-repeat right center;
     font-size: 13px;
-    color:#777777;       
+    color:#777777;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
@@ -177,9 +177,9 @@ table.datatable td, table.datatable-admin td{
 
     &:focus, &:hover
     {
-      opacity:0.9;     
+      opacity:0.9;
     }
-  }   
+  }
 }
 #search-form2{
   ::-webkit-input-placeholder {
@@ -191,17 +191,17 @@ table.datatable td, table.datatable-admin td{
   ::-moz-placeholder {  /* Firefox 19+ */
      color: #555;
   }
-  :-ms-input-placeholder {  
-     color: #555;  
+  :-ms-input-placeholder {
+     color: #555;
   }
-  input[type="text"] 
-  {    
+  input[type="text"]
+  {
     display:inline-block;
     background:#dedede url('/assets/svg/search.svg') no-repeat right center;
     color: #555;
     min-width:250px;
     max-width:500px;
-  }   
+  }
   .search-result-count{
     display:inline-block;
     margin-left: 10px;
@@ -220,9 +220,9 @@ table.datatable td, table.datatable-admin td{
     width: 1px;
     margin: 0px 10px;
   }
-}  
+}
 
 /* put space after show page counts */
 #show-counts{
-  margin-bottom: 20px;
+  margin-bottom: 4em;
 }

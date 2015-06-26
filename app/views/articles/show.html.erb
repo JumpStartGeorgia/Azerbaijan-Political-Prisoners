@@ -1,6 +1,6 @@
-<%- 
-  model_class = Article 
-  page_title "Arrest Charge: #{@article.criminal_code.name} - #{@article.number}"
+<%-
+  model_class = Article
+  page_title "Arrest Charge: ##{@article.number} in #{@article.criminal_code.name} Criminal Code"
   page_title_right link_to('View All Arrest Charges', articles_path, class: 'btn btn-default')
 -%>
 
@@ -16,6 +16,9 @@
     %>
   </div>
 <% end %>
+<div class='article-description'>
+  <%= simple_format_no_tags(@article.description) if @article.description.present? %>  
+</div>
 
 <div id="show-counts" class="row">
   <div class="col-sm-4 col-sm-offset-1">
@@ -32,7 +35,6 @@
   </div>
 </div>
 
-<%= simple_format_no_tags(@article.description) if @article.description.present? %>
 
 <div class="datatable-topmargin">
   <table class="table table-striped table-hover datatable table-nonfluid">

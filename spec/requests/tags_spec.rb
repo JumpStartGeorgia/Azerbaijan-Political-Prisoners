@@ -21,6 +21,11 @@ RSpec.describe 'Tags', type: :request do
   describe 'GET tag' do
     it 'works with id' do
       get tag_path(Tag.find_by_name(tag_name_1).id)
+
+      expect(response).to redirect_to(
+        tag_path(Tag.find_by_name(tag_name_1)))
+      follow_redirect!
+
       expect(response).to have_http_status(200)
       expect(response.body).to include(tag_name_1)
     end

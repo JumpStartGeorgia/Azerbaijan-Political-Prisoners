@@ -19,6 +19,11 @@ RSpec.describe 'Prisoners', type: :request do
   describe 'GET prisoner' do
     it 'works with id' do
       get prisoner_path(Prisoner.find_by_name(prisoner_name_1).id)
+
+      expect(response).to redirect_to(
+        prisoner_path(Prisoner.find_by_name(prisoner_name_1)))
+      follow_redirect!
+
       expect(response).to have_http_status(200)
       expect(response.body).to include(prisoner_name_1)
     end

@@ -24,6 +24,10 @@ class Article < ActiveRecord::Base
     ]
   end
 
+  def should_generate_new_friendly_id?
+    number_changed? || criminal_code_id_changed?
+  end
+
   scope :with_criminal_code, -> { includes(:criminal_code) }
 
   def self.to_csv

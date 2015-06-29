@@ -17,11 +17,9 @@ class Article < ActiveRecord::Base
                             Enter new Number or select different Criminal Code'
 
   # permalink
-  friendly_id :slug_candidates, use: :history
-  def slug_candidates
-    [
-      [criminal_code.name, :number]
-    ]
+  friendly_id :number_and_code, use: :history
+  def number_and_code
+    "num-#{number}-in-#{criminal_code.name}-code"
   end
 
   def should_generate_new_friendly_id?

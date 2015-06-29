@@ -12,6 +12,10 @@ class Prison < ActiveRecord::Base
   # permalink
   friendly_id :name, use: :history
 
+  def should_generate_new_friendly_id?
+    name_changed?
+  end
+
   def self.to_csv
     require 'csv'
 

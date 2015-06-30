@@ -140,7 +140,17 @@ class Prisoner < ActiveRecord::Base
     find_by_sql(sql).map { |x| x.attributes['prisoner_id'] }
   end
 
-  # Length spent in prison
+  # Attributes
+
+  def age_in_years
+    today = Date.today
+    y = today.year - date_of_birth.year
+
+    y -= 1 if
+      date_of_birth.month > today.month ||
+      (date_of_birth.month == today.month && date_of_birth.day > today.day)
+    y
+  end
 
   def total_days_in_prison
     time = 0

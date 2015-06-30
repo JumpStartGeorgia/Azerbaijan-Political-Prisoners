@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150629101907) do
+ActiveRecord::Schema.define(version: 20150630073312) do
 
   create_table "articles", force: :cascade do |t|
     t.string   "number",           limit: 255
@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 20150629101907) do
     t.datetime "portrait_updated_at"
     t.boolean  "currently_imprisoned",  limit: 1
     t.string   "slug",                  limit: 255
+    t.date     "date_of_birth"
   end
 
   add_index "prisoners", ["name"], name: "index_prisoners_on_name", using: :btree

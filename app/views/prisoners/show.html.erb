@@ -33,15 +33,15 @@
 
     <div class="figure col-md-2 col-md-pull-7">
       <%= image_tag(@prisoner.portrait.url(:large), class: "img-responsive") %>
-    </div>
 
-    <div class="left-box col-md-3">
-      <div class="about state-board">
-        <% if @prisoner.date_of_birth.present? %>
-          <div>Age: <span class="age"><%= @prisoner.age_in_years %> years</span></div>
-        <% end %>
-        <div class="kv total">Total days spent in prison: <span class="days"><%= number_with_delimiter(@prisoner.total_days_in_prison) %></span></div>
-        <div class="kv status<%= klass %>">Status: <span><%= @prisoner.currently_imprisoned_status.html_safe %></span></div>
+      <div class="left-box">
+        <div class="about state-board">
+          <% if @prisoner.date_of_birth.present? %>
+            <div>Age: <span class="age"><%= @prisoner.age_in_years %> years</span></div>
+          <% end %>
+          <div class="kv total">Total days spent in prison: <span class="days"><%= number_with_delimiter(@prisoner.total_days_in_prison) %></span></div>
+          <div class="kv status<%= klass %>">Status: <span><%= @prisoner.currently_imprisoned_status.html_safe %></span></div>
+        </div>
       </div>
     </div>
 

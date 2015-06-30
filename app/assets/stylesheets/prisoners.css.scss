@@ -11,10 +11,10 @@
     }
     .name {
       margin:0px 0px 10px 10px;
-    }    
+    }
     .actions
     {
-      margin:10px 0px 0px;      
+      margin:10px 0px 0px;
       div { display:inline-block; }
     }
     .figure {
@@ -32,25 +32,26 @@
     }
     .right-box {
       margin:0px;
-    }   
+    }
   }
 }
-.info {  
+.info {
   .figure img {
     border:1px solid #ddd;
     padding:3px;
+    display: inline-block;
   }
-  .name {
-    margin:0px 0px 10px 10px;
+  .name-and-age {
     vertical-align: top;
   }
-  .name.name-desktop
-  {
-    // position:absolute;
-    // top:50%;
-    // transform: translateY(-50%);
-    display:none;
-    margin:0px 0px 10px 0px;
+  h1 {
+    margin-bottom: 0;
+  }
+  .age {
+    color: #d9534f;
+  }
+  .name-and-age .age {
+    font-size: 1.3em;
   }
   .state-board {
     display:initial;
@@ -68,7 +69,6 @@
     }
   }
   .state-board.state-board-desktop {
-      display:none;
     .total {
       display:block;
       max-width:240px;
@@ -103,6 +103,7 @@
 
   .left-box {
     position:relative;
+    display: inline-block;
   }
   .right-box {
     vertical-align:middle;
@@ -121,7 +122,7 @@
     line-height:1em;
     color: #d9534f;
     margin-bottom:20px;
-    
+
     >div {
       display:table-cell;
     }
@@ -136,7 +137,7 @@
       height:1px;
       background-color:#e4e4e4;
     }
-  } 
+  }
 }
 .prisoner .header {
    margin-bottom:10px;
@@ -152,8 +153,8 @@
 }
 
 .arrests{
-  margin-top: 30px;  
-  .arrest 
+  margin-top: 30px;
+  .arrest
   {
     padding:1em 2em;
     &:not(:last-child)
@@ -185,7 +186,7 @@
       padding:0px;
     }
     li:before {
-      color: red; 
+      color: red;
     }
     .description, .descr {
       font-size: 12px;
@@ -195,7 +196,7 @@
     }
     .value {
       display:table-cell;
-      vertical-align:top;   
+      vertical-align:top;
     }
   }
 }
@@ -215,7 +216,7 @@ form
          vertical-align: middle;
          cursor:pointer;
       }
-   }   
+   }
 }
 #imprisoned-count-timeline
 {
@@ -227,20 +228,20 @@ form
     pointer-events:initial;
   }
   .info {
-    .name {
-      display:none;
-    }
-    .name.name-desktop {
-      display:inline-block;
-    }
     .right-box {
       margin-top: 20px;
     }
-    .state-board {
+    .left-box {
       display:none;
     }
-    .state-board.state-board-desktop {
-      display:initial;
-    }
+  }
+}
+
+@media (max-width: 992px) {
+  .name-and-age .age {
+    display: none;
+  }
+  .right-box {
+    display: none;
   }
 }

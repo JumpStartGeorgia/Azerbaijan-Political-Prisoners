@@ -23,23 +23,31 @@
 <% end %>
 <div class="info">
   <div class="row">
-    <div class="name h1 col-md-12"><%= @prisoner.name %></div>
-  </div>
-  <div class="row">
-    <div class="col-md-9 col-sm-12 left-box">
-      <div class="figure col-md-3 col-sm-4"><%= image_tag(@prisoner.portrait.url(:large), class: "img-responsive") %></div>
-
-      <% klass = @prisoner.currently_imprisoned == false ? ' green' : '' %>
-      <div class="about col-md-9 col-sm-8">
-          <div class="name h1 name-desktop"><%= @prisoner.name %></div>
-        <div class="state-board">
-          <div class="kv total">Total days spent in prison: <span class="days"><%= number_with_delimiter(@prisoner.total_days_in_prison) %></span></div>
-          <div class="kv status<%= klass %>">Status: <span><%= @prisoner.currently_imprisoned_status.html_safe %></span></div>
-        </div>
-      </div>
-
+    <div class="name-and-age col-md-7 col-md-push-2">
+      <h1 class="name"><%= @prisoner.name %></h1>
+      <% if @prisoner.date_of_birth.present? %>
+        <br/>
+        <span class="age"><%= @prisoner.age_in_years %> years old</span>
+      <% end %>
     </div>
-    <div class="col-md-3 right-box">
+
+    <div class="figure col-md-2 col-md-pull-7">
+      <%= image_tag(@prisoner.portrait.url(:large), class: "img-responsive") %>
+    </div>
+
+    <div class="left-box col-md-3">
+      <div class="about state-board">
+        <% if @prisoner.date_of_birth.present? %>
+          <div>Age: <span class="age"><%= @prisoner.age_in_years %> years</span></div>
+        <% end %>
+        <div class="kv total">Total days spent in prison: <span class="days"><%= number_with_delimiter(@prisoner.total_days_in_prison) %></span></div>
+        <div class="kv status<%= klass %>">Status: <span><%= @prisoner.currently_imprisoned_status.html_safe %></span></div>
+      </div>
+    </div>
+
+    <% klass = @prisoner.currently_imprisoned == false ? ' green' : '' %>
+
+    <div class="right-box col-md-3">
         <div class="state-board state-board-desktop">
           <div class="total">
             <div class="days"><%= number_with_delimiter(@prisoner.total_days_in_prison) %></div>

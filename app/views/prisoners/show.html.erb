@@ -37,7 +37,7 @@
       <div class="left-box">
         <div class="about state-board">
           <% if @prisoner.date_of_birth.present? %>
-            <div>Age: <span class="age"><%= @prisoner.age_in_years %> years</span></div>
+            <div>Age: <span class="age"><%= @prisoner.age_in_years %> years old</span></div>
           <% end %>
           <div class="kv total">Total days spent in prison: <span class="days"><%= number_with_delimiter(@prisoner.total_days_in_prison) %></span></div>
           <div class="kv status<%= klass %>">Status: <span><%= @prisoner.currently_imprisoned_status.html_safe %></span></div>

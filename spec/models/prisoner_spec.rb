@@ -204,4 +204,22 @@ RSpec.describe Prisoner, type: :model do
       expect { pris.destroy }.to change { Charge.count }.by(-1)
     end
   end
+
+  describe 'age_in_years is correct' do
+    it 'when date of birth and current date are same' do
+      dob = Date.new(Date.today.year - 50, Date.today.month, Date.today.day)
+      p1.date_of_birth = dob
+
+      expect(p1.age_in_years).to eq(50)
+    end
+
+    it 'when date of birth is tomorrow' do
+      dob = Date.new(Date.tomorrow.year - 50,
+                     Date.tomorrow.month,
+                     Date.tomorrow.day)
+      p1.date_of_birth = dob
+
+      expect(p1.age_in_years).to eq(49)
+    end
+  end
 end

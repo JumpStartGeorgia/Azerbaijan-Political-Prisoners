@@ -26,8 +26,7 @@
     <div class="name-and-age col-md-7 col-md-push-2">
       <h1 class="name"><%= @prisoner.name %></h1>
       <% if @prisoner.date_of_birth.present? %>
-        <br/>
-        <span class="age"><%= @prisoner.age_in_years %> years old</span>
+        <p class="age"><%= @prisoner.age_in_years %> years old</p>
       <% end %>
     </div>
 

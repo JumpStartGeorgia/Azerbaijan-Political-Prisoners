@@ -11,11 +11,11 @@
 @fontAwesomeTtfPath: asset-url("fontawesome-webfont.ttf");
 @fontAwesomeSvgPath: asset-url("fontawesome-webfont.svg#fontawesomeregular");
 @import "fontawesome/font-awesome";
-@fa-font-path: "/assets"; // Override fontawesome less variable in order for it to work with Rails asset pipeline 
+@fa-font-path: "/assets"; // Override fontawesome less variable in order for it to work with Rails asset pipeline
 
 
 // Glyphicons
-/*@import "twitter/bootstrap/glyphicons.less"; 
+/*@import "twitter/bootstrap/glyphicons.less";
 */
 // Your custom LESS stylesheets goes here
 //
@@ -95,6 +95,11 @@ footer {
   /* Set the fixed height of the footer here */
   height: 41px;
   background-color: #f8f8f8;
+}
+
+.radio input[type="radio"], .radio-inline input[type="radio"], .checkbox input[type="checkbox"], .checkbox-inline input[type="checkbox"] {
+  position: initial;
+  margin: 0 10px;
 }
 
 /* footer styles */

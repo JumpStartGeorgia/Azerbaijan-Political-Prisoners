@@ -50,6 +50,10 @@ RSpec.describe 'Prisoner', type: :feature do
     expect(page).to have_content('February 09, 2015')
 
     click_link 'Edit'
+    within('.inputs') do
+      fill_in 'Date of birth', with: (Date.today - 50.years).strftime('%Y-%m-%d')
+    end
+
     within('.nested-fields') do
       select('prison#1', from: 'Prison')
       fill_in 'Date of release', with: '2015-02-10'
@@ -60,6 +64,7 @@ RSpec.describe 'Prisoner', type: :feature do
 
     click_button 'Update Prisoner'
 
+    expect(page).to have_content('50 years old')
     expect(page).to have_content('Prisoner was successfully updated.')
     expect(page).to have_content('February 09, 2015')
     expect(page).to have_content('prison#1')

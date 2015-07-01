@@ -167,6 +167,10 @@ RSpec.configure do |config|
     I18n.t(string, options)
   end
 
+  def l(string, options = {})
+    I18n.l(string, options)
+  end
+
   # Remove generated files after tests are run
   config.after(:suite) do
     remove_paths = [

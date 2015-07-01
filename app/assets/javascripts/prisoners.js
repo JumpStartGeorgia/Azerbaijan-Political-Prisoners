@@ -12,10 +12,11 @@ function addSelect2() {
 }
 
 function addDatePickers() {
-    $(".date_of_arrest_select, .date_of_release_select").datepicker({
+    $(".date_of_arrest_select, .date_of_release_select, .date_of_birth_select").datepicker({
         dateFormat: "yy-mm-dd",
         changeMonth: true,
-        changeYear: true
+        changeYear: true,
+        yearRange: "-100:+0"
     });
 }
 

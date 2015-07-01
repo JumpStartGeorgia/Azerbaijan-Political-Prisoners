@@ -39,10 +39,8 @@
         <div class="name h1 hide-big-screen"><%= link_to prisoner.name, prisoner_path(prisoner) %></div>
 
         <div class="row">
-          <div class="figure-and-actions col-sm-3 col-md-2 col-sm-8">
-            <div class="figure">
-              <%= link_to image_tag(prisoner.portrait.url(:large), class: "img-responsive"), prisoner_path(prisoner) %>
-            </div>
+          <div class="figure col-sm-3 col-md-2 col-sm-8">
+            <%= link_to image_tag(prisoner.portrait.url(:large), class: "img-responsive"), prisoner_path(prisoner) %>
 
             <% if (can? :edit, prisoner) || (can? :destroy, prisoner) %>
               <div class="actions">

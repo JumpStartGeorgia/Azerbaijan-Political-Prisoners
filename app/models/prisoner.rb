@@ -143,14 +143,24 @@ class Prisoner < ActiveRecord::Base
 
   # Attributes
 
+  # Gender is stored in database as 1, 2, and 3, corresponding to
+  # female, male and other.
   GENDER = {
     female: 1,
     male: 2,
     other: 3
   }
 
+  def self.get_gender_id_from_key(key)
+    GENDER[key]
+  end
+
+  def self.get_gender_key_from_id(id)
+    GENDER.keys[GENDER.values.index(id)]
+  end
+
   def gender
-    GENDER.keys[GENDER.values.index(gender_id)]
+    Prisoner.get_gender_key_from_id(gender_id)
   end
 
   def age_in_years

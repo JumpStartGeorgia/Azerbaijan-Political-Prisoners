@@ -3,7 +3,7 @@ class RecreateSlugs < ActiveRecord::Migration
     Article.transaction do
       Article.all.each do |article|
         puts '________________________________________________'
-        puts "Updating article slug: #{article.slug}"
+        puts "Updating article id #{article.id} slug: #{article.slug}"
         puts ''
         article.slug = nil
         article.save!
@@ -15,7 +15,7 @@ class RecreateSlugs < ActiveRecord::Migration
     Prison.transaction do
       Prison.all.each do |prison|
         puts '________________________________________________'
-        puts "Updating prison slug: #{prison.slug}"
+        puts "Updating prison id #{prison.id} slug: #{prison.slug}"
         puts ''
         prison.slug = nil
         prison.save!
@@ -27,7 +27,7 @@ class RecreateSlugs < ActiveRecord::Migration
     Prisoner.transaction do
       Prisoner.all.each do |prisoner|
         puts '________________________________________________'
-        puts "Updating prisoner slug: #{prisoner.slug}"
+        puts "Updating prisoner id #{prisoner.id} slug: #{prisoner.slug}"
         puts ''
         prisoner.slug = nil
         prisoner.save!
@@ -39,7 +39,7 @@ class RecreateSlugs < ActiveRecord::Migration
     Tag.transaction do
       Tag.all.each do |tag|
         puts '________________________________________________'
-        puts "Updating tag slug: #{tag.slug}"
+        puts "Updating tag id #{tag.id} slug: #{tag.slug}"
         puts ''
         tag.slug = nil
         tag.save!

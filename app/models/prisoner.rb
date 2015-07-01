@@ -10,6 +10,7 @@ class Prisoner < ActiveRecord::Base
   validates_attachment :portrait, content_type: { content_type: /\Aimage\/.*\Z/ }
   accepts_nested_attributes_for :incidents, allow_destroy: true
   validates :name, presence: true, uniqueness: true
+  validates :gender_id, presence: true, inclusion: { in: [1, 2, 3] }
   validate :validate_all_incidents_released_except_last
   validate :validate_incident_dates
 
@@ -141,6 +142,16 @@ class Prisoner < ActiveRecord::Base
   end
 
   # Attributes
+
+  GENDER = {
+    female: 1,
+    male: 2,
+    other: 3
+  }
+
+  def gender
+    GENDER.keys[GENDER.values.index(gender_id)]
+  end
 
   def age_in_years
     today = Date.today

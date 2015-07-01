@@ -4,8 +4,13 @@ RSpec.describe Prisoner, type: :model do
   let(:p1) { FactoryGirl.build(:prisoner) }
 
   describe 'cannot be saved' do
-    it 'without gender' do
+    it 'without gender_id' do
       p1.gender_id = nil
+      expect { p1.save! }.to raise_error
+    end
+
+    it 'with gender_id that is not 1, 2 or 3' do
+      p1.gender_id = 4
       expect { p1.save! }.to raise_error
     end
 
@@ -48,6 +53,10 @@ RSpec.describe Prisoner, type: :model do
   end
 
   describe 'can be saved' do
+    it 'with minimum required attributes' do
+      expect { p1.save! }.not_to raise_error
+    end
+
     it 'when older incident is entered after newer incident and both are valid' do
       i1 = FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 1))
       p1.incidents << i1

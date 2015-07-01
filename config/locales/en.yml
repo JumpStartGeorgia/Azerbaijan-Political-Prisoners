@@ -103,4 +103,7 @@ en:
         name: Name
         date_of_arrest: Date of Arrest
         date_of_release: Date of Release
-
+        gender:
+          female: Female
+          male: Male
+          other: Other

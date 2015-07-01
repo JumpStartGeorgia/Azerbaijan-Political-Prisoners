@@ -38,6 +38,7 @@ RSpec.describe 'Prisoner', type: :feature do
     click_on 'New'
     within('.inputs') do
       fill_in 'Name', with: 'Bob Jones'
+      choose('Male')
     end
 
     click_link 'Add New Incident'
@@ -51,6 +52,9 @@ RSpec.describe 'Prisoner', type: :feature do
 
     click_link 'Edit'
     within('.inputs') do
+      expect(find('#prisoner_gender_id_1')['checked']).to eq(nil)
+      expect(find('#prisoner_gender_id_2')['checked']).not_to eq(nil)
+
       fill_in 'Date of birth', with: (Date.today - 50.years).strftime('%Y-%m-%d')
     end
 

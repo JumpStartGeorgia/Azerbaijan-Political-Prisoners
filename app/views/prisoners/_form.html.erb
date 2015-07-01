@@ -11,6 +11,7 @@
     <div class="col-md-9">
       <%= f.input :name %>
       <%= f.input :date_of_birth, as: :string, input_html: { class: 'date_of_birth_select', size: 20 } %>
+      <%= f.input :gender_id, as: :radio, collection: [['Female', 1], ['Male', 2], ['Other', 3]] %>
     </div>
   </div>
 

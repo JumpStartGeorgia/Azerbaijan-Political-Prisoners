@@ -4,6 +4,11 @@ RSpec.describe Prisoner, type: :model do
   let(:p1) { FactoryGirl.build(:prisoner) }
 
   describe 'cannot be saved' do
+    it 'without gender' do
+      p1.gender = nil
+      expect { p1.save! }.to raise_error
+    end
+
     it 'if date of release is nil for any but the most recent incident' do
       i1 = FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 1))
       p1.incidents << i1

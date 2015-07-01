@@ -2,6 +2,7 @@ FactoryGirl.define do
   factory :prisoner do
     sequence(:name) { |n| "prisoner##{n}" }
     date_of_birth Date.new(1950, 1, 1)
+    gender 1
 
     factory :prisoner_with_incidents do
       transient do

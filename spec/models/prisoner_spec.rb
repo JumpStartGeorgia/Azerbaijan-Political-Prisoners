@@ -5,7 +5,7 @@ RSpec.describe Prisoner, type: :model do
 
   describe 'cannot be saved' do
     it 'without gender' do
-      p1.gender = nil
+      p1.gender_id = nil
       expect { p1.save! }.to raise_error
     end
 

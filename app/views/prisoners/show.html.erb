@@ -33,7 +33,7 @@
     <div class="figure col-md-2 col-md-pull-7">
       <%= image_tag(@prisoner.portrait.url(:large), class: "img-responsive") %>
 
-      <div class="left-box">
+      <div class="left-box hide-big-screen">
         <div class="about state-board">
           <% if @prisoner.date_of_birth.present? %>
             <div>Age: <span class="age"><%= @prisoner.age_in_years %> years old</span></div>
@@ -46,7 +46,7 @@
 
     <% klass = @prisoner.currently_imprisoned == false ? ' green' : '' %>
 
-    <div class="right-box col-md-3">
+    <div class="right-box hide-small-screen col-md-3">
         <div class="state-board state-board-desktop">
           <div class="total">
             <div class="days"><%= number_with_delimiter(@prisoner.total_days_in_prison) %></div>

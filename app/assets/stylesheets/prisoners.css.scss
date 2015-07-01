@@ -1,6 +1,6 @@
-// Place all the styles related to the Prisoners controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+$green: #5cb85c;
+$red: #d9534f;
+
 .infos
 {
   .info {
@@ -36,6 +36,10 @@
   }
 }
 .info {
+  > row {
+    margin-left: 0;
+  }
+
   .figure img {
     border:1px solid #ddd;
     padding:3px;
@@ -50,7 +54,7 @@
     margin-top: 0;
   }
   .age {
-    color: #d9534f;
+    color: $red;
   }
   .name-and-age .age {
     font-size: 1.3em;
@@ -59,15 +63,15 @@
     display:initial;
     .total {
       .days {
-        color: #d9534f;
+        color: $red;
       }
     }
     .status span{
-      color: #d9534f;
+      color: $red;
       br { display:none; }
     }
     .status.green span{
-      color:#5cb85c;
+      color: $green;
     }
   }
   .state-board.state-board-desktop {
@@ -88,7 +92,7 @@
       }
     }
     .status {
-      color: #d9534f;
+      color: $red;
       display:block;
       font-size: 1.6em;
       line-height: 1.3em;
@@ -122,7 +126,7 @@
    .header {
     font-size:2em;
     line-height:1em;
-    color: #d9534f;
+    color: $red;
     margin-bottom:20px;
 
     >div {
@@ -233,7 +237,7 @@ form
     .right-box {
       margin-top: 20px;
     }
-    .left-box {
+    .hide-big-screen {
       display:none;
     }
   }
@@ -243,7 +247,7 @@ form
   .name-and-age .age {
     display: none;
   }
-  .right-box {
+  .hide-small-screen {
     display: none;
   }
 }

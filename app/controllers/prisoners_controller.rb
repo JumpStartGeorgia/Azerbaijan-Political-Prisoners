@@ -115,6 +115,7 @@ class PrisonersController < ApplicationController
   def prisoner_params
     params.require(:prisoner).permit(:name,
                                      :date_of_birth,
+                                     :gender_id,
                                      :portrait,
                                      incidents_attributes:
         [:id,

@@ -5,3 +5,4 @@ set :repository, 'git@github.com:JumpStartGeorgia/Azerbaijan-Political-Prisoners
 set :repo_branch, 'master'
 set :web_url, 'dev-prisoners.jumpstart.ge'
 set :use_ssl, true
+set :visible_to_robots, false

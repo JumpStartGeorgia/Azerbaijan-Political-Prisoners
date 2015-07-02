@@ -15,6 +15,8 @@ set :initial_directories, -> { ["#{full_shared_path}/log", "#{full_shared_path}/
 set :shared_paths, %w(.env log public/system)
 set :forward_agent, true
 set :rails_env, -> { "#{stage}" }
+set :robots_path, -> { "#{full_current_path}/public/robots.txt" }
+set_default :visible_to_robots, true
 
 # Puma settings
 set :web_server, :puma
@@ -60,6 +62,23 @@ namespace :rails do
   desc "Opens the deployed application's .env file in vim so that you can edit application secrets."
   task :edit_env do
     queue %(vim #{shared_env_path})
+  end
+
+  desc 'Creates new robots.txt on server from robots.txt.erb template'
+  task :generate_robots do
+    robots = ERB.new(File.read('./config/robots.txt.erb')).result
+    queue %(echo "-----> Generating new public/robots.txt")
+
+    queue %(
+    PWD="$(pwd)"
+    if [ $PWD = #{user_path} ]; then
+      echo "-----> Copying new robots.txt to: #{robots_path}"
+      echo '#{robots}' > #{robots_path};
+    else
+      echo "-----> Copying new puma.rb to: $PWD/public/robots.txt"
+      echo '#{robots}' > ./public/robots.txt;
+    fi
+    )
   end
 
   namespace :log do
@@ -448,6 +467,7 @@ task deploy: :environment do
     invoke :'deploy:assets:copy_tmp_to_current'
     invoke :'nginx:generate_conf'
     invoke :'puma:generate_conf'
+    invoke :'rails:generate_robots'
     invoke :'deploy:cleanup'
 
     to :launch do

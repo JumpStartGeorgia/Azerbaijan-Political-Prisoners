@@ -55,4 +55,47 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   config.include Capybara::DSL
+
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
+  end
+
+  config.before(:each, js: true) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
+
+  config.before(:suite) do
+    begin
+      DatabaseCleaner.start
+      FactoryGirl.lint
+    ensure
+      DatabaseCleaner.clean
+    end
+  end
+
+  # Remove generated files after tests are run
+  config.after(:suite) do
+    remove_paths = [
+      Rails.public_path.join('system', 'json', 'imprisoned_count_timeline.json'),
+      Rails.public_path.join('system', 'json', 'article_incident_counts_chart.json'),
+      Rails.public_path.join('system', 'json', 'prison_prisoner_count_chart.json'),
+      Dir.glob(Rails.public_path.join('system', 'csv', 'political_prisoner_data_*.zip'))[0]
+    ]
+
+    remove_paths.each do |path|
+      File.delete(path) if !path.nil? && File.exist?(path)
+    end
+  end
 end

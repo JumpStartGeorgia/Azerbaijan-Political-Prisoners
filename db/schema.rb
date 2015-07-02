@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150701090403) do
+ActiveRecord::Schema.define(version: 20150702082646) do
 
   create_table "articles", force: :cascade do |t|
     t.string   "number",           limit: 255
@@ -60,8 +60,6 @@ ActiveRecord::Schema.define(version: 20150701090403) do
     t.date     "date_of_arrest"
     t.text     "description_of_arrest",  limit: 65535
     t.integer  "prison_id",              limit: 4
-    t.integer  "type_id",                limit: 4
-    t.integer  "subtype_id",             limit: 4
     t.date     "date_of_release"
     t.text     "description_of_release", limit: 65535
     t.datetime "created_at"
@@ -72,8 +70,6 @@ ActiveRecord::Schema.define(version: 20150701090403) do
   add_index "incidents", ["date_of_release"], name: "index_incidents_on_date_of_release", using: :btree
   add_index "incidents", ["prison_id"], name: "index_incidents_on_prison_id", using: :btree
   add_index "incidents", ["prisoner_id"], name: "index_incidents_on_prisoner_id", using: :btree
-  add_index "incidents", ["subtype_id"], name: "index_incidents_on_subtype_id", using: :btree
-  add_index "incidents", ["type_id"], name: "index_incidents_on_type_id", using: :btree
 
   create_table "incidents_tags", id: false, force: :cascade do |t|
     t.integer "incident_id", limit: 4

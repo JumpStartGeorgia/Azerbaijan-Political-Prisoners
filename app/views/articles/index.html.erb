@@ -1,7 +1,7 @@
 <%-
   model_class = Article
   page_title t('.title')
-  page_title_right link_to(t('shared.csv.download', plural_resource: t('articles.plural')), articles_path(format: :csv), class: 'btn btn-default')
+  page_title_right link_to(t('app.buttons.csv.download_one', plural_resource: t('articles.plural')), articles_path(format: :csv), class: 'btn btn-default')
 -%>
 
 <% if user_signed_in? %>

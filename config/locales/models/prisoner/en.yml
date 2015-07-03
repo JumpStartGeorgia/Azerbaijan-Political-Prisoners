@@ -1,6 +1,7 @@
+---
 en:
   activerecord:
+    attributes:
+      prisoner: 
     models:
       prisoner: Prisoner
-    attributes:
-      prisoner:

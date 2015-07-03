@@ -1,6 +1,7 @@
+---
 en:
   activerecord:
+    attributes:
+      article: 
     models:
       article: Article
-    attributes:
-      article:

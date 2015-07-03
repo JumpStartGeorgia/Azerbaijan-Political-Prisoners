@@ -1,6 +1,7 @@
+---
 en:
   activerecord:
+    attributes:
+      tag: 
     models:
       tag: Tag
-    attributes:
-      tag:

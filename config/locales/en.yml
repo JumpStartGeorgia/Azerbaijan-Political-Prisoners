@@ -107,3 +107,10 @@ en:
           female: Female
           male: Male
           other: Other
+  shared:
+    csv:
+      download: "%{plural_resource} CSV Download"
+  articles:
+    plural: 'Arrest Charges'
+    index:
+      title: 'Arrest Charges'

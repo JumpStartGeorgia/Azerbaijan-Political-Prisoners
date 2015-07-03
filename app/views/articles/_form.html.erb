@@ -1,10 +1,7 @@
 <%= semantic_form_for(@article) do |f| %>
   <%= f.semantic_errors *f.object.errors.keys %>
   <%= f.inputs do %>
-
-  <%=
-    f.input :number # i18n-tasks-use t('activerecord.attributes.article.number')
-  %>
+    <%= f.input :number %>
     <%= f.input :criminal_code,
                 label: t('activerecord.models.criminal_code'),
                 hint: ('If the criminal code does not yet exist in the dropdown,

@@ -2,6 +2,7 @@
 en:
   activerecord:
     attributes:
-      user: 
+      user:
+        email: Email
     models:
       user: User

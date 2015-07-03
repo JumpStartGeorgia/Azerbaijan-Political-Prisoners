@@ -2,6 +2,7 @@
 en:
   activerecord:
     attributes:
-      prisoner: 
+      prisoner:
+        name: Name
     models:
       prisoner: Prisoner

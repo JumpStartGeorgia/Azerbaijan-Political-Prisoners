@@ -1,0 +1,6 @@
+en:
+  activerecord:
+    models:
+      criminal_code: Criminal Code
+    attributes:
+      criminal_code:

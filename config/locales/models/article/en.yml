@@ -2,6 +2,7 @@
 en:
   activerecord:
     attributes:
-      article: 
+      article:
+        number: Number
     models:
       article: Article

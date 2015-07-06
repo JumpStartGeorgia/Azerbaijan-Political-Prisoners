@@ -3,7 +3,7 @@ en:
   activerecord:
     attributes:
       tag:
-        name: Name
         description: Description
+        name: Name
     models:
       tag: Tag

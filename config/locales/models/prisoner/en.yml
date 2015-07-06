@@ -3,9 +3,9 @@ en:
   activerecord:
     attributes:
       prisoner:
-        name: Name
-        portrait: Portrait
         date_of_birth: Date of birth
         gender_id: Gender
+        name: Name
+        portrait: Portrait
     models:
       prisoner: Prisoner

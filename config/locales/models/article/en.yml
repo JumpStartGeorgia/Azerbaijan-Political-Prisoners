@@ -3,8 +3,8 @@ en:
   activerecord:
     attributes:
       article:
-        number: Number
         criminal_code: Criminal Code
         description: Description
+        number: Number
     models:
       article: Article

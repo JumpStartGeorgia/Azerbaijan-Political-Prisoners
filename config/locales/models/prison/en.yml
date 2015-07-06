@@ -3,7 +3,7 @@ en:
   activerecord:
     attributes:
       prison:
-        name: Name
         description: Description
+        name: Name
     models:
       prison: Prison

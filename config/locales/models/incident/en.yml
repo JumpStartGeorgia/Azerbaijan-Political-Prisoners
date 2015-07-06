@@ -3,12 +3,12 @@ en:
   activerecord:
     attributes:
       incident:
+        articles: Articles
         date_of_arrest: Date of arrest
+        date_of_release: Date of release
         description_of_arrest: Description of arrest
+        description_of_release: Description of release
         prison: Prison
         tags: Tags
-        articles: Articles
-        date_of_release: Date of release
-        description_of_release: Description of release
     models:
       incident: Incident

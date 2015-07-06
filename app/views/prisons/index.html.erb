@@ -1,5 +1,5 @@
-<%- 
-  model_class = Prison 
+<%-
+  model_class = Prison
   page_title "#{model_class.model_name.human.pluralize.titleize}"
   page_title_right link_to("#{model_class.model_name.human.pluralize.titleize} CSV Download", prisons_path(format: :csv), class: 'btn btn-default')
 -%>
@@ -24,27 +24,27 @@
       <th>Prison Name</th>
       <th>Number of People Currently Imprisoned In This Prison</th>
       <th>Number of People That Have Been Imprisoned In This Prison</th>
-      <% if can? :edit, Prison %><th class="action-col"><%=t '.actions', :default => t("helpers.actions") %></th><% end %>
+      <% if can? :edit, Prison %><th class="action-col"><%=t 'app.actions' %></th><% end %>
     </tr>
   </thead>
   <tbody>
     <% @prisons.each do |prison| %>
       <tr>
-        <td><%= link_to t('helpers.links.view'), prison_path(prison), class: 'btn btn-default' %></td>
+        <td><%= link_to t('app.actions.view'), prison_path(prison), class: 'btn btn-default' %></td>
         <td><%= prison.name  %></td>
         <td><%= number_with_delimiter(prison['current_prisoner_count'])  %></td>
         <td><%= number_with_delimiter(prison['all_prisoner_count'])  %></td>
         <% if (can? :edit, prison) || (can? :destroy, prison) %>
           <td>
             <%= if can? :edit, prison
-                  link_to t('.edit', :default => t("helpers.links.edit")),
+                  link_to t('app.actions.admin.edit'),
                         edit_prison_path(prison), :class => 'btn btn-default'
             end %>
             <%= if can? :destroy, prison
-                  link_to t('.destroy', :default => t("helpers.links.destroy")),
+                  link_to t('app.actions.admin.destroy'),
                         prison_path(prison),
                         :method => :delete,
-                        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                        :data => { :confirm => t('app.prompts.confirm') },
                         :class => 'btn btn-danger'
             end %>
           </td>

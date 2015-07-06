@@ -1,5 +1,5 @@
-<%- 
-  model_class = Tag 
+<%-
+  model_class = Tag
   page_title 'Category: ' + @tag.name
   page_title_right link_to('View All Categories', tags_path, class: 'btn btn-default')
 -%>
@@ -46,7 +46,7 @@
     <tbody>
       <% @prisoners_with_tag.each do |prisoner| %>
         <tr>
-          <td><%= link_to t('helpers.links.view'), prisoner_path(prisoner), class: 'btn btn-default' %></td>
+          <td><%= link_to t('app.actions.view'), prisoner_path(prisoner), class: 'btn btn-default' %></td>
           <td><%= prisoner.name %></td>
           <td>
             <%= number_with_delimiter(prisoner.total_days_in_prison) %>

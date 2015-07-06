@@ -1,5 +1,5 @@
-<%- 
-  model_class = User 
+<%-
+  model_class = User
   page_title "#{model_class.model_name.human.pluralize.titleize}"
 -%>
 
@@ -24,27 +24,27 @@
       <th><%= model_class.human_attribute_name(:email) %></th>
       <th><%= model_class.human_attribute_name(:role_id) %></th>
       <th><%= model_class.human_attribute_name(:last_sign_in_at) %></th>
-      <% if can? :edit, User %><th class="action-col"><%=t '.actions', :default => t("helpers.actions") %></th><% end %>
+      <% if can? :edit, User %><th class="action-col"><%=t 'app.actions' %></th><% end %>
     </tr>
   </thead>
   <tbody>
     <% @users.each do |user| %>
       <tr>
-        <td><%= link_to t('helpers.links.view'), user_path(user), class: 'btn btn-default' %></td>
+        <td><%= link_to t('app.actions.view'), user_path(user), class: 'btn btn-default' %></td>
         <td><%= user.email %></td>
         <td><%= user.role.name if user.role.present? %></td>
         <td><%= user.last_sign_in_at %></td>
         <% if (can? :edit, user) || (can? :destroy, user) %>
           <td>
             <%= if can? :edit, User
-            link_to t('.edit', :default => t("helpers.links.edit")),
+            link_to t('app.actions.admin.edit'),
                         edit_user_path(user), :class => 'btn btn-default'
             end %>
             <%= if can? :destroy, User
-                  link_to t('.destroy', :default => t("helpers.links.destroy")),
+                  link_to t('app.actions.admin.destroy'),
                         user_path(user),
                         :method => :delete,
-                        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                        :data => { :confirm => t('app.prompts.confirm') },
                         :class => 'btn btn-danger'
             end %>
           </td>

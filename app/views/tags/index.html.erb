@@ -1,5 +1,5 @@
-<%- 
-  model_class = Tag 
+<%-
+  model_class = Tag
   page_title 'Categories'
   page_title_right link_to("#{model_class.model_name.human.pluralize.titleize} CSV Download", tags_path(format: :csv), class: 'btn btn-default')
 -%>
@@ -25,27 +25,27 @@
       <th>Category</th>
       <th>Number of People Currently Imprisoned With This Category</th>
       <th>Number of People That Have Been Imprisoned With This Category</th>
-      <% if can? :edit, Tag %><th class="action-col"><%=t '.actions', :default => t("helpers.actions") %></th><% end %>
+      <% if can? :edit, Tag %><th class="action-col"><%=t 'app.actions' %></th><% end %>
     </tr>
   </thead>
   <tbody>
     <% @tags.each do |tag| %>
       <tr>
-        <td><%= link_to t('helpers.links.view'), tag_path(tag), class: 'btn btn-default' %></td>
+        <td><%= link_to t('app.actions.view'), tag_path(tag), class: 'btn btn-default' %></td>
         <td><%= tag.name %></td>
         <td><%= number_with_delimiter(tag['current_prisoner_count'])  %></td>
         <td><%= number_with_delimiter(tag['all_prisoner_count'])  %></td>
         <% if (can? :edit, tag) || (can? :destroy, tag) %>
           <td>
             <%= if can? :edit, tag
-                  link_to t('.edit', :default => t("helpers.links.edit")),
+                  link_to t('app.actions.admin.edit'),
                         edit_tag_path(tag), :class => 'btn btn-default'
             end %>
             <%= if can? :destroy, tag
-                  link_to t('.destroy', :default => t("helpers.links.destroy")),
+                  link_to t('app.actions.admin.destroy'),
                         tag_path(tag),
                         :method => :delete,
-                        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                        :data => { :confirm => t('app.prompts.confirm') },
                         :class => 'btn btn-danger'
             end %>
           </td>

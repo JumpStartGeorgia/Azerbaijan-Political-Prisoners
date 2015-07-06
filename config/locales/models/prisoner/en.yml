@@ -4,6 +4,10 @@ en:
     attributes:
       prisoner:
         date_of_birth: Date of birth
+        gender:
+          female: Female
+          male: Male
+          other: Other
         gender_id: Gender
         name: Name
         portrait: Portrait

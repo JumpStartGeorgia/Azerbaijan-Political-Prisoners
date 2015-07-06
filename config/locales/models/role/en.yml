@@ -2,8 +2,7 @@
 en:
   activerecord:
     attributes:
-      prison:
+      role:
         name: Name
-        description: Description
     models:
-      prison: Prison
+      role: Role

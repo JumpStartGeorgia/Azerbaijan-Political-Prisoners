@@ -4,5 +4,8 @@ en:
     attributes:
       prisoner:
         name: Name
+        portrait: Portrait
+        date_of_birth: Date of birth
+        gender_id: Gender
     models:
       prisoner: Prisoner

@@ -1,0 +1,14 @@
+---
+en:
+  activerecord:
+    attributes:
+      incident:
+        date_of_arrest: Date of arrest
+        description_of_arrest: Description of arrest
+        prison: Prison
+        tags: Tags
+        articles: Articles
+        date_of_release: Date of release
+        description_of_release: Description of release
+    models:
+      incident: Incident

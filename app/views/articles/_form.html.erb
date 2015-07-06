@@ -3,7 +3,6 @@
   <%= f.inputs do %>
     <%= f.input :number %>
     <%= f.input :criminal_code,
-                label: t('activerecord.models.criminal_code'),
                 hint: ('If the criminal code does not yet exist in the dropdown,
                  <b>' + link_to('create it here',
                                 new_criminal_code_path,

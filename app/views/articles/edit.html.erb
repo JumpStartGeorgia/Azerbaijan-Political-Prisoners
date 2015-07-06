@@ -1,5 +1,5 @@
 <%- model_class = Article -%>
-<% page_title t('helpers.titles.edit', model: t('activerecord.models.article')) %>
+<% page_title "Edit #{model_class.model_name.human.titleize}" %>
 
 <% if user_signed_in? %>
   <div class='actions-container'>

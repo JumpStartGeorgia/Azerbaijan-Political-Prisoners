@@ -4,5 +4,7 @@ en:
     attributes:
       user:
         email: Email
+        password: Password
+        role: Role
     models:
       user: User

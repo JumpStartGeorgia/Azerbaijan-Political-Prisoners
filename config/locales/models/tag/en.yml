@@ -4,5 +4,6 @@ en:
     attributes:
       tag:
         name: Name
+        description: Description
     models:
       tag: Tag

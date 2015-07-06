@@ -82,13 +82,15 @@ search:
 # - 'errors.messages.{accepted,blank,invalid,too_short,too_long}'
 # - '{devise,simple_form}.*'
 
-## Consider these keys used:
 ignore_unused:
+# Attribute translations in the activerecord.attributes scope are used
+# automatically on forms to translate field names. They are not detected
+# by i18n-tasks because they are not written directly in the code, but they
+# are used nonetheless.
 - 'activerecord.attributes.*'
-# - '{devise,kaminari,will_paginate}.*'
-# - 'simple_form.{yes,no}'
-# - 'simple_form.{placeholders,hints,labels}.*'
-# - 'simple_form.{error_notification,required}.:'
+# Keys provided by devise:
+- 'errors.*'
+- 'devise.*'
 
 ## Exclude these keys from the `i18n-tasks eq-base' report:
 # ignore_eq_base:

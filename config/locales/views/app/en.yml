@@ -5,7 +5,7 @@ en:
       admin:
         confirm: Are you sure?
         create: Create
-        destroy: Delete
+        delete: Delete
         edit: Edit
         forgot_password: Forgot Password?
         new: New
@@ -24,8 +24,8 @@ en:
       view_all: View All
     common:
       added_on: 'Added on: %{date}'
-      app_description: Azerbaijan's track record on human rights has deteriorated dramatically since 2012. This trend is most evident in the high number of politically motivated arrests, which have targeted human rights defenders, journalists and others. Here you can meet Azerbaijan's political prisoners, and you can explore the scope of Azerbaijan's efforts to stifle freedoms of expression.
-      app_name: Political Prisoners Watch
+      description: Azerbaijan's track record on human rights has deteriorated dramatically since 2012. This trend is most evident in the high number of politically motivated arrests, which have targeted human rights defenders, journalists and others. Here you can meet Azerbaijan's political prisoners, and you can explore the scope of Azerbaijan's efforts to stifle freedoms of expression.
+      name: Political Prisoners Watch
       js_link_title: JumpStart Georgia - We communicate data better!
       jumpstart: JumpStart Georgia
     datetime:

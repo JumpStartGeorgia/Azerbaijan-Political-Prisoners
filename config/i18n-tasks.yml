@@ -88,7 +88,7 @@ ignore_unused:
 # by i18n-tasks because they are not written directly in the code, but they
 # are used nonetheless.
 - 'activerecord.attributes.*'
-# Keys provided by devise:
+# Keys used in devise code and not detected by i18n-tasks:
 - 'errors.*'
 - 'devise.*'
 

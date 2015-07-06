@@ -66,10 +66,10 @@
         <div class="col-md-6">
           <% if incident.date_of_release.present? %>
             <label>In Prison From: </label>
-            <div class="value"><%= l incident.date_of_arrest, format: :long %> - <%= l incident.date_of_release, format: :long %></div>
+            <div class="value"><%= l incident.date_of_arrest, format: t('date.formats.long') %> - <%= l incident.date_of_release, format: t('date.formats.long') %></div>
           <% else %>
             <label>In Prison Since: </label>
-            <div class="value"><%= l incident.date_of_arrest, format: :long %></div>
+            <div class="value"><%= l incident.date_of_arrest, format: t('date.formats.long') %></div>
           <% end %>
         </div>
         <div class="col-md-6">

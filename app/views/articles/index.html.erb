@@ -2,7 +2,7 @@
   model_class = Article
   page_title t('.title')
   page_title_right link_to(t('app.actions.with_obj.csv_download',
-                             obj: t('articles.index.title')),
+                             obj: t('.title')),
                            articles_path(format: :csv),
                            class: 'btn btn-default')
 %>

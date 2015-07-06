@@ -22,7 +22,7 @@
     <tr>
       <th></th>
       <th><%= model_class.human_attribute_name(:name) %></th>
-      <% if can? :edit, CriminalCode %><th class="action-col"><%=t 'app.actions' %></th><% end %>
+      <% if can? :edit, CriminalCode %><th class="action-col"><%=t 'app.common.actions' %></th><% end %>
     </tr>
   </thead>
   <tbody>
@@ -33,11 +33,11 @@
         <% if (can? :edit, criminal_code) || (can? :destroy, criminal_code) %>
           <td>
             <%= if can? :edit, criminal_code
-                link_to t('app.actions.admin.edit'),
+                link_to t('app.actions.edit'),
                         edit_criminal_code_path(criminal_code), :class => 'btn btn-default'
             end %>
             <%= if can? :destroy, criminal_code
-                  link_to t('app.actions.admin.destroy'),
+                  link_to t('app.actions.destroy'),
                         criminal_code_path(criminal_code),
                         :method => :delete,
                         :data => { :confirm => t('app.prompts.confirm') },

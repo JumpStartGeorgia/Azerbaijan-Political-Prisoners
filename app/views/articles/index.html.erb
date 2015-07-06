@@ -1,8 +1,11 @@
-<%-
+<%
   model_class = Article
   page_title t('.title')
-  page_title_right link_to(t('app.actions.csv_download', plural_resource: t('articles.index.title')), articles_path(format: :csv), class: 'btn btn-default')
--%>
+  page_title_right link_to(t('app.actions.with_obj.csv_download',
+                             obj: t('articles.index.title')),
+                           articles_path(format: :csv),
+                           class: 'btn btn-default')
+%>
 
 <% if user_signed_in? %>
   <div class='actions-container'>
@@ -26,7 +29,7 @@
       <th><%= model_class.human_attribute_name(:description) %></th>
       <th>Number of People Currently Imprisoned With This Charge</th>
       <th>Number of People That Have Been Imprisoned With This Charge</th>
-      <% if can? :edit, Article %><th class="action-col"><%=t 'app.actions' %></th><% end %>
+      <% if can? :edit, Article %><th class="action-col"><%=t 'app.common.actions' %></th><% end %>
     </tr>
   </thead>
   <tbody>
@@ -40,11 +43,11 @@
         <% if (can? :edit, article) || (can? :destroy, article) %>
           <td>
             <%= if can? :edit, article
-                  link_to t('app.actions.admin.edit'),
+                  link_to t('app.actions.edit'),
                         edit_article_path(article), :class => 'btn btn-default'
             end %>
             <%= if can? :destroy, article
-                  link_to t('app.actions.admin.destroy'),
+                  link_to t('app.actions.destroy'),
                         article_path(article),
                         :method => :delete,
                         :data => { :confirm => t('app.prompts.confirm') },

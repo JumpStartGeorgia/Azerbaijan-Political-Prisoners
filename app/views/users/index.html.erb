@@ -24,7 +24,7 @@
       <th><%= model_class.human_attribute_name(:email) %></th>
       <th><%= model_class.human_attribute_name(:role_id) %></th>
       <th><%= model_class.human_attribute_name(:last_sign_in_at) %></th>
-      <% if can? :edit, User %><th class="action-col"><%=t 'app.actions' %></th><% end %>
+      <% if can? :edit, User %><th class="action-col"><%=t 'app.common.actions' %></th><% end %>
     </tr>
   </thead>
   <tbody>
@@ -37,11 +37,11 @@
         <% if (can? :edit, user) || (can? :destroy, user) %>
           <td>
             <%= if can? :edit, User
-            link_to t('app.actions.admin.edit'),
+            link_to t('app.actions.edit'),
                         edit_user_path(user), :class => 'btn btn-default'
             end %>
             <%= if can? :destroy, User
-                  link_to t('app.actions.admin.destroy'),
+                  link_to t('app.actions.destroy'),
                         user_path(user),
                         :method => :delete,
                         :data => { :confirm => t('app.prompts.confirm') },

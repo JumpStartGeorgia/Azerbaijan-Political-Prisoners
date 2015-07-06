@@ -45,11 +45,11 @@
             <% if (can? :edit, prisoner) || (can? :destroy, prisoner) %>
               <div class="actions">
                 <%= if can? :edit, prisoner
-                      link_to t('app.actions.admin.edit'),
+                      link_to t('app.actions.edit'),
                             edit_prisoner_path(prisoner), :class => 'btn btn-default'
                     end %>
                 <%= if can? :destroy, prisoner
-                      link_to t('app.actions.admin.destroy'),
+                      link_to t('app.actions.destroy'),
                             prisoner_path(prisoner),
                             :method => :delete,
                             :data => { :confirm => t('app.prompts.confirm') },

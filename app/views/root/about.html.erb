@@ -13,8 +13,10 @@
 
   <ul id="logos" class="list-inline">
     <li>
-      <%= link_to(image_tag("about_js.png"), "http://www.jumpstart.ge/en", :target => "_blank",
-               :title => "JumpStart Georgia - We communicate data better!" ) %>
+      <%= link_to(image_tag("about_js.png"),
+                  "http://www.jumpstart.ge/en",
+                  target: "_blank",
+                  title: t('app.common.jumpstart.slogan')) %>
     </li>
     <li>
       <%= link_to(image_tag("about_meydan.png"), "http://www.meydan.tv/en", :target => "_blank",

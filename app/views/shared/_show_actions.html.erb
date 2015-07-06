@@ -5,7 +5,7 @@ end %>
 <%= if can? :destroy, object
   link_to t('app.actions.admin.destroy'),
           show_path,
-          method: 'delete',
-          data: { confirm: t('app.actions.admin.confirm') },
+          method: 'destroy',
+          data: { confirm: t('app.prompts.confirm') },
           class: 'btn btn-danger'
 end %>

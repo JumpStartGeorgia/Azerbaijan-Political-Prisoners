@@ -3,31 +3,19 @@ en:
   app:
     actions:
       admin:
-        confirm: Are you sure?
-        create: Create
-        delete: Delete
+        destroy: Delete
         edit: Edit
-        forgot_password: Forgot Password?
         new: New
-        password_reset: Reset Password
-        remove: Remove
-        reset: Reset
-        save: Save
-        sign_in: Already have an account?
-        sign_in2: Sign In
-        sign_out: Sign Out
-        sign_up: Register now
-        update: Update
-      cancel: Cancel
+        with_obj:
+          edit: Edit %{obj}
+          new: New %{obj}
       csv_download: "%{plural_resource} CSV Download"
-      view: View
       view_all: View All
     common:
-      added_on: 'Added on: %{date}'
       app_description: Azerbaijan's track record on human rights has deteriorated dramatically since 2012. This trend is most evident in the high number of politically motivated arrests, which have targeted human rights defenders, journalists and others. Here you can meet Azerbaijan's political prisoners, and you can explore the scope of Azerbaijan's efforts to stifle freedoms of expression.
       app_name: Political Prisoners Watch
-      js_link_title: JumpStart Georgia - We communicate data better!
-      jumpstart: JumpStart Georgia
+      jumpstart:
+        slogan: JumpStart Georgia - We communicate data better!
     datetime:
       full: "%Y-%m-%d_%H-%M-%S"
     language:
@@ -39,7 +27,5 @@ en:
       success_created: "%{obj} was successfully created."
       success_destroyed: "%{obj} was successfully destroyed."
       success_updated: "%{obj} was successfully updated."
-    titles:
-      edit: Edit %{model}
-      new: New %{model}
-      save: Save %{model}
+    prompts:
+      confirm: Are you sure?

@@ -1,5 +1,0 @@
----
-en:
-  activerecord:
-    models:
-      charge: Charge

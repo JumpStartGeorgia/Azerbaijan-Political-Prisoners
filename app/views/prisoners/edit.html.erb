@@ -1,5 +1,5 @@
 <%- model_class = Prisoner -%>
-<% page_title "Edit #{model_class.model_name.human.titleize}" %>
+<% page_title t('app.titles.edit', model: t('activerecord.models.prisoner')) %>
 
 <% if user_signed_in? %>
   <div class='actions-container'>

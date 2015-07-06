@@ -1,6 +1,6 @@
 ---
-# en:
-#   date:
+en:
+  date:
 #     abbr_day_names:
 #     - Sun
 #     - Mon
@@ -30,9 +30,9 @@
 #     - Thursday
 #     - Friday
 #     - Saturday
-#     formats:
+    formats:
 #       default: "%Y-%m-%d"
-#       long: "%B %d, %Y"
+      long: "%B %d, %Y"
 #       short: "%b %d"
 #     month_names:
 #     -

@@ -1,8 +1,8 @@
 <%
   model_class = Article
-  page_title t('.title')
+  page_title t('articles.plural')
   page_title_right link_to(t('app.actions.with_obj.csv_download',
-                             obj: t('.title')),
+                             obj: t('articles.plural')),
                            articles_path(format: :csv),
                            class: 'btn btn-default')
 %>
@@ -25,10 +25,15 @@
   <thead>
     <tr>
       <th></th>
-      <th><%= t('activerecord.models.criminal_code') + ' - ' + t('activerecord.models.article') + ' ' + t('activerecord.attributes.article.number') %></th>
+      <th>
+        <%= t('.column_label.code_number',
+             code: t('activerecord.models.criminal_code'),
+             article: t('activerecord.models.article'),
+             number: t('activerecord.attributes.article.number')) %>
+      </th>
       <th><%= model_class.human_attribute_name(:description) %></th>
-      <th>Number of People Currently Imprisoned With This Charge</th>
-      <th>Number of People That Have Been Imprisoned With This Charge</th>
+      <th><%=t '.column_label.currently_imprisoned_with_charge' %></th>
+      <th><%=t '.column_label.total_imprisoned_with_charge' %></th>
       <% if can? :edit, Article %><th class="action-col"><%=t 'app.common.actions' %></th><% end %>
     </tr>
   </thead>
@@ -38,20 +43,21 @@
         <td><%= link_to t('app.actions.view'), article_path(article), class: 'btn btn-default' %></td>
         <td><%= article.criminal_code.name %> - <%= article.number %></td>
         <td><%= simple_format_no_tags(article.description) if article.description.present? %></td>
-        <td><%= number_with_delimiter(article['current_prisoner_count'])  %></td>
-        <td><%= number_with_delimiter(article['all_prisoner_count'])  %></td>
+        <td><%= number_with_delimiter(article['current_prisoner_count']) %></td>
+        <td><%= number_with_delimiter(article['all_prisoner_count']) %></td>
         <% if (can? :edit, article) || (can? :destroy, article) %>
           <td>
             <%= if can? :edit, article
                   link_to t('app.actions.edit'),
-                        edit_article_path(article), :class => 'btn btn-default'
+                          edit_article_path(article),
+                          class: 'btn btn-default'
             end %>
             <%= if can? :destroy, article
                   link_to t('app.actions.destroy'),
-                        article_path(article),
-                        :method => :delete,
-                        :data => { :confirm => t('app.prompts.confirm') },
-                        :class => 'btn btn-danger'
+                          article_path(article),
+                          method: :delete,
+                          data: { confirm: t('app.prompts.confirm') },
+                          class: 'btn btn-danger'
             end %>
           </td>
         <% end %>

@@ -1,7 +1,14 @@
 <%-
   model_class = Article
-  page_title "Arrest Charge: ##{@article.number} in #{@article.criminal_code.name} Criminal Code"
-  page_title_right link_to('View All Arrest Charges', articles_path, class: 'btn btn-default')
+  page_title t('.title',
+               arrest_charge: t('articles.single'),
+               article_number: @article.number,
+               code_name: @article.criminal_code.name,
+               code_model_name: t('activerecord.models.criminal_code'))
+  page_title_right link_to(t('app.actions.with_obj.view_all',
+                             obj: t('articles.plural')),
+                           articles_path,
+                           class: 'btn btn-default')
 -%>
 
 <% if user_signed_in? %>
@@ -24,13 +31,13 @@
   <div class="col-sm-4 col-sm-offset-1">
     <div class="prisoner-count">
       <div class="count"><%= number_with_delimiter(@article_with_counts['current_prisoner_count']) %></div>
-      <div class="intro intro-small"> Currently Imprisoned With This Charge</div>
+      <div class="intro intro-small"> <%=t '.counts.currently_imprisoned_with_charge' %></div>
     </div>
   </div>
   <div class="col-sm-4 col-sm-offset-2">
     <div class="prisoner-count">
       <div class="count"><%= number_with_delimiter(@article_with_counts['all_prisoner_count']) %></div>
-      <div class="intro intro-small"> Have Been Imprisoned With This Charge</div>
+      <div class="intro intro-small"> <%=t '.counts.total_imprisoned_with_charge' %></div>
     </div>
   </div>
 </div>
@@ -41,8 +48,8 @@
     <thead>
       <tr>
         <th></th>
-        <th>People That Have Been Imprisoned With This Charge</th>
-        <th>Total Days in Prison</th>
+        <th><%=t '.column_label.all_people_charged_with_article' %></th>
+        <th><%=t '.column_label.total_days_in_prison' %></th>
       </tr>
     </thead>
     <tbody>

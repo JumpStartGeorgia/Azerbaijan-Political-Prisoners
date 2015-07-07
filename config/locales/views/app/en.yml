@@ -11,6 +11,7 @@ en:
         csv_download: "%{obj} CSV Download"
         edit: Edit %{obj}
         new: New %{obj}
+        view_all: View All %{obj}
     common:
       actions: Actions
       description: Azerbaijan's track record on human rights has deteriorated dramatically since 2012. This trend is most evident in the high number of politically motivated arrests, which have targeted human rights defenders, journalists and others. Here you can meet Azerbaijan's political prisoners, and you can explore the scope of Azerbaijan's efforts to stifle freedoms of expression.

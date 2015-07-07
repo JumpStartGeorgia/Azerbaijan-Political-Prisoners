@@ -1,5 +1,6 @@
 <%- model_class = Article -%>
-<% page_title "Edit #{model_class.model_name.human.titleize}" %>
+<% page_title t('app.actions.with_obj.edit',
+                obj: t('activerecord.models.article')) %>
 
 <% if user_signed_in? %>
   <div class='actions-container'>
@@ -13,4 +14,4 @@
   </div>
 <% end %>
 
-<%= render :partial => 'form' %>
+<%= render partial: 'form' %>

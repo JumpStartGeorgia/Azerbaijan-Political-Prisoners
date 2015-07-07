@@ -25,7 +25,7 @@
   <thead>
     <tr>
       <th></th>
-      <th>Criminal Code - Article Number</th>
+      <th><%= t('activerecord.models.criminal_code') + ' - ' + t('activerecord.models.article') + ' ' + t('activerecord.attributes.article.number') %></th>
       <th><%= model_class.human_attribute_name(:description) %></th>
       <th>Number of People Currently Imprisoned With This Charge</th>
       <th>Number of People That Have Been Imprisoned With This Charge</th>

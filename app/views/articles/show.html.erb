@@ -5,7 +5,7 @@
                article_number: @article.number,
                code_name: @article.criminal_code.name,
                code_model_name: t('activerecord.models.criminal_code'))
-  page_title_right link_to(t('app.actions.with_obj.view_all',
+  page_title_right link_to(t('shared.actions.with_obj.view_all',
                              obj: t('articles.plural')),
                            articles_path,
                            class: 'btn btn-default')
@@ -55,7 +55,7 @@
     <tbody>
       <% @prisoners_with_article.each do |prisoner| %>
         <tr>
-          <td><%= link_to t('app.actions.view'), prisoner_path(prisoner), class: 'btn btn-default' %></td>
+          <td><%= link_to t('shared.actions.view'), prisoner_path(prisoner), class: 'btn btn-default' %></td>
           <td><%= prisoner.name %></td>
           <td>
             <%= number_with_delimiter(prisoner.total_days_in_prison) %>

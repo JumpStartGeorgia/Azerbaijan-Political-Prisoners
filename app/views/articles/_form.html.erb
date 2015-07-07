@@ -3,7 +3,7 @@
   <%= f.inputs do %>
     <%= f.input :number %>
     <%= f.input :criminal_code,
-                hint: (link_to(t('app.prompts.create_in_dropdown',
+                hint: (link_to(t('shared.prompts.create_in_dropdown',
                                  obj: t('activerecord.models.criminal_code')),
                        new_criminal_code_path,
                        target: '_blank')).html_safe %>

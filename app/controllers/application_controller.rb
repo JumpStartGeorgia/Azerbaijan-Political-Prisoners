@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   end
 
   def fileTimeStamp
-    Time.now.strftime(t('app.datetime.full'))
+    Time.now.strftime(t('shared.datetime.full'))
   end
 
   rescue_from CanCan::AccessDenied do |_exception|
@@ -39,12 +39,12 @@ class ApplicationController < ActionController::Base
   #######################
   #######################
   def not_authorized
-    redirect_to :back, alert: t('app.msgs.not_authorized')
+    redirect_to :back, alert: t('shared.msgs.not_authorized')
   rescue ActionController::RedirectBackError
     redirect_to root_path
   end
 
   def not_found
-    fail ActionController::RoutingError.new(t('app.msgs.does_not_exist'))
+    fail ActionController::RoutingError.new(t('shared.msgs.does_not_exist'))
   end
 end

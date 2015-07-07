@@ -31,7 +31,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: t('app.msgs.success_created', obj: t('activerecord.models.user')) }
+        format.html { redirect_to @user, notice: t('shared.msgs.success_created', obj: t('activerecord.models.user')) }
       else
         format.html { render :new }
       end
@@ -44,13 +44,13 @@ class UsersController < ApplicationController
     respond_to do |format|
       if user_params[:password].present?
         if @user.update(user_params)
-          format.html { redirect_to @user, notice: t('app.msgs.success_updated', obj: t('activerecord.models.user')) }
+          format.html { redirect_to @user, notice: t('shared.msgs.success_updated', obj: t('activerecord.models.user')) }
         else
           format.html { render :edit }
         end
       else
         if @user.update_without_password(user_params)
-          format.html { redirect_to @user, notice: t('app.msgs.success_updated', obj: t('activerecord.models.user')) }
+          format.html { redirect_to @user, notice: t('shared.msgs.success_updated', obj: t('activerecord.models.user')) }
         else
           format.html { render :edit }
         end
@@ -63,7 +63,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_url, notice: t('app.msgs.success_destroyed', obj: t('activerecord.models.user')) }
+      format.html { redirect_to users_url, notice: t('shared.msgs.success_destroyed', obj: t('activerecord.models.user')) }
     end
   end
 

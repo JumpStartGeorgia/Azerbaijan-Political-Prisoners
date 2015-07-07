@@ -1,6 +1,6 @@
 ---
 en:
-  app:
+  shared:
     actions:
       destroy: Delete
       edit: Edit
@@ -20,9 +20,9 @@ en:
       name: Political Prisoners Watch
     datetime:
       full: "%Y-%m-%d_%H-%M-%S"
-    language:
-      az: Azərbaycan
-      en: English
+    # language:
+      # az: Azərbaycan
+      # en: English
     msgs:
       does_not_exist: You tried to access a page that does not exist.
       not_authorized: You are not authorized to view that page.

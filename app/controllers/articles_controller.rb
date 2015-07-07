@@ -46,7 +46,7 @@ class ArticlesController < ApplicationController
 
     respond_to do |format|
       if @article.save
-        format.html { redirect_to @article, notice: t('app.msgs.success_created', obj: t('activerecord.models.article')) }
+        format.html { redirect_to @article, notice: t('shared.msgs.success_created', obj: t('activerecord.models.article')) }
         format.json { render :show, status: :created, location: @article }
       else
         format.html { render :new }
@@ -60,7 +60,7 @@ class ArticlesController < ApplicationController
   def update
     respond_to do |format|
       if @article.update(article_params)
-        format.html { redirect_to @article, notice: t('app.msgs.success_updated', obj: t('activerecord.models.article')) }
+        format.html { redirect_to @article, notice: t('shared.msgs.success_updated', obj: t('activerecord.models.article')) }
         format.json { render :show, status: :ok, location: @article }
       else
         format.html { render :edit }
@@ -74,7 +74,7 @@ class ArticlesController < ApplicationController
   def destroy
     @article.destroy
     respond_to do |format|
-      format.html { redirect_to articles_url, notice: t('app.msgs.success_destroyed', obj: t('activerecord.models.article')) }
+      format.html { redirect_to articles_url, notice: t('shared.msgs.success_destroyed', obj: t('activerecord.models.article')) }
       format.json { head :no_content }
     end
   end

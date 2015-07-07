@@ -6,10 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <%-
-    title = content_for?(:page_title) ? ("#{yield(:page_title)} | #{t('app.common.name')}").html_safe :
-      t('app.common.name').html_safe
+    title = content_for?(:page_title) ? ("#{yield(:page_title)} | #{t('shared.common.name')}").html_safe :
+      t('shared.common.name').html_safe
 
-    desc = t('app.common.description')
+    desc = t('shared.common.description')
   -%>
 
   <title><%= title %></title>
@@ -20,7 +20,7 @@
   <meta property="og:description" content="<%= desc %>" />
   <meta property="og:type" content="non_profit" />
   <meta property="og:url" content="<%= current_url %>" />
-  <meta property="og:site_name" content="<%= t("app.common.name") %>" />
+  <meta property="og:site_name" content="<%= t("shared.common.name") %>" />
 
 
   <%= csrf_meta_tags %>
@@ -90,7 +90,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-            <a class="navbar-brand" href="<%= root_path %>"><%= t('app.common.name') %></a>
+            <a class="navbar-brand" href="<%= root_path %>"><%= t('shared.common.name') %></a>
           </div>
             <div class="navbar-collapse collapse navbar-responsive-collapse">
                 <ul class="nav navbar-nav navbar-right">
@@ -160,13 +160,15 @@
                     </li>
                   <% end %>
                 </ul>
-                <!-- <ul class="nav navbar-nav navbar-right">
+                <% if false %>
+                <ul class="nav navbar-nav navbar-right">
                   <% I18n.available_locales.each do |locale| %>
                     <% if locale != I18n.locale %>
-                      <li><%= link_to t("app.language.#{locale}"), params.merge(:locale => locale) %></li>
+                      <li><%= link_to t("shared.language.#{locale}"), params.merge(:locale => locale) %></li>
                     <% end %>
                   <% end %>
-                </ul> -->
+                </ul>
+                <% end %>
             </div>
         </div>
     </div>
@@ -210,7 +212,7 @@
       </div>
       <div id="right" class="clear">
         <%= link_to(image_tag("jumpstart-logo.png"), "http://www.jumpstart.ge", :target => "_blank",
-            :title => t('app.common.jumpstart.slogan') ) %>
+            :title => t('shared.common.jumpstart.slogan') ) %>
       </div>
     </footer>
   </body>

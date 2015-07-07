@@ -25,27 +25,27 @@
       <th>Category</th>
       <th>Number of People Currently Imprisoned With This Category</th>
       <th>Number of People That Have Been Imprisoned With This Category</th>
-      <% if can? :edit, Tag %><th class="action-col"><%=t 'app.common.actions' %></th><% end %>
+      <% if can? :edit, Tag %><th class="action-col"><%=t 'shared.common.actions' %></th><% end %>
     </tr>
   </thead>
   <tbody>
     <% @tags.each do |tag| %>
       <tr>
-        <td><%= link_to t('app.actions.view'), tag_path(tag), class: 'btn btn-default' %></td>
+        <td><%= link_to t('shared.actions.view'), tag_path(tag), class: 'btn btn-default' %></td>
         <td><%= tag.name %></td>
         <td><%= number_with_delimiter(tag['current_prisoner_count'])  %></td>
         <td><%= number_with_delimiter(tag['all_prisoner_count'])  %></td>
         <% if (can? :edit, tag) || (can? :destroy, tag) %>
           <td>
             <%= if can? :edit, tag
-                  link_to t('app.actions.edit'),
+                  link_to t('shared.actions.edit'),
                         edit_tag_path(tag), :class => 'btn btn-default'
             end %>
             <%= if can? :destroy, tag
-                  link_to t('app.actions.destroy'),
+                  link_to t('shared.actions.destroy'),
                         tag_path(tag),
                         :method => :delete,
-                        :data => { :confirm => t('app.prompts.confirm') },
+                        :data => { :confirm => t('shared.prompts.confirm') },
                         :class => 'btn btn-danger'
             end %>
           </td>

@@ -22,25 +22,25 @@
     <tr>
       <th></th>
       <th><%= model_class.human_attribute_name(:name) %></th>
-      <% if can? :edit, CriminalCode %><th class="action-col"><%=t 'app.common.actions' %></th><% end %>
+      <% if can? :edit, CriminalCode %><th class="action-col"><%=t 'shared.common.actions' %></th><% end %>
     </tr>
   </thead>
   <tbody>
     <% @criminal_codes.each do |criminal_code| %>
       <tr>
-        <td><%= link_to t('app.actions.view'), criminal_code_path(criminal_code), class: 'btn btn-default' %></td>
+        <td><%= link_to t('shared.actions.view'), criminal_code_path(criminal_code), class: 'btn btn-default' %></td>
         <td><%= criminal_code.name %></td>
         <% if (can? :edit, criminal_code) || (can? :destroy, criminal_code) %>
           <td>
             <%= if can? :edit, criminal_code
-                link_to t('app.actions.edit'),
+                link_to t('shared.actions.edit'),
                         edit_criminal_code_path(criminal_code), :class => 'btn btn-default'
             end %>
             <%= if can? :destroy, criminal_code
-                  link_to t('app.actions.destroy'),
+                  link_to t('shared.actions.destroy'),
                         criminal_code_path(criminal_code),
                         :method => :delete,
-                        :data => { :confirm => t('app.prompts.confirm') },
+                        :data => { :confirm => t('shared.prompts.confirm') },
                         :class => 'btn btn-danger'
             end %>
           </td>

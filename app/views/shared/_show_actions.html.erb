@@ -1,11 +1,11 @@
-<%= link_to t('app.actions.view_all'), index_path, class: 'btn btn-default' %>
+<%= link_to t('shared.actions.view_all'), index_path, class: 'btn btn-default' %>
 <%= if can? :edit, object
-  link_to t('app.actions.edit'), edit_path, class: 'btn btn-default'
+  link_to t('shared.actions.edit'), edit_path, class: 'btn btn-default'
 end %>
 <%= if can? :destroy, object
-  link_to t('app.actions.destroy'),
+  link_to t('shared.actions.destroy'),
           show_path,
           method: 'destroy',
-          data: { confirm: t('app.prompts.confirm') },
+          data: { confirm: t('shared.prompts.confirm') },
           class: 'btn btn-danger'
 end %>

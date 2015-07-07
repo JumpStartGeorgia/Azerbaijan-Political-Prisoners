@@ -1,17 +1,18 @@
+---
 en:
   articles:
-    plural: 'Arrest Charges'
-    single: 'Arrest Charge'
     index:
       column_label:
         code_number: "%{code} - %{article} %{number}"
         currently_imprisoned_with_charge: Number of People Currently Imprisoned With This Charge
         total_imprisoned_with_charge: Number of People That Have Been Imprisoned With This Charge
+    plural: Arrest Charges
     show:
-      title: "%{arrest_charge}: #%{article_number} in %{code_name} %{code_model_name}"
-      counts:
-        currently_imprisoned_with_charge: Currently Imprisoned With This Charge
-        total_imprisoned_with_charge: Have Been Imprisoned With This Charge
       column_label:
         all_people_charged_with_article: People That Have Been Imprisoned With This Charge
         total_days_in_prison: Total Days in Prison
+      counts:
+        currently_imprisoned_with_charge: Currently Imprisoned With This Charge
+        total_imprisoned_with_charge: Have Been Imprisoned With This Charge
+      title: "%{arrest_charge}: #%{article_number} in %{code_name} %{code_model_name}"
+    single: Arrest Charge

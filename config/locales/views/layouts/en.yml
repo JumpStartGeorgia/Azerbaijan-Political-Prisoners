@@ -1,13 +1,14 @@
+---
 en:
   layouts:
     application:
-      find_by: Find By
       about:
-        project: About Project
-        methodology: Methodology
         disclaimer: Disclaimer
-      download_data: Download Latest Data
+        methodology: Methodology
+        project: About Project
       account:
         edit_profile: Edit Profile
         logout: Logout
+      download_data: Download Latest Data
+      find_by: Find By
       staging_do_not_enter_data: 5 June 2015 - Please use <a href="http://prisoners.watch">prisoners.watch</a> to enter data from now on.

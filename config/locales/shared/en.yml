@@ -8,10 +8,10 @@ en:
       view: View
       view_all: View All
       with_obj:
-        search: Search %{obj}
         csv_download: "%{obj} CSV Download"
         edit: Edit %{obj}
         new: New %{obj}
+        search: Search %{obj}
         view_all: View All %{obj}
     common:
       actions: Actions
@@ -21,9 +21,6 @@ en:
       name: Political Prisoners Watch
     datetime:
       full: "%Y-%m-%d_%H-%M-%S"
-    # language:
-      # az: Azərbaycan
-      # en: English
     msgs:
       does_not_exist: You tried to access a page that does not exist.
       not_authorized: You are not authorized to view that page.

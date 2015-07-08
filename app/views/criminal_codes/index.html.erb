@@ -1,6 +1,6 @@
 <%-
   model_class = CriminalCode
-  page_title "#{model_class.model_name.human.pluralize.titleize}"
+  page_title t('activerecord.models.criminal_code', count: 999)
 -%>
 
 <% if user_signed_in? %>

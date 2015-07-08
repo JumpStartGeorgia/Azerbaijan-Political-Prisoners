@@ -1,6 +1,6 @@
 <%-
   model_class = User
-  page_title "#{model_class.model_name.human.pluralize.titleize}"
+  page_title t('activerecord.models.user', count: 999)
 -%>
 
 <% if user_signed_in? %>

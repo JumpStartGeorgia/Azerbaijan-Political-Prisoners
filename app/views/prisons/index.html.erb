@@ -1,7 +1,7 @@
 <%-
   model_class = Prison
-  page_title "#{model_class.model_name.human.pluralize.titleize}"
-  page_title_right link_to("#{model_class.model_name.human.pluralize.titleize} CSV Download", prisons_path(format: :csv), class: 'btn btn-default')
+  page_title t('activerecord.models.prison', count: 999)
+  page_title_right link_to("#{t('activerecord.models.prison', count: 999)} CSV Download", prisons_path(format: :csv), class: 'btn btn-default')
 -%>
 
 <% if user_signed_in? %>

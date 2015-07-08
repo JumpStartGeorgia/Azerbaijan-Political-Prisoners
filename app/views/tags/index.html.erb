@@ -1,7 +1,7 @@
 <%-
   model_class = Tag
   page_title 'Categories'
-  page_title_right link_to("#{model_class.model_name.human.pluralize.titleize} CSV Download", tags_path(format: :csv), class: 'btn btn-default')
+  page_title_right link_to("#{t('activerecord.models.tag', count: 999)} CSV Download", tags_path(format: :csv), class: 'btn btn-default')
 -%>
 
 <% if user_signed_in? %>

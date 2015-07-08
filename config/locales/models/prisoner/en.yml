@@ -12,4 +12,6 @@ en:
         name: Name
         portrait: Portrait
     models:
-      prisoner: Prisoner
+      prisoner:
+        one: Prisoner
+        other: Prisoners

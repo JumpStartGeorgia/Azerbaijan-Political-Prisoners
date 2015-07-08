@@ -7,4 +7,6 @@ en:
         description: Description
         number: Number
     models:
-      article: Article
+      article:
+        one: Article
+        other: Articles

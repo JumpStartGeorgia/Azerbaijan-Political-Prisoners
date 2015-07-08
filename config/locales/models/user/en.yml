@@ -7,4 +7,6 @@ en:
         password: Password
         role: Role
     models:
-      user: User
+      user:
+        one: User
+        other: Users

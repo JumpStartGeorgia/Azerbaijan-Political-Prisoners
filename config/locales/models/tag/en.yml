@@ -6,4 +6,6 @@ en:
         description: Description
         name: Name
     models:
-      tag: Tag
+      tag:
+        one: Tag
+        other: Tags

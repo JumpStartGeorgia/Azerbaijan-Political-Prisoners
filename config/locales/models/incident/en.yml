@@ -11,4 +11,6 @@ en:
         prison: Prison
         tags: Tags
     models:
-      incident: Incident
+      incident:
+        one: Incident
+        other: Incidents

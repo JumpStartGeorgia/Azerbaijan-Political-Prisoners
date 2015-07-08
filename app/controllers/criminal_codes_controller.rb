@@ -29,7 +29,12 @@ class CriminalCodesController < ApplicationController
 
     respond_to do |format|
       if @criminal_code.save
-        format.html { redirect_to @criminal_code, notice: t('shared.msgs.success_created', obj: t('activerecord.models.criminal_code')) }
+        format.html do
+          redirect_to @criminal_code,
+                      notice: t('shared.msgs.success_created',
+                                obj: t('activerecord.models.criminal_code',
+                                       count: 1))
+        end
         format.json { render :show, status: :created, location: @criminal_code }
       else
         format.html { render :new }
@@ -43,11 +48,18 @@ class CriminalCodesController < ApplicationController
   def update
     respond_to do |format|
       if @criminal_code.update(criminal_code_params)
-        format.html { redirect_to @criminal_code, notice: t('shared.msgs.success_updated', obj: t('activerecord.models.criminal_code')) }
+        format.html do
+          redirect_to @criminal_code,
+                      notice: t('shared.msgs.success_updated',
+                                obj: t('activerecord.models.criminal_code',
+                                       count: 1))
+        end
         format.json { render :show, status: :ok, location: @criminal_code }
       else
         format.html { render :edit }
-        format.json { render json: @criminal_code.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @criminal_code.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -57,7 +69,11 @@ class CriminalCodesController < ApplicationController
   def destroy
     @criminal_code.destroy
     respond_to do |format|
-      format.html { redirect_to criminal_codes_url, notice: t('shared.msgs.success_destroyed', obj: t('activerecord.models.criminal_code')) }
+      format.html do
+        redirect_to criminal_codes_url,
+                    notice: t('shared.msgs.success_destroyed',
+                              obj: t('activerecord.models.criminal_code'))
+      end
       format.json { head :no_content }
     end
   end

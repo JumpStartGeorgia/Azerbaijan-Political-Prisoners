@@ -46,11 +46,17 @@ class ArticlesController < ApplicationController
 
     respond_to do |format|
       if @article.save
-        format.html { redirect_to @article, notice: t('shared.msgs.success_created', obj: t('activerecord.models.article')) }
+        format.html do
+          redirect_to @article,
+                      notice: t('shared.msgs.success_created',
+                                obj: t('activerecord.models.article', count: 1))
+        end
         format.json { render :show, status: :created, location: @article }
       else
         format.html { render :new }
-        format.json { render json: @article.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @article.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -60,7 +66,11 @@ class ArticlesController < ApplicationController
   def update
     respond_to do |format|
       if @article.update(article_params)
-        format.html { redirect_to @article, notice: t('shared.msgs.success_updated', obj: t('activerecord.models.article')) }
+        format.html do
+          redirect_to @article,
+                      notice: t('shared.msgs.success_updated',
+                                obj: t('activerecord.models.article', count: 1))
+        end
         format.json { render :show, status: :ok, location: @article }
       else
         format.html { render :edit }
@@ -74,7 +84,11 @@ class ArticlesController < ApplicationController
   def destroy
     @article.destroy
     respond_to do |format|
-      format.html { redirect_to articles_url, notice: t('shared.msgs.success_destroyed', obj: t('activerecord.models.article')) }
+      format.html do
+        redirect_to articles_url,
+                    notice: t('shared.msgs.success_destroyed',
+                              obj: t('activerecord.models.article', count: 1))
+      end
       format.json { head :no_content }
     end
   end

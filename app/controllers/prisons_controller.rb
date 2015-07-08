@@ -45,7 +45,11 @@ class PrisonsController < ApplicationController
 
     respond_to do |format|
       if @prison.save
-        format.html { redirect_to @prison, notice: t('shared.msgs.success_created', obj: t('activerecord.models.prison')) }
+        format.html do
+          redirect_to @prison,
+                      notice: t('shared.msgs.success_created',
+                                obj: t('activerecord.models.prison'))
+        end
         format.json { render :show, status: :created, location: @prison }
       else
         format.html { render :new }
@@ -59,7 +63,11 @@ class PrisonsController < ApplicationController
   def update
     respond_to do |format|
       if @prison.update(prison_params)
-        format.html { redirect_to @prison, notice: t('shared.msgs.success_updated', obj: t('activerecord.models.prison')) }
+        format.html do
+          redirect_to @prison,
+                      notice: t('shared.msgs.success_updated',
+                                obj: t('activerecord.models.prison'))
+        end
         format.json { render :show, status: :ok, location: @prison }
       else
         format.html { render :edit }
@@ -73,7 +81,11 @@ class PrisonsController < ApplicationController
   def destroy
     @prison.destroy
     respond_to do |format|
-      format.html { redirect_to prisons_url, notice: t('shared.msgs.success_destroyed', obj: t('activerecord.models.prison')) }
+      format.html do
+        redirect_to prisons_url,
+                    notice: t('shared.msgs.success_destroyed',
+                              obj: t('activerecord.models.prison'))
+      end
       format.json { head :no_content }
     end
   end

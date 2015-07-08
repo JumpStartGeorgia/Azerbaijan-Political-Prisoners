@@ -97,7 +97,7 @@
                   <li class='li-search'>
                     <form action="<%= prisoners_path %>" method="get" id="search-form" class="navbar-form navbar-left" role="search">
                       <div class="form-group">
-                        <%= text_field_tag :q, nil, :placeholder => t('.search_prisoners'), :class=>"form-control search-input", :autocomplete=>'off', :tabindex => 1 %>
+                        <%= text_field_tag :q, nil, :placeholder => t('shared.actions.with_obj.search', obj: t('activerecord.models.prisoner', count: 999)), :class=>"form-control search-input", :autocomplete=>'off', :tabindex => 1 %>
                       </div>
                     </form>
                   </li>

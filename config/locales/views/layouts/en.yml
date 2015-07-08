@@ -1,7 +1,6 @@
 en:
   layouts:
     application:
-      search_prisoners: Search Prisoners
       find_by: Find By
       about:
         project: About Project
@@ -12,4 +11,3 @@ en:
         edit_profile: Edit Profile
         logout: Logout
       staging_do_not_enter_data: 5 June 2015 - Please use <a href="http://prisoners.watch">prisoners.watch</a> to enter data from now on.
-      

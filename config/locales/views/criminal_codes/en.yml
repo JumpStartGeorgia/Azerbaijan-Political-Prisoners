@@ -1,0 +1,5 @@
+---
+en:
+  criminal_codes:
+    show:
+      title: "%{code_model_name}: %{code_name}"

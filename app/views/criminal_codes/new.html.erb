@@ -1,5 +1,6 @@
 <%- model_class = CriminalCode -%>
-<% page_title "New #{model_class.model_name.human.titleize}" %>
+<% page_title t('shared.actions.with_obj.new',
+                obj: t('activerecord.models.criminal_code')) %>
 
 <% if user_signed_in? %>
   <div class='actions-container'>
@@ -12,4 +13,4 @@
   </div>
 <% end %>
 
-<%= render :partial => 'form' %>
+<%= render partial: 'form' %>

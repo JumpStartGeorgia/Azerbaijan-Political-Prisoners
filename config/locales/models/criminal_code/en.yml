@@ -5,4 +5,6 @@ en:
       criminal_code:
         name: Name
     models:
-      criminal_code: Criminal Code
+      criminal_code:
+        one: Criminal Code
+        other: Criminal Codes

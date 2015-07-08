@@ -4,7 +4,7 @@
                arrest_charge: t('articles.single'),
                article_number: @article.number,
                code_name: @article.criminal_code.name,
-               code_model_name: t('activerecord.models.criminal_code'))
+               code_model_name: t('activerecord.models.criminal_code', count: 1))
   page_title_right link_to(t('shared.actions.with_obj.view_all',
                              obj: t('articles.plural')),
                            articles_path,

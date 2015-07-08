@@ -1,6 +1,6 @@
 <%- model_class = CriminalCode -%>
 <% page_title t('shared.actions.with_obj.new',
-                obj: t('activerecord.models.criminal_code')) %>
+                obj: t('activerecord.models.criminal_code', count: 1)) %>
 
 <% if user_signed_in? %>
   <div class='actions-container'>

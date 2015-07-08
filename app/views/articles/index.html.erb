@@ -27,8 +27,8 @@
       <th></th>
       <th>
         <%= t('.column_label.code_number',
-             code: t('activerecord.models.criminal_code'),
-             article: t('activerecord.models.article'),
+             code: t('activerecord.models.criminal_code', count: 1),
+             article: t('activerecord.models.article', count: 1),
              number: t('activerecord.attributes.article.number')) %>
       </th>
       <th><%= model_class.human_attribute_name(:description) %></th>

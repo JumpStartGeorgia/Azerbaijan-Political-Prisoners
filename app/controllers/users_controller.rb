@@ -34,7 +34,7 @@ class UsersController < ApplicationController
         format.html do
           redirect_to @user,
                       notice: t('shared.msgs.success_created',
-                                obj: t('activerecord.models.user'))
+                                obj: t('activerecord.models.user', count: 1))
         end
       else
         format.html { render :new }
@@ -51,7 +51,7 @@ class UsersController < ApplicationController
           format.html do
             redirect_to @user,
                         notice: t('shared.msgs.success_updated',
-                                  obj: t('activerecord.models.user'))
+                                  obj: t('activerecord.models.user', count: 1))
           end
         else
           format.html { render :edit }
@@ -61,7 +61,7 @@ class UsersController < ApplicationController
           format.html do
             redirect_to @user,
                         notice: t('shared.msgs.success_updated',
-                                  obj: t('activerecord.models.user'))
+                                  obj: t('activerecord.models.user', count: 1))
           end
         else
           format.html { render :edit }
@@ -78,7 +78,7 @@ class UsersController < ApplicationController
       format.html do
         redirect_to users_url,
                     notice: t('shared.msgs.success_destroyed',
-                              obj: t('activerecord.models.user'))
+                              obj: t('activerecord.models.user', count: 1))
       end
     end
   end

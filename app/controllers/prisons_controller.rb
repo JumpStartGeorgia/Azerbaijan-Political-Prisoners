@@ -48,7 +48,7 @@ class PrisonsController < ApplicationController
         format.html do
           redirect_to @prison,
                       notice: t('shared.msgs.success_created',
-                                obj: t('activerecord.models.prison'))
+                                obj: t('activerecord.models.prison', count: 1))
         end
         format.json { render :show, status: :created, location: @prison }
       else
@@ -66,7 +66,7 @@ class PrisonsController < ApplicationController
         format.html do
           redirect_to @prison,
                       notice: t('shared.msgs.success_updated',
-                                obj: t('activerecord.models.prison'))
+                                obj: t('activerecord.models.prison', count: 1))
         end
         format.json { render :show, status: :ok, location: @prison }
       else
@@ -84,7 +84,7 @@ class PrisonsController < ApplicationController
       format.html do
         redirect_to prisons_url,
                     notice: t('shared.msgs.success_destroyed',
-                              obj: t('activerecord.models.prison'))
+                              obj: t('activerecord.models.prison', count: 1))
       end
       format.json { head :no_content }
     end

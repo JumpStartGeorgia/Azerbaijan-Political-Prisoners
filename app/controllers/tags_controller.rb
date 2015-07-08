@@ -48,7 +48,7 @@ class TagsController < ApplicationController
         format.html do
           redirect_to @tag,
                       notice: t('shared.msgs.success_created',
-                                obj: t('activerecord.models.tag'))
+                                obj: t('activerecord.models.tag', count: 1))
         end
         format.json { render :show, status: :created, location: @tag }
       else
@@ -66,7 +66,7 @@ class TagsController < ApplicationController
         format.html do
           redirect_to @tag,
                       notice: t('shared.msgs.success_updated',
-                                obj: t('activerecord.models.tag'))
+                                obj: t('activerecord.models.tag', count: 1))
         end
         format.json { render :show, status: :ok, location: @tag }
       else
@@ -84,7 +84,7 @@ class TagsController < ApplicationController
       format.html do
         redirect_to tags_url,
                     notice: t('shared.msgs.success_destroyed',
-                              obj: t('activerecord.models.tag'))
+                              obj: t('activerecord.models.tag', count: 1))
       end
       format.json { head :no_content }
     end

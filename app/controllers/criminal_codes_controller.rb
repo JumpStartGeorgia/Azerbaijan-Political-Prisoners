@@ -32,8 +32,7 @@ class CriminalCodesController < ApplicationController
         format.html do
           redirect_to @criminal_code,
                       notice: t('shared.msgs.success_created',
-                                obj: t('activerecord.models.criminal_code',
-                                       count: 1))
+                                obj: t('activerecord.models.criminal_code', count: 1))
         end
         format.json { render :show, status: :created, location: @criminal_code }
       else
@@ -51,8 +50,7 @@ class CriminalCodesController < ApplicationController
         format.html do
           redirect_to @criminal_code,
                       notice: t('shared.msgs.success_updated',
-                                obj: t('activerecord.models.criminal_code',
-                                       count: 1))
+                                obj: t('activerecord.models.criminal_code', count: 1))
         end
         format.json { render :show, status: :ok, location: @criminal_code }
       else
@@ -72,7 +70,7 @@ class CriminalCodesController < ApplicationController
       format.html do
         redirect_to criminal_codes_url,
                     notice: t('shared.msgs.success_destroyed',
-                              obj: t('activerecord.models.criminal_code'))
+                              obj: t('activerecord.models.criminal_code', count: 1))
       end
       format.json { head :no_content }
     end

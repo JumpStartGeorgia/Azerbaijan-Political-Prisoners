@@ -4,7 +4,7 @@
     <%= f.input :number %>
     <%= f.input :criminal_code,
                 hint: (link_to(t('shared.prompts.create_in_dropdown',
-                                 obj: t('activerecord.models.criminal_code')),
+                                 obj: t('activerecord.models.criminal_code', count: 1)),
                        new_criminal_code_path,
                        target: '_blank')).html_safe %>
     <%= f.input :description, input_html: { class: 'tinymce' } %>

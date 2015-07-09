@@ -1,31 +1,51 @@
 <%-
   model_class = Prisoner
   page_title t('activerecord.models.prisoner', count: 999)
-  links = link_to("#{t('activerecord.models.prisoner', count: 999)} CSV Download", prisoners_path(format: :csv), class: 'btn btn-default')
-  links << link_to("#{t('activerecord.models.incident', count: 999)} CSV Download", incidents_to_csv_prisoners_path, class: 'btn btn-default')
+
+  links = link_to(t('shared.actions.with_obj.csv_download',
+                    obj: t('activerecord.models.prisoner', count: 999)),
+                  prisoners_path(format: :csv),
+                  class: 'btn btn-default')
+  links << link_to(t('shared.actions.with_obj.csv_download',
+                    obj: t('activerecord.models.incident', count: 999)),
+                   incidents_to_csv_prisoners_path,
+                   class: 'btn btn-default')
   page_title_right links
 -%>
 
 <% if user_signed_in? %>
   <div class='actions-container'>
     <%= render partial: 'shared/index_actions',
-          locals: {
-            model_class: model_class,
-            new_path: new_prisoner_path
-          }
+               locals: {
+                 model_class: model_class,
+                 new_path: new_prisoner_path
+               }
     %>
   </div>
 <% end %>
 
 <div>
-  <form action="<%= prisoners_path %>" method="get" id="search-form2" role="search">
+  <form action="<%= prisoners_path %>"
+        method="get" id="search-form2"
+        role="search">
     <div class="form-group">
-      <%= text_field_tag :q, params[:q], :placeholder => 'Search Prisoners', :class=>"form-control search-input", :autocomplete=>'off', :tabindex => 1 %>
-      <%- if params[:q].present? -%>
+      <%= text_field_tag :q,
+                         params[:q],
+                         placeholder:
+                         t('shared.actions.with_obj.search',
+                           obj: t('activerecord.models.prisoner', count: 999)),
+                         class: 'form-control search-input',
+                         autocomplete: 'off',
+                         tabindex: 1
+      %>
+      <% if params[:q].present? %>
         <div class="search-result-count">
-          <%= @prisoners.total_entries %> Prisoners Found
+          <%=t 'shared.msgs.search_results',
+               num: @prisoners.total_entries,
+               obj: t('activerecord.models.prisoner',
+                      count: @prisoners.total_entries) %>
         </div>
-      <%- end %>
+      <% end %>
     </div>
   </form>
 </div>
@@ -36,71 +56,126 @@
   <div class="prisoners-container infos">
     <% @prisoners.each do |prisoner| %>
       <div class="info">
-        <div class="name h1 hide-big-screen"><%= link_to prisoner.name, prisoner_path(prisoner) %></div>
+        <div class="name h1 hide-big-screen">
+          <%= link_to prisoner.name, prisoner_path(prisoner) %>
+        </div>
 
         <div class="row">
           <div class="figure col-sm-3 col-md-2 col-sm-8">
-            <%= link_to image_tag(prisoner.portrait.url(:large), class: "img-responsive"), prisoner_path(prisoner) %>
+            <%= link_to image_tag(prisoner.portrait.url(:large),
+                                  class: "img-responsive"),
+                        prisoner_path(prisoner) %>
 
             <% if (can? :edit, prisoner) || (can? :destroy, prisoner) %>
               <div class="actions">
                 <%= if can? :edit, prisoner
                       link_to t('shared.actions.edit'),
-                            edit_prisoner_path(prisoner), :class => 'btn btn-default'
+                              edit_prisoner_path(prisoner),
+                              class: 'btn btn-default'
                     end %>
                 <%= if can? :destroy, prisoner
                       link_to t('shared.actions.destroy'),
                             prisoner_path(prisoner),
-                            :method => :delete,
-                            :data => { :confirm => t('shared.prompts.confirm') },
-                            :class => 'btn btn-danger'
-                end %>
+                            method: :delete,
+                            data: { confirm: t('shared.prompts.confirm') },
+                            class: 'btn btn-danger'
+                    end %>
               </div>
             <% end %>
           </div>
 
           <% klass = prisoner.currently_imprisoned == false ? ' green' : '' %>
           <div class="about col-md-7 col-sm-9">
-            <div class="name h1 hide-small-screen"><%= link_to prisoner.name, prisoner_path(prisoner) %></div>
+            <div class="name h1 hide-small-screen">
+              <%= link_to prisoner.name, prisoner_path(prisoner) %>
+            </div>
 
             <div class="state-board hide-big-screen">
-              <div class="kv total">Total days spent in prison: <span class="days"><%= number_with_delimiter(prisoner.total_days_in_prison) %></span></div>
-              <div class="kv status<%= klass %>">Status: <span><%= prisoner.currently_imprisoned_status.html_safe %></span></div>
+              <div class="kv total">
+                Total days spent in prison:
+                <span class="days">
+                  <%= number_with_delimiter(prisoner.total_days_in_prison) %>
+                </span>
+              </div>
+              <div class="kv status<%= klass %>">
+                Status:
+                <span>
+                  <%= prisoner.currently_imprisoned_status.html_safe %>
+                </span>
+              </div>
             </div>
 
             <% if prisoner.incidents.present? %>
               <% incident = prisoner.incidents.first %>
 
               <% if incident.date_of_release.present? %>
-                <div class="kv">In Prison From: <span><%= l incident.date_of_arrest, format: :long %></span> - <span><%= l incident.date_of_release, format: :long %></span></div>
+                <div class="kv">
+                  In Prison From:
+                  <span>
+                    <%= l incident.date_of_arrest, format: :long %>
+                  </span> -
+                  <span>
+                    <%= l incident.date_of_release, format: :long %>
+                  </span>
+                </div>
               <% else %>
-                <div class="kv">In Prison Since: <span><%= l incident.date_of_arrest, format: :long %></span></div>
+                <div class="kv">
+                  In Prison Since:
+                  <span>
+                    <%= l incident.date_of_arrest, format: :long %>
+                  </span>
+                </div>
               <% end %>
 
               <% if incident.prison.present? %>
-                <div class="kv">Imprisoned At: <span><%= link_to incident.prison.name, prison_path(incident.prison) %></span></div>
+                <div class="kv">
+                  Imprisoned At:
+                  <span>
+                    <%= link_to incident.prison.name,
+                                prison_path(incident.prison) %>
+                  </span>
+                </div>
               <% end %>
 
               <% if incident.articles.present? %>
-                <div class="kv pipe">Charged Under Article(s): <span><%= incident.articles.map{ |art| link_to art.number, article_path(art), title: art.desc, "data-toggle" => "tooltip" }.join('<i></i>').html_safe %></span></div>
+                <div class="kv pipe">
+                  Charged Under Article(s):
+                  <span>
+                    <%= incident.articles.map {
+                          |art| link_to art.number,
+                                        article_path(art),
+                                        title: art.desc,
+                                        "data-toggle" => "tooltip"
+                        }.join('<i></i>').html_safe %>
+                  </span>
+                </div>
               <% end %>
 
               <% if incident.description_of_arrest.present? %>
                 <div class="descr">
-                  <%= simple_format_no_tags(truncate(sanitize(incident.description_of_arrest.gsub(/<.*?>/, '')), separator: ' ', length: 300)) %>
+                  <%= simple_format_no_tags(
+                        truncate(
+                          sanitize(
+                            incident.description_of_arrest.gsub(/<.*?>/, '')
+                          ),
+                        separator: ' ',
+                        length: 300)) %>
                 </div>
               <% end %>
-
             <% end %>
           </div>
 
           <div class="col-md-3 right-box hide-small-screen">
             <div class="state-board state-board-desktop">
               <div class="total">
-                <div class="days"><%= number_with_delimiter(prisoner.total_days_in_prison) %></div>
+                <div class="days">
+                  <%= number_with_delimiter(prisoner.total_days_in_prison) %>
+                </div>
                 <div class="in-prison">total days spent in prison</div>
               </div>
-              <div class="status<%= klass %>"><%= prisoner.currently_imprisoned_status.html_safe %></div>
+              <div class="status<%= klass %>">
+                <%= prisoner.currently_imprisoned_status.html_safe %>
+              </div>
             </div>
           </div>
         </div>

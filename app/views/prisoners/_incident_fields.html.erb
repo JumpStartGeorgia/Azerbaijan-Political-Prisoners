@@ -1,32 +1,87 @@
 <div class="nested-fields" style="display: <%= f.object.marked_for_destruction? ? 'none' : 'block' %>">
     <h3>
       <div class="tree-toggle">
-         <span class="fa fa-caret-down"></span>
-         Incident (Arrest Date <%= f.object.date_of_arrest %>)
+        <span class="fa fa-caret-down"></span>
+        <%=t '.title',
+             incident: t('activerecord.models.incident', count: 1),
+             arrest_date_label:
+               t('activerecord.attributes.incident.date_of_arrest'),
+             arrest_date: f.object.date_of_arrest %>
       </div>
       <%= link_to_remove_association f, class: 'btn btn-danger' do %>
         <span class="fa fa-times"></span>
-       Remove Incident
+        <%=t 'shared.actions.with_obj.remove',
+             obj: t('activerecord.models.incident', count: 1)%>
       <% end %>
     </h3>
   <div class="container">
-  <div class="row">
-    <div class="col-md-6"><%= f.input :date_of_arrest, as: :string, input_html: { class: 'date_of_arrest_select', size: 20 } %>
-    <%= f.input :date_of_release, as: :string, input_html: { class: 'date_of_release_select', size: 20 } %></div>
-    <div class="col-md-6"><%= f.input :articles, as: :select, collection: option_groups_from_collection_for_select(CriminalCode.all.includes(:articles), :articles, :name_with_model_name, :id, :number, f.object.article_ids), input_html: { class: 'charges_select', multiple: true }, hint: ('If the article does not yet exist in the dropdown, <b>' + link_to('create it here', new_article_path, target: '_blank') + '.</b>').html_safe %></div>
-  </div>
-  <div class="row">
-    <div class="col-md-6"><%= f.input :prison, collection: @prisons, hint: ('If the prison does not yet exist in the dropdown, <b>' + link_to('create it here', new_prison_path, target: '_blank') + '.</b>').html_safe %></div>
-    <div class="col-md-6"><%= f.input :tags, as: :select, collection: @tags, input_html: { class: 'tags_select', multiple: true }, hint: ('If the tag does not yet exist in the dropdown, <b>' + link_to('create it here', new_tag_path, target: '_blank') + '.</b>').html_safe %></div>
-  </div>
-  <div class="row">
-    <div class="col-md-12"><%= f.input :description_of_arrest, input_html: { class: 'tinymce' } %></div>
-  </div>
-  <div class="row">
-    <div class="col-md-12"><%= f.input :description_of_release, input_html: { class: 'tinymce' } %></div>
-  </div>
-  </div>
+    <div class="row">
+      <div class="col-md-6">
+        <%= f.input :date_of_arrest,
+                    as: :string,
+                    input_html: { class: 'date_of_arrest_select', size: 20 } %>
+        <%= f.input :date_of_release,
+                    as: :string,
+                    input_html: { class: 'date_of_release_select', size: 20 } %>
+      </div>
 
+      <div class="col-md-6">
+        <%= f.input :articles,
+                    as: :select,
+                    collection: option_groups_from_collection_for_select(
+                                  CriminalCode.all.includes(:articles),
+                                  :articles,
+                                  :name_with_model_name,
+                                  :id,
+                                  :number,
+                                  f.object.article_ids
+                                ),
+                    input_html: { class: 'charges_select', multiple: true },
+                    hint: (link_to(
+                            t('shared.prompts.create_in_dropdown',
+                              obj: t('activerecord.models.article', count: 1)),
+                            new_article_path,
+                            target: '_blank'
+                                  )).html_safe %>
+      </div>
+    </div>
 
+    <div class="row">
+      <div class="col-md-6">
+        <%= f.input :prison,
+                    collection: @prisons,
+                    hint: (link_to(
+                            t('shared.prompts.create_in_dropdown',
+                              obj: t('activerecord.models.prison', count: 1)),
+                            new_prison_path,
+                            target: '_blank'
+                                  )).html_safe %>
+      </div>
 
+      <div class="col-md-6">
+        <%= f.input :tags,
+                    as: :select,
+                    collection: @tags,
+                    input_html: { class: 'tags_select', multiple: true },
+                    hint: (link_to(
+                            t('shared.prompts.create_in_dropdown',
+                              obj: t('activerecord.models.tag', count: 1)),
+                            new_tag_path,
+                            target: '_blank'
+                                  )).html_safe %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <%= f.input :description_of_arrest, input_html: { class: 'tinymce' } %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <%= f.input :description_of_release, input_html: { class: 'tinymce' } %>
+      </div>
+    </div>
+  </div>
 </div>

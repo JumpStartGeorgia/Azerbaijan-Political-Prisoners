@@ -2,39 +2,48 @@
   <%= f.semantic_errors *f.object.errors.keys %>
   <%= f.inputs do %>
 
-  <div class="row">
-    <div class="col-md-3">
-      <%= f.label :portrait %>
-      <%= image_tag @prisoner.portrait.url(:large)  if @prisoner.has_attribute?(:portrait_file_name) %>
-      <%= f.input :portrait, as: :file, label: false %>
+    <div class="row">
+      <div class="col-md-3">
+        <%= f.label :portrait %>
+        <%= image_tag @prisoner.portrait.url(:large)  if @prisoner.has_attribute?(:portrait_file_name) %>
+        <%= f.input :portrait, as: :file, label: false %>
+      </div>
+      <div class="col-md-9">
+        <%= f.input :name %>
+        <%= f.input :date_of_birth, as: :string, input_html: { class: 'date_of_birth_select', size: 20 } %>
+        <%= f.input :gender_id, as: :radio, collection: gender_collection %>
+      </div>
     </div>
-    <div class="col-md-9">
-      <%= f.input :name %>
-      <%= f.input :date_of_birth, as: :string, input_html: { class: 'date_of_birth_select', size: 20 } %>
-      <%= f.input :gender_id, as: :radio, collection: gender_collection %>
-    </div>
-  </div>
 
-    <div class="header h3"><div>Incidents</div><div><div class="hor-line"></div></div></div>
+    <div class="header h3"><div><%=t 'activerecord.models.incident', count: 999 %></div><div><div class="hor-line"></div></div></div>
     <div id="incidents">
-        <%= f.semantic_fields_for :incidents do |incident| %>
-          <%= render "incident_fields", f: incident %>
-        <% end %>
-
+      <%= f.semantic_fields_for :incidents do |incident| %>
+        <%= render "incident_fields", f: incident %>
+      <% end %>
     </div>
   <% end %>
+
   <%= f.actions do %>
-   <div id="links"><%= link_to_add_association  f, :incidents, class: 'btn btn-primary', :data => {"association-insertion-node" => "#incidents",
-   "association-insertion-method" => "append" } do %>
-      <span class="fa fa-plus"></span> Add New <%= t('activerecord.models.incident', count: 1) %>
-   <% end %></div>
+    <div id="links">
+      <%= link_to_add_association f,
+                                 :incidents,
+                                 class: 'btn btn-primary',
+                                 data: { "association-insertion-node" => "#incidents", "association-insertion-method" => "append" } do %>
+        <span class="fa fa-plus"></span>
+        <%=t 'shared.actions.with_obj.add_new',
+             obj: t('activerecord.models.incident', count: 1) %>
+      <% end %>
+    </div>
+
     <button name="button" type="submit" class="btn btn-success" id="prisoner_submit_action">
       <span class="fa fa-floppy-o"></span>
       <% if @prisoner.new_record? %>
-        Create Prisoner
+        <%=t 'shared.actions.with_obj.create',
+             obj: t('activerecord.models.prisoner', count: 1) %>
       <% else %>
-        Update Prisoner
+        <%=t 'shared.actions.with_obj.update',
+             obj: t('activerecord.models.prisoner', count: 1) %>
       <% end %>
-      </button>
+    </button>
   <% end %>
 <% end %>

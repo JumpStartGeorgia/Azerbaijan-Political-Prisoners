@@ -8,10 +8,13 @@ en:
       view: View
       view_all: View All
       with_obj:
+        add_new: Add New %{obj}
+        create: Create %{obj}
         csv_download: "%{obj} CSV Download"
         edit: Edit %{obj}
         new: New %{obj}
         search: Search %{obj}
+        update: Update %{obj}
         view_all: View All %{obj}
     common:
       actions: Actions

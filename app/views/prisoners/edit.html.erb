@@ -1,16 +1,19 @@
-<%- model_class = Prisoner -%>
-<% page_title t('shared.actions.with_obj.edit', obj: t('activerecord.models.prisoner', count: 1)) %>
+<%
+model_class = Prisoner
+page_title t('shared.actions.with_obj.edit',
+             obj: t('activerecord.models.prisoner', count: 1))
+%>
 
 <% if user_signed_in? %>
   <div class='actions-container'>
     <%= render partial: 'shared/edit_actions',
-          locals: {
-            object: @prisoner,
-            index_path: prisoners_path,
-            show_path: prisoner_path
-                  }
+               locals: {
+                 object: @prisoner,
+                 index_path: prisoners_path,
+                 show_path: prisoner_path
+                       }
     %>
   </div>
 <% end %>
 
-<%= render :partial => 'form' %>
+<%= render partial: 'form' %>

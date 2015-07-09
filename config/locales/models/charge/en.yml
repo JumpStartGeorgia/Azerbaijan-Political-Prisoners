@@ -1,0 +1,6 @@
+en:
+  activerecord:
+    models:
+      charge:
+        one: Charge
+        other: Charges

@@ -28,6 +28,7 @@
       <div class="col-md-6">
         <%= f.input :articles,
                     as: :select,
+                    label: t('activerecord.models.charge', count: 999),
                     collection: option_groups_from_collection_for_select(
                                   CriminalCode.all.includes(:articles),
                                   :articles,

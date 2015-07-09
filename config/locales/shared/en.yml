@@ -32,6 +32,7 @@ en:
       success_destroyed: "%{obj} was successfully destroyed."
       success_updated: "%{obj} was successfully updated."
       search_results: "%{num} %{obj} Found"
+      no_search_results: Sorry, there are no %{obj} on file that match your search request.
     prompts:
       confirm: Are you sure?
       create_in_dropdown: If the %{obj} does not yet exist in the dropdown, create it here.

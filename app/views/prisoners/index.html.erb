@@ -92,13 +92,13 @@
 
             <div class="state-board hide-big-screen">
               <div class="kv total">
-                Total days spent in prison:
+                <%=t 'prisoners.labels.total_days_in_prison.before_val' %>
                 <span class="days">
                   <%= number_with_delimiter(prisoner.total_days_in_prison) %>
                 </span>
               </div>
               <div class="kv status<%= klass %>">
-                Status:
+                <%=t 'prisoners.labels.status' %>
                 <span>
                   <%= prisoner.currently_imprisoned_status.html_safe %>
                 </span>
@@ -110,7 +110,7 @@
 
               <% if incident.date_of_release.present? %>
                 <div class="kv">
-                  In Prison From:
+                  <%=t 'prisoners.labels.in_prison_from' %>
                   <span>
                     <%= l incident.date_of_arrest, format: :long %>
                   </span> -
@@ -120,7 +120,7 @@
                 </div>
               <% else %>
                 <div class="kv">
-                  In Prison Since:
+                  <%=t 'prisoners.labels.in_prison_since' %>
                   <span>
                     <%= l incident.date_of_arrest, format: :long %>
                   </span>
@@ -129,7 +129,7 @@
 
               <% if incident.prison.present? %>
                 <div class="kv">
-                  Imprisoned At:
+                  <%=t 'prisoners.labels.imprisoned_at' %>
                   <span>
                     <%= link_to incident.prison.name,
                                 prison_path(incident.prison) %>
@@ -139,7 +139,7 @@
 
               <% if incident.articles.present? %>
                 <div class="kv pipe">
-                  Charged Under Article(s):
+                  <%=t 'prisoners.labels.charged_under_articles' %>
                   <span>
                     <%= incident.articles.map {
                           |art| link_to art.number,
@@ -171,7 +171,9 @@
                 <div class="days">
                   <%= number_with_delimiter(prisoner.total_days_in_prison) %>
                 </div>
-                <div class="in-prison">total days spent in prison</div>
+                <div class="in-prison">
+                  <%=t 'prisoners.labels.total_days_in_prison.after_val' %>
+                </div>
               </div>
               <div class="status<%= klass %>">
                 <%= prisoner.currently_imprisoned_status.html_safe %>
@@ -186,7 +188,8 @@
 <% else %>
 
   <p class="alert alert-warning">
-    Sorry, there are no prisoners on file that match your search request.
+    <%=t 'shared.msgs.no_search_results',
+         obj: t('activerecord.models.prisoner', count: 999) %>
   </p>
 
 <% end %>

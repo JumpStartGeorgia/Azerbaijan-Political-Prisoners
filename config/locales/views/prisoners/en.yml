@@ -3,3 +3,12 @@ en:
   prisoners:
     incident_fields:
       title: "%{incident} (%{arrest_date_label} %{arrest_date})"
+    labels:
+      total_days_in_prison:
+        before_val: 'Total days spent in prison:'
+        after_val: total days spent in prison
+      status: 'Status:'
+      in_prison_from: 'In Prison From:'
+      in_prison_since: 'In Prison Since:'
+      imprisoned_at: 'Imprisoned At:'
+      charged_under_articles: 'Charged Under Article(s):'

@@ -1,4 +1,4 @@
-<% page_title 'About' %>
+<% page_title t('.title') %>
 
 <div id="about">
   <p>Prisoners.watch has been created by a group of people who want to shed light on the ongoing attempts by the government of Azerbaijan to limit fundamental rights, most notably freedom of speech, association, and belief. This site presents a database of people who have been deprived of their liberty because they demanded to be heard.</p>
@@ -9,7 +9,7 @@
 
   <p>As Azerbaijani civil society remains under attack, this is a work in progress. The data and features found here are constantly being updated and challenged. As Azerbaijan is a member of the Council of Europe, and is a voluntary signatory of all its conventions and statutes, we adhere to the <a href="/en/methdology">PACE definition</a> of a political prisoner when deciding whether or not to include a prisoner in this database. Other prisoners have been removed from the database at their own request.</p>
 
-  <p>The information contained here was researched by:</p>
+  <p><%=t '.contributor_list_intro' %></p>
 
   <ul id="logos" class="list-inline">
     <li>
@@ -19,15 +19,19 @@
                   title: t('shared.common.jumpstart.slogan')) %>
     </li>
     <li>
-      <%= link_to(image_tag("about_meydan.png"), "http://www.meydan.tv/en", :target => "_blank",
-               :title => "MYEDAN TV - Azerbaijan's free and alternative media channel" ) %>
+      <%= link_to(image_tag("about_meydan.png"),
+                  "http://www.meydan.tv/en",
+                  target: "_blank",
+                  title: t('shared.common.meydan.slogan')) %>
     </li>
   </ul>
 
 
-  <p>To request more information about the project, or to contribute new information, please contact us at:</p>
+  <p><%=t '.contact_intro' %></p>
   <p>
-    <a href='ma&#105;l&#116;o&#58;info%40p%72ison%&#54;5rs&#46;w&#97;t%&#54;3h'>i&#110;&#102;o&#64;&#112;&#114;i&#115;oners&#46;&#119;&#97;t&#99;&#104;</a>
+    <a href='ma&#105;l&#116;o&#58;info%40p%72ison%&#54;5rs&#46;w&#97;t%&#54;3h'>
+      i&#110;&#102;o&#64;&#112;&#114;i&#115;oners&#46;&#119;&#97;t&#99;&#104;
+    </a>
     (<a href="/Prisoners Watch info@prisoners.watch (0x8FB4E7CD) pub.asc">PGP</a>)
   </p>
 </div>

@@ -23,6 +23,8 @@ en:
       jumpstart:
         slogan: JumpStart Georgia - We communicate data better!
       name: Political Prisoners Watch
+      meydan:
+        slogan: "MEYDAN TV - Azerbaijan's free and alternative media channel"
     datetime:
       full: "%Y-%m-%d_%H-%M-%S"
     msgs:

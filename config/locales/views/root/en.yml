@@ -1,0 +1,12 @@
+en:
+  root:
+    about:
+      title: About
+      contributor_list_intro: 'The information contained here was researched by:'
+      contact_intro: 'To request more information about the project, or to contribute new information, please contact us at:'
+    disclaimer:
+      title: Disclaimer
+    index:
+      
+    methodology:
+      title: Methodology

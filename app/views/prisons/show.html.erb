@@ -1,18 +1,20 @@
 <%-
   model_class = Prison
   page_title model_class.model_name.human.titleize + ': ' + @prison.name
-  page_title_right link_to('View All Prisons', prisons_path, class: 'btn btn-default')
+  page_title_right link_to('View All Prisons',
+                           prisons_path,
+                           class: 'btn btn-default')
 -%>
 
 <% if user_signed_in? %>
   <div class='actions-container'>
     <%= render partial: 'shared/show_actions',
-          locals: {
-            object: @prison,
-            index_path: prisons_path,
-            show_path: prison_path,
-            edit_path: edit_prison_path
-                  }
+               locals: {
+                 object: @prison,
+                 index_path: prisons_path,
+                 show_path: prison_path,
+                 edit_path: edit_prison_path
+               }
     %>
   </div>
 <% end %>
@@ -20,13 +22,19 @@
 <div id="show-counts" class="row">
   <div class="col-sm-3 col-sm-offset-2">
     <div class="prisoner-count">
-      <div class="count"><%= number_with_delimiter(@prison_with_counts['current_prisoner_count']) %></div>
+      <div class="count">
+        <%= number_with_delimiter(
+              @prison_with_counts['current_prisoner_count']
+            ) %>
+      </div>
       <div class="intro intro-small"> Currently Imprisoned In This Prison</div>
     </div>
   </div>
   <div class="col-sm-3 col-sm-offset-2">
     <div class="prisoner-count">
-      <div class="count"><%= number_with_delimiter(@prison_with_counts['all_prisoner_count']) %></div>
+      <div class="count">
+        <%= number_with_delimiter(@prison_with_counts['all_prisoner_count']) %>
+      </div>
       <div class="intro intro-small"> Have Been Imprisoned In This Prison</div>
     </div>
   </div>
@@ -46,7 +54,11 @@
     <tbody>
       <% @prisoners_in_prison.each do |prisoner| %>
         <tr>
-          <td><%= link_to t('shared.actions.view'), prisoner_path(prisoner), class: 'btn btn-default' %></td>
+          <td>
+            <%= link_to t('shared.actions.view'),
+                          prisoner_path(prisoner),
+                          class: 'btn btn-default' %>
+          </td>
           <td><%= prisoner.name %></td>
           <td>
             <%= number_with_delimiter(prisoner.total_days_in_prison) %>

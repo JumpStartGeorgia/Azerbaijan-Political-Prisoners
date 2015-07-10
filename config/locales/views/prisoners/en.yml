@@ -4,6 +4,9 @@ en:
     incident_fields:
       title: "%{incident} (%{arrest_date_label} %{arrest_date})"
     labels:
+      years_old: "%{num} years old"
+      age: 'Age:'
+      categories: 'Categories:'
       total_days_in_prison:
         before_val: 'Total days spent in prison:'
         after_val: total days spent in prison
@@ -12,3 +15,7 @@ en:
       in_prison_since: 'In Prison Since:'
       imprisoned_at: 'Imprisoned At:'
       charged_under_articles: 'Charged Under Article(s):'
+      arrest_description: 'Arrest Description:'
+      release_description: 'Release Description:'
+    show:
+      arrests: Arrests

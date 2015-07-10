@@ -2,7 +2,9 @@
   model_class = Prisoner
   klass = @prisoner.currently_imprisoned == false ? ' green' : ''
 
-  page_title strip_tags(@prisoner.name + ' | ' + @prisoner.currently_imprisoned_status)
+  page_title strip_tags(
+    @prisoner.name + ' | ' + @prisoner.currently_imprisoned_status
+  )
 
   #page_title_right link_to('View All Prisoners', prisoners_path, class: 'btn btn-default')
 
@@ -26,7 +28,9 @@
     <div class="name-and-age col-md-7 col-md-push-2">
       <h1 class="name"><%= @prisoner.name %></h1>
       <% if @prisoner.date_of_birth.present? %>
-        <p class="age"><%= @prisoner.age_in_years %> years old</p>
+        <p class="age">
+          <%=t 'prisoners.labels.years_old', num: @prisoner.age_in_years %>
+        </p>
       <% end %>
     </div>
 
@@ -36,10 +40,26 @@
       <div class="left-box hide-big-screen">
         <div class="about state-board">
           <% if @prisoner.date_of_birth.present? %>
-            <div>Age: <span class="age"><%= @prisoner.age_in_years %> years old</span></div>
+            <div>
+              <%=t 'prisoners.labels.age' %>
+              <span class="age">
+                <%=t 'prisoners.labels.years_old',
+                     num: @prisoner.age_in_years %>
+              </span>
+            </div>
           <% end %>
-          <div class="kv total">Total days spent in prison: <span class="days"><%= number_with_delimiter(@prisoner.total_days_in_prison) %></span></div>
-          <div class="kv status<%= klass %>">Status: <span><%= @prisoner.currently_imprisoned_status.html_safe %></span></div>
+          <div class="kv total">
+            <%=t 'prisoners.labels.total_days_in_prison.before_val' %>
+            <span class="days">
+              <%= number_with_delimiter(@prisoner.total_days_in_prison) %>
+            </span>
+          </div>
+          <div class="kv status<%= klass %>">
+            <%=t 'prisoners.labels.status' %>
+            <span>
+              <%= @prisoner.currently_imprisoned_status.html_safe %>
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -47,62 +67,90 @@
     <% klass = @prisoner.currently_imprisoned == false ? ' green' : '' %>
 
     <div class="right-box hide-small-screen col-md-3">
-        <div class="state-board state-board-desktop">
-          <div class="total">
-            <div class="days"><%= number_with_delimiter(@prisoner.total_days_in_prison) %></div>
-            <div class="in-prison">total days spent in prison</div>
+      <div class="state-board state-board-desktop">
+        <div class="total">
+          <div class="days">
+            <%= number_with_delimiter(@prisoner.total_days_in_prison) %>
           </div>
-          <div class="status<%= klass %>"><%= @prisoner.currently_imprisoned_status.html_safe %></div>
+          <div class="in-prison">
+            <%=t 'prisoners.labels.total_days_in_prison.after_val' %>
+          </div>
         </div>
+        <div class="status<%= klass %>">
+          <%= @prisoner.currently_imprisoned_status.html_safe %>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="arrests">
-  <div class="header"><div>Arrests</div><div><div class="hor-line"></div></div></div>
-    <% @prisoner.incidents.order(date_of_arrest: :desc).each_with_index do |incident, index| %>
+  <div class="header">
+    <div><%=t '.arrests' %></div>
+    <div>
+      <div class="hor-line">
+      </div>
+    </div>
+  </div>
+    <% @prisoner.incidents.order(date_of_arrest: :desc)
+         .each_with_index do |incident, index| %>
     <div class="arrest">
       <div class="row">
         <div class="col-md-6">
           <% if incident.date_of_release.present? %>
-            <label>In Prison From: </label>
-            <div class="value"><%= l incident.date_of_arrest, format: t('date.formats.long') %> - <%= l incident.date_of_release, format: t('date.formats.long') %></div>
+            <label><%=t 'prisoners.labels.in_prison_from' %></label>
+            <div class="value">
+              <%= l incident.date_of_arrest, format: t('date.formats.long') %> -
+              <%= l incident.date_of_release, format: t('date.formats.long') %>
+            </div>
           <% else %>
-            <label>In Prison Since: </label>
-            <div class="value"><%= l incident.date_of_arrest, format: t('date.formats.long') %></div>
+            <label><%=t 'prisoners.labels.in_prison_since' %></label>
+            <div class="value">
+              <%= l incident.date_of_arrest, format: t('date.formats.long') %>
+            </div>
           <% end %>
         </div>
         <div class="col-md-6">
-          <label>Charged Under Article(s): </label>
+          <label><%=t 'prisoners.labels.charged_under_articles' %></label>
           <div class="value pipe">
-            <%= incident.articles.map{ |art| link_to art.number, article_path(art), title: art.desc, "data-toggle" => "tooltip" }.join('<i></i>').html_safe %>
+            <%= incident.articles.map { |art|
+                  link_to art.number,
+                  article_path(art),
+                  title: art.desc,
+                  "data-toggle" => "tooltip"
+                }.join('<i></i>').html_safe %>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
-          <label>Imprisoned At: </label>
+          <label><%=t 'prisoners.labels.imprisoned_at' %></label>
           <div class="value">
-            <%=  link_to incident.prison.name, incident.prison if incident.prison %>
+            <%=
+              if incident.prison.present?
+                link_to incident.prison.name, incident.prison
+              end
+            %>
           </div>
         </div>
         <div class="col-md-6">
-          <label>Categories: </label>
+          <label><%=t 'prisoners.labels.categories' %></label>
           <div class="value pipe">
-            <%= incident.tags.map{ |tag| link_to tag.name, tag }.join('<i></i>').html_safe %>
+            <%= incident.tags.map { |tag| link_to tag.name, tag }
+                  .join('<i></i>').html_safe %>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-12">
-          <label>Arrest Description: </label>
+          <label><%=t 'prisoners.labels.arrest_description' %></label>
           <div class="descr"><%= simple_format_no_tags(incident.description_of_arrest) if incident.description_of_arrest.present? %></div>
         </div>
       </div>
       <% if incident.description_of_release.present? %>
         <div class="row">
           <div class="col-md-12">
-            <label>Release Description: </label>
+            <label><%=t 'prisoners.labels.release_description' %></label>
             <div class="descr"><%= simple_format_no_tags(incident.description_of_release) if incident.description_of_release.present? %></div>
           </div>
         </div>

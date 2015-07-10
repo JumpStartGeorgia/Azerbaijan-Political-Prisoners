@@ -7,6 +7,11 @@ en:
     disclaimer:
       title: Disclaimer
     index:
-      
+      current_political_prisoners: Azerbaijanis currently imprisoned in Azerbaijan for political reasons
+      links:
+        methodology: What is a political prisoner?
+        meet_prisoners: Meet Azerbaijani Political Prisoners
+        see_charges: See the Charges
+      meet_prisoner: 'Meet: %{prisoner_name}'
     methodology:
       title: Methodology

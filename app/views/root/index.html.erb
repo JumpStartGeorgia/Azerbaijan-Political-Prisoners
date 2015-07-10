@@ -2,30 +2,67 @@
 <div class="row">
   <div class="col-sm-6">
     <div class="prisoner-count">
-      <div class="count"><%= number_with_delimiter(@currently_imprisoned_count) %></div>
-      <div class="intro"> Azerbaijanis currently imprisoned in Azerbaijan for political reasons</div>
-      <div class="descr"><%= t('shared.common.description') %></div>
+      <div class="count">
+        <%= number_with_delimiter(@currently_imprisoned_count) %>
+      </div>
+      <div class="intro">
+        <%=t '.current_political_prisoners' %>
+      </div>
+      <div class="descr">
+        <%=t 'shared.common.description' %>
+      </div>
     </div>
   </div>
   <div class="col-sm-6">
     <% unless (@featured_prisoner.blank?) || (@featured_prisoner.incidents.blank?) %>
       <div id="featured-prisoner">
-        <h2><%= link_to('Meet: ' + @featured_prisoner.name, prisoner_path(@featured_prisoner)) %></h2>
+        <h2>
+          <%= link_to(t('.meet_prisoner',
+                        prisoner_name: @featured_prisoner.name),
+                      prisoner_path(@featured_prisoner)) %>
+        </h2>
         <div class="figure">
-          <%= link_to image_tag(@featured_prisoner.portrait.url(:large)), prisoner_path(@featured_prisoner) %>
+          <%= link_to image_tag(@featured_prisoner.portrait.url(:large)),
+                      prisoner_path(@featured_prisoner) %>
         </div>
         <div class="info">
-          <p><strong>In Prison Since:</strong> <%= l @featured_prisoner_inc.date_of_arrest, format: :long %></p>
+          <p>
+            <strong>
+              <%=t 'prisoners.labels.in_prison_since' %>
+            </strong>
+            <%= l @featured_prisoner_inc.date_of_arrest, format: :long %>
+          </p>
           <% if @featured_prisoner_inc.prison.present? %>
-            <p><strong>Imprisoned At:</strong> <%= link_to @featured_prisoner_inc.prison.name, prison_path(@featured_prisoner_inc.prison) %></p>
+            <p>
+              <strong>
+                <%=t 'prisoners.labels.imprisoned_at' %>
+              </strong>
+              <%= link_to @featured_prisoner_inc.prison.name,
+                          prison_path(@featured_prisoner_inc.prison) %>
+            </p>
           <% end %>
           <% if @featured_prisoner_inc.articles.present? %>
-            <p class="pipe"><strong>Charged Under Article(s) :</strong>
-            <%= @featured_prisoner_inc.articles.map{ |art| link_to art.number, article_path(art), title: art.desc, "data-toggle" => "tooltip" }.join('<i></i>').html_safe %></p>
+            <p class="pipe">
+              <strong><%=t 'prisoners.labels.charged_under_articles' %></strong>
+              <%=
+                @featured_prisoner_inc.articles.map { |art|
+                  link_to art.number,
+                          article_path(art),
+                          title: art.desc,
+                          "data-toggle" => "tooltip"
+                }.join('<i></i>').html_safe
+              %>
+            </p>
           <% end %>
           <% if @featured_prisoner_inc.description_of_arrest.present? %>
             <div id="featured-description">
-              <%= simple_format_no_tags(truncate(sanitize(@featured_prisoner_inc.description_of_arrest.gsub(/<.*?>/, '')), separator: ' ', length: 300)) %>
+              <%= simple_format_no_tags(
+                    truncate(
+                      sanitize(
+                        @featured_prisoner_inc
+                          .description_of_arrest.gsub(/<.*?>/, '')
+                      ),
+                      separator: ' ', length: 300)) %>
             </div>
           <% end %>
         </div>
@@ -36,17 +73,17 @@
 <div class="row">
   <div class="col-sm-4 main-link">
     <a class="btn btn-success" href="<%= methodology_path %>">
-      <span>What is a political prisoner?</span>
+      <span><%=t '.links.methodology' %></span>
     </a>
   </div>
   <div class="col-sm-4 main-link">
     <a class="btn btn-success" type="button" href="<%= prisoners_path %>">
-      <span>Meet Azerbaijani Political Prisoners</span>
+      <span><%=t '.links.meet_prisoners' %></span>
     </a>
   </div>
   <div class="col-sm-4 main-link">
     <a class="btn btn-success" type="button" href="<%= articles_path %>">
-      <span>See the Charges</span>
+      <span><%=t '.links.see_charges' %></span>
     </a>
   </div>
 </div>

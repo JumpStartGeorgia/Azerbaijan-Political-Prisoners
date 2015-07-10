@@ -75,10 +75,10 @@
                     end %>
                 <%= if can? :destroy, prisoner
                       link_to t('shared.actions.destroy'),
-                            prisoner_path(prisoner),
-                            method: :delete,
-                            data: { confirm: t('shared.prompts.confirm') },
-                            class: 'btn btn-danger'
+                              prisoner_path(prisoner),
+                              method: :delete,
+                              data: { confirm: t('shared.prompts.confirm') },
+                              class: 'btn btn-danger'
                     end %>
               </div>
             <% end %>

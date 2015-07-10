@@ -8,7 +8,7 @@ en:
       with_obj:
         add_new: Add New %{obj}
         create: Create %{obj}
-        csv_download: "%{obj} CSV Download"
+        csv_download: Download %{obj} Data
         destroy: Delete %{obj}
         edit: Edit %{obj}
         new: New %{obj}

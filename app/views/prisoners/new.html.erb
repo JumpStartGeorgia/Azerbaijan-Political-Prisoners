@@ -4,12 +4,12 @@
 <% if user_signed_in? %>
   <div class='actions-container'>
     <%= render partial: 'shared/new_actions',
-          locals: {
-            object: @prisoner,
-            index_path: prisoners_path,
-                  }
+               locals: {
+                 object: @prisoner,
+                 index_path: prisoners_path,
+               }
     %>
   </div>
 <% end %>
 
-<%= render :partial => 'form' %>
+<%= render partial: 'form' %>

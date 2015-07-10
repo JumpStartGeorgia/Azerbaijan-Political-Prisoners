@@ -1,16 +1,17 @@
+---
 en:
   root:
     about:
-      title: About
-      contributor_list_intro: 'The information contained here was researched by:'
       contact_intro: 'To request more information about the project, or to contribute new information, please contact us at:'
+      contributor_list_intro: 'The information contained here was researched by:'
+      title: About
     disclaimer:
       title: Disclaimer
     index:
       current_political_prisoners: Azerbaijanis currently imprisoned in Azerbaijan for political reasons
       links:
-        methodology: What is a political prisoner?
         meet_prisoners: Meet Azerbaijani Political Prisoners
+        methodology: What is a political prisoner?
         see_charges: See the Charges
       meet_prisoner: 'Meet: %{prisoner_name}'
     methodology:

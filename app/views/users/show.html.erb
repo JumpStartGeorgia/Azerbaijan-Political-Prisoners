@@ -4,12 +4,12 @@
 <% if user_signed_in? %>
   <div class='actions-container'>
     <%= render partial: 'shared/show_actions',
-          locals: {
-            object: @user,
-            index_path: users_path,
-            show_path: user_path,
-            edit_path: edit_user_path
-                  }
+               locals: {
+                 object: @user,
+                 index_path: users_path,
+                 show_path: user_path,
+                 edit_path: edit_user_path
+               }
     %>
   </div>
 <% end %>

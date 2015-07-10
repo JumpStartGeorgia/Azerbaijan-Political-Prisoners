@@ -4,13 +4,13 @@
 <% if user_signed_in? %>
   <div class='actions-container'>
     <%= render partial: 'shared/edit_actions',
-          locals: {
-            object: @tag,
-            index_path: tags_path,
-            show_path: tag_path
-                  }
+               locals: {
+                 object: @tag,
+                 index_path: tags_path,
+                 show_path: tag_path
+               }
     %>
   </div>
 <% end %>
 
-<%= render :partial => 'form' %>
+<%= render partial: 'form' %>

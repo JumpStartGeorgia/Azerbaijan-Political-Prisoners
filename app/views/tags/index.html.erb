@@ -1,16 +1,18 @@
 <%-
   model_class = Tag
   page_title 'Categories'
-  page_title_right link_to("#{t('activerecord.models.tag', count: 999)} CSV Download", tags_path(format: :csv), class: 'btn btn-default')
+  page_title_right link_to("#{t('activerecord.models.tag', count: 999)} CSV Download",
+                           tags_path(format: :csv),
+                           class: 'btn btn-default')
 -%>
 
 <% if user_signed_in? %>
   <div class='actions-container'>
     <%= render partial: 'shared/index_actions',
-          locals: {
-            model_class: model_class,
-            new_path: new_tag_path
-          }
+               locals: {
+                 model_class: model_class,
+                 new_path: new_tag_path
+               }
     %>
   </div>
 <% end %>
@@ -25,13 +27,19 @@
       <th>Category</th>
       <th>Number of People Currently Imprisoned With This Category</th>
       <th>Number of People That Have Been Imprisoned With This Category</th>
-      <% if can? :edit, Tag %><th class="action-col"><%=t 'shared.common.actions' %></th><% end %>
+      <% if can? :edit, Tag %>
+        <th class="action-col"><%=t 'shared.common.actions' %></th>
+      <% end %>
     </tr>
   </thead>
   <tbody>
     <% @tags.each do |tag| %>
       <tr>
-        <td><%= link_to t('shared.actions.view'), tag_path(tag), class: 'btn btn-default' %></td>
+        <td>
+          <%= link_to t('shared.actions.view'),
+                      tag_path(tag),
+                      class: 'btn btn-default' %>
+        </td>
         <td><%= tag.name %></td>
         <td><%= number_with_delimiter(tag['current_prisoner_count'])  %></td>
         <td><%= number_with_delimiter(tag['all_prisoner_count'])  %></td>
@@ -39,14 +47,15 @@
           <td>
             <%= if can? :edit, tag
                   link_to t('shared.actions.edit'),
-                        edit_tag_path(tag), :class => 'btn btn-default'
+                          edit_tag_path(tag),
+                          class: 'btn btn-default'
             end %>
             <%= if can? :destroy, tag
                   link_to t('shared.actions.destroy'),
                         tag_path(tag),
-                        :method => :delete,
-                        :data => { :confirm => t('shared.prompts.confirm') },
-                        :class => 'btn btn-danger'
+                        method: :delete,
+                        data: { confirm: t('shared.prompts.confirm') },
+                        class: 'btn btn-danger'
             end %>
           </td>
         <% end %>

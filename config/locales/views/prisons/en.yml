@@ -1,0 +1,12 @@
+---
+en:
+  prisons:
+    index:
+      prison_name: '%{prison} %{name}'
+      num_people_currently_in_prison: Number of People Currently Imprisoned in this Prison
+      num_people_who_have_been_in_prison: Number of People That Have Been Imprisoned in this Prison
+    show:
+      currently_imprisoned_in_prison: Currently Imprisoned in this Prison
+      have_been_imprisoned_in_prison: Have Been Imprisoned in this Prison
+      people_who_have_been_in_prison: People That Have Been Imprisoned in this Prison
+      total_days_in_prison: Total Days in Prison

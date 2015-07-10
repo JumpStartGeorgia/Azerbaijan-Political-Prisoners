@@ -1,7 +1,8 @@
 <%-
   model_class = Prison
   page_title t('activerecord.models.prison', count: 999)
-  page_title_right link_to("#{t('activerecord.models.prison', count: 999)} CSV Download",
+  page_title_right link_to(t('shared.actions.with_obj.csv_download',
+                             obj: t('activerecord.models.prison', count: 999)),
                            prisons_path(format: :csv),
                            class: 'btn btn-default')
 -%>
@@ -23,9 +24,14 @@
   <thead>
     <tr>
       <th></th>
-      <th>Prison Name</th>
-      <th>Number of People Currently Imprisoned In This Prison</th>
-      <th>Number of People That Have Been Imprisoned In This Prison</th>
+      <th>
+        <%=t '.prison_name',
+             prison: t('activerecord.models.prison', count: 1),
+             name: t('activerecord.attributes.prison.name')
+        %>
+      </th>
+      <th><%=t '.num_people_currently_in_prison' %></th>
+      <th><%=t '.num_people_who_have_been_in_prison' %></th>
       <% if can? :edit, Prison %>
         <th class="action-col">
           <%=t 'shared.common.actions' %>

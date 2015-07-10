@@ -1,5 +1,6 @@
-<%- model_class = Prison -%>
-<% page_title "Edit #{model_class.model_name.human.titleize}" %>
+<% model_class = Prison %>
+<% page_title t('shared.actions.with_obj.edit',
+              obj: t('activerecord.models.prison', count: 1)) %>
 
 <% if user_signed_in? %>
   <div class='actions-container'>

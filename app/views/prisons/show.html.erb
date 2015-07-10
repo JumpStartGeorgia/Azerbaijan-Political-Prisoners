@@ -1,10 +1,11 @@
-<%-
+<%
   model_class = Prison
-  page_title model_class.model_name.human.titleize + ': ' + @prison.name
-  page_title_right link_to('View All Prisons',
+  page_title @prison.name
+  page_title_right link_to(t('shared.actions.with_obj.view_all',
+                             obj: t('activerecord.models.prison', count: 999)),
                            prisons_path,
                            class: 'btn btn-default')
--%>
+%>
 
 <% if user_signed_in? %>
   <div class='actions-container'>
@@ -27,7 +28,7 @@
               @prison_with_counts['current_prisoner_count']
             ) %>
       </div>
-      <div class="intro intro-small"> Currently Imprisoned In This Prison</div>
+      <div class="intro intro-small"><%=t '.currently_imprisoned_in_prison' %></div>
     </div>
   </div>
   <div class="col-sm-3 col-sm-offset-2">
@@ -35,7 +36,9 @@
       <div class="count">
         <%= number_with_delimiter(@prison_with_counts['all_prisoner_count']) %>
       </div>
-      <div class="intro intro-small"> Have Been Imprisoned In This Prison</div>
+      <div class="intro intro-small">
+        <%=t '.have_been_imprisoned_in_prison' %>
+      </div>
     </div>
   </div>
 </div>
@@ -47,8 +50,8 @@
     <thead>
       <tr>
         <th></th>
-        <th>People That Have Been Imprisoned In This Prison</th>
-        <th>Total Days in Prison</th>
+        <th><%=t '.people_who_have_been_in_prison' %></th>
+        <th><%=t '.total_days_in_prison' %></th>
       </tr>
     </thead>
     <tbody>

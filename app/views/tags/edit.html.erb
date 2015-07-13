@@ -1,5 +1,6 @@
 <%- model_class = Tag -%>
-<% page_title "Edit #{model_class.model_name.human.titleize}" %>
+<% page_title t('shared.actions.with_obj.edit',
+                obj: t('activerecord.models.tag', count: 1)) %>
 
 <% if user_signed_in? %>
   <div class='actions-container'>

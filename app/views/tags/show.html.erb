@@ -1,7 +1,10 @@
 <%-
   model_class = Tag
-  page_title 'Category: ' + @tag.name
-  page_title_right link_to('View All Categories',
+  page_title t('.title',
+               tag_model_name: t('tag.label', count: 1),
+               tag_name: @tag.name)
+  page_title_right link_to(t('shared.actions.with_obj.view_all',
+                             obj: t('tag.label', count: 999)),
                            tags_path,
                            class: 'btn btn-default')
 -%>
@@ -26,7 +29,7 @@
         <%= number_with_delimiter(@tag_with_counts['current_prisoner_count']) %>
       </div>
       <div class="intro intro-small">
-        Currently Imprisoned With This Category
+        <%=t '.counts.currently_imprisoned' %>
       </div>
     </div>
   </div>
@@ -36,7 +39,7 @@
         <%= number_with_delimiter(@tag_with_counts['all_prisoner_count']) %>
       </div>
       <div class="intro intro-small">
-        Have Been Imprisoned With This Category
+        <%=t '.counts.have_been_imprisoned' %>
       </div>
     </div>
   </div>
@@ -49,8 +52,8 @@
     <thead>
       <tr>
         <th></th>
-        <th>People That Have Been Imprisoned With This Category</th>
-        <th>Total Days in Prison</th>
+        <th><%=t '.columns.people_currently_imprisoned' %></th>
+        <th><%=t 'prisoner.total_days_in_prison' %></th>
       </tr>
     </thead>
     <tbody>

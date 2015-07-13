@@ -1,7 +1,8 @@
 <%-
   model_class = Tag
-  page_title 'Categories'
-  page_title_right link_to("#{t('activerecord.models.tag', count: 999)} CSV Download",
+  page_title t('tag.label', count: 999)
+  page_title_right link_to(t('shared.actions.with_obj.csv_download',
+                             obj: t('tag.label', count: 999)),
                            tags_path(format: :csv),
                            class: 'btn btn-default')
 -%>
@@ -24,9 +25,9 @@
   <thead>
     <tr>
       <th></th>
-      <th>Category</th>
-      <th>Number of People Currently Imprisoned With This Category</th>
-      <th>Number of People That Have Been Imprisoned With This Category</th>
+      <th><%=t 'tag.label', count: 1 %></th>
+      <th><%=t '.column.num_currently_imprisoned' %></th>
+      <th><%=t '.column.num_have_been_imprisoned' %></th>
       <% if can? :edit, Tag %>
         <th class="action-col"><%=t 'shared.common.actions' %></th>
       <% end %>

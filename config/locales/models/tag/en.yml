@@ -9,3 +9,7 @@ en:
       tag:
         one: Tag
         other: Tags
+  tag:
+    label:
+      one: Category
+      other: Categories

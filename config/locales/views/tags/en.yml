@@ -1,0 +1,14 @@
+---
+en:
+  tags:
+    index:
+      column:
+        num_currently_imprisoned: Number of People Currently Imprisoned With This Category
+        num_have_been_imprisoned: Number of People That Have Been Imprisoned With This Category
+    show:
+      columns:
+        people_currently_imprisoned: People That Have Been Imprisoned With This Category
+      counts:
+        currently_imprisoned: Currently Imprisoned With This Category
+        have_been_imprisoned: Have Been Imprisoned With This Category
+      title: "%{tag_model_name}: %{tag_name}"

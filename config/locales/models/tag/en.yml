@@ -10,6 +10,7 @@ en:
         one: Tag
         other: Tags
   tag:
-    label:
-      one: Category
-      other: Categories
+    public:
+      label:
+        one: Category
+        other: Categories

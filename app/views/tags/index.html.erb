@@ -1,8 +1,8 @@
 <%-
   model_class = Tag
-  page_title t('tag.label', count: 999)
+  page_title t('tag.public.label', count: 999)
   page_title_right link_to(t('shared.actions.with_obj.csv_download',
-                             obj: t('tag.label', count: 999)),
+                             obj: t('tag.public.label', count: 999)),
                            tags_path(format: :csv),
                            class: 'btn btn-default')
 -%>
@@ -25,7 +25,7 @@
   <thead>
     <tr>
       <th></th>
-      <th><%=t 'tag.label', count: 1 %></th>
+      <th><%=t 'tag.public.label', count: 1 %></th>
       <th><%=t '.column.num_currently_imprisoned' %></th>
       <th><%=t '.column.num_have_been_imprisoned' %></th>
       <% if can? :edit, Tag %>

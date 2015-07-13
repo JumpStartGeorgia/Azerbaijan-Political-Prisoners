@@ -1,5 +1,7 @@
 <%- model_class = User -%>
-<% page_title model_class.model_name.human.titleize + ': ' + @user.email %>
+<% page_title t('.title',
+                user_model_name: t('activerecord.models.user', count: 1),
+                user_email: @user.email) %>
 
 <% if user_signed_in? %>
   <div class='actions-container'>

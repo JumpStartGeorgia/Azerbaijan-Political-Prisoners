@@ -4,9 +4,11 @@ en:
     actions:
       destroy: Delete
       edit: Edit
+      log_in: Log in
       view: View
       with_obj:
         add_new: Add New %{obj}
+        cancel: Cancel %{obj}
         create: Create %{obj}
         csv_download: Download %{obj} Data
         destroy: Delete %{obj}
@@ -38,3 +40,4 @@ en:
     prompts:
       confirm: Are you sure?
       create_in_dropdown: If the %{obj} does not yet exist in the dropdown, create it here.
+      forgot_password: Forgot your password?

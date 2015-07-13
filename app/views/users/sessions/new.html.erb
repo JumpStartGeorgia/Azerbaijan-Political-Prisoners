@@ -1,4 +1,4 @@
-<h2>Log in</h2>
+<h2><%=t 'shared.actions.log_in' %></h2>
 
 <%= form_for(resource,
              as: resource_name,
@@ -21,7 +21,7 @@
   <% end -%>
 
   <div class="actions">
-    <%= f.submit "Log in" %>
+    <%= f.submit t('shared.actions.log_in') %>
   </div>
 <% end %>
 

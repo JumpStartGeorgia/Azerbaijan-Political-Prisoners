@@ -1,4 +1,4 @@
-<h2>Forgot your password?</h2>
+<h2><%=t 'shared.prompts.forgot_password' %></h2>
 
 <%= form_for(resource,
              as: resource_name,
@@ -12,7 +12,7 @@
   </div>
 
   <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
+    <%= f.submit t('.send_reset_instructions') %>
   </div>
 <% end %>
 

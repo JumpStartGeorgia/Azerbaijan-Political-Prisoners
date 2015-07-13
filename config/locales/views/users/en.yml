@@ -58,12 +58,27 @@ en:
         one: '1 error prohibited this %{resource} from being saved:'
         other: "%{count} errors prohibited this %{resource} from being saved:"
   users:
-    show:
-      title: "%{user_model_name}: %{user_email}"
     mailer:
       reset_password_instructions:
-        greeting: Hello %{email}!
-        intro: Someone has requested a link to change your password. You can do this through the link below.
         change_password: Change my password
         did_not_request: If you didn't request this, please ignore this email.
+        greeting: Hello %{email}!
+        intro: Someone has requested a link to change your password. You can do this through the link below.
         password_will_not_change: Your password won't change until you access the link above and create a new one.
+    passwords:
+      edit:
+        change_my_password: Change my password
+        change_your_password: Change your password
+        confirm_new_password: Confirm new password
+        new_password: New password
+      new:
+        send_reset_instructions: Send me reset password instructions
+    registrations:
+      edit:
+        hints:
+          need_current_password: we need your current password to confirm your changes
+          password_leave_blank: leave blank if you don't want to change it
+        my_account: my account
+        waiting_for_confirmation: 'Currently awaiting confirmation for: %{email}'
+    show:
+      title: "%{user_model_name}: %{user_email}"

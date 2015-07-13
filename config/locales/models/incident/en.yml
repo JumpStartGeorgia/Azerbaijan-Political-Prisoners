@@ -13,4 +13,4 @@ en:
     models:
       incident:
         one: Incident
-        other: Incidents
+        other: Incidents      

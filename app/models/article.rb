@@ -13,8 +13,7 @@ class Article < ActiveRecord::Base
   validates :number, :criminal_code, presence: true
   validates_uniqueness_of :number,
                           scope: :criminal_code,
-                          message: 'already exists for selected Criminal Code.
-                            Enter new Number or select different Criminal Code'
+                          message: I18n.t('article.errors.already_exists_for_criminal_code')
 
   # permalink
   friendly_id :number_and_code, use: :history
@@ -86,7 +85,7 @@ class Article < ActiveRecord::Base
   end
 
   def desc
-    description.present? ? ActionController::Base.helpers.strip_tags(description) : 'No description available'
+    description.present? ? ActionController::Base.helpers.strip_tags(description) : I18n.t('article.errors.no_description')
   end
 
   # include the current prisoner count with the article

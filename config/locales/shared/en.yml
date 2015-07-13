@@ -33,6 +33,7 @@ en:
       does_not_exist: You tried to access a page that does not exist.
       no_search_results: Sorry, there are no %{obj} on file that match your search request.
       not_authorized: You are not authorized to view that page.
+      not_listed: No %{obj} listed
       search_results: "%{num} %{obj} Found"
       success_created: "%{obj} was successfully created."
       success_destroyed: "%{obj} was successfully destroyed."

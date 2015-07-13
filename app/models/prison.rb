@@ -20,7 +20,10 @@ class Prison < ActiveRecord::Base
     require 'csv'
 
     CSV.generate do |csv|
-      csv << %w(Name Description)
+      csv << [
+        t('activerecord.attributes.prison.name'),
+        t('activerecord.attributes.prison.description')
+      ]
       all.each do |prison|
         csv << [prison.name, remove_tags(prison.description)]
       end

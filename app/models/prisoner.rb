@@ -42,7 +42,7 @@ class Prisoner < ActiveRecord::Base
     require 'csv'
 
     CSV.generate do |csv|
-      csv << ['Name']
+      csv << [I18n.t('activerecord.attributes.prisoner.name')]
       all.each do |prisoner|
         csv << [prisoner.name]
       end
@@ -76,13 +76,13 @@ class Prisoner < ActiveRecord::Base
     sorted_incidents.each_with_index do |incident, index|
       if incident.date_of_release.present?
         if incident.date_of_arrest > incident.date_of_release
-          errors.add(:incident_id, 'Date of arrest cannot be after date of release')
+          errors.add(:incident_id, I18n.t('prisoner.errors.arrest_after_release'))
         end
 
         next_incident = sorted_incidents[index + 1]
         unless next_incident.nil?
           if incident.date_of_release > next_incident.date_of_arrest
-            errors.add(:incident_id, 'Date of arrest must occur after date of release of previous incident')
+            errors.add(:incident_id, I18n.t('prisoner.errors.arrest_after_previous_release'))
           end
         end
       end
@@ -90,9 +90,9 @@ class Prisoner < ActiveRecord::Base
 
     # Ensure last date occurs before today
     if sorted_incidents.last.date_of_release.present? && incidents.last.date_of_release > Date.today
-      errors.add(:date_of_release, "The last incident's date of release must be before today")
+      errors.add(:date_of_release, I18n.t('prisoner.errors.release_before_today'))
     elsif sorted_incidents.last.date_of_arrest.present? && incidents.last.date_of_arrest > Date.today
-      errors.add(:date_of_arrest, "The last incident's date of arrest must be before today")
+      errors.add(:date_of_arrest, I18n.t('prisoner.errors.arrest_before_today'))
     end
   end
 
@@ -102,7 +102,7 @@ class Prisoner < ActiveRecord::Base
     all_incidents_but_last = incidents.sort_by(&:date_of_arrest).slice(0, incidents.size - 1)
     all_incidents_but_last.each do |incident|
       unless incident.date_of_release.present?
-        errors.add(:prisoner_id, ': All incidents but the last must have dates of release')
+        errors.add(:prisoner_id, I18n.t('prisoner.errors.must_have_release'))
       end
     end
   end

@@ -24,7 +24,16 @@ class Incident < ActiveRecord::Base
     require 'csv'
 
     CSV.generate do |csv|
-      csv << ['Prisoner Name', 'Date of Arrest', 'Description of Arrest', 'Tags', 'Charges', 'Prison', 'Date of Release', 'Description of Release']
+      csv << [
+        I18n.t('activerecord.attributes.prisoner.name'),
+        I18n.t('activerecord.attributes.incident.date_of_arrest'),
+        I18n.t('activerecord.attributes.incident.description_of_arrest'),
+        I18n.t('activerecord.attributes.incident.tags'),
+        I18n.t('activerecord.models.charge', count: 999),
+        I18n.t('activerecord.attributes.incident.prison'),
+        I18n.t('activerecord.attributes.incident.date_of_release'),
+        I18n.t('activerecord.attributes.incident.description_of_release')
+      ]
 
       all.includes(:prisoner).includes(:prison)
         .includes(:tags).includes(:articles).each do |incident|
@@ -34,7 +43,7 @@ class Incident < ActiveRecord::Base
           remove_tags(incident.description_of_arrest),
           incident.tags.map(&:name).join(', '),
           incident.articles.map(&:number).join(', '),
-          incident.prison ? incident.prison.name : 'No Prison Listed',
+          incident.prison.present? ? incident.prison.name : I18n.t('shared.msgs.not_listed', obj: I18n.t('activerecord.models.prison', count: 1)),
           incident.date_of_release,
           remove_tags(incident.description_of_release)
         ]

@@ -1,7 +1,7 @@
 <%
   model_class = Article
   page_title t('article.public.label', count: 999)
-  page_title_right link_to(t('shared.actions.with_obj.csv_download',
+  page_title_right link_to(t('shared.actions.with_obj.download_data',
                              obj: t('article.public.label', count: 999)),
                            articles_path(format: :csv),
                            class: 'btn btn-default')

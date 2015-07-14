@@ -279,11 +279,11 @@ class Prisoner < ActiveRecord::Base
 
   def currently_imprisoned_status
     if currently_imprisoned
-      'Currently<br/> Imprisoned'
+      I18n.t('prisoner.currently_imprisoned')
     elsif currently_imprisoned == false
-      'Released'
+      I18n.t('prisoner.released')
     else
-      'No Arrest<br/> Information'
+      I18n.t('prisoner.no_arrest_info')
     end
   end
 

@@ -19,7 +19,10 @@ class Tag < ActiveRecord::Base
     require 'csv'
 
     CSV.generate do |csv|
-      csv << %w(Name Description)
+      csv << [
+        I18n.t('activerecord.attributes.tag.name'),
+        I18n.t('activerecord.attributes.tag.description')
+      ]
       all.each do |tag|
         csv << [tag.name, remove_tags(tag.description)]
       end

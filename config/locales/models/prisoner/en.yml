@@ -16,13 +16,13 @@ en:
         one: Prisoner
         other: Prisoners
   prisoner:
-    currently_imprisoned: Currently<br/> Imprisoned
+    currently_imprisoned: Currently Imprisoned
     errors:
       arrest_after_previous_release: Date of arrest must occur after date of release of previous incident
       arrest_after_release: Date of arrest cannot be after date of release
       arrest_before_today: The last incident's date of arrest must be before today
       must_have_release: All incidents but the last must have dates of release
       release_before_today: The last incident's date of release must be before today
-    no_arrest_info: No Arrest<br/> Information
+    no_arrest_info: No Arrest Information
     released: Released
     total_days_in_prison: Total Days in Prison

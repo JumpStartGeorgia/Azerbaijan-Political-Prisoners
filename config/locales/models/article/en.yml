@@ -14,3 +14,7 @@ en:
     errors:
       already_exists_for_criminal_code: already exists for selected Criminal Code; enter new Number or select different Criminal Code
       no_description: No description available
+    public:
+      label:
+        one: Arrest Charge
+        other: Arrest Charges

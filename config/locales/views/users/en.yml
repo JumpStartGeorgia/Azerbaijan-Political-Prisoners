@@ -63,7 +63,7 @@ en:
         change_password: Change my password
         did_not_request: If you didn't request this, please ignore this email.
         greeting: Hello %{email}!
-        intro: Someone has requested a link to change your password. You can do this through the link below.
+        intro: Someone has requested a link to change your password on prisoners.watch. You can do this through the link below.
         password_will_not_change: Your password won't change until you access the link above and create a new one.
     passwords:
       edit:

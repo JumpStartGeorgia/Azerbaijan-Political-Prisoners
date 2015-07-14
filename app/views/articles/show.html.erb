@@ -1,12 +1,12 @@
 <%-
   model_class = Article
   page_title t('.title',
-               arrest_charge: t('articles.single'),
+               arrest_charge: t('article.public.label', count: 1),
                article_number: @article.number,
                code_name: @article.criminal_code.name,
                code_model_name: t('activerecord.models.criminal_code', count: 1))
   page_title_right link_to(t('shared.actions.with_obj.view_all',
-                             obj: t('articles.plural')),
+                             obj: t('article.public.label', count: 999)),
                            articles_path,
                            class: 'btn btn-default')
 -%>
@@ -49,7 +49,7 @@
       <tr>
         <th></th>
         <th><%=t '.column_label.all_people_charged_with_article' %></th>
-        <th><%=t '.column_label.total_days_in_prison' %></th>
+        <th><%=t 'prisoner.total_days_in_prison' %></th>
       </tr>
     </thead>
     <tbody>

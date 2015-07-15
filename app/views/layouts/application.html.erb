@@ -151,7 +151,9 @@
                           <li><%= link_to t('activerecord.models.article', count: 999), articles_path  %></li>
                           <li><%= link_to t('activerecord.models.tag', count: 999), tags_path  %></li>
                           <li><%= link_to t('activerecord.models.criminal_code', count: 999), criminal_codes_path  %></li>
-                          <% if can? :read, Page %><li><%= link_to t('activerecord.models.page', count: 999), pages_path %></li><% end %>
+                          <% if can? :read, PageSection %>
+                            <li><%= link_to t('activerecord.models.page_section', count: 999), page_sections_path %></li>
+                          <% end %>
                           <% if can? :read, User %><li><%= link_to t('activerecord.models.user', count: 999), users_path %></li><% end %>
                           <li class="divider"></li>
                           <li><%= link_to t('.account.edit_profile'), edit_user_registration_path %></li>

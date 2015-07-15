@@ -79,19 +79,19 @@ ActiveRecord::Schema.define(version: 20150715062627) do
   add_index "incidents_tags", ["incident_id"], name: "index_incidents_tags_on_incident_id", using: :btree
   add_index "incidents_tags", ["tag_id"], name: "index_incidents_tags_on_tag_id", using: :btree
 
-  create_table "page_translations", force: :cascade do |t|
-    t.integer  "page_id",    limit: 4,     null: false
-    t.string   "locale",     limit: 255,   null: false
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.string   "title",      limit: 255
-    t.text     "content",    limit: 65535
+  create_table "page_section_translations", force: :cascade do |t|
+    t.integer  "page_section_id", limit: 4,     null: false
+    t.string   "locale",          limit: 255,   null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.string   "title",           limit: 255
+    t.text     "content",         limit: 65535
   end
 
-  add_index "page_translations", ["locale"], name: "index_page_translations_on_locale", using: :btree
-  add_index "page_translations", ["page_id"], name: "index_page_translations_on_page_id", using: :btree
+  add_index "page_section_translations", ["locale"], name: "index_page_section_translations_on_locale", using: :btree
+  add_index "page_section_translations", ["page_section_id"], name: "index_page_section_translations_on_page_section_id", using: :btree
 
-  create_table "pages", force: :cascade do |t|
+  create_table "page_sections", force: :cascade do |t|
     t.string   "name",       limit: 255
     t.string   "title",      limit: 255
     t.text     "content",    limit: 65535

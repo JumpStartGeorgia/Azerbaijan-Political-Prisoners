@@ -1,0 +1,18 @@
+<% model_class = PageSection %>
+<% page_title t('shared.actions.with_obj.edit',
+                obj: t('activerecord.models.page_section', count: 1)) %>
+
+<div class='actions-container'>
+  <%= link_to t('shared.actions.with_obj.view',
+                obj: t("activerecord.models.page_section",
+                       count: 1)),
+              page_section_path(@page_section),
+              class: 'btn btn-default' %>
+  <%= link_to t('shared.actions.with_obj.view_all',
+                obj: t("activerecord.models.page_section",
+                       count: 999)),
+              page_sections_path,
+              class: 'btn btn-default' %>
+</div>
+
+<%= render partial: 'form' %>

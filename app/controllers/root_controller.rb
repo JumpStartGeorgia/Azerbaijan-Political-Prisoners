@@ -14,7 +14,7 @@ class RootController < ApplicationController
   end
 
   def about
-    @about_page = Page.find_by_name('about')
+    @project_description = PageSection.find_by_name('project description')
   end
 
   def methodology

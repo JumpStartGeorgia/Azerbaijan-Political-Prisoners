@@ -61,6 +61,13 @@ class PagesController < ApplicationController
     end
   end
 
+  before_action :set_tinymce_config
+
+  def set_tinymce_config
+    gon.tinymce_config = YAML.load_file('config/tinymce.yml')
+  end
+  private :set_tinymce_config
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_page

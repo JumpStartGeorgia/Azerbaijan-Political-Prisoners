@@ -6,7 +6,7 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Title</th>
+      <th>Label</th>
       <th>Content</th>
       <th colspan="3"></th>
     </tr>
@@ -16,7 +16,7 @@
     <% @page_sections.each do |page_section| %>
       <tr>
         <td><%= page_section.name %></td>
-        <td><%= page_section.title %></td>
+        <td><%= page_section.label %></td>
         <td><%= page_section.content %></td>
         <td><%= link_to 'Show', page_section %></td>
         <td><%= link_to 'Edit', edit_page_section_path(page_section) %></td>

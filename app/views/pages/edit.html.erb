@@ -1,6 +1,22 @@
-<h1>Editing Page</h1>
+<% model_class = Page %>
+<% page_title t('shared.actions.with_obj.edit',
+                obj: t('activerecord.models.page', count: 1)) %>
 
-<%= render 'form' %>
+<div class='actions-container'>
+  <%= link_to t('shared.actions.with_obj.view',
+                obj: t("activerecord.models.#{@page.model_name.singular}",
+                       count: 1)),
+              real_page_path(@page),
+              class: 'btn btn-default' %>
+  <%= link_to t('shared.actions.with_obj.view',
+                obj: t('shared.common.attributes')),
+              page_path(@page),
+              class: 'btn btn-default' %>
+  <%= link_to t('shared.actions.with_obj.view_all',
+                obj: t("activerecord.models.#{@page.model_name.singular}",
+                       count: 999)),
+              pages_path,
+              class: 'btn btn-default' %>
+</div>
 
-<%= link_to 'Show', @page %> |
-<%= link_to 'Back', pages_path %>
+<%= render partial: 'form' %>

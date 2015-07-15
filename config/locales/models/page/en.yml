@@ -1,0 +1,12 @@
+---
+  en:
+    activerecord:
+      attributes:
+        page:
+          name: Unique Name
+          title: Title
+          content: Content
+      models:
+        page:
+          one: Page
+          other: Pages

@@ -2,13 +2,13 @@ class CreatePageSections < ActiveRecord::Migration
   def up
     create_table :page_sections do |t|
       t.string :name
-      t.string :title
+      t.string :label
       t.text :content
 
       t.timestamps null: false
     end
 
-    PageSection.create_translation_table! title: :string, content: :text
+    PageSection.create_translation_table! label: :string, content: :text
   end
 
   def down

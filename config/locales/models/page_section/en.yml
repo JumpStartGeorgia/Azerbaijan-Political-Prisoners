@@ -4,7 +4,7 @@
       attributes:
         page_section:
           name: Unique Name
-          title: Title
+          label: Label
           content: Content
       models:
         page_section:

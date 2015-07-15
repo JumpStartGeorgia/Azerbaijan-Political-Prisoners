@@ -84,7 +84,7 @@ ActiveRecord::Schema.define(version: 20150715062627) do
     t.string   "locale",          limit: 255,   null: false
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
-    t.string   "title",           limit: 255
+    t.string   "label",           limit: 255
     t.text     "content",         limit: 65535
   end
 
@@ -93,7 +93,7 @@ ActiveRecord::Schema.define(version: 20150715062627) do
 
   create_table "page_sections", force: :cascade do |t|
     t.string   "name",       limit: 255
-    t.string   "title",      limit: 255
+    t.string   "label",      limit: 255
     t.text     "content",    limit: 65535
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false

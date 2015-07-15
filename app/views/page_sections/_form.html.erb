@@ -2,7 +2,7 @@
   <%= f.semantic_errors *f.object.errors.keys %>
   <%= f.inputs do %>
     <%= f.input :name %>
-    <%= f.input :title %>
+    <%= f.input :label %>
     <%= f.input :content, input_html: { class: 'tinymce' } %>
   <% end %>
 

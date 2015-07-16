@@ -1,0 +1,5 @@
+---
+en:
+  page_sections:
+    show:
+      title: '%{label}: %{label_value}'

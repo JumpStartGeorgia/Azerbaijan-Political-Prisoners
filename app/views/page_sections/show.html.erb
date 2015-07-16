@@ -1,23 +1,29 @@
 <% show_name = (can? :create, @page_section) ? true : false %>
 
-<p id="notice"><%= notice %></p>
+<%
+page_title t('.title',
+             label: t('activerecord.attributes.page_section.label'),
+             label_value: @page_section.label)
+%>
 
-<% if show_name %>
-  <p>
-    <strong>Name:</strong>
-    <%= @page_section.name %>
-  </p>
-<% end %>
+<div class='actions-container'>
+  <%= render partial: 'shared/show_actions',
+        locals: {
+          object: @page_section,
+          index_path: page_sections_path,
+          show_path: page_section_path,
+          edit_path: edit_page_section_path
+                }
+  %>
+</div>
 
-<p>
-  <strong>Label:</strong>
-  <%= @page_section.label %>
-</p>
-
-<p>
-  <strong>Content:</strong>
-  <%= @page_section.content %>
-</p>
-
-<%= link_to 'Edit', edit_page_section_path(@page_section) %> |
-<%= link_to 'Back', page_sections_path %>
+<dl class="dl-horizontal">
+  <% if show_name %>
+    <dt><strong><%=t 'activerecord.attributes.page_section.name' %>:</strong></dt>
+    <dd><%= @page_section.name %></dd>
+  <% end %>
+  <dt><strong><%=t 'activerecord.attributes.page_section.label' %>:</strong></dt>
+  <dd><%= @page_section.label %></dd>
+  <dt><strong><%=t 'activerecord.attributes.page_section.content' %>:</strong></dt>
+  <dd><%= simple_format_no_tags(@page_section.content) %></dd>
+</dl>

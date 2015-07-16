@@ -1,7 +1,9 @@
 <%= semantic_form_for @page_section do |f| %>
   <%= f.semantic_errors *f.object.errors.keys %>
   <%= f.inputs do %>
-    <%= f.input :name %>
+    <% if can? :create, PageSection %>
+      <%= f.input :name %>
+    <% end %>
     <%= f.input :label %>
     <%= f.input :content, input_html: { class: 'tinymce' } %>
   <% end %>

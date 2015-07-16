@@ -1,9 +1,13 @@
+<% show_name = (can? :create, @page_section) ? true : false %>
+
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @page_section.name %>
-</p>
+<% if show_name %>
+  <p>
+    <strong>Name:</strong>
+    <%= @page_section.name %>
+  </p>
+<% end %>
 
 <p>
   <strong>Label:</strong>

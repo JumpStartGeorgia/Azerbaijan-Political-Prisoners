@@ -9,18 +9,21 @@ class Ability
       can :manage, :all
     elsif user.is? 'site_admin'
       can :manage, content_resources
+      can [:read, :edit, :update], PageSection
       can [:read, :new], User
       can [:edit, :create, :update, :destroy], User, role: { name: 'site_admin' }
       can [:edit, :create, :update, :destroy], User, role: { name: 'content_manager' }
     elsif user.is? 'content_manager'
       can :manage, content_resources
-    else
-      can :read, content_resources
-      can :incidents_to_csv, Prisoner
-      can :prison_prisoner_counts, Prison
-      can :imprisoned_count_timeline, Prisoner
-      can :article_incident_counts, Article
     end
+
+    # Actions everyone can do:
+    can :read, content_resources
+    can :incidents_to_csv, Prisoner
+    can :prison_prisoner_counts, Prison
+    can :imprisoned_count_timeline, Prisoner
+    can :article_incident_counts, Article
+
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)

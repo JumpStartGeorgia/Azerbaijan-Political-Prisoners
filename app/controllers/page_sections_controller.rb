@@ -1,5 +1,6 @@
 class PageSectionsController < ApplicationController
   before_action :set_page_section, only: [:show, :edit, :update, :destroy]
+  authorize_resource
 
   # GET /page_sections
   # GET /page_section.json
@@ -24,7 +25,7 @@ class PageSectionsController < ApplicationController
   # POST /page_sections
   # POST /page_sections.json
   def create
-    @page_section = PageSection.new(page_params)
+    @page_section = PageSection.new(page_section_params)
 
     respond_to do |format|
       if @page_section.save
@@ -41,7 +42,7 @@ class PageSectionsController < ApplicationController
   # PATCH/PUT /page_sections/1.json
   def update
     respond_to do |format|
-      if @page_section.update(page_params)
+      if @page_section.update(page_section_params)
         format.html { redirect_to @page_section, notice: 'Page Section was successfully updated.' }
         format.json { render :show, status: :ok, location: @page_section }
       else
@@ -56,7 +57,7 @@ class PageSectionsController < ApplicationController
   def destroy
     @page_section.destroy
     respond_to do |format|
-      format.html { redirect_to pages_url, notice: 'Page Section was successfully destroyed.' }
+      format.html { redirect_to page_sections_url, notice: 'Page Section was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -76,6 +77,6 @@ class PageSectionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def page_section_params
-      params.require(:page_section).permit(:name, :title, :content)
+      params.require(:page_section).permit(:name, :label, :content)
     end
 end

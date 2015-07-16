@@ -1,37 +1,68 @@
-<% show_name = (can? :create, @page_section) ? true : false %>
+<%
+  model_class = PageSection
+  show_name = (can? :create, @page_section) ? true : false
+  page_title t('activerecord.models.page_section', count: 999)
+%>
 
-<p id="notice"><%= notice %></p>
+<div class='actions-container'>
+  <%= render partial: 'shared/index_actions',
+        locals: {
+          model_class: model_class,
+          new_path: new_page_section_path
+        }
+  %>
+</div>
 
-<h1>Listing Page Sections</h1>
-
-<table>
+<table class='table table-striped table-hover table-nonfluid datatable-admin'>
   <thead>
     <tr>
+      <th></th>
+
       <% if show_name %>
-        <th>Name</th>
+        <th><%=t 'activerecord.attributes.page_section.name' %></th>
       <% end %>
-      <th>Label</th>
-      <th>Content</th>
-      <th colspan="3"></th>
+
+      <th><%=t 'activerecord.attributes.page_section.label' %></th>
+
+      <th><%=t 'activerecord.attributes.page_section.content' %></th>
+
+      <th class='action-col'><%=t 'shared.common.actions' %></th>
     </tr>
   </thead>
 
   <tbody>
     <% @page_sections.each do |page_section| %>
       <tr>
+        <td>
+          <%= link_to t('shared.actions.view'),
+                      page_section,
+                      class: 'btn btn-default' %>
+        </td>
+
         <% if show_name %>
           <td><%= page_section.name %></td>
         <% end %>
+
         <td><%= page_section.label %></td>
-        <td><%= page_section.content %></td>
-        <td><%= link_to 'Show', page_section %></td>
-        <td><%= link_to 'Edit', edit_page_section_path(page_section) %></td>
-        <td><%= link_to 'Destroy', page_section, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
+        <td><%= simple_format_no_tags(page_section.content) %></td>
+
+        <td>
+          <%= if can? :edit, page_section
+                link_to t('shared.actions.edit'),
+                        edit_page_section_path(page_section),
+                        class: 'btn btn-default'
+          end %>
+
+          <%= if can? :destroy, page_section
+                link_to t('shared.actions.destroy'),
+                        page_section,
+                        method: :delete,
+                        data: { confirm: t('shared.prompts.confirm') },
+                        class: 'btn btn-danger'
+          end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Page Section', new_page_section_path %>

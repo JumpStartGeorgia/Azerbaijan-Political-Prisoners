@@ -1,12 +1,12 @@
 ---
-  en:
-    activerecord:
-      attributes:
-        page_section:
-          name: Unique Name
-          label: Label
-          content: Content
-      models:
-        page_section:
-          one: Page Section
-          other: Page Sections
+en:
+  activerecord:
+    attributes:
+      page_section:
+        content: Content
+        label: Label
+        name: Unique Name
+    models:
+      page_section:
+        one: Page Section
+        other: Page Sections

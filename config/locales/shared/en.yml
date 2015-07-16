@@ -18,11 +18,10 @@ en:
         search: Search %{obj}
         update: Update %{obj}
         view: View %{obj}
-        view_page: View %{obj} Page
         view_all: View All %{obj}
+        view_page: View %{obj} Page
     common:
       actions: Actions
-      attributes: Attributes
       description: Azerbaijan's track record on human rights has deteriorated dramatically since 2012. This trend is most evident in the high number of politically motivated arrests, which have targeted human rights defenders, journalists and others. Here you can meet Azerbaijan's political prisoners, and you can explore the scope of Azerbaijan's efforts to stifle freedoms of expression.
       jumpstart:
         slogan: JumpStart Georgia - We communicate data better!

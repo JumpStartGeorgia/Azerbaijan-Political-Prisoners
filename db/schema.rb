@@ -93,10 +93,8 @@ ActiveRecord::Schema.define(version: 20150715062627) do
 
   create_table "page_sections", force: :cascade do |t|
     t.string   "name",       limit: 255
-    t.string   "label",      limit: 255
-    t.text     "content",    limit: 65535
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "prisoners", force: :cascade do |t|

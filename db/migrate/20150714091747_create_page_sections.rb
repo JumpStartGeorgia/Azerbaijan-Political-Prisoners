@@ -2,8 +2,6 @@ class CreatePageSections < ActiveRecord::Migration
   def up
     create_table :page_sections do |t|
       t.string :name
-      t.string :label
-      t.text :content
 
       t.timestamps null: false
     end

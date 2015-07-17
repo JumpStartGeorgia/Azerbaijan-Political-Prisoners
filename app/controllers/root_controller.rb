@@ -1,5 +1,7 @@
 class RootController < ApplicationController
   def index
+    @app_intro = PageSection.find_by_name('app intro')
+
     gon.imprisoned_count_timeline_prisoners_path = imprisoned_count_timeline_prisoners_path
     gon.article_incident_counts_articles_path = article_incident_counts_articles_path
     gon.prison_prisoner_counts_prisons_path = prison_prisoner_counts_prisons_path
@@ -18,9 +20,11 @@ class RootController < ApplicationController
   end
 
   def methodology
+    @methodology = PageSection.find_by_name('methodology')
   end
 
   def disclaimer
+    @disclaimer = PageSection.find_by_name('disclaimer')
   end
 
   def to_csv_zip

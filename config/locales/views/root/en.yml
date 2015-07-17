@@ -6,8 +6,8 @@ en:
       contributor_list_intro: 'The information contained here was researched by:'
       title: About
     disclaimer:
-      title: Disclaimer
       missing_or_incorrect_prompt: 'If you feel that information is missing or incorrect, please contact us at:'
+      title: Disclaimer
     index:
       current_political_prisoners: Azerbaijanis currently imprisoned in Azerbaijan for political reasons
       links:

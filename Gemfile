@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+#####################################################################
+####################### Starter Template ############################
 gem 'rails', '4.2.1'
 gem 'mysql2', '~> 0.3.18'
 gem 'sass-rails', '~> 5.0'
@@ -44,11 +46,16 @@ group :development, :test do
   gem 'capybara-screenshot', '~> 1.0.4'
   gem 'thin', '~> 1.6.3'
   gem 'database_cleaner', '~> 1.3.0'
+  gem 'faker', '~> 1.4.3'
 end
 
 group :staging, :production do
   gem 'puma', '~> 2.11.1'
 end
+
+####################### Starter Template ############################
+#####################################################################
+####################### Prisoners Watch #############################
 
 gem 'cocoon', '~> 1.2.6'
 gem 'gon', '~> 5.2.3'

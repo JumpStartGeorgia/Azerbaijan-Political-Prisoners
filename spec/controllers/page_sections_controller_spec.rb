@@ -19,16 +19,22 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe PageSectionsController, type: :controller do
+  let(:super_admin_role) { FactoryGirl.create(:role, name: 'super_admin') }
+  let(:user) { FactoryGirl.create(:user, role: super_admin_role) }
+
+  before(:example) do
+    sign_in :user, user
+  end
 
   # This should return the minimal set of attributes required to create a valid
   # Page Section. As you add validations to Page Section, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    FactoryGirl.build(:page_section, name: 'app_intro').attributes
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    FactoryGirl.build(:page_section, name: '').attributes
   }
 
   # This should return the minimal set of values that should be in the session
@@ -102,15 +108,16 @@ RSpec.describe PageSectionsController, type: :controller do
 
   describe "PUT update" do
     describe "with valid params" do
+      let(:new_name) { 'project_description' }
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        FactoryGirl.build(:page_section, name: new_name).attributes
       }
 
       it "updates the requested page section" do
         page_section = PageSection.create! valid_attributes
         put :update, {id: page_section.to_param, page_section: new_attributes}, valid_session
         page_section.reload
-        skip("Add assertions for updated state")
+        expect(page_section.name).to eq(new_name)
       end
 
       it "assigns the requested page section as @page_section" do

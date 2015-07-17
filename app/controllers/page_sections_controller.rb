@@ -70,13 +70,14 @@ class PageSectionsController < ApplicationController
   private :set_tinymce_config
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_page_section
-      @page_section = PageSection.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def page_section_params
-      params.require(:page_section).permit(:name, :label, :content)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_page_section
+    @page_section = PageSection.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def page_section_params
+    params.require(:page_section).permit(:name, :label, :content)
+  end
 end

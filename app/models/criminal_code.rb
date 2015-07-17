@@ -17,7 +17,7 @@ class CriminalCode < ActiveRecord::Base
 
   def name_with_model_name
     I18n.t('criminal_codes.show.title',
-      code_model_name: I18n.t('activerecord.models.criminal_code', count: 1),
-      code_name: name)
+           code_model_name: I18n.t('activerecord.models.criminal_code', count: 1),
+           code_name: name)
   end
 end

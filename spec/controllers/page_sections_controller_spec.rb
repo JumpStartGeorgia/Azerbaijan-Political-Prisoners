@@ -29,136 +29,136 @@ RSpec.describe PageSectionsController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # Page Section. As you add validations to Page Section, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
+  let(:valid_attributes) do
     FactoryGirl.build(:page_section, name: 'app_intro').attributes
-  }
+  end
 
-  let(:invalid_attributes) {
+  let(:invalid_attributes) do
     FactoryGirl.build(:page_section, name: '').attributes
-  }
+  end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # PageSectionsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET index" do
-    it "assigns all page sections as @page_sections" do
+  describe 'GET index' do
+    it 'assigns all page sections as @page_sections' do
       page_section = PageSection.create! valid_attributes
       get :index, {}, valid_session
       expect(assigns(:page_sections)).to eq([page_section])
     end
   end
 
-  describe "GET show" do
-    it "assigns the requested page section as @page_section" do
+  describe 'GET show' do
+    it 'assigns the requested page section as @page_section' do
       page_section = PageSection.create! valid_attributes
-      get :show, {id: page_section.to_param}, valid_session
+      get :show, { id: page_section.to_param }, valid_session
       expect(assigns(:page_section)).to eq(page_section)
     end
   end
 
-  describe "GET new" do
-    it "assigns a new page section as @page_section" do
+  describe 'GET new' do
+    it 'assigns a new page section as @page_section' do
       get :new, {}, valid_session
       expect(assigns(:page_section)).to be_a_new(PageSection)
     end
   end
 
-  describe "GET edit" do
-    it "assigns the requested page section as @page_section" do
+  describe 'GET edit' do
+    it 'assigns the requested page section as @page_section' do
       page_section = PageSection.create! valid_attributes
-      get :edit, {id: page_section.to_param}, valid_session
+      get :edit, { id: page_section.to_param }, valid_session
       expect(assigns(:page_section)).to eq(page_section)
     end
   end
 
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new page section" do
-        expect {
-          post :create, {page_section: valid_attributes}, valid_session
-        }.to change(PageSection, :count).by(1)
+  describe 'POST create' do
+    describe 'with valid params' do
+      it 'creates a new page section' do
+        expect do
+          post :create, { page_section: valid_attributes }, valid_session
+        end.to change(PageSection, :count).by(1)
       end
 
-      it "assigns a newly created page_section as @page_section" do
-        post :create, {page_section: valid_attributes}, valid_session
+      it 'assigns a newly created page_section as @page_section' do
+        post :create, { page_section: valid_attributes }, valid_session
         expect(assigns(:page_section)).to be_a(PageSection)
         expect(assigns(:page_section)).to be_persisted
       end
 
-      it "redirects to the created page section" do
-        post :create, {page_section: valid_attributes}, valid_session
+      it 'redirects to the created page section' do
+        post :create, { page_section: valid_attributes }, valid_session
         expect(response).to redirect_to(PageSection.last)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved page section as @page_section" do
-        post :create, {page_section: invalid_attributes}, valid_session
+    describe 'with invalid params' do
+      it 'assigns a newly created but unsaved page section as @page_section' do
+        post :create, { page_section: invalid_attributes }, valid_session
         expect(assigns(:page_section)).to be_a_new(PageSection)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {page_section: invalid_attributes}, valid_session
-        expect(response).to render_template("new")
+        post :create, { page_section: invalid_attributes }, valid_session
+        expect(response).to render_template('new')
       end
     end
   end
 
-  describe "PUT update" do
-    describe "with valid params" do
+  describe 'PUT update' do
+    describe 'with valid params' do
       let(:new_name) { 'project_description' }
-      let(:new_attributes) {
+      let(:new_attributes) do
         FactoryGirl.build(:page_section, name: new_name).attributes
-      }
+      end
 
-      it "updates the requested page section" do
+      it 'updates the requested page section' do
         page_section = PageSection.create! valid_attributes
-        put :update, {id: page_section.to_param, page_section: new_attributes}, valid_session
+        put :update, { id: page_section.to_param, page_section: new_attributes }, valid_session
         page_section.reload
         expect(page_section.name).to eq(new_name)
       end
 
-      it "assigns the requested page section as @page_section" do
+      it 'assigns the requested page section as @page_section' do
         page_section = PageSection.create! valid_attributes
-        put :update, {id: page_section.to_param, page_section: valid_attributes}, valid_session
+        put :update, { id: page_section.to_param, page_section: valid_attributes }, valid_session
         expect(assigns(:page_section)).to eq(page_section)
       end
 
-      it "redirects to the page section" do
+      it 'redirects to the page section' do
         page_section = PageSection.create! valid_attributes
-        put :update, {id: page_section.to_param, page_section: valid_attributes}, valid_session
+        put :update, { id: page_section.to_param, page_section: valid_attributes }, valid_session
         expect(response).to redirect_to(page_section)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns the page section as @page_section" do
+    describe 'with invalid params' do
+      it 'assigns the page section as @page_section' do
         page_section = PageSection.create! valid_attributes
-        put :update, {id: page_section.to_param, page_section: invalid_attributes}, valid_session
+        put :update, { id: page_section.to_param, page_section: invalid_attributes }, valid_session
         expect(assigns(:page_section)).to eq(page_section)
       end
 
       it "re-renders the 'edit' template" do
         page_section = PageSection.create! valid_attributes
-        put :update, {id: page_section.to_param, page_section: invalid_attributes}, valid_session
-        expect(response).to render_template("edit")
+        put :update, { id: page_section.to_param, page_section: invalid_attributes }, valid_session
+        expect(response).to render_template('edit')
       end
     end
   end
 
-  describe "DELETE destroy" do
-    it "destroys the requested page section" do
+  describe 'DELETE destroy' do
+    it 'destroys the requested page section' do
       page_section = PageSection.create! valid_attributes
-      expect {
-        delete :destroy, {id: page_section.to_param}, valid_session
-      }.to change(PageSection, :count).by(-1)
+      expect do
+        delete :destroy, { id: page_section.to_param }, valid_session
+      end.to change(PageSection, :count).by(-1)
     end
 
-    it "redirects to the page sections list" do
+    it 'redirects to the page sections list' do
       page_section = PageSection.create! valid_attributes
-      delete :destroy, {id: page_section.to_param}, valid_session
+      delete :destroy, { id: page_section.to_param }, valid_session
       expect(response).to redirect_to(page_sections_url)
     end
   end

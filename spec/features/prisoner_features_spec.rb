@@ -26,6 +26,9 @@ RSpec.describe 'Prisoner', type: :feature do
   end
 
   it 'can be created using new form and then updated using edit form', js: true do
+    # Home page requires app_intro page section
+    FactoryGirl.create(:page_section, name: 'app_intro')
+
     FactoryGirl.create(:prison, name: 'prison#1')
     FactoryGirl.create(:article, number: 'article#1')
     FactoryGirl.create(:article, number: 'article#2')

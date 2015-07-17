@@ -3,10 +3,6 @@ module ApplicationHelper
     content_for(:page_title) { page_title.html_safe }
   end
 
-  def page_subtitle(page_subtitle)
-    content_for(:page_subtitle) { page_subtitle.html_safe }
-  end
-
   def page_title_right(page_title_right)
     content_for(:page_title_right) { page_title_right.html_safe }
   end

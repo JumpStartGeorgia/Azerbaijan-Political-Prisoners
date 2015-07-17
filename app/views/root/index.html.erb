@@ -9,7 +9,7 @@
         <%=t '.current_political_prisoners' %>
       </div>
       <div class="descr">
-        <%= @app_intro.content %>
+        <%= simple_format_no_tags(@app_intro.content) %>
       </div>
     </div>
   </div>

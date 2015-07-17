@@ -1,6 +1,8 @@
 <% page_title t('.title') %>
 
-<p>The information and data in this site is a work in progress. It is constantly being updated and challenged according to <a href="/en/methdology">PACE’s definition of a political prisoner</a>. If you feel that information is missing or incorrect, please contact us at:</p>
+<%= simple_format_no_tags(@disclaimer.content) %>
+
+<p><%=t '.missing_or_incorrect_prompt' %></p>
 
 <p>
   <a href='ma&#105;l&#116;o&#58;info%40p%72ison%&#54;5rs&#46;w&#97;t%&#54;3h'>

@@ -1,6 +1,6 @@
 class RootController < ApplicationController
   def index
-    @app_intro = PageSection.find_by_name('app intro')
+    @app_intro = PageSection.find_by_name('app_intro')
 
     gon.imprisoned_count_timeline_prisoners_path = imprisoned_count_timeline_prisoners_path
     gon.article_incident_counts_articles_path = article_incident_counts_articles_path
@@ -16,7 +16,7 @@ class RootController < ApplicationController
   end
 
   def about
-    @project_description = PageSection.find_by_name('project description')
+    @project_description = PageSection.find_by_name('project_description')
   end
 
   def methodology

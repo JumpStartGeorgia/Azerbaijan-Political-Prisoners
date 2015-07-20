@@ -22,7 +22,7 @@ function prison_prisoner_counts_chart() {
                     useHTML: true
                 },
                 subtitle: {
-                    text: '<a href="' + gon.prisons_path + '">' + text.explore_prisons + '</a>',
+                    text: '<a href="' + text.prisons_path + '">' + text.explore_prisons + '</a>',
                     useHTML: true
                 },
                 yAxis: {

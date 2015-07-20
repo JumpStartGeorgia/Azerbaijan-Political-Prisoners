@@ -31,7 +31,12 @@ class Article < ActiveRecord::Base
     require 'csv'
 
     CSV.generate do |csv|
-      csv << ['Number', 'Criminal Code', 'Description']
+      csv << [
+        I18n.t('activerecord.attributes.article.name'),
+        I18n.t('activerecord.attributes.article.criminal_code'),
+        I18n.t('activerecord.attributes.article.description')
+      ]
+
       all.includes(:criminal_code)
         .order(criminal_code_id: :asc, number: :asc).each do |article|
         csv << [article.number,

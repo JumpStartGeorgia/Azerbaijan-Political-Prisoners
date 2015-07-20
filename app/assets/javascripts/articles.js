@@ -47,11 +47,7 @@ function article_incident_counts_chart() {
                 },
                 tooltip: {
                     formatter: function() {
-                      var info = 'Article <strong>#' + this.point.number + '</strong> (' + this.point.code + ' Criminal Code) — <strong>' + this.point.y + '</strong> sentences';
-
-                      if (this.point.description) {
-                        info = info + ' — ' + this.point.description;
-                      }
+                      var info = this.point.summary;
 
                       return info;
                     },

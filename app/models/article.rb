@@ -64,7 +64,7 @@ class Article < ActiveRecord::Base
     I18n.t('article.incident_counts_chart')
   end
 
-  def self.article_incident_counts_chart
+  def self.incident_counts_chart_data
     article_info = []
 
     Article.incident_counts_ordered(10).each do |article|
@@ -75,12 +75,14 @@ class Article < ActiveRecord::Base
                           description: article.desc)
     end
 
+    article_info
+  end
+
+  def self.incident_counts_chart
     chart_data = {
-      data: article_info,
+      data: incident_counts_chart_data,
       text: incident_counts_chart_text
     }
-
-    chart_data
   end
 
   def self.generate_highest_incident_counts_chart_json
@@ -89,7 +91,7 @@ class Article < ActiveRecord::Base
     # if folder path not exist, create it
     FileUtils.mkpath(dir_path) unless File.exist?(dir_path)
     File.open(json_path, 'w') do |f|
-      f.write(article_incident_counts_chart.to_json)
+      f.write(incident_counts_chart.to_json)
     end
   end
 

@@ -6,7 +6,6 @@ class RootController < ApplicationController
     gon.article_incident_counts_articles_path = article_incident_counts_articles_path
     gon.prison_prisoner_counts_prisons_path = prison_prisoner_counts_prisons_path
     gon.prisoners_path = prisoners_path
-    gon.articles_path = articles_path
 
     @featured_prisoner = Prisoner.where(currently_imprisoned: true).offset(rand(Prisoner.where(currently_imprisoned: true).count)).first
     @featured_prisoner_inc = (@featured_prisoner.blank?) || (@featured_prisoner.incidents.blank?) ? nil : @featured_prisoner.incidents.last

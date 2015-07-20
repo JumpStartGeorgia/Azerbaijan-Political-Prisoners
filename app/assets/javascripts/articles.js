@@ -22,7 +22,7 @@ function article_incident_counts_chart() {
                     useHTML: true
                 },
                 subtitle: {
-                    text: '<a href="' + gon.articles_path + '">' + text.explore_charges + '</a>',
+                    text: '<a href="' + text.articles_path + '">' + text.explore_charges + '</a>',
                     useHTML: true
                 },
                 yAxis: {

@@ -88,10 +88,17 @@ class Article < ActiveRecord::Base
     article_info
   end
 
+  def self.incident_counts_chart_text
+    text = I18n.t('article.incident_counts_chart')
+    text['articles_path'] = Rails.application.routes.url_helpers.
+                              articles_path(locale: I18n.locale)
+    text
+  end
+
   def self.incident_counts_chart
     chart_data = {
       data: incident_counts_chart_data,
-      text: I18n.t('article.incident_counts_chart')
+      text: incident_counts_chart_text
     }
   end
 

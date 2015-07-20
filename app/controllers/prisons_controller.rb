@@ -97,7 +97,6 @@ class PrisonsController < ApplicationController
 
     require 'json'
     file = JSON.parse File.read(Rails.public_path.join('system', 'json', 'prison_prisoner_count_chart.json'))
-    file.each { |item| item['description'] = view_context.strip_tags(item['description']) }
 
     respond_to do |format|
       format.json { render json: File.read(Rails.public_path.join('system', 'json', 'prison_prisoner_count_chart.json')) }

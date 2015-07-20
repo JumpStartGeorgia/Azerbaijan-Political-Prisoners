@@ -10,26 +10,29 @@ function prison_prisoner_counts_chart() {
         async: true,
         dataType: 'json',
         success: function (response) {
+            data = response.data
+            text = response.text
+
             $('#prison-prisoner-counts').highcharts({
                 chart: {
                     type: 'bar'
                 },
                 title: {
-                    text: 'Where are the prisoners being held?',
+                    text: text.title,
                     useHTML: true
                 },
                 subtitle: {
-                    text: '<a href="' + gon.prisons_path + '">Click here to explore prisons</a>',
+                    text: '<a href="' + gon.prisons_path + '">' + text.explore_prisons + '</a>',
                     useHTML: true
                 },
                 yAxis: {
                     title: {
-                        text: 'Number of Prisoners'
+                        text: text.number_prisoners
                     },
                     allowDecimals: false
                 },
                 xAxis: {
-                    categories: response,
+                    categories: data,
                     labels: {
                         formatter: function() {
                             return '<a href="' + this.value.link + '">' + this.value.name + '</a>';
@@ -54,9 +57,9 @@ function prison_prisoner_counts_chart() {
                     style: { padding: '1px' }
                 },
                 series: [{
-                    name: 'Number of Prisoners',
+                    name: text.number_prisoners,
                     showInLegend: false,
-                    data: response
+                    data: data
                 }]
             });
         }

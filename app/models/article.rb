@@ -46,10 +46,6 @@ class Article < ActiveRecord::Base
     end
   end
 
-  def self.incident_counts_chart_text
-    I18n.t('article.incident_counts_chart')
-  end
-
   def self.incident_counts_ordered(limit = nil)
     primary_sql = 'select articles.id as article_id, articles.slug as slug,
       articles.number as article_number,
@@ -70,14 +66,13 @@ class Article < ActiveRecord::Base
   end
 
   def summary
-    summary =
-      I18n.t('article.incident_counts_chart.summary',
-             article_number: "<strong>##{article_number}</strong>",
-             code_name: criminal_code_name,
-             code_label: I18n.t('activerecord.models.criminal_code',
-                                count: 1),
-             number_of_incidents: "<strong>#{incident_count.to_s}</strong>",
-             article_desc: desc)
+    I18n.t('article.incident_counts_chart.summary',
+           article_number: "<strong>##{article_number}</strong>",
+           code_name: criminal_code_name,
+           code_label: I18n.t('activerecord.models.criminal_code',
+                              count: 1),
+           number_of_incidents: "<strong>#{incident_count.to_s}</strong>",
+           article_desc: desc)
   end
 
   def self.incident_counts_chart_data
@@ -96,7 +91,7 @@ class Article < ActiveRecord::Base
   def self.incident_counts_chart
     chart_data = {
       data: incident_counts_chart_data,
-      text: incident_counts_chart_text
+      text: I18n.t('article.incident_counts_chart')
     }
   end
 

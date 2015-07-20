@@ -51,16 +51,29 @@ class Prison < ActiveRecord::Base
 
   private
 
-  def self.current_prisoner_counts
+  def summary
+    
+  end
+
+  def self.current_prisoner_counts_data
     prisons = []
 
     current_prisoner_counts_sql(10).each do |prison_prisoner_count|
       prisons.append(y: prison_prisoner_count[:prisoner_count],
                      name: prison_prisoner_count[:prison_name],
-                     link: "/#{I18n.locale}/prisons/#{prison_prisoner_count[:slug]}")
+                     link: "/#{I18n.locale}/prisons/#{prison_prisoner_count[:slug]}",
+                     summary: prison_prisoner_count.summary)
     end
 
     prisons
+  end
+
+
+  def self.current_prisoner_counts
+    {
+      data: current_prisoner_counts_data,
+      text: I18n.t('prison.current_prisoner_count_chart')
+    }
   end
 
   def self.current_prisoner_counts_sql(limit = nil)

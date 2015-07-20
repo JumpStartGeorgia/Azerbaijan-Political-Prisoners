@@ -18,3 +18,5 @@ en:
       label:
         one: Arrest Charge
         other: Arrest Charges
+    incident_counts_chart:
+      title: 'What are the charges?'

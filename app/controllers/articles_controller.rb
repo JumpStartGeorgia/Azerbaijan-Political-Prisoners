@@ -100,7 +100,6 @@ class ArticlesController < ApplicationController
 
     require 'json'
     file = JSON.parse File.read(Rails.public_path.join('system', 'json', 'article_incident_counts_chart.json'))
-    file.each { |item| item['description'] = view_context.strip_tags(item['description']) }
 
     respond_to do |format|
       format.json { render json: file }

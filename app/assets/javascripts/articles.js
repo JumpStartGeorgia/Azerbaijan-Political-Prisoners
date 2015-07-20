@@ -15,7 +15,7 @@ function article_incident_counts_chart() {
                     type: 'bar'
                 },
                 title: {
-                    text: 'What are the charges?',
+                    text: response.text.title,
                     useHTML: true
                 },
                 subtitle: {
@@ -29,7 +29,7 @@ function article_incident_counts_chart() {
                     allowDecimals: false
                 },
                 xAxis: {
-                    categories: response,
+                    categories: response.data,
                     title: {
                         text: 'Article Number'
                     },
@@ -58,7 +58,7 @@ function article_incident_counts_chart() {
                 series: [{
                     name: 'Number of Sentences',
                     showInLegend: false,
-                    data: response
+                    data: response.data
                 }]
             });
         }

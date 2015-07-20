@@ -60,6 +60,12 @@ class Article < ActiveRecord::Base
     end
   end
 
+  def self.incident_counts_chart_text
+    {
+      title: I18n.t('article.incident_counts_chart.title')
+    }
+  end
+
   def self.article_incident_counts_chart
     article_info = []
 
@@ -68,10 +74,15 @@ class Article < ActiveRecord::Base
                           number: article[:article_number],
                           link: "/#{I18n.locale}/articles/#{article[:slug]}",
                           code: article[:criminal_code_name],
-                          description: article[:description])
+                          description: article.desc)
     end
 
-    article_info
+    chart_data = {
+      data: article_info,
+      text: incident_counts_chart_text
+    }
+
+    chart_data
   end
 
   def self.generate_highest_incident_counts_chart_json

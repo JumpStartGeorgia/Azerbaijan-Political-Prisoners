@@ -49,11 +49,15 @@ class Prison < ActiveRecord::Base
     find_by_sql([sql, prison_id])
   end
 
-  private
-
   def summary
-    
+    I18n.t('prison.current_prisoner_count_chart.summary',
+           number_prisoners: "<strong>#{prisoner_count.to_s}</strong>",
+           prison_name: "<strong>#{prison_name}</strong>",
+           count: prisoner_count
+    )
   end
+
+  private
 
   def self.current_prisoner_counts_data
     prisons = []

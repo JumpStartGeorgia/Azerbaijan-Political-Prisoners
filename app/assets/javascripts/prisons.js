@@ -45,13 +45,7 @@ function prison_prisoner_counts_chart() {
                 },
                 tooltip: {
                     formatter: function() {
-                        var prisoner_count = this.point.y;
-                        if ( prisoner_count == '1' ) {
-                            return 'There is <strong>' + this.point.y + '</strong> political prisoner at <strong>' + this.point.name + '</strong>'
-                        }
-                        else {
-                            return 'There are <strong>' + this.point.y + '</strong> political prisoners at <strong>' + this.point.name + '</strong>'
-                        }
+                        return this.point.summary;
                     },
                     useHTML: true,
                     style: { padding: '1px' }

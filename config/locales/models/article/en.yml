@@ -19,4 +19,7 @@ en:
         one: Arrest Charge
         other: Arrest Charges
     incident_counts_chart:
-      title: 'What are the charges?'
+      title: What are the charges?
+      explore_charges: Click here to explore charges
+      y_axis_label: Number of Sentences
+      x_axis_label: Article Number

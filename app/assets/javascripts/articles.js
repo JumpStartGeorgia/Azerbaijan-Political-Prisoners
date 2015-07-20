@@ -10,28 +10,31 @@ function article_incident_counts_chart() {
         async: true,
         dataType: 'json',
         success: function (response) {
+            var text = response.text
+            var data = response.data
+
             $('#top-10-charge-counts').highcharts({
                 chart: {
                     type: 'bar'
                 },
                 title: {
-                    text: response.text.title,
+                    text: text.title,
                     useHTML: true
                 },
                 subtitle: {
-                    text: '<a href="' + gon.articles_path + '">Click here to explore charges</a>',
+                    text: '<a href="' + gon.articles_path + '">' + text.explore_charges + '</a>',
                     useHTML: true
                 },
                 yAxis: {
                     title: {
-                        text: 'Number of Sentences'
+                        text: text.y_axis_label
                     },
                     allowDecimals: false
                 },
                 xAxis: {
-                    categories: response.data,
+                    categories: data,
                     title: {
-                        text: 'Article Number'
+                        text: text.x_axis_label
                     },
                     labels: {
                         formatter: function() {
@@ -56,9 +59,9 @@ function article_incident_counts_chart() {
                     style: { padding: '1px' }
                 },
                 series: [{
-                    name: 'Number of Sentences',
+                    name: text.y_axis_label,
                     showInLegend: false,
-                    data: response.data
+                    data: data
                 }]
             });
         }

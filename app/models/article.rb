@@ -61,9 +61,7 @@ class Article < ActiveRecord::Base
   end
 
   def self.incident_counts_chart_text
-    {
-      title: I18n.t('article.incident_counts_chart.title')
-    }
+    I18n.t('article.incident_counts_chart')
   end
 
   def self.article_incident_counts_chart

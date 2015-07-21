@@ -51,6 +51,15 @@ function imprisonedCountTimeline() {
     async: true,
     dataType: "json",
     success: function (response) {
+      data = response.data
+      text = response.text
+
+      Highcharts.setOptions({
+        lang: {
+          contextButtonTitle: text.highcharts.context_title
+        }
+      });
+
       $(function () {
         $("#imprisoned-count-timeline").highcharts({
           chart: {
@@ -66,11 +75,11 @@ function imprisonedCountTimeline() {
             }
           },
           title: {
-            text: "How has the number of political prisoners changed over time?",
+            text: text.title,
             useHTML: true
           },
           subtitle: {
-            text: "<a href=\"" + gon.prisoners_path + "\">Click here to explore prisoners</a>",
+            text: "<a href=\"" + text.prisoners_path + "\">" + text.explore_prisoners + "</a>",
             useHTML: true
           },
           xAxis: {
@@ -79,7 +88,7 @@ function imprisonedCountTimeline() {
           },
           yAxis: {
             title: {
-              text: "Number of Political Prisoners"
+              text: text.number_prisoners
             },
             min: 0,
             allowDecimals: false
@@ -99,10 +108,42 @@ function imprisonedCountTimeline() {
             style: { padding: "1px" }
           },
           series: [{
-            name: "Number of Political Prisoners",
+            name: text.number_prisoners,
             showInLegend: false,
-            data: response
-          }]
+            data: data
+          }],
+          exporting: {
+            buttons: {
+              contextButton: {
+                menuItems: [
+                  {
+                    text: text.highcharts.png,
+                    onclick: function () {
+                      this.exportChart({type: 'image/png'});
+                    }
+                  },
+                  {
+                    text: text.highcharts.jpg,
+                    onclick: function () {
+                      this.exportChart({type: 'image/jpeg'});
+                    }
+                  },
+                  {
+                    text: text.highcharts.pdf,
+                    onclick: function () {
+                      this.exportChart({type: 'application/pdf'});
+                    }
+                  },
+                  {
+                    text: text.highcharts.svg,
+                    onclick: function () {
+                      this.exportChart({type: 'image/svg+xml'});
+                    }
+                  }
+                ]
+              }
+            }
+          }
         });
       });
     }

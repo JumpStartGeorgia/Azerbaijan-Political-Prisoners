@@ -26,3 +26,10 @@ en:
     no_arrest_info: No Arrest Information
     released: Released
     total_days_in_prison: Total Days in Prison
+    imprisoned_count_timeline:
+      title: How has the number of political prisoners changed over time?
+      explore_prisoners: Click here to explore prisoners
+      number_prisoners: Number of Political Prisoners
+      summary:
+        one: There was one political prisoner in Azerbaijan on %{date}.
+        other: There were %{number_prisoners} political prisoners in Azerbaijan on %{date}.

@@ -187,6 +187,20 @@ class Prisoner < ActiveRecord::Base
   end
 
   # Imprisoned count timeline
+  def self.imprisoned_count_timeline_text
+    text = I18n.t('prisoner.imprisoned_count_timeline')
+    text['prisoners_path'] = Rails.application.routes.url_helpers.prisoners_path(locale: I18n.locale)
+    text['highcharts'] = I18n.t('highcharts')
+    text
+  end
+
+  def self.imprisoned_count_timeline
+    {
+      data: imprisoned_counts_from_date_to_date(Date.new(2012, 01, 01),
+                                                Date.today),
+      text: imprisoned_count_timeline_text
+    }
+  end
 
   def self.generate_imprisoned_count_timeline_json
     dir_path = Rails.public_path.join('system', 'json')
@@ -194,7 +208,7 @@ class Prisoner < ActiveRecord::Base
     # if folder path not exist, create it
     FileUtils.mkpath(dir_path) unless File.exist?(dir_path)
     File.open(json_path, 'w') do |f|
-      f.write(imprisoned_counts_from_date_to_date(Date.new(2012, 01, 01), Date.today).to_json)
+      f.write(imprisoned_count_timeline.to_json)
     end
   end
 

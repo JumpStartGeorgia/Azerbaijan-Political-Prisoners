@@ -10,8 +10,8 @@ function prison_prisoner_counts_chart() {
         async: true,
         dataType: 'json',
         success: function (response) {
-            data = response.data
-            text = response.text
+            data = response.data;
+            text = response.text;
 
             $('#prison-prisoner-counts').highcharts({
                 chart: {

@@ -10,8 +10,8 @@ function article_incident_counts_chart() {
         async: true,
         dataType: 'json',
         success: function (response) {
-            var text = response.text
-            var data = response.data
+            var text = response.text;
+            var data = response.data;
 
             Highcharts.setOptions({
               lang: {

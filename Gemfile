@@ -73,3 +73,4 @@ gem 'will_paginate-bootstrap', '~> 1.0.1' # pagination
 gem 'friendly_id', '~> 5.1.0' # permalinks
 gem 'i18n-tasks', '~> 0.8.3' # finds unused and missing translations
 gem 'globalize', '~> 5.0.0' # translations of data in database
+gem 'globalize-accessors', '~> 0.2.1' # makes translation forms easier

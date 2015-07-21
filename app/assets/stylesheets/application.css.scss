@@ -226,3 +226,15 @@ table.datatable td, table.datatable-admin td{
 #show-counts{
   margin-bottom: 4em;
 }
+
+/* styling of translation form */
+form {
+  .form-translation-tabs{
+
+  }
+  .form-translation-content .tab-pane{
+    border-left: 1px solid #dddddd;
+    padding-left: 15px;
+    padding-top: 15px;
+  }
+}

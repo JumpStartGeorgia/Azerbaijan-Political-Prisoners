@@ -43,3 +43,6 @@ en:
       confirm: Are you sure?
       create_in_dropdown: If the %{obj} does not yet exist in the dropdown, create it here.
       forgot_password: Forgot your password?
+    locale:
+      en: English
+      az: Azərbaycan

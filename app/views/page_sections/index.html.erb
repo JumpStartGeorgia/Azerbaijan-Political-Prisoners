@@ -24,8 +24,6 @@
 
       <th><%=t 'activerecord.attributes.page_section.label' %></th>
 
-      <th><%=t 'activerecord.attributes.page_section.content' %></th>
-
       <th class='action-col'><%=t 'shared.common.actions' %></th>
     </tr>
   </thead>
@@ -44,8 +42,6 @@
         <% end %>
 
         <td><%= page_section.label %></td>
-
-        <td><%= simple_format_no_tags(page_section.content) %></td>
 
         <td>
           <%= if can? :edit, page_section

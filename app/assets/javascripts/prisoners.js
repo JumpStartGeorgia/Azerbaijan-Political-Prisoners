@@ -51,8 +51,8 @@ function imprisonedCountTimeline() {
     async: true,
     dataType: "json",
     success: function (response) {
-      data = response.data
-      text = response.text
+      var data = response.data;
+      var text = response.text;
 
       Highcharts.setOptions({
         lang: {
@@ -95,7 +95,20 @@ function imprisonedCountTimeline() {
           },
           tooltip: {
             formatter: function() {
-              return this.point.date_summary;
+              var summary = '';
+              var prisonerCount = this.point.y;
+              var date = Highcharts.dateFormat(text.date_format, new Date(this.point.x));
+
+              if (prisonerCount === '1') {
+                summary = text.date_summary.one;
+              } else {
+                summary = text.date_summary.other;
+              }
+
+              summary = summary.replace('%{number_prisoners}','<strong>' + prisonerCount + '</strong>');
+              summary = summary.replace('%{date}','<strong>' + date + '</strong>');
+
+              return summary;
             },
             useHTML: true,
             style: { padding: "1px" }
@@ -103,7 +116,8 @@ function imprisonedCountTimeline() {
           series: [{
             name: text.number_prisoners,
             showInLegend: false,
-            data: data
+            data: data,
+            turboThreshold: 0
           }],
           exporting: {
             buttons: {

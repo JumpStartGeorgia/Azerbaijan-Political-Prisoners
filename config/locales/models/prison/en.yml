@@ -11,9 +11,10 @@ en:
         other: Prisons
   prison:
     current_prisoner_count_chart:
-      title: Where are the prisoners being held?
-      explore_prisons: Click here to explore prisons
-      number_prisoners: Number of Prisoners
+      static_text:
+        title: Where are the prisoners being held?
+        explore_prisons: Click here to explore prisons
+        number_prisoners: Number of Prisoners
       summary:
         one: There is one political prisoner at %{prison_name}.
         other: There are %{number_prisoners} political prisoners at %{prison_name}.

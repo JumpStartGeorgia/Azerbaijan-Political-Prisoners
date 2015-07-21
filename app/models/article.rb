@@ -89,7 +89,7 @@ class Article < ActiveRecord::Base
   end
 
   def self.incident_counts_chart_text
-    text = I18n.t('article.incident_counts_chart')
+    text = I18n.t('article.incident_counts_chart.static_text')
     text['articles_path'] = Rails.application.routes.url_helpers.
                               articles_path(locale: I18n.locale)
     text['highcharts'] = I18n.t('highcharts')

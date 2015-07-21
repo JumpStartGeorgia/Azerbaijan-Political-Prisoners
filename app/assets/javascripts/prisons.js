@@ -13,6 +13,12 @@ function prison_prisoner_counts_chart() {
             data = response.data;
             text = response.text;
 
+            Highcharts.setOptions({
+              lang: {
+                contextButtonTitle: text.highcharts.context_title
+              }
+            });
+
             $('#prison-prisoner-counts').highcharts({
                 chart: {
                     type: 'bar'
@@ -54,7 +60,39 @@ function prison_prisoner_counts_chart() {
                     name: text.number_prisoners,
                     showInLegend: false,
                     data: data
-                }]
+                }],
+                exporting: {
+                  buttons: {
+                    contextButton: {
+                      menuItems: [
+                        {
+                          text: text.highcharts.png,
+                          onclick: function () {
+                              this.exportChart({type: 'image/png'});
+                          }
+                        },
+                        {
+                          text: text.highcharts.jpg,
+                          onclick: function () {
+                              this.exportChart({type: 'image/jpeg'});
+                          }
+                        },
+                        {
+                          text: text.highcharts.pdf,
+                          onclick: function () {
+                              this.exportChart({type: 'application/pdf'});
+                          }
+                        },
+                        {
+                          text: text.highcharts.svg,
+                          onclick: function () {
+                              this.exportChart({type: 'image/svg+xml'});
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
             });
         }
     });

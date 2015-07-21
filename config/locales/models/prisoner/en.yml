@@ -30,6 +30,6 @@ en:
       title: How has the number of political prisoners changed over time?
       explore_prisoners: Click here to explore prisoners
       number_prisoners: Number of Political Prisoners
-      summary:
-        one: There was one political prisoner in Azerbaijan on %{date}.
+      date_summary:
+        one: There was %{number_prisoners} political prisoner in Azerbaijan on %{date}.
         other: There were %{number_prisoners} political prisoners in Azerbaijan on %{date}.

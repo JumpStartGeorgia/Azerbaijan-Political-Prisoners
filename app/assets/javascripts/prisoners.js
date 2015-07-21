@@ -95,14 +95,7 @@ function imprisonedCountTimeline() {
           },
           tooltip: {
             formatter: function() {
-              var prisonerCount = this.point.y;
-              var date = Highcharts.dateFormat("%A, %b %e, %Y", new Date(this.point.x));
-              if ( prisonerCount === "1" ) {
-                  return "There was <strong>" + prisonerCount + "</strong> political prisoner in Azerbaijan on <strong>" + date + "</strong>";
-              }
-              else {
-                  return "There were <strong>" + prisonerCount + "</strong> political prisoners in Azerbaijan on <strong>" + date + "</strong>";
-              }
+              return this.point.date_summary;
             },
             useHTML: true,
             style: { padding: "1px" }

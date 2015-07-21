@@ -187,6 +187,7 @@ class Prisoner < ActiveRecord::Base
   end
 
   # Imprisoned count timeline
+
   def self.imprisoned_count_timeline_text
     text = I18n.t('prisoner.imprisoned_count_timeline')
     text['prisoners_path'] = Rails.application.routes.url_helpers.prisoners_path(locale: I18n.locale)
@@ -210,6 +211,14 @@ class Prisoner < ActiveRecord::Base
     File.open(json_path, 'w') do |f|
       f.write(imprisoned_count_timeline.to_json)
     end
+  end
+
+  def self.date_summary(date, imprisoned_count)
+    I18n.t('prisoner.imprisoned_count_timeline.date_summary',
+           number_prisoners: "<strong>#{imprisoned_count}</strong>",
+           date: "<strong>#{I18n.l(date, format: I18n.t('date.formats.full'))}</strong>",
+           count: imprisoned_count
+    )
   end
 
   def self.imprisoned_counts_from_date_to_date(starting_date, ending_date)
@@ -265,7 +274,11 @@ class Prisoner < ActiveRecord::Base
         end
       end
 
-      dates_and_counts.append([convert_date_to_utc(date), imprisoned_count])
+      dates_and_counts.append(
+        x: convert_date_to_utc(date),
+        y: imprisoned_count,
+        date_summary: date_summary(date, imprisoned_count)
+      )
     end
 
     dates_and_counts

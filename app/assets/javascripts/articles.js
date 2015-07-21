@@ -13,6 +13,12 @@ function article_incident_counts_chart() {
             var text = response.text
             var data = response.data
 
+            Highcharts.setOptions({
+              lang: {
+                contextButtonTitle: text.highcharts.context_title
+              }
+            });
+
             $('#top-10-charge-counts').highcharts({
                 chart: {
                     type: 'bar'
@@ -58,7 +64,39 @@ function article_incident_counts_chart() {
                     name: text.y_axis_label,
                     showInLegend: false,
                     data: data
-                }]
+                }],
+                exporting: {
+                  buttons: {
+                    contextButton: {
+                      menuItems: [
+                        {
+                          text: text.highcharts.png,
+                          onclick: function () {
+                              this.exportChart({type: 'image/png'});
+                          }
+                        },
+                        {
+                          text: text.highcharts.jpg,
+                          onclick: function () {
+                              this.exportChart({type: 'image/jpeg'});
+                          }
+                        },
+                        {
+                          text: text.highcharts.pdf,
+                          onclick: function () {
+                              this.exportChart({type: 'application/pdf'});
+                          }
+                        },
+                        {
+                          text: text.highcharts.svg,
+                          onclick: function () {
+                              this.exportChart({type: 'image/svg+xml'});
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
             });
         }
     });

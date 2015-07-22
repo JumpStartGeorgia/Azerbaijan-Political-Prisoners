@@ -24,16 +24,16 @@ RSpec.describe Prison, type: :model do
   end
 
   describe 'prisoner counts json is correct' do
+    let(:json_data) { Prison.current_prisoner_counts[:data] }
+
     describe 'with two prisons' do
       describe 'containing one imprisoned prisoner each' do
         it 'with one incident each' do
           prisoner1.incidents << FactoryGirl.create(:incident, prison: prison1)
           prisoner2.incidents << FactoryGirl.create(:incident, prison: prison2)
 
-          names_counts = Prison.current_prisoner_counts
-
-          expect(names_counts.select { |x| x[:name] == 'prison1' }[0][:y]).to eq(1)
-          expect(names_counts.select { |x| x[:name] == 'prison2' }[0][:y]).to eq(1)
+          expect(json_data.select { |x| x[:name] == 'prison1' }[0][:y]).to eq(1)
+          expect(json_data.select { |x| x[:name] == 'prison2' }[0][:y]).to eq(1)
         end
 
         it 'with two incidents each' do
@@ -45,10 +45,8 @@ RSpec.describe Prison, type: :model do
           prisoner1.incidents << FactoryGirl.create(:incident, prison: prison1, date_of_arrest: 10.days.ago)
           prisoner2.incidents << FactoryGirl.create(:incident, prison: prison2, date_of_arrest: 10.days.ago)
 
-          names_counts = Prison.current_prisoner_counts
-
-          expect(names_counts.select { |x| x[:name] == 'prison1' }[0][:y]).to eq(1)
-          expect(names_counts.select { |x| x[:name] == 'prison2' }[0][:y]).to eq(1)
+          expect(json_data.select { |x| x[:name] == 'prison1' }[0][:y]).to eq(1)
+          expect(json_data.select { |x| x[:name] == 'prison2' }[0][:y]).to eq(1)
         end
       end
 
@@ -57,10 +55,8 @@ RSpec.describe Prison, type: :model do
           prisoner1.incidents << FactoryGirl.create(:incident, prison: prison1)
           prisoner2.incidents << FactoryGirl.create(:incident, prison: prison1)
 
-          names_counts = Prison.current_prisoner_counts
-
-          expect(names_counts.select { |x| x[:name] == 'prison1' }[0][:y]).to eq(2)
-          expect(names_counts.select { |x| x[:name] == 'prison2' }).to eq([])
+          expect(json_data.select { |x| x[:name] == 'prison1' }[0][:y]).to eq(2)
+          expect(json_data.select { |x| x[:name] == 'prison2' }).to eq([])
         end
 
         it 'with two incidents each' do
@@ -72,10 +68,8 @@ RSpec.describe Prison, type: :model do
           prisoner1.incidents << FactoryGirl.create(:incident, prison: prison1, date_of_arrest: 10.days.ago)
           prisoner2.incidents << FactoryGirl.create(:incident, prison: prison1, date_of_arrest: 10.days.ago)
 
-          names_counts = Prison.current_prisoner_counts
-
-          expect(names_counts.select { |x| x[:name] == 'prison1' }[0][:y]).to eq(2)
-          expect(names_counts.select { |x| x[:name] == 'prison2' }).to eq([])
+          expect(json_data.select { |x| x[:name] == 'prison1' }[0][:y]).to eq(2)
+          expect(json_data.select { |x| x[:name] == 'prison2' }).to eq([])
         end
       end
     end

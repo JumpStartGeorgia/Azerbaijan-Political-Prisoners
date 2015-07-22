@@ -32,7 +32,7 @@ class Article < ActiveRecord::Base
 
     CSV.generate do |csv|
       csv << [
-        I18n.t('activerecord.attributes.article.name'),
+        I18n.t('activerecord.attributes.article.number'),
         I18n.t('activerecord.attributes.article.criminal_code'),
         I18n.t('activerecord.attributes.article.description')
       ]
@@ -90,11 +90,15 @@ class Article < ActiveRecord::Base
   end
 
   def self.incident_counts_chart_text
-    text = I18n.t('article.incident_counts_chart.static_text')
-    text['articles_path'] = Rails.application.routes.url_helpers.
-                              articles_path(locale: I18n.locale)
-    text['highcharts'] = I18n.t('highcharts')
-    text
+    {
+      explore_charges: I18n.t('article.incident_counts_chart.static_text.explore_charges'),
+      title: I18n.t('article.incident_counts_chart.static_text.title'),
+      x_axis_label: I18n.t('article.incident_counts_chart.static_text.x_axis_label'),
+      y_axis_label: I18n.t('article.incident_counts_chart.static_text.y_axis_label'),
+      articles_path: Rails.application.routes.url_helpers.
+                       articles_path(locale: I18n.locale),
+      highcharts: I18n.t('highcharts')
+    }
   end
 
   def self.incident_counts_chart

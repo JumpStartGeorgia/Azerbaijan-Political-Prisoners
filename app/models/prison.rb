@@ -73,10 +73,14 @@ class Prison < ActiveRecord::Base
   end
 
   def self.current_prisoner_counts_text
-    text = I18n.t('prison.current_prisoner_count_chart.static_text')
-    text['prisons_path'] = Rails.application.routes.url_helpers.prisons_path(locale: I18n.locale)
-    text['highcharts'] = I18n.t('highcharts')
-    text
+    {
+      explore_prisons: I18n.t('prison.current_prisoner_count_chart.static_text.explore_prisons'),
+      title: I18n.t('prison.current_prisoner_count_chart.static_text.title'),
+      number_prisoners: I18n.t('prison.current_prisoner_count_chart.static_text.number_prisoners'),
+      prisons_path: Rails.application.routes.url_helpers
+                      .prisons_path(locale: I18n.locale),
+      highcharts: I18n.t('highcharts')
+    }
   end
 
   def self.current_prisoner_counts

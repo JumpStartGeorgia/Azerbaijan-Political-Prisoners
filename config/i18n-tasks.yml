@@ -91,6 +91,8 @@ ignore_unused:
 # Keys used in devise code and not detected by i18n-tasks:
 - 'errors.*'
 - 'devise.*'
+# Keys used in highcharts JS code
+- 'highcharts.*'
 
 ## Exclude these keys from the `i18n-tasks eq-base' report:
 # ignore_eq_base:

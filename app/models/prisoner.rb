@@ -189,11 +189,15 @@ class Prisoner < ActiveRecord::Base
   # Imprisoned count timeline
 
   def self.imprisoned_count_timeline_text
-    text = I18n.t('prisoner.imprisoned_count_timeline')
-    text['prisoners_path'] = Rails.application.routes.url_helpers.prisoners_path(locale: I18n.locale)
-    text['highcharts'] = I18n.t('highcharts')
-    text['date_format'] = I18n.t('date.formats.full')
-    text
+    {
+      title: I18n.t('prisoner.imprisoned_count_timeline.title'),
+      explore_prisoners: I18n.t('prisoner.imprisoned_count_timeline.explore_prisoners'),
+      number_prisoners: I18n.t('prisoner.imprisoned_count_timeline.number_prisoners'),
+      date_summary: I18n.t('prisoner.imprisoned_count_timeline.date_summary'),
+      prisoners_path: Rails.application.routes.url_helpers.prisoners_path(locale: I18n.locale),
+      highcharts: I18n.t('highcharts'),
+      date_format: I18n.t('date.formats.full')
+    }
   end
 
   def self.imprisoned_count_timeline

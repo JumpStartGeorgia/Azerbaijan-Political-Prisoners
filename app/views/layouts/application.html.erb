@@ -167,6 +167,11 @@
                                       count: 999),
                                     tags_path(format: :csv) %>
                       </li>
+                      <li>
+                        <%= link_to t('activerecord.models.criminal_codes',
+                                      count: 999),
+                                    criminal_codes_path(format: :csv) %>
+                      </li>
                     </ul>
                   </li>
 
@@ -223,21 +228,15 @@
               <%=t '.staging_do_not_enter_data' %>
             </div>
           <% end %>
-
-
             <%= bootstrap_flash %>
 
             <% if @show_page_title && content_for?(:page_title) %>
               <div id="page-header">
                 <h1><%= yield(:page_title) %></h1>
-                <div id="page-title-right" class="pull-right"><%= yield(:page_title_right) %></div>
               </div>
             <% end %>
 
-
             <%= yield %>
-
-
         </div>
     </div>
 

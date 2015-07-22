@@ -3,10 +3,6 @@ module ApplicationHelper
     content_for(:page_title) { page_title.html_safe }
   end
 
-  def page_title_right(page_title_right)
-    content_for(:page_title_right) { page_title_right.html_safe }
-  end
-
   def current_url
     "#{request.protocol}#{request.host_with_port}#{request.fullpath}"
   end

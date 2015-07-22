@@ -3,10 +3,6 @@
   page_title t('.title',
                tag_model_name: t('tag.public.label', count: 1),
                tag_name: @tag.name)
-  page_title_right link_to(t('shared.actions.with_obj.view_all',
-                             obj: t('tag.public.label', count: 999)),
-                           tags_path,
-                           class: 'btn btn-default')
 -%>
 
 <% if user_signed_in? %>

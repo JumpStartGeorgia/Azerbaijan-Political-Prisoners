@@ -3,10 +3,6 @@
   page_title t('.title',
                code_model_name: t('activerecord.models.criminal_code', count: 1),
                code_name: @criminal_code.name)
-  page_title_right link_to(t('shared.actions.with_obj.view_all',
-                             obj: t('activerecord.models.criminal_code', count: 999)),
-                           criminal_codes_path,
-                           class: 'btn btn-default')
 -%>
 
 <% if user_signed_in? %>

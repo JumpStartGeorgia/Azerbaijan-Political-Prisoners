@@ -38,23 +38,23 @@
   padding:0px 0px 10px;
   border-bottom:1px solid #ccc;
    h1 {
-    display:block;
-    margin-top: 10px;
+    display: inline-block;
+    margin: 0;
   }
-  .actions
-  {
-    display: block;
-    float: none !important;
-    text-align:right;
-    a { margin:12px 10px 0px 0px; }
-    a:last-child { margin:0px 0px 0px 0px; }
-  }
-  @media (min-width: 768px) {
-    h1 { display:table-cell; width: 100%; }
-    .actions {
-      display:table-cell; vertical-align:top;
-    }
-  }
+  // .actions
+  // {
+  //   display: block;
+  //   float: none !important;
+  //   text-align:right;
+  //   a { margin:12px 10px 0px 0px; }
+  //   a:last-child { margin:0px 0px 0px 0px; }
+  // }
+  // @media (min-width: 768px) {
+  //   .actions {
+  //     display:table-cell;
+  //     vertical-align:top;
+  //   }
+  // }
 }
 
 

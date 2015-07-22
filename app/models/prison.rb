@@ -31,7 +31,7 @@ class Prison < ActiveRecord::Base
   end
 
   def self.generate_prison_prisoner_count_chart_json
-    dir_path = Rails.public_path.join('generated', 'json')
+    dir_path = Rails.public_path.join('generated', 'json', I18n.locale.to_s)
     json_path = dir_path.join('prison_prisoner_count_chart.json')
     # if folder path not exist, create it
     FileUtils.mkpath(dir_path) unless File.exist?(dir_path)

@@ -39,6 +39,7 @@ class Article < ActiveRecord::Base
 
       all.includes(:criminal_code)
         .order(criminal_code_id: :asc, number: :asc).each do |article|
+
         csv << [article.number,
                 article.criminal_code.name,
                 remove_tags(article.description)]
@@ -104,7 +105,7 @@ class Article < ActiveRecord::Base
   end
 
   def self.generate_highest_incident_counts_chart_json
-    dir_path = Rails.public_path.join('generated', 'json')
+    dir_path = Rails.public_path.join('generated', 'json', I18n.locale.to_s)
     json_path = dir_path.join('article_incident_counts_chart.json')
     # if folder path not exist, create it
     FileUtils.mkpath(dir_path) unless File.exist?(dir_path)

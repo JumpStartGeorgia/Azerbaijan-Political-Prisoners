@@ -205,7 +205,7 @@ class Prisoner < ActiveRecord::Base
   end
 
   def self.generate_imprisoned_count_timeline_json
-    dir_path = Rails.public_path.join('generated', 'json')
+    dir_path = Rails.public_path.join('generated', 'json', I18n.locale.to_s)
     json_path = dir_path.join('imprisoned_count_timeline.json')
     # if folder path not exist, create it
     FileUtils.mkpath(dir_path) unless File.exist?(dir_path)

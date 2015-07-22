@@ -25,10 +25,10 @@ class RootController < ApplicationController
   end
 
   def to_csv_zip
-    csv_zip = Dir.glob(Rails.root.join('public', 'generated', 'csv', 'political_prisoner_data_*.zip'))[0]
+    csv_zip = Dir.glob(Rails.root.join('public', 'generated', 'csv', I18n.locale.to_s, 'political_prisoner_data_*.zip'))[0]
     unless csv_zip
       timeStamp = fileTimeStamp
-      csv_zip = Rails.root.join('public', 'generated', 'csv', "political_prisoner_data_#{timeStamp}.zip")
+      csv_zip = Rails.root.join('public', 'generated', 'csv', I18n.locale.to_s, "political_prisoner_data_#{timeStamp}.zip")
       createCsvZip(csv_zip, timeStamp)
     end
     send_file csv_zip, type: 'application/zip'

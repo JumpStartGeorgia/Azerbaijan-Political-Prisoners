@@ -5,7 +5,6 @@ class RootController < ApplicationController
     gon.imprisoned_count_timeline_prisoners_path = imprisoned_count_timeline_prisoners_path
     gon.article_incident_counts_articles_path = article_incident_counts_articles_path
     gon.prison_prisoner_counts_prisons_path = prison_prisoner_counts_prisons_path
-    gon.prisoners_path = prisoners_path
 
     @featured_prisoner = Prisoner.where(currently_imprisoned: true).offset(rand(Prisoner.where(currently_imprisoned: true).count)).first
     @featured_prisoner_inc = (@featured_prisoner.blank?) || (@featured_prisoner.incidents.blank?) ? nil : @featured_prisoner.incidents.last
@@ -26,10 +25,10 @@ class RootController < ApplicationController
   end
 
   def to_csv_zip
-    csv_zip = Dir.glob(Rails.root.join('public', 'system', 'csv', 'political_prisoner_data_*.zip'))[0]
+    csv_zip = Dir.glob(Rails.root.join('public', 'generated', 'csv', 'political_prisoner_data_*.zip'))[0]
     unless csv_zip
       timeStamp = fileTimeStamp
-      csv_zip = Rails.root.join('public', 'system', 'csv', "political_prisoner_data_#{timeStamp}.zip")
+      csv_zip = Rails.root.join('public', 'generated', 'csv', "political_prisoner_data_#{timeStamp}.zip")
       createCsvZip(csv_zip, timeStamp)
     end
     send_file csv_zip, type: 'application/zip'

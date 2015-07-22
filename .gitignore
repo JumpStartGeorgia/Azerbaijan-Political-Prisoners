@@ -16,6 +16,7 @@
 /.env
 /public/assets
 /public/system
+/public/generated
 
 # lib/prisonersPdfParser output
 lib/aug2014PdfParser/output/*

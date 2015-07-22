@@ -104,7 +104,7 @@ class Article < ActiveRecord::Base
   end
 
   def self.generate_highest_incident_counts_chart_json
-    dir_path = Rails.public_path.join('system', 'json')
+    dir_path = Rails.public_path.join('generated', 'json')
     json_path = dir_path.join('article_incident_counts_chart.json')
     # if folder path not exist, create it
     FileUtils.mkpath(dir_path) unless File.exist?(dir_path)

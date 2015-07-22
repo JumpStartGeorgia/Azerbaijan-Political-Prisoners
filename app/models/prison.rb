@@ -21,8 +21,8 @@ class Prison < ActiveRecord::Base
 
     CSV.generate do |csv|
       csv << [
-        t('activerecord.attributes.prison.name'),
-        t('activerecord.attributes.prison.description')
+        I18n.t('activerecord.attributes.prison.name'),
+        I18n.t('activerecord.attributes.prison.description')
       ]
       all.each do |prison|
         csv << [prison.name, remove_tags(prison.description)]
@@ -31,7 +31,7 @@ class Prison < ActiveRecord::Base
   end
 
   def self.generate_prison_prisoner_count_chart_json
-    dir_path = Rails.public_path.join('system', 'json')
+    dir_path = Rails.public_path.join('generated', 'json')
     json_path = dir_path.join('prison_prisoner_count_chart.json')
     # if folder path not exist, create it
     FileUtils.mkpath(dir_path) unless File.exist?(dir_path)

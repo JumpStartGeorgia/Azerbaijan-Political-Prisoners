@@ -39,7 +39,6 @@ class Article < ActiveRecord::Base
 
       all.includes(:criminal_code)
         .order(criminal_code_id: :asc, number: :asc).each do |article|
-
         csv << [article.number,
                 article.criminal_code.name,
                 remove_tags(article.description)]
@@ -72,7 +71,7 @@ class Article < ActiveRecord::Base
            code_name: criminal_code_name,
            code_label: I18n.t('activerecord.models.criminal_code',
                               count: 1),
-           number_of_incidents: "<strong>#{incident_count.to_s}</strong>",
+           number_of_incidents: "<strong>#{incident_count}</strong>",
            article_desc: desc)
   end
 
@@ -95,8 +94,8 @@ class Article < ActiveRecord::Base
       title: I18n.t('article.incident_counts_chart.static_text.title'),
       x_axis_label: I18n.t('article.incident_counts_chart.static_text.x_axis_label'),
       y_axis_label: I18n.t('article.incident_counts_chart.static_text.y_axis_label'),
-      articles_path: Rails.application.routes.url_helpers.
-                       articles_path(locale: I18n.locale),
+      articles_path: Rails.application.routes.url_helpers
+        .articles_path(locale: I18n.locale),
       highcharts: I18n.t('highcharts')
     }
   end

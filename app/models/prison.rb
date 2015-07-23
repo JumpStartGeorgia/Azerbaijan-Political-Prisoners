@@ -51,10 +51,10 @@ class Prison < ActiveRecord::Base
 
   def summary
     I18n.t('prison.current_prisoner_count_chart.summary',
-           number_prisoners: "<strong>#{prisoner_count.to_s}</strong>",
+           number_prisoners: "<strong>#{prisoner_count}</strong>",
            prison_name: "<strong>#{prison_name}</strong>",
            count: prisoner_count
-    )
+          )
   end
 
   private
@@ -78,7 +78,7 @@ class Prison < ActiveRecord::Base
       title: I18n.t('prison.current_prisoner_count_chart.static_text.title'),
       number_prisoners: I18n.t('prison.current_prisoner_count_chart.static_text.number_prisoners'),
       prisons_path: Rails.application.routes.url_helpers
-                      .prisons_path(locale: I18n.locale),
+        .prisons_path(locale: I18n.locale),
       highcharts: I18n.t('highcharts')
     }
   end

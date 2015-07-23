@@ -1,0 +1,8 @@
+---
+en:
+  highcharts:
+    context_title: Download this chart
+    png: PNG Image
+    jpg: JPG Image
+    pdf: PDF Document
+    svg: SVG Vector Image

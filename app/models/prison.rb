@@ -21,8 +21,8 @@ class Prison < ActiveRecord::Base
 
     CSV.generate do |csv|
       csv << [
-        t('activerecord.attributes.prison.name'),
-        t('activerecord.attributes.prison.description')
+        I18n.t('activerecord.attributes.prison.name'),
+        I18n.t('activerecord.attributes.prison.description')
       ]
       all.each do |prison|
         csv << [prison.name, remove_tags(prison.description)]
@@ -31,7 +31,7 @@ class Prison < ActiveRecord::Base
   end
 
   def self.generate_prison_prisoner_count_chart_json
-    dir_path = Rails.public_path.join('system', 'json')
+    dir_path = Rails.public_path.join('generated', 'json', I18n.locale.to_s)
     json_path = dir_path.join('prison_prisoner_count_chart.json')
     # if folder path not exist, create it
     FileUtils.mkpath(dir_path) unless File.exist?(dir_path)
@@ -49,18 +49,45 @@ class Prison < ActiveRecord::Base
     find_by_sql([sql, prison_id])
   end
 
+  def summary
+    I18n.t('prison.current_prisoner_count_chart.summary',
+           number_prisoners: "<strong>#{prisoner_count.to_s}</strong>",
+           prison_name: "<strong>#{prison_name}</strong>",
+           count: prisoner_count
+    )
+  end
+
   private
 
-  def self.current_prisoner_counts
+  def self.current_prisoner_counts_data
     prisons = []
 
     current_prisoner_counts_sql(10).each do |prison_prisoner_count|
       prisons.append(y: prison_prisoner_count[:prisoner_count],
                      name: prison_prisoner_count[:prison_name],
-                     link: "/#{I18n.locale}/prisons/#{prison_prisoner_count[:slug]}")
+                     link: "/#{I18n.locale}/prisons/#{prison_prisoner_count[:slug]}",
+                     summary: prison_prisoner_count.summary)
     end
 
     prisons
+  end
+
+  def self.current_prisoner_counts_text
+    {
+      explore_prisons: I18n.t('prison.current_prisoner_count_chart.static_text.explore_prisons'),
+      title: I18n.t('prison.current_prisoner_count_chart.static_text.title'),
+      number_prisoners: I18n.t('prison.current_prisoner_count_chart.static_text.number_prisoners'),
+      prisons_path: Rails.application.routes.url_helpers
+                      .prisons_path(locale: I18n.locale),
+      highcharts: I18n.t('highcharts')
+    }
+  end
+
+  def self.current_prisoner_counts
+    {
+      data: current_prisoner_counts_data,
+      text: current_prisoner_counts_text
+    }
   end
 
   def self.current_prisoner_counts_sql(limit = nil)

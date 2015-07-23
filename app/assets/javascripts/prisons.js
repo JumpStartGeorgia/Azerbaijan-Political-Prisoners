@@ -1,64 +1,98 @@
 $(document).ready(function() {
-    if ($('body').hasClass('prisons')) {
-        loadTinymce();
-    }
+  if ($('body').hasClass('prisons')) {
+    loadTinymce();
+  }
 });
 
 function prison_prisoner_counts_chart() {
-    $.ajax({
-        url: gon.prison_prisoner_counts_prisons_path,
-        async: true,
-        dataType: 'json',
-        success: function (response) {
-            $('#prison-prisoner-counts').highcharts({
-                chart: {
-                    type: 'bar'
-                },
-                title: {
-                    text: 'Where are the prisoners being held?',
-                    useHTML: true
-                },
-                subtitle: {
-                    text: '<a href="' + gon.prisons_path + '">Click here to explore prisons</a>',
-                    useHTML: true
-                },
-                yAxis: {
-                    title: {
-                        text: 'Number of Prisoners'
-                    },
-                    allowDecimals: false
-                },
-                xAxis: {
-                    categories: response,
-                    labels: {
-                        formatter: function() {
-                            return '<a href="' + this.value.link + '">' + this.value.name + '</a>';
-                        },
-                        useHTML: true,
-                        step: 1,
-                        style: { 'textAlign': 'right' }
-                    }
+  $.ajax({
+    url: gon.prison_prisoner_counts_prisons_path,
+    async: true,
+    dataType: 'json',
+    success: function (response) {
+      data = response.data;
+      text = response.text;
 
-                },
-                tooltip: {
-                    formatter: function() {
-                        var prisoner_count = this.point.y;
-                        if ( prisoner_count == '1' ) {
-                            return 'There is <strong>' + this.point.y + '</strong> political prisoner at <strong>' + this.point.name + '</strong>'
-                        }
-                        else {
-                            return 'There are <strong>' + this.point.y + '</strong> political prisoners at <strong>' + this.point.name + '</strong>'
-                        }
-                    },
-                    useHTML: true,
-                    style: { padding: '1px' }
-                },
-                series: [{
-                    name: 'Number of Prisoners',
-                    showInLegend: false,
-                    data: response
-                }]
-            });
+      Highcharts.setOptions({
+        lang: {
+          contextButtonTitle: text.highcharts.context_title
         }
-    });
-};
+      });
+
+      $('#prison-prisoner-counts').highcharts({
+        chart: {
+          type: 'bar'
+        },
+        title: {
+          text: text.title,
+          useHTML: true
+        },
+        subtitle: {
+          text: '<a href="' + text.prisons_path + '">' + text.explore_prisons + '</a>',
+          useHTML: true
+        },
+        yAxis: {
+          title: {
+            text: text.number_prisoners
+          },
+          allowDecimals: false
+        },
+        xAxis: {
+          categories: data,
+          labels: {
+            formatter: function() {
+              return '<a href="' + this.value.link + '">' + this.value.name + '</a>';
+            },
+            useHTML: true,
+            step: 1,
+            style: { 'textAlign': 'right' }
+          }
+        },
+        tooltip: {
+          formatter: function() {
+            return this.point.summary;
+          },
+          useHTML: true,
+          style: { padding: '1px' }
+        },
+        series: [{
+          name: text.number_prisoners,
+          showInLegend: false,
+          data: data
+        }],
+        exporting: {
+          buttons: {
+            contextButton: {
+              menuItems: [
+                {
+                  text: text.highcharts.png,
+                  onclick: function () {
+                    this.exportChart({type: 'image/png'});
+                  }
+                },
+                {
+                  text: text.highcharts.jpg,
+                  onclick: function () {
+                    this.exportChart({type: 'image/jpeg'});
+                  }
+                },
+                {
+                  text: text.highcharts.pdf,
+                  onclick: function () {
+                    this.exportChart({type: 'application/pdf'});
+                  }
+                },
+                {
+                  text: text.highcharts.svg,
+                  onclick: function () {
+                    this.exportChart({type: 'image/svg+xml'});
+                  }
+                }
+              ]
+            }
+          }
+        }
+      });
+    }
+  });
+}

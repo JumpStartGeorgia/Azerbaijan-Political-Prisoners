@@ -1,10 +1,6 @@
 <%
   model_class = Prison
   page_title @prison.name
-  page_title_right link_to(t('shared.actions.with_obj.view_all',
-                             obj: t('activerecord.models.prison', count: 999)),
-                           prisons_path,
-                           class: 'btn btn-default')
 %>
 
 <% if user_signed_in? %>

@@ -5,10 +5,6 @@
                article_number: @article.number,
                code_name: @article.criminal_code.name,
                code_model_name: t('activerecord.models.criminal_code', count: 1))
-  page_title_right link_to(t('shared.actions.with_obj.view_all',
-                             obj: t('article.public.label', count: 999)),
-                           articles_path,
-                           class: 'btn btn-default')
 -%>
 
 <% if user_signed_in? %>

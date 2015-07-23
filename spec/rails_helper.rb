@@ -87,15 +87,7 @@ RSpec.configure do |config|
 
   # Remove generated files after tests are run
   config.after(:suite) do
-    remove_paths = [
-      Rails.public_path.join('system', 'json', 'imprisoned_count_timeline.json'),
-      Rails.public_path.join('system', 'json', 'article_incident_counts_chart.json'),
-      Rails.public_path.join('system', 'json', 'prison_prisoner_count_chart.json'),
-      Dir.glob(Rails.public_path.join('system', 'csv', 'political_prisoner_data_*.zip'))[0]
-    ]
-
-    remove_paths.each do |path|
-      File.delete(path) if !path.nil? && File.exist?(path)
-    end
+    generated_dir = Rails.public_path.join('generated')
+    FileUtils.remove_dir(generated_dir, true) if File.directory?(generated_dir)
   end
 end

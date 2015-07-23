@@ -1,16 +1,6 @@
 <%-
   model_class = Prisoner
   page_title t('activerecord.models.prisoner', count: 999)
-
-  links = link_to(t('shared.actions.with_obj.download_data',
-                    obj: t('activerecord.models.prisoner', count: 999)),
-                  prisoners_path(format: :csv),
-                  class: 'btn btn-default')
-  links << link_to(t('shared.actions.with_obj.download_data',
-                    obj: t('activerecord.models.incident', count: 999)),
-                   incidents_to_csv_prisoners_path,
-                   class: 'btn btn-default')
-  page_title_right links
 -%>
 
 <% if user_signed_in? %>

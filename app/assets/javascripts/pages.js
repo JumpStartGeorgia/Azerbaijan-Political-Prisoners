@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    if ($('form.page_section').length) {
-        loadTinymce();
-    }
+  if ($('form.page_section').length) {
+    loadTinymce();
+  }
 });

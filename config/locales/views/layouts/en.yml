@@ -11,4 +11,4 @@ en:
         logout: Logout
       download_data: Download Latest Data
       find_by: Find By
-      staging_do_not_enter_data: 5 June 2015 - Please use <a href="http://prisoners.watch">prisoners.watch</a> to enter data from now on.
+      staging_do_not_enter_data: 5 June 2015 - Please use %{prisoners_watch} to enter data from now on.

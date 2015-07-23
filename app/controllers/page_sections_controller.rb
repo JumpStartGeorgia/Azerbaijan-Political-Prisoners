@@ -78,6 +78,6 @@ class PageSectionsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def page_section_params
-    params.require(:page_section).permit(:name, *PageSection.globalize_attribute_names)
+    params.require(:page_section).permit(:name, PageSection.globalize_attribute_names)
   end
 end

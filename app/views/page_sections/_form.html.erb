@@ -1,4 +1,5 @@
-<%= semantic_form_for @page_section do |f| %>
+<% object = @page_section %>
+<%= semantic_form_for object do |f| %>
   <%= f.semantic_errors *f.object.errors.keys %>
   <%= f.inputs do %>
     <% if can? :create, PageSection %>
@@ -6,7 +7,7 @@
     <% end %>
 
     <%= render layout: 'shared/form/translated_inputs',
-               locals: { object: @page_section } do |locale_name| %>
+               locals: { object: object } do |locale_name| %>
       <%= f.input "label_#{locale}",
                   label: "#{t('activerecord.attributes.page_section.label')} "\
                          "(#{locale_name})" %>

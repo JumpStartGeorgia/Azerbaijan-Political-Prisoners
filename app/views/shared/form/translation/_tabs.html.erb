@@ -1,6 +1,0 @@
-<ul class="nav nav-tabs form-translation-tabs" role="tablist">
-  <% object.globalize_locales.each do |locale| %>
-    <% cls = locale == I18n.default_locale ? 'active' : '' %>
-    <li role="presentation" class="<%= cls %>"><a href="#translation-<%= locale %>" aria-controls="<%= locale %>" role="tab" data-toggle="tab"><%= t("shared.locale.#{locale}") %></a></li>
-  <% end %>
-</ul>

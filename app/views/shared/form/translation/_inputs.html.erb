@@ -1,0 +1,9 @@
+<div class="tab-content form-translation-content">
+  <% object.globalize_locales.each do |locale| %>
+    <% cls = locale == I18n.default_locale ? 'active' : '' %>
+    <div role="tabpanel" class="tab-pane <%= cls %>" id="translation-<%= locale %>">
+      <% locale_name = t("shared.locale.#{locale}") %>
+      <%= yield locale_name %>
+    </div>
+  <% end %>
+</div>

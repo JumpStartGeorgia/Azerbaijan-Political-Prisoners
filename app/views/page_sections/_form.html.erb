@@ -4,13 +4,8 @@
     <% if can? :create, PageSection %>
       <%= f.input :name %>
     <% end %>
-    
-    <ul class="nav nav-tabs form-translation-tabs" role="tablist">
-      <% @page_section.globalize_locales.each do |locale| %>
-        <% cls = locale == I18n.default_locale ? 'active' : '' %>
-        <li role="presentation" class="<%= cls %>"><a href="#translation-<%= locale %>" aria-controls="<%= locale %>" role="tab" data-toggle="tab"><%= t("shared.locale.#{locale}") %></a></li>
-      <% end %>
-    </ul>    
+
+    <%= render partial: 'shared/form_translation_tabs', locals: { object: @page_section } %>
 
     <div class="tab-content form-translation-content">
       <% @page_section.globalize_locales.each do |locale| %>

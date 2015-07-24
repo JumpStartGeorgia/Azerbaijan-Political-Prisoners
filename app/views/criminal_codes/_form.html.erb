@@ -1,6 +1,13 @@
-<%= semantic_form_for @criminal_code do |f| %>
+<% object = @criminal_code %>
+<%= semantic_form_for object do |f| %>
   <%= f.semantic_errors *f.object.errors.keys %>
-  <%= f.inputs :name %>
+
+  <%= render partial: 'shared/form_translation_tabs', locals: { object: object } %>
+
+  <%= f.inputs do %>
+    <%= f.input :name %>
+  <% end %>
+
   <%= f.actions do %>
     <%= f.action :submit, button_html: { class: 'btn btn-success' } %>
   <% end %>

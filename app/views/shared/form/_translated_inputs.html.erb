@@ -10,8 +10,7 @@
     <% cls = enabled_locale == I18n.default_locale ? 'active' : '' %>
     <div role="tabpanel" class="tab-pane <%= cls %>" id="translation-<%= enabled_locale %>">
       <% enabled_locale_name = t("shared.locale.#{enabled_locale}") %>
-      <%= yield(enabled_locale: enabled_locale,
-                enabled_locale_name: enabled_locale_name) %>
+      <%= yield enabled_locale.to_s, enabled_locale_name %>
     </div>
   <% end %>
 </div>

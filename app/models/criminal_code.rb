@@ -20,4 +20,18 @@ class CriminalCode < ActiveRecord::Base
            code_model_name: I18n.t('activerecord.models.criminal_code', count: 1),
            code_name: name)
   end
+
+  def self.to_csv
+    require 'csv'
+
+    CSV.generate do |csv|
+      csv << [
+        "#{I18n.t('activerecord.models.criminal_code', count: 1)} #{I18n.t('activerecord.attributes.criminal_code.name')}"
+      ]
+
+      all.each do |code|
+        csv << [code.name]
+      end
+    end
+  end
 end

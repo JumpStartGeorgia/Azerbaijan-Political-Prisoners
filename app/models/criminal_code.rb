@@ -1,7 +1,10 @@
 class CriminalCode < ActiveRecord::Base
   has_many :articles
-
   validates :name, presence: true, uniqueness: true
+  translates :name, fallbacks_for_empty_translations: true
+  # Allows reference of specific translations, i.e. post.title_az
+  # or post.title_en
+  globalize_accessors
 
   # strip extra spaces before saving
   auto_strip_attributes :name

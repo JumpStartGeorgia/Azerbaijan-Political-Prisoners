@@ -5,7 +5,7 @@ class CriminalCodesController < ApplicationController
   # GET /criminal_codes
   # GET /criminal_codes.json
   def index
-    @criminal_codes = CriminalCode.all.order(:name)
+    @criminal_codes = CriminalCode.includes(:translations).order(:name)
 
     respond_to do |format|
       format.html
@@ -15,7 +15,6 @@ class CriminalCodesController < ApplicationController
                   type: 'text/csv'
       end
     end
-
   end
 
   # GET /criminal_codes/1
@@ -95,6 +94,6 @@ class CriminalCodesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def criminal_code_params
-    params.require(:criminal_code).permit(:name)
+    params.require(:criminal_code).permit(CriminalCode.globalize_attribute_names)
   end
 end

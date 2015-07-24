@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_150_715_062_627) do
+ActiveRecord::Schema.define(version: 20_150_723_101_740) do
   create_table 'articles', force: :cascade do |t|
     t.string 'number',           limit: 255
     t.integer 'criminal_code_id', limit: 4
@@ -35,8 +35,18 @@ ActiveRecord::Schema.define(version: 20_150_715_062_627) do
   add_index 'charges', ['article_id'], name: 'index_charges_on_article_id', using: :btree
   add_index 'charges', ['incident_id'], name: 'index_charges_on_incident_id', using: :btree
 
+  create_table 'criminal_code_translations', force: :cascade do |t|
+    t.integer 'criminal_code_id', limit: 4,   null: false
+    t.string 'locale',           limit: 255, null: false
+    t.datetime 'created_at',                   null: false
+    t.datetime 'updated_at',                   null: false
+    t.string 'name',             limit: 255
+  end
+
+  add_index 'criminal_code_translations', ['criminal_code_id'], name: 'index_criminal_code_translations_on_criminal_code_id', using: :btree
+  add_index 'criminal_code_translations', ['locale'], name: 'index_criminal_code_translations_on_locale', using: :btree
+
   create_table 'criminal_codes', force: :cascade do |t|
-    t.string 'name',       limit: 255
     t.datetime 'created_at'
     t.datetime 'updated_at'
   end

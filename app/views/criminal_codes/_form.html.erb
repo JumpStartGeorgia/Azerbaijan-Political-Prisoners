@@ -3,10 +3,10 @@
   <%= f.semantic_errors *f.object.errors.keys %>
 
   <%= render layout: 'shared/form/translated_inputs',
-             locals: { object: object } do |locale_name| %>
-    <%= f.input "name_#{locale}",
+             locals: { object: object } do |params| %>
+    <%= f.input "name_#{params[:enabled_locale]}",
                 label: "#{t('activerecord.attributes.criminal_code.name')} "\
-                       "(#{locale_name})" %>
+                       "(#{params[:enabled_locale_name]})" %>
   <% end %>
 
   <%= f.actions do %>

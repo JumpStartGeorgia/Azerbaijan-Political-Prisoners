@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/thedarkone/rails-dev-boost.git
+  revision: a709a10b06b7d9fc4a9846bc613c60c86af9dd7c
+  specs:
+    rails-dev-boost (0.3.0)
+      railties (>= 3.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -374,6 +381,7 @@ DEPENDENCIES
   rack-mini-profiler (~> 0.9.3)
   rack-test (= 0.6.2)
   rails (= 4.2.1)
+  rails-dev-boost (~> 0.3.0)!
   rails-observers (~> 0.1.2)
   rspec-rails (~> 3.1.0)
   rubyzip (~> 1.1)

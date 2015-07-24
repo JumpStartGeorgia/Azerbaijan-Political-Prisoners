@@ -4,8 +4,8 @@
 
   <%= render partial: 'shared/form/translation/tabs', locals: { object: object } %>
 
-  <%= f.inputs do %>
-    <%= f.input :name %>
+  <%= render layout: 'shared/form/translation/inputs', locals: { object: object } do |locale_name| %>
+    <%= f.input "name_#{locale}", label: "#{t('activerecord.attributes.criminal_code.name')} (#{locale_name})" %>
   <% end %>
 
   <%= f.actions do %>

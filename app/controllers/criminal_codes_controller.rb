@@ -6,6 +6,16 @@ class CriminalCodesController < ApplicationController
   # GET /criminal_codes.json
   def index
     @criminal_codes = CriminalCode.all.order(:name)
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        send_data CriminalCode.to_csv,
+                  filename: "criminal_codes_#{fileTimeStamp}.csv",
+                  type: 'text/csv'
+      end
+    end
+
   end
 
   # GET /criminal_codes/1

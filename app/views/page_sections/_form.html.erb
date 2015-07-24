@@ -5,9 +5,15 @@
       <%= f.input :name %>
     <% end %>
 
-    <%= render layout: 'shared/form/translated_inputs', locals: { object: @page_section } do |locale_name| %>
-      <%= f.input "label_#{locale}", label: "#{t('activerecord.attributes.page_section.label')} (#{locale_name})" %>
-      <%= f.input "content_#{locale}", as: :text, label: "#{t('activerecord.attributes.page_section.content')} (#{locale_name})", input_html: { class: 'tinymce' } %>
+    <%= render layout: 'shared/form/translated_inputs',
+               locals: { object: @page_section } do |locale_name| %>
+      <%= f.input "label_#{locale}",
+                  label: "#{t('activerecord.attributes.page_section.label')} "\
+                         "(#{locale_name})" %>
+      <%= f.input "content_#{locale}",
+                  as: :text,
+                  label: "#{t('activerecord.attributes.page_section.content')} (#{locale_name})",
+                  input_html: { class: 'tinymce' } %>
     <% end %>
   <% end %>
 

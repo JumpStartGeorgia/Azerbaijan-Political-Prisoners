@@ -5,7 +5,7 @@
       <%= f.input :name %>
     <% end %>
 
-    <%= render partial: 'shared/form_translation_tabs', locals: { object: @page_section } %>
+    <%= render partial: 'shared/form/translation/tabs', locals: { object: @page_section } %>
 
     <div class="tab-content form-translation-content">
       <% @page_section.globalize_locales.each do |locale| %>

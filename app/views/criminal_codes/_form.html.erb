@@ -2,7 +2,7 @@
 <%= semantic_form_for object do |f| %>
   <%= f.semantic_errors *f.object.errors.keys %>
 
-  <%= render layout: 'shared/form/translation/inputs', locals: { object: object } do |locale_name| %>
+  <%= render layout: 'shared/form/translated_inputs', locals: { object: object } do |locale_name| %>
     <%= f.input "name_#{locale}", label: "#{t('activerecord.attributes.criminal_code.name')} (#{locale_name})" %>
   <% end %>
 

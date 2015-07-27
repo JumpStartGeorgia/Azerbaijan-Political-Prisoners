@@ -1,6 +1,5 @@
 class Prison < ActiveRecord::Base
   include StringOutput
-  extend FriendlyId
 
   has_many :incidents, dependent: :nullify
 
@@ -16,10 +15,13 @@ class Prison < ActiveRecord::Base
   auto_strip_attributes :name, :description
 
   # permalink
-  friendly_id :name, use: :history
+  extend FriendlyId
+  friendly_id :name_en, use: :history
 
   def should_generate_new_friendly_id?
-    name_changed? || slug.nil?
+    # Always try to generate new slug (will use current slug if name_en has
+    # not changed)
+    true
   end
 
   def self.to_csv

@@ -6,10 +6,8 @@ RSpec.describe 'Prisons', type: :request do
   prison_name_2 = 'prison_2'
   prison_description_2 = 'description_2'
 
-  before(:example) do
-    FactoryGirl.create(:prison, name: prison_name_1, description: prison_description_1)
-    FactoryGirl.create(:prison, name: prison_name_2, description: prison_description_2)
-  end
+  let(:prison1) { FactoryGirl.create(:prison, name: prison_name_1, description: prison_description_1) }
+  let(:prison2) { FactoryGirl.create(:prison, name: prison_name_2, description: prison_description_2) }
 
   describe 'GET /prisons' do
     it 'works' do
@@ -20,11 +18,11 @@ RSpec.describe 'Prisons', type: :request do
 
   describe 'GET prison' do
     it 'works with id' do
-      get prison_path(Prison.find_by_name(prison_name_1).id)
+      get prison_path(prison1.id)
 
       expect(response).to have_http_status(301)
       expect(response).to redirect_to(
-        prison_path(Prison.find_by_name(prison_name_1)))
+        prison_path(prison1))
       follow_redirect!
 
       expect(response).to have_http_status(200)
@@ -32,7 +30,7 @@ RSpec.describe 'Prisons', type: :request do
     end
 
     it 'works with friendly id' do
-      get prison_path(Prison.find_by_name(prison_name_1))
+      get prison_path(prison1)
       expect(response).to have_http_status(200)
       expect(response.body).to include(prison_name_1)
     end
@@ -47,6 +45,9 @@ RSpec.describe 'Prisons', type: :request do
 
   describe 'GET /prisons.csv' do
     it 'works' do
+      prison1.save!
+      prison2.save!
+
       get prisons_path(format: :csv)
       expect(response).to have_http_status(200)
       expect(response.body).to include(prison_name_1)
@@ -64,7 +65,6 @@ RSpec.describe 'Prisons', type: :request do
     get prison_prisoner_counts_prisons_path
     orig_json = response.body
 
-    prison1 = Prison.find_by_name(prison_name_1)
     prisoner1 = FactoryGirl.create(:prisoner)
     prisoner1.incidents <<
       FactoryGirl.create(:incident, prison: prison1)
@@ -85,11 +85,11 @@ RSpec.describe 'Prisons', type: :request do
 
     describe 'EDIT prison' do
       it 'works with id' do
-        get edit_prison_path(Prison.find_by_name(prison_name_1).id)
+        get edit_prison_path(prison1.id)
 
         expect(response).to have_http_status(301)
         expect(response).to redirect_to(
-          edit_prison_path(Prison.find_by_name(prison_name_1)))
+          edit_prison_path(prison1))
         follow_redirect!
 
         expect(response).to have_http_status(200)
@@ -97,7 +97,7 @@ RSpec.describe 'Prisons', type: :request do
       end
 
       it 'works with friendly id' do
-        get edit_prison_path(Prison.find_by_name(prison_name_1))
+        get edit_prison_path(prison1)
         expect(response).to have_http_status(200)
         expect(response.body).to include(prison_name_1)
       end

@@ -6,6 +6,12 @@ class Prison < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: true
 
+  translates :name, :description, fallbacks_for_empty_translations: true
+
+  # Allows reference of specific translations, i.e. post.title_az
+  # or post.title_en
+  globalize_accessors
+
   # strip extra spaces before saving
   auto_strip_attributes :name, :description
 

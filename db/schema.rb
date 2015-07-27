@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_150_723_101_740) do
+ActiveRecord::Schema.define(version: 20_150_727_060_856) do
   create_table 'articles', force: :cascade do |t|
     t.string 'number',           limit: 255
     t.integer 'criminal_code_id', limit: 4
@@ -106,6 +106,18 @@ ActiveRecord::Schema.define(version: 20_150_723_101_740) do
     t.datetime 'updated_at',             null: false
   end
 
+  create_table 'prison_translations', force: :cascade do |t|
+    t.integer 'prison_id',   limit: 4,     null: false
+    t.string 'locale',      limit: 255,   null: false
+    t.datetime 'created_at',                null: false
+    t.datetime 'updated_at',                null: false
+    t.string 'name',        limit: 255
+    t.text 'description', limit: 65_535
+  end
+
+  add_index 'prison_translations', ['locale'], name: 'index_prison_translations_on_locale', using: :btree
+  add_index 'prison_translations', ['prison_id'], name: 'index_prison_translations_on_prison_id', using: :btree
+
   create_table 'prisoners', force: :cascade do |t|
     t.string 'name',                  limit: 255
     t.datetime 'created_at'
@@ -125,14 +137,11 @@ ActiveRecord::Schema.define(version: 20_150_723_101_740) do
   add_index 'prisoners', ['slug'], name: 'index_prisoners_on_slug', using: :btree
 
   create_table 'prisons', force: :cascade do |t|
-    t.string 'name',        limit: 255
     t.datetime 'created_at'
     t.datetime 'updated_at'
-    t.text 'description', limit: 65_535
-    t.string 'slug',        limit: 255
+    t.string 'slug',       limit: 255
   end
 
-  add_index 'prisons', ['name'], name: 'index_prisons_on_name', using: :btree
   add_index 'prisons', ['slug'], name: 'index_prisons_on_slug', using: :btree
 
   create_table 'roles', force: :cascade do |t|

@@ -122,7 +122,7 @@ class PrisonersController < ApplicationController
 
   def set_form_collections
     @tags = Tag.all.order(:name)
-    @prisons = Prison.all.order(:name)
+    @prisons = Prison.includes(:translations).order(:name)
   end
 
   def set_gon_variables

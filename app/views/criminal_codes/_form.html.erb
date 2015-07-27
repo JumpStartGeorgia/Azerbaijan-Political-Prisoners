@@ -5,8 +5,9 @@
   <%= render layout: 'shared/form/translated_inputs',
              locals: { object: object } do |enabled_locale, enabled_locale_name| %>
     <%= f.input "name_#{enabled_locale}",
-                label: "#{t('activerecord.attributes.criminal_code.name')} "\
-                       "(#{enabled_locale_name})" %>
+                label: t('shared.labels.translated_field',
+                         field: t('activerecord.attributes.criminal_code.name'),
+                         language: enabled_locale_name) %>
   <% end %>
 
   <%= f.actions do %>

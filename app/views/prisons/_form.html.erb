@@ -6,11 +6,11 @@
                locals: { object: object } do |enabled_locale, enabled_locale_name| %>
       <%= f.input "name_#{enabled_locale}",
                   label: t('shared.labels.translated_field',
-                         field_label: t('activerecord.attributes.prison.name'),
+                         field: t('activerecord.attributes.prison.name'),
                          language: enabled_locale_name) %>
       <%= f.input "description_#{enabled_locale}",
                   label: t('shared.labels.translated_field',
-                         field_label: t('activerecord.attributes.prison.description'),
+                         field: t('activerecord.attributes.prison.description'),
                          language: enabled_locale_name),
                   as: :text,
                   input_html: { class: 'tinymce' } %>

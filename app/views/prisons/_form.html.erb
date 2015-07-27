@@ -1,8 +1,14 @@
-<%= semantic_form_for @prison do |f| %>
+<% object = @prison %>
+<%= semantic_form_for object do |f| %>
   <%= f.semantic_errors *f.object.errors.keys %>
   <%= f.inputs do %>
-    <%= f.input :name %>
-    <%= f.input :description, input_html: { class: 'tinymce' } %>
+    <%= render layout: 'shared/form/translated_inputs',
+               locals: { object: object } do |enabled_locale, enabled_locale_name| %>
+      <%= f.input "name_#{enabled_locale}" %>
+      <%= f.input "description_#{enabled_locale}",
+                  as: :text,
+                  input_html: { class: 'tinymce' } %>
+    <% end %>
   <% end %>
   <%= f.actions do %>
     <%= f.action :submit, button_html: { class: 'btn btn-success' } %>

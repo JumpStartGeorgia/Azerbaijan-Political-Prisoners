@@ -123,7 +123,7 @@ class PrisonsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def prison_params
-    params.require(:prison).permit(:name, :description)
+    params.require(:prison).permit(Prison.globalize_attribute_names)
   end
 
   # if request uses id instead of slug, corrects to use the right path

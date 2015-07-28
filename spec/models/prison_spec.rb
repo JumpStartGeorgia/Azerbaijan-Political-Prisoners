@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Prison, type: :model do
-  let!(:prison1) { FactoryGirl.create(:prison, name: 'prison1') }
-  let!(:prison2) { FactoryGirl.create(:prison, name: 'prison2') }
+  let!(:prison1) { FactoryGirl.create(:prison, name_en: 'prison1') }
+  let!(:prison2) { FactoryGirl.create(:prison, name_en: 'prison2') }
   let(:prisoner1) { FactoryGirl.create(:prisoner, name: 'prisoner1') }
   let(:prisoner2) { FactoryGirl.create(:prisoner, name: 'prisoner2') }
 
@@ -23,53 +23,73 @@ RSpec.describe Prison, type: :model do
     end
   end
 
-  describe 'prisoner counts json is correct' do
+  describe 'prisoner counts json' do
     let(:json_data) { Prison.current_prisoner_counts[:data] }
 
-    describe 'with two prisons' do
-      describe 'containing one imprisoned prisoner each' do
-        it 'with one incident each' do
-          prisoner1.incidents << FactoryGirl.create(:incident, prison: prison1)
-          prisoner2.incidents << FactoryGirl.create(:incident, prison: prison2)
+    describe 'has correct prisoner counts' do
+      describe 'with two prisons' do
+        describe 'containing one imprisoned prisoner each' do
+          it 'with one incident each' do
+            prisoner1.incidents << FactoryGirl.create(:incident, prison: prison1)
+            prisoner2.incidents << FactoryGirl.create(:incident, prison: prison2)
 
-          expect(json_data.select { |x| x[:name] == 'prison1' }[0][:y]).to eq(1)
-          expect(json_data.select { |x| x[:name] == 'prison2' }[0][:y]).to eq(1)
+            expect(json_data.select { |x| x[:name] == 'prison1' }[0][:y]).to eq(1)
+            expect(json_data.select { |x| x[:name] == 'prison2' }[0][:y]).to eq(1)
+          end
+
+          it 'with two incidents each' do
+            # old incidents - should not be counted
+            prisoner1.incidents << FactoryGirl.create(:incident, prison: prison1, date_of_arrest: Date.new(2009, 8, 15), date_of_release: Date.new(2013, 7, 25))
+            prisoner2.incidents << FactoryGirl.create(:incident, prison: prison2, date_of_arrest: Date.new(2010, 1, 20), date_of_release: Date.new(2011, 1, 1))
+
+            # new incidents - should be counted
+            prisoner1.incidents << FactoryGirl.create(:incident, prison: prison1, date_of_arrest: 10.days.ago)
+            prisoner2.incidents << FactoryGirl.create(:incident, prison: prison2, date_of_arrest: 10.days.ago)
+
+            expect(json_data.select { |x| x[:name] == 'prison1' }[0][:y]).to eq(1)
+            expect(json_data.select { |x| x[:name] == 'prison2' }[0][:y]).to eq(1)
+          end
         end
 
-        it 'with two incidents each' do
-          # old incidents - should not be counted
-          prisoner1.incidents << FactoryGirl.create(:incident, prison: prison1, date_of_arrest: Date.new(2009, 8, 15), date_of_release: Date.new(2013, 7, 25))
-          prisoner2.incidents << FactoryGirl.create(:incident, prison: prison2, date_of_arrest: Date.new(2010, 1, 20), date_of_release: Date.new(2011, 1, 1))
+        describe 'one containing two imprisoned prisoners and one no prisoners' do
+          it 'with one incident each' do
+            prisoner1.incidents << FactoryGirl.create(:incident, prison: prison1)
+            prisoner2.incidents << FactoryGirl.create(:incident, prison: prison1)
 
-          # new incidents - should be counted
-          prisoner1.incidents << FactoryGirl.create(:incident, prison: prison1, date_of_arrest: 10.days.ago)
-          prisoner2.incidents << FactoryGirl.create(:incident, prison: prison2, date_of_arrest: 10.days.ago)
+            expect(json_data.select { |x| x[:name] == 'prison1' }[0][:y]).to eq(2)
+            expect(json_data.select { |x| x[:name] == 'prison2' }).to eq([])
+          end
 
-          expect(json_data.select { |x| x[:name] == 'prison1' }[0][:y]).to eq(1)
-          expect(json_data.select { |x| x[:name] == 'prison2' }[0][:y]).to eq(1)
+          it 'with two incidents each' do
+            # old incidents - should not be counted
+            prisoner1.incidents << FactoryGirl.create(:incident, prison: prison2, date_of_arrest: Date.new(2009, 8, 15), date_of_release: Date.new(2013, 7, 25))
+            prisoner2.incidents << FactoryGirl.create(:incident, prison: prison2, date_of_arrest: Date.new(2010, 1, 20), date_of_release: Date.new(2011, 1, 1))
+
+            # new incidents - should be counted
+            prisoner1.incidents << FactoryGirl.create(:incident, prison: prison1, date_of_arrest: 10.days.ago)
+            prisoner2.incidents << FactoryGirl.create(:incident, prison: prison1, date_of_arrest: 10.days.ago)
+
+            expect(json_data.select { |x| x[:name] == 'prison1' }[0][:y]).to eq(2)
+            expect(json_data.select { |x| x[:name] == 'prison2' }).to eq([])
+          end
         end
       end
+    end
 
-      describe 'one containing two imprisoned prisoners and one no prisoners' do
-        it 'with one incident each' do
-          prisoner1.incidents << FactoryGirl.create(:incident, prison: prison1)
-          prisoner2.incidents << FactoryGirl.create(:incident, prison: prison1)
+    describe 'has correct prison name translations' do
+      describe 'on az locale' do
+        describe 'with two prisons' do
+          it 'one with az name translation and one without' do
+            I18n.locale = :az
+            prison1.name_az = 'Azeri name!'
+            prison1.save!
 
-          expect(json_data.select { |x| x[:name] == 'prison1' }[0][:y]).to eq(2)
-          expect(json_data.select { |x| x[:name] == 'prison2' }).to eq([])
-        end
+            prisoner1.incidents << FactoryGirl.create(:incident, prison: prison1, date_of_arrest: 10.days.ago)
+            prisoner2.incidents << FactoryGirl.create(:incident, prison: prison2, date_of_arrest: 10.days.ago)
 
-        it 'with two incidents each' do
-          # old incidents - should not be counted
-          prisoner1.incidents << FactoryGirl.create(:incident, prison: prison2, date_of_arrest: Date.new(2009, 8, 15), date_of_release: Date.new(2013, 7, 25))
-          prisoner2.incidents << FactoryGirl.create(:incident, prison: prison2, date_of_arrest: Date.new(2010, 1, 20), date_of_release: Date.new(2011, 1, 1))
-
-          # new incidents - should be counted
-          prisoner1.incidents << FactoryGirl.create(:incident, prison: prison1, date_of_arrest: 10.days.ago)
-          prisoner2.incidents << FactoryGirl.create(:incident, prison: prison1, date_of_arrest: 10.days.ago)
-
-          expect(json_data.select { |x| x[:name] == 'prison1' }[0][:y]).to eq(2)
-          expect(json_data.select { |x| x[:name] == 'prison2' }).to eq([])
+            expect(json_data.select { |x| x[:name] == prison1.name_az }.size).to eq(1)
+            expect(json_data.select { |x| x[:name] == prison2.name_en }.size).to eq(1)
+          end
         end
       end
     end

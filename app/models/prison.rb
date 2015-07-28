@@ -57,27 +57,27 @@ class Prison < ActiveRecord::Base
     find_by_sql([sql, prison_id])
   end
 
-  def summary
-    I18n.t('prison.current_prisoner_count_chart.summary',
-           number_prisoners: "<strong>#{prisoner_count}</strong>",
-           prison_name: "<strong>#{prison_name}</strong>",
-           count: prisoner_count
-          )
-  end
-
   private
 
   def self.current_prisoner_counts_data
     prisons = []
 
-    current_prisoner_counts_sql(10).each do |prison_prisoner_count|
-      prisons.append(y: prison_prisoner_count[:prisoner_count],
-                     name: prison_prisoner_count[:prison_name],
-                     link: "/#{I18n.locale}/prisons/#{prison_prisoner_count[:slug]}",
-                     summary: prison_prisoner_count.summary)
+    current_prisoner_counts_sql(10).each do |prison|
+      prisons.append(y: prison[:prisoner_count],
+                     name: prison[:prison_name],
+                     link: "/#{I18n.locale}/prisons/#{prison[:slug]}",
+                     summary: summary(prison))
     end
 
     prisons
+  end
+
+  def self.summary(prison)
+    I18n.t('prison.current_prisoner_count_chart.summary',
+           number_prisoners: "<strong>#{prison[:prisoner_count]}</strong>",
+           prison_name: "<strong>#{prison[:prison_name]}</strong>",
+           count: prison[:prisoner_count]
+          )
   end
 
   def self.current_prisoner_counts_text
@@ -99,12 +99,29 @@ class Prison < ActiveRecord::Base
   end
 
   def self.current_prisoner_counts_sql(limit = nil)
-    primary_sql = 'select prisons.id as prison_id, prisons.slug as slug, prison_translations.name as prison_name, count(*) as prisoner_count from incidents inner join prisons on incidents.prison_id = prisons.id inner join prison_translations on prisons.id = prison_translations.prison_id where incidents.date_of_release is null and prison_translations.locale = :locale group by prison_translations.name order by count(*) desc'
+    # this gets count by prison_id in format of {prison_id => count}
+    counts = Incident.where(date_of_release: nil).order('count_all desc').limit(limit).group(:prison_id).count
 
-    if limit.present?
-      primary_sql << ' limit :limit'
+    # get the prisons
+    if I18n.locale == I18n.default_locale
+      prisons = with_translations(I18n.locale).where(id: counts.keys)
+    else
+      prisons = with_translations(I18n.locale).with_translations(I18n.default_locale).where(id: counts.keys)
     end
 
-    find_by_sql([primary_sql, locale: I18n.locale, limit: limit])
+    # now merge
+    matches = []
+
+    counts.keys.each do |prison_id|
+      prison = prisons.find { |x| x.id == prison_id }
+      matches << {
+        prison_id: prison.id,
+        slug: prison.slug,
+        prison_name: prison.name,
+        prisoner_count: counts[prison_id]
+      }
+    end
+
+    matches
   end
 end

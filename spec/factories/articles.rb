@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :article do
     criminal_code
-    number '12.34.56'
+    sequence(:number) { |n| "101.#{n}" }
   end
 end

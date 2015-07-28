@@ -107,7 +107,8 @@ class Prison < ActiveRecord::Base
       prisons_data.append(
         y: prisoner_count,
         name: prison.name,
-        link: "/#{I18n.locale}/prisons/#{prison.slug}",
+        link: Rails.application.routes.url_helpers
+          .prison_path(prison, locale: I18n.locale),
         summary: summary(prisoner_count, prison.name)
       )
     end

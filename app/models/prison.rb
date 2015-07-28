@@ -59,24 +59,11 @@ class Prison < ActiveRecord::Base
 
   private
 
-  def self.current_prisoner_counts_data
-    prisons = []
-
-    current_prisoner_counts_sql(10).each do |prison|
-      prisons.append(y: prison[:prisoner_count],
-                     name: prison[:prison_name],
-                     link: "/#{I18n.locale}/prisons/#{prison[:slug]}",
-                     summary: summary(prison))
-    end
-
-    prisons
-  end
-
-  def self.summary(prison)
+  def self.summary(prisoner_count, prison_name)
     I18n.t('prison.current_prisoner_count_chart.summary',
-           number_prisoners: "<strong>#{prison[:prisoner_count]}</strong>",
-           prison_name: "<strong>#{prison[:prison_name]}</strong>",
-           count: prison[:prisoner_count]
+           number_prisoners: "<strong>#{prisoner_count}</strong>",
+           prison_name: "<strong>#{prison_name}</strong>",
+           count: prisoner_count
           )
   end
 
@@ -93,35 +80,38 @@ class Prison < ActiveRecord::Base
 
   def self.current_prisoner_counts
     {
-      data: current_prisoner_counts_data,
+      data: current_prisoner_counts_data(10),
       text: current_prisoner_counts_text
     }
   end
 
-  def self.current_prisoner_counts_sql(limit = nil)
+  def self.current_prisoner_counts_data(limit = nil)
     # this gets count by prison_id in format of {prison_id => count}
     counts = Incident.where(date_of_release: nil).order('count_all desc').limit(limit).group(:prison_id).count
 
-    # get the prisons
+    # get the prisons with current locale translations, plus default locale
+    # translations as fallback
     if I18n.locale == I18n.default_locale
       prisons = with_translations(I18n.locale).where(id: counts.keys)
     else
       prisons = with_translations(I18n.locale).with_translations(I18n.default_locale).where(id: counts.keys)
     end
 
-    # now merge
-    matches = []
+    # Combine count and translations
+    prisons_data = []
 
     counts.keys.each do |prison_id|
-      prison = prisons.find { |x| x.id == prison_id }
-      matches << {
-        prison_id: prison.id,
-        slug: prison.slug,
-        prison_name: prison.name,
-        prisoner_count: counts[prison_id]
-      }
+      prison = prisons.find { |prison| prison.id == prison_id }
+      prisoner_count = counts[prison_id]
+
+      prisons_data.append(
+        y: prisoner_count,
+        name: prison.name,
+        link: "/#{I18n.locale}/prisons/#{prison.slug}",
+        summary: summary(prisoner_count, prison.name)
+      )
     end
 
-    matches
+    prisons_data
   end
 end

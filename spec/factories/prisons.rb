@@ -1,5 +1,5 @@
 FactoryGirl.define do
   factory :prison do
-    sequence(:name) { |n| "prison#{n}" }
+    sequence(:name_en) { |n| "prison#{n}" }
   end
 end

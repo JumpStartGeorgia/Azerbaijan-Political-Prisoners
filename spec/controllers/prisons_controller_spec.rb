@@ -29,9 +29,9 @@ RSpec.describe PrisonsController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # Prison. As you add validations to Prison, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { FactoryGirl.attributes_for(:prison, name: 'MyName') }
+  let(:valid_attributes) { FactoryGirl.attributes_for(:prison) }
 
-  let(:invalid_attributes) { FactoryGirl.attributes_for(:prison, name: '') }
+  let(:invalid_attributes) { FactoryGirl.attributes_for(:prison, name_en: '') }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in

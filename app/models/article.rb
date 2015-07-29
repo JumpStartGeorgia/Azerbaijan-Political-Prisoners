@@ -63,7 +63,9 @@ class Article < ActiveRecord::Base
     # Get number of charges per article
     counts = Charge.limit(limit).group(:article_id).order('count_all desc').count
 
-    # Get articles with criminal codes and translations
+    # Get articles with criminal codes and translations. By using preload
+    # instead of joins, further sql queries are not necessary to retreive the
+    # translations 
     articles = Article.preload(criminal_code: :translations)
 
     # Merge article info with charge counts

@@ -46,47 +46,72 @@ class Article < ActiveRecord::Base
     end
   end
 
-  def self.incident_counts_ordered(limit = nil)
-    primary_sql = 'select articles.id as article_id, articles.slug as slug,
-      articles.number as article_number,
-      criminal_codes.name as criminal_code_name,
-      articles.description as description,
-      count(*) as incident_count from incidents
-      inner join charges on incidents.id = charges.incident_id
-      inner join articles on charges.article_id = articles.id
-      inner join criminal_codes
-      on articles.criminal_code_id = criminal_codes.id
-      group by articles.number order by count(*) desc'
+  def self.incident_counts_chart_data(limit = nil)
+    # Get number of charges per article
+    counts = Charge.limit(limit).group(:article_id).order('count_all desc').count
 
-    if limit.nil?
-      find_by_sql(primary_sql)
-    else
-      find_by_sql(primary_sql + ' limit ' + limit.to_s)
+    # Get articles with criminal codes and translations
+    articles = Article.preload(criminal_code: :translations)
+
+    articles_data = []
+
+    counts.keys.each do |article_id|
+      article = articles.find { |art| art.id == article_id }
+      charge_count = counts[article.id]
+
+      articles_data.append(
+        y: charge_count,
+        number: article.number,
+        link: "/#{I18n.locale}/articles/#{article.slug}",
+        summary: summary(article.number,
+                         charge_count,
+                         article.criminal_code.name,
+                         article.description)
+      )
     end
+
+    articles_data
+
+    # primary_sql = 'select articles.id as article_id, articles.slug as slug,
+    #   articles.number as article_number,
+    #   criminal_codes.name as criminal_code_name,
+    #   articles.description as description,
+    #   count(*) as incident_count from incidents
+    #   inner join charges on incidents.id = charges.incident_id
+    #   inner join articles on charges.article_id = articles.id
+    #   inner join criminal_codes
+    #   on articles.criminal_code_id = criminal_codes.id
+    #   group by articles.number order by count(*) desc'
+    #
+    # if limit.nil?
+    #   find_by_sql(primary_sql)
+    # else
+    #   find_by_sql(primary_sql + ' limit ' + limit.to_s)
+    # end
   end
 
-  def summary
+  def self.summary(article_number, charge_count, code_name, desc)
     I18n.t('article.incident_counts_chart.summary',
            article_number: "<strong>##{article_number}</strong>",
-           code_name: criminal_code_name,
+           code_name: code_name,
            code_label: I18n.t('activerecord.models.criminal_code',
                               count: 1),
-           number_of_incidents: "<strong>#{incident_count}</strong>",
+           number_of_incidents: "<strong>#{charge_count}</strong>",
            article_desc: desc)
   end
 
-  def self.incident_counts_chart_data
-    article_info = []
-
-    Article.incident_counts_ordered(10).each do |article|
-      article_info.append(y: article[:incident_count],
-                          number: article[:article_number],
-                          link: "/#{I18n.locale}/articles/#{article[:slug]}",
-                          summary: article.summary)
-    end
-
-    article_info
-  end
+  # def self.incident_counts_chart_data
+  #   article_info = []
+  #
+  #   Article.incident_counts_ordered(10).each do |article|
+  #     article_info.append(y: article[:incident_count],
+  #                         number: article[:article_number],
+  #                         link: "/#{I18n.locale}/articles/#{article[:slug]}",
+  #                         summary: article.summary)
+  #   end
+  #
+  #   article_info
+  # end
 
   def self.incident_counts_chart_text
     {
@@ -102,7 +127,7 @@ class Article < ActiveRecord::Base
 
   def self.incident_counts_chart
     chart_data = {
-      data: incident_counts_chart_data,
+      data: incident_counts_chart_data(10),
       text: incident_counts_chart_text
     }
   end

@@ -23,7 +23,7 @@ class Article < ActiveRecord::Base
   # permalink
   friendly_id :number_and_code, use: :history
   def number_and_code
-    "#{number}-in-#{criminal_code.name}-code"
+    "#{number}-in-#{criminal_code.name_en}-code"
   end
 
   def should_generate_new_friendly_id?

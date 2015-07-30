@@ -71,7 +71,12 @@ class Article < ActiveRecord::Base
     # Get articles with criminal codes and translations. By using preload
     # instead of joins, further sql queries are not necessary to retreive the
     # translations
-    articles = Article.preload(criminal_code: :translations)
+
+    if I18n.locale == I18n.default_locale
+      articles = Article.with_translations(I18n.locale).preload(criminal_code: :translations)
+    else
+      articles = Article.with_translations([I18n.locale, I18n.default_locale]).preload(criminal_code: :translations)
+    end
 
     # Merge article info with charge counts
     articles_data = []

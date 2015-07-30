@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_150_730_065_321) do
+ActiveRecord::Schema.define(version: 20_150_730_081_106) do
   create_table 'article_translations', force: :cascade do |t|
     t.integer 'article_id',  limit: 4,     null: false
     t.string 'locale',      limit: 255,   null: false
@@ -162,15 +162,24 @@ ActiveRecord::Schema.define(version: 20_150_730_065_321) do
 
   add_index 'roles', ['name'], name: 'index_roles_on_name', using: :btree
 
-  create_table 'tags', force: :cascade do |t|
+  create_table 'tag_translations', force: :cascade do |t|
+    t.integer 'tag_id',      limit: 4,     null: false
+    t.string 'locale',      limit: 255,   null: false
+    t.datetime 'created_at',                null: false
+    t.datetime 'updated_at',                null: false
     t.string 'name',        limit: 255
     t.text 'description', limit: 65_535
-    t.datetime 'created_at'
-    t.datetime 'updated_at'
-    t.string 'slug',        limit: 255
   end
 
-  add_index 'tags', ['name'], name: 'index_tags_on_name', using: :btree
+  add_index 'tag_translations', ['locale'], name: 'index_tag_translations_on_locale', using: :btree
+  add_index 'tag_translations', ['tag_id'], name: 'index_tag_translations_on_tag_id', using: :btree
+
+  create_table 'tags', force: :cascade do |t|
+    t.datetime 'created_at'
+    t.datetime 'updated_at'
+    t.string 'slug',       limit: 255
+  end
+
   add_index 'tags', ['slug'], name: 'index_tags_on_slug', using: :btree
 
   create_table 'users', force: :cascade do |t|

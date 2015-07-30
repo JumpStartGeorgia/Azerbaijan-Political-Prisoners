@@ -5,14 +5,22 @@ class Tag < ActiveRecord::Base
   has_and_belongs_to_many :incidents
   validates :name, presence: true, uniqueness: true
 
+  translates :name, :description, fallbacks_for_empty_translations: true
+
+  # Allows reference of specific translations, i.e. post.title_az
+  # or post.title_en
+  globalize_accessors
+
   # strip extra spaces before saving
   auto_strip_attributes :name, :description
 
   # permalink
-  friendly_id :name, use: :history
+  friendly_id :name_en, use: :history
 
   def should_generate_new_friendly_id?
-    name_changed? || slug.nil?
+    # Always try to generate new slug (will use current slug if name_en has
+    # not changed)
+    true
   end
 
   def self.to_csv

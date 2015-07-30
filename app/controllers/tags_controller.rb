@@ -107,7 +107,7 @@ class TagsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def tag_params
-    params.require(:tag).permit(:name, :description)
+    params.require(:tag).permit(*Tag.globalize_attribute_names)
   end
 
   # if request uses id instead of slug, corrects to use the right path

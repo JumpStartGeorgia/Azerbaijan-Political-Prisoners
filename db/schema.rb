@@ -11,11 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_150_727_060_856) do
+ActiveRecord::Schema.define(version: 20_150_730_065_321) do
+  create_table 'article_translations', force: :cascade do |t|
+    t.integer 'article_id',  limit: 4,     null: false
+    t.string 'locale',      limit: 255,   null: false
+    t.datetime 'created_at',                null: false
+    t.datetime 'updated_at',                null: false
+    t.text 'description', limit: 65_535
+  end
+
+  add_index 'article_translations', ['article_id'], name: 'index_article_translations_on_article_id', using: :btree
+  add_index 'article_translations', ['locale'], name: 'index_article_translations_on_locale', using: :btree
+
   create_table 'articles', force: :cascade do |t|
     t.string 'number',           limit: 255
     t.integer 'criminal_code_id', limit: 4
-    t.text 'description',      limit: 65_535
     t.datetime 'created_at'
     t.datetime 'updated_at'
     t.string 'slug',             limit: 255

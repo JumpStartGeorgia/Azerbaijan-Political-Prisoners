@@ -1,4 +1,5 @@
-<%= semantic_form_for(@article) do |f| %>
+<% object = @article %>
+<%= semantic_form_for(object) do |f| %>
   <%= f.semantic_errors *f.object.errors.keys %>
   <%= f.inputs do %>
     <%= f.input :number %>
@@ -7,7 +8,16 @@
                                  obj: t('activerecord.models.criminal_code', count: 1)),
                        new_criminal_code_path,
                        target: '_blank')).html_safe %>
-    <%= f.input :description, input_html: { class: 'tinymce' } %>
+
+    <%= render layout: 'shared/form/translated_inputs',
+               locals: { object: object } do |enabled_locale, enabled_locale_name| %>
+      <%= f.input "description_#{enabled_locale}",
+                  label: t('shared.labels.translated_field',
+                           field: t('activerecord.attributes.article.description'),
+                           language: enabled_locale_name),
+                  as: :text,
+                  input_html: { class: 'tinymce' } %>
+    <% end %>
   <% end %>
   <%= f.actions do %>
     <%= f.action :submit, button_html: { class: 'btn btn-success' } %>

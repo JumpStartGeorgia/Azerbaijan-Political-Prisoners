@@ -126,7 +126,7 @@ class ArticlesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def article_params
-    params.require(:article).permit(:number, :criminal_code_id, :description)
+    params.require(:article).permit(:number, :criminal_code_id, *Article.globalize_attribute_names)
   end
 
   # if request uses id instead of slug, corrects to use the right path

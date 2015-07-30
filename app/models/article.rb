@@ -10,6 +10,11 @@ class Article < ActiveRecord::Base
   # strip extra spaces before saving
   auto_strip_attributes :number, :description
 
+  translates :description, fallbacks_for_empty_translations: true
+  # Allows reference of specific translations, i.e. post.title_az
+  # or post.title_en
+  globalize_accessors
+
   validates :number, :criminal_code, presence: true
   validates_uniqueness_of :number,
                           scope: :criminal_code,

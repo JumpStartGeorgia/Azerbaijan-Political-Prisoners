@@ -44,9 +44,7 @@ group :development, :test do
   gem 'launchy', '~> 2.4.3'
   gem 'selenium-webdriver', '~> 2.44.0'
   gem 'capybara-screenshot', '~> 1.0.4'
-  gem 'thin', '~> 1.6.3'
   gem 'database_cleaner', '~> 1.3.0'
-  gem 'faker', '~> 1.4.3'
 end
 
 group :staging, :production do
@@ -78,4 +76,8 @@ gem 'globalize-accessors', '~> 0.2.1' # makes translation forms easier
 group :development do
   gem 'rails-dev-boost', '~> 0.3.0', git: 'git://github.com/thedarkone/rails-dev-boost.git'
   gem 'rb-fsevent', '~> 0.9.1'
+end
+
+group :development, :test do
+  gem 'faker', '~> 1.4.3'
 end

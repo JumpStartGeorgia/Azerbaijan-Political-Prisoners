@@ -77,4 +77,5 @@ gem 'globalize-accessors', '~> 0.2.1' # makes translation forms easier
 
 group :development do
   gem 'rails-dev-boost', '~> 0.3.0', git: 'git://github.com/thedarkone/rails-dev-boost.git'
+  gem 'rb-fsevent', '~> 0.9.1'
 end

@@ -247,6 +247,7 @@ GEM
     rake (10.4.2)
     rake-compiler (0.9.5)
       rake
+    rb-fsevent (0.9.5)
     ref (1.0.5)
     request_store (1.1.0)
     responders (2.1.0)
@@ -383,6 +384,7 @@ DEPENDENCIES
   rails (= 4.2.1)
   rails-dev-boost (~> 0.3.0)!
   rails-observers (~> 0.1.2)
+  rb-fsevent (~> 0.9.1)
   rspec-rails (~> 3.1.0)
   rubyzip (~> 1.1)
   sass-rails (~> 5.0)

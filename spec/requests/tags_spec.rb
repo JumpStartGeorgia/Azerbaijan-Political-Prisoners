@@ -1,15 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Tags', type: :request do
-  tag_name_1 = 'tag_1'
-  tag_description_1 = 'description_1'
-  tag_name_2 = 'tag_2'
-  tag_description_2 = 'description_2'
-
-  before(:example) do
-    FactoryGirl.create(:tag, name: tag_name_1, description: tag_description_1)
-    FactoryGirl.create(:tag, name: tag_name_2, description: tag_description_2)
-  end
+  let(:tag1) { FactoryGirl.create(:tag_with_description) }
+  let(:tag2) { FactoryGirl.create(:tag_with_description) }
 
   describe 'GET /tags' do
     it 'works' do
@@ -20,32 +13,35 @@ RSpec.describe 'Tags', type: :request do
 
   describe 'GET tag' do
     it 'works with id' do
-      get tag_path(Tag.find_by_name(tag_name_1).id)
+      get tag_path(tag1.id)
 
       expect(response).to have_http_status(301)
       expect(response).to redirect_to(
-        tag_path(Tag.find_by_name(tag_name_1)))
+        tag_path(tag1))
       follow_redirect!
 
       expect(response).to have_http_status(200)
-      expect(response.body).to include(tag_name_1)
+      expect(response.body).to include(tag1.name)
     end
 
     it 'works with friendly id' do
-      get tag_path(Tag.find_by_name(tag_name_1))
+      get tag_path(tag1)
       expect(response).to have_http_status(200)
-      expect(response.body).to include(tag_name_1)
+      expect(response.body).to include(tag1.name)
     end
   end
 
   describe 'GET /tags.csv' do
     it 'works' do
+      tag1.save!
+      tag2.save!
+
       get tags_path(format: :csv)
       expect(response).to have_http_status(200)
-      expect(response.body).to include(tag_name_1)
-      expect(response.body).to include(tag_description_1)
-      expect(response.body).to include(tag_name_2)
-      expect(response.body).to include(tag_description_2)
+      expect(response.body).to include(tag1.name)
+      expect(response.body).to include(tag1.description)
+      expect(response.body).to include(tag2.name)
+      expect(response.body).to include(tag2.description)
     end
   end
 
@@ -59,21 +55,21 @@ RSpec.describe 'Tags', type: :request do
 
     describe 'EDIT tag' do
       it 'works with id' do
-        get edit_tag_path(Tag.find_by_name(tag_name_1).id)
+        get edit_tag_path(tag1.id)
 
         expect(response).to have_http_status(301)
         expect(response).to redirect_to(
-          edit_tag_path(Tag.find_by_name(tag_name_1)))
+          edit_tag_path(tag1))
         follow_redirect!
 
         expect(response).to have_http_status(200)
-        expect(response.body).to include(tag_name_1)
+        expect(response.body).to include(tag1.name)
       end
 
       it 'works with friendly id' do
-        get edit_tag_path(Tag.find_by_name(tag_name_1))
+        get edit_tag_path(tag1)
         expect(response).to have_http_status(200)
-        expect(response.body).to include(tag_name_1)
+        expect(response.body).to include(tag1.name)
       end
     end
   end

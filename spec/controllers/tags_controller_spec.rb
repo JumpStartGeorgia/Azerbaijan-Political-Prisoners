@@ -30,11 +30,11 @@ RSpec.describe TagsController, type: :controller do
   # Tag. As you add validations to Tag, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
-    FactoryGirl.build(:tag, name: 'tag#1').attributes
+    FactoryGirl.attributes_for(:tag)
   end
 
   let(:invalid_attributes) do
-    FactoryGirl.build(:tag, name: '').attributes
+    FactoryGirl.attributes_for(:tag, name_en: '')
   end
 
   # This should return the minimal set of values that should be in the session

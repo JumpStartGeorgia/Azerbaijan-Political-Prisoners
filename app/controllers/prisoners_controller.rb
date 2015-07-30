@@ -121,7 +121,7 @@ class PrisonersController < ApplicationController
   end
 
   def set_form_collections
-    @tags = Tag.all.order(:name)
+    @tags = Tag.includes(:translations).order(:name)
     @prisons = Prison.includes(:translations).order(:name)
   end
 

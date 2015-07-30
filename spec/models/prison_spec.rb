@@ -87,8 +87,8 @@ RSpec.describe Prison, type: :model do
             prisoner1.incidents << FactoryGirl.create(:incident, prison: prison1, date_of_arrest: 10.days.ago)
             prisoner2.incidents << FactoryGirl.create(:incident, prison: prison2, date_of_arrest: 10.days.ago)
 
-            expect(json_data.select { |x| x[:name] == prison1.name_az }.size).to eq(1)
-            expect(json_data.select { |x| x[:name] == prison2.name_en }.size).to eq(1)
+            expect(json_data.count { |x| x[:name] == prison1.name_az }).to eq(1)
+            expect(json_data.count { |x| x[:name] == prison2.name_en }).to eq(1)
           end
         end
       end

@@ -65,7 +65,7 @@ class Article < ActiveRecord::Base
 
     # Get articles with criminal codes and translations. By using preload
     # instead of joins, further sql queries are not necessary to retreive the
-    # translations 
+    # translations
     articles = Article.preload(criminal_code: :translations)
 
     # Merge article info with charge counts

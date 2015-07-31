@@ -91,18 +91,8 @@ class PrisonsController < ApplicationController
   end
 
   def prison_prisoner_counts
-    prison_prisoner_counts_chart_path =
-      Rails.public_path.join('generated',
-                             'json',
-                             I18n.locale.to_s,
-                             'prison_prisoner_count_chart.json')
-
-    unless File.exist?(prison_prisoner_counts_chart_path)
-      Prison.generate_prison_prisoner_count_chart_json
-    end
-
     respond_to do |format|
-      format.json { render json: File.read(prison_prisoner_counts_chart_path) }
+      format.json { render json: File.read(Prison.prisoner_count_chart_json) }
     end
   end
 

@@ -500,6 +500,7 @@ task deploy: :environment do
         invoke :'puma:phased_restart'
       end
       invoke :'rails:generated_files:regenerate'
+      invoke :'whenever:update'
     end
   end
 end

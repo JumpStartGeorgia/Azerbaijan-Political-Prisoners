@@ -94,18 +94,8 @@ class ArticlesController < ApplicationController
   end
 
   def article_incident_counts
-    article_incident_counts_chart_path =
-      Rails.public_path.join('generated',
-                             'json',
-                             I18n.locale.to_s,
-                             'article_incident_counts_chart.json')
-
-    unless File.exist?(article_incident_counts_chart_path)
-      Article.generate_highest_incident_counts_chart_json
-    end
-
     respond_to do |format|
-      format.json { render json: File.read(article_incident_counts_chart_path) }
+      format.json { render json: File.read(Article.charge_counts_chart_json) }
     end
   end
 

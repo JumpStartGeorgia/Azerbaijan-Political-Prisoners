@@ -64,7 +64,7 @@ class Article < ActiveRecord::Base
            article_desc: desc)
   end
 
-  def self.incident_counts_chart_data(limit = nil)
+  def self.charge_counts_chart_data(limit = nil)
     # Get number of charges per article
     counts = Charge.limit(limit).group(:article_id).order('count_all desc').count
 
@@ -94,7 +94,7 @@ class Article < ActiveRecord::Base
     articles_data
   end
 
-  def self.incident_counts_chart_text
+  def self.charge_counts_chart_text
     {
       explore_charges: I18n.t('article.incident_counts_chart.static_text.explore_charges'),
       title: I18n.t('article.incident_counts_chart.static_text.title'),
@@ -106,21 +106,34 @@ class Article < ActiveRecord::Base
     }
   end
 
-  def self.incident_counts_chart
+  def self.charge_counts_chart
     chart_data = {
-      data: incident_counts_chart_data(10),
-      text: incident_counts_chart_text
+      data: charge_counts_chart_data(10),
+      text: charge_counts_chart_text
     }
   end
 
-  def self.generate_highest_incident_counts_chart_json
-    dir_path = Rails.public_path.join('generated', 'json', I18n.locale.to_s)
-    json_path = dir_path.join('article_incident_counts_chart.json')
-    # if folder path not exist, create it
-    FileUtils.mkpath(dir_path) unless File.exist?(dir_path)
-    File.open(json_path, 'w') do |f|
-      f.write(incident_counts_chart.to_json)
+  def self.generate_charge_counts_chart_json(charge_counts_chart_json_path)
+    # if folder path does not exist, create it
+    FileUtils.mkdir_p(Pathname.new(File.dirname(charge_counts_chart_json_path)))
+
+    File.open(charge_counts_chart_json_path, 'w') do |f|
+      f.write(charge_counts_chart.to_json)
     end
+  end
+
+  def self.charge_counts_chart_json
+    charge_counts_chart_json_path =
+      Rails.public_path.join('generated',
+                             'json',
+                             I18n.locale.to_s,
+                             'article_incident_counts_chart.json')
+
+    unless File.exist?(charge_counts_chart_json_path)
+      generate_charge_counts_chart_json(charge_counts_chart_json_path)
+    end
+
+    return charge_counts_chart_json_path
   end
 
   def desc

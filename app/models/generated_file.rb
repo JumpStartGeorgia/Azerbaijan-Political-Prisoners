@@ -14,7 +14,8 @@ class GeneratedFile
     [
       Prisoner.imprisoned_count_timeline_json,
       Article.charge_counts_chart_json,
-      Prison.current_prisoner_counts_chart_json
+      Prison.current_prisoner_counts_chart_json,
+      PwCsv.zip_all
     ]
   end
   private_class_method :files

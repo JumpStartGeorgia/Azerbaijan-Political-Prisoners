@@ -38,40 +38,8 @@ class Prison < ActiveRecord::Base
     end
   end
 
-  def self.prisoner_count_chart_json
-    prisoner_count_chart_json_path =
-      Rails.public_path.join('generated',
-                             'json',
-                             I18n.locale.to_s,
-                             'prison_prisoner_count_chart.json')
-
-    unless File.exist?(prisoner_count_chart_json_path)
-      generate_prisoner_count_chart_json(prisoner_count_chart_json_path)
-    end
-
-    return prisoner_count_chart_json_path
-  end
-
-  def self.generate_prisoner_count_chart_json(prisoner_count_chart_json_path)
-    # if folder path not exist, create it
-    FileUtils.mkdir_p(Pathname.new(
-      File.dirname(prisoner_count_chart_json_path)))
-
-    File.open(prisoner_count_chart_json_path, 'w') do |f|
-      f.write(current_prisoner_counts.to_json)
-    end
-  end
-
-  # include the current prisoner count with the prisons
-  def self.with_current_and_all_prisoner_count(prison_id = nil)
-    # this old query counts number of incidents, not people
-    # sql = 'select p.*, if(i_current.count is null, 0, i_current.count) as current_prisoner_count, if(i_all.count is null, 0, i_all.count) as all_prisoner_count from prisons as p left join (select prison_id, count(*) as count from incidents group by prison_id) as i_all on i_all.prison_id = p.id left join (select prison_id, count(*) as count from incidents where date_of_release is null group by prison_id) as i_current on i_current.prison_id = p.id'
-    sql = 'select p.*, if(i_current.count is null, 0, i_current.count) as current_prisoner_count, if(i_all.count is null, 0, i_all.count) as all_prisoner_count  from prisons as p  left join (select x.prison_id, count(*) as count from  (select prison_id from incidents group by prison_id,prisoner_id) as x group by x.prison_id) as i_all on i_all.prison_id = p.id  left join (select prison_id, count(*) as count from incidents where date_of_release is null group by prison_id) as i_current on i_current.prison_id = p.id'
-    sql << ' where p.id = ?' if prison_id.present?
-    find_by_sql([sql, prison_id])
-  end
-
-  private
+  ############################################################
+  ############### Current prisoner count chart ###############
 
   def self.summary(prisoner_count, prison_name)
     I18n.t('prison.current_prisoner_count_chart.summary',
@@ -89,13 +57,6 @@ class Prison < ActiveRecord::Base
       prisons_path: Rails.application.routes.url_helpers
         .prisons_path(locale: I18n.locale),
       highcharts: I18n.t('highcharts')
-    }
-  end
-
-  def self.current_prisoner_counts
-    {
-      data: current_prisoner_counts_data(10),
-      text: current_prisoner_counts_text
     }
   end
 
@@ -128,5 +89,47 @@ class Prison < ActiveRecord::Base
     end
 
     prisons_data
+  end
+
+  def self.current_prisoner_counts
+    {
+      data: current_prisoner_counts_data(10),
+      text: current_prisoner_counts_text
+    }
+  end
+
+  def self.generate_current_prisoner_counts_chart_json(prisoner_counts_chart_json_path)
+    # if folder path not exist, create it
+    FileUtils.mkdir_p(Pathname.new(
+      File.dirname(prisoner_counts_chart_json_path)))
+
+    File.open(prisoner_counts_chart_json_path, 'w') do |f|
+      f.write(current_prisoner_counts.to_json)
+    end
+  end
+
+  def self.current_prisoner_counts_chart_json
+    prisoner_counts_chart_json_path =
+      Rails.public_path.join('generated',
+                             'json',
+                             I18n.locale.to_s,
+                             'prison_prisoner_count_chart.json')
+
+    unless File.exist?(prisoner_counts_chart_json_path)
+      generate_current_prisoner_counts_chart_json(prisoner_counts_chart_json_path)
+    end
+
+    return prisoner_counts_chart_json_path
+  end
+
+  ############################################################
+
+  # include the current prisoner count with the prisons
+  def self.with_current_and_all_prisoner_count(prison_id = nil)
+    # this old query counts number of incidents, not people
+    # sql = 'select p.*, if(i_current.count is null, 0, i_current.count) as current_prisoner_count, if(i_all.count is null, 0, i_all.count) as all_prisoner_count from prisons as p left join (select prison_id, count(*) as count from incidents group by prison_id) as i_all on i_all.prison_id = p.id left join (select prison_id, count(*) as count from incidents where date_of_release is null group by prison_id) as i_current on i_current.prison_id = p.id'
+    sql = 'select p.*, if(i_current.count is null, 0, i_current.count) as current_prisoner_count, if(i_all.count is null, 0, i_all.count) as all_prisoner_count  from prisons as p  left join (select x.prison_id, count(*) as count from  (select prison_id from incidents group by prison_id,prisoner_id) as x group by x.prison_id) as i_all on i_all.prison_id = p.id  left join (select prison_id, count(*) as count from incidents where date_of_release is null group by prison_id) as i_current on i_current.prison_id = p.id'
+    sql << ' where p.id = ?' if prison_id.present?
+    find_by_sql([sql, prison_id])
   end
 end

@@ -92,7 +92,7 @@ class PrisonsController < ApplicationController
 
   def prison_prisoner_counts
     respond_to do |format|
-      format.json { render json: File.read(Prison.prisoner_count_chart_json) }
+      format.json { render json: File.read(Prison.current_prisoner_counts_chart_json) }
     end
   end
 

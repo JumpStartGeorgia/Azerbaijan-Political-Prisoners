@@ -186,36 +186,19 @@ class Prisoner < ActiveRecord::Base
     time.numerator
   end
 
-  # Imprisoned count timeline
+  ############################################################
+  ############### Imprisoned count timeline ###############
 
-  def self.imprisoned_count_timeline_text
-    {
-      title: I18n.t('prisoner.imprisoned_count_timeline.title'),
-      explore_prisoners: I18n.t('prisoner.imprisoned_count_timeline.explore_prisoners'),
-      number_prisoners: I18n.t('prisoner.imprisoned_count_timeline.number_prisoners'),
-      date_summary: I18n.t('prisoner.imprisoned_count_timeline.date_summary'),
-      prisoners_path: Rails.application.routes.url_helpers.prisoners_path(locale: I18n.locale),
-      highcharts: I18n.t('highcharts'),
-      date_format: I18n.t('date.formats.full')
-    }
+  def self.arrest_counts_by_day
+    find_by_sql('select year(date_of_arrest) as year, month(date_of_arrest) as month, day(date_of_arrest) as day, count(*) from incidents group by year, month, day order by year, month, day')
   end
 
-  def self.imprisoned_count_timeline
-    {
-      data: imprisoned_counts_from_date_to_date(Date.new(2012, 01, 01),
-                                                Date.today),
-      text: imprisoned_count_timeline_text
-    }
-  end
+  def self.release_counts_by_day
+    release_counts_by_day = find_by_sql('select year(date_of_release) as year, month(date_of_release) as month, day(date_of_release) as day, count(*) from incidents group by year, month, day order by year, month, day')
 
-  def self.generate_imprisoned_count_timeline_json
-    dir_path = Rails.public_path.join('generated', 'json', I18n.locale.to_s)
-    json_path = dir_path.join('imprisoned_count_timeline.json')
-    # if folder path not exist, create it
-    FileUtils.mkpath(dir_path) unless File.exist?(dir_path)
-    File.open(json_path, 'w') do |f|
-      f.write(imprisoned_count_timeline.to_json)
-    end
+    # If one or more incidents have no dates of release, then the first item in the array will have nil year, nil month and nil day. If that is the case, drop the first item
+    release_counts_by_day = release_counts_by_day.size > 0 && release_counts_by_day[0][:year].nil? ? release_counts_by_day.drop(1) : release_counts_by_day
+    release_counts_by_day
   end
 
   def self.imprisoned_counts_from_date_to_date(starting_date, ending_date)
@@ -277,17 +260,50 @@ class Prisoner < ActiveRecord::Base
     dates_and_counts
   end
 
-  def self.arrest_counts_by_day
-    find_by_sql('select year(date_of_arrest) as year, month(date_of_arrest) as month, day(date_of_arrest) as day, count(*) from incidents group by year, month, day order by year, month, day')
+  def self.imprisoned_count_timeline_text
+    {
+      title: I18n.t('prisoner.imprisoned_count_timeline.title'),
+      explore_prisoners: I18n.t('prisoner.imprisoned_count_timeline.explore_prisoners'),
+      number_prisoners: I18n.t('prisoner.imprisoned_count_timeline.number_prisoners'),
+      date_summary: I18n.t('prisoner.imprisoned_count_timeline.date_summary'),
+      prisoners_path: Rails.application.routes.url_helpers.prisoners_path(locale: I18n.locale),
+      highcharts: I18n.t('highcharts'),
+      date_format: I18n.t('date.formats.full')
+    }
   end
 
-  def self.release_counts_by_day
-    release_counts_by_day = find_by_sql('select year(date_of_release) as year, month(date_of_release) as month, day(date_of_release) as day, count(*) from incidents group by year, month, day order by year, month, day')
-
-    # If one or more incidents have no dates of release, then the first item in the array will have nil year, nil month and nil day. If that is the case, drop the first item
-    release_counts_by_day = release_counts_by_day.size > 0 && release_counts_by_day[0][:year].nil? ? release_counts_by_day.drop(1) : release_counts_by_day
-    release_counts_by_day
+  def self.imprisoned_count_timeline
+    {
+      data: imprisoned_counts_from_date_to_date(Date.new(2012, 01, 01),
+                                                Date.today),
+      text: imprisoned_count_timeline_text
+    }
   end
+
+  def self.generate_imprisoned_count_timeline_json(imprisoned_count_timeline_path)
+    # if folder path does not exist, create it
+    FileUtils.mkdir_p(Pathname.new(File.dirname(imprisoned_count_timeline_path)))
+
+    File.open(imprisoned_count_timeline_path, 'w') do |f|
+      f.write(imprisoned_count_timeline.to_json)
+    end
+  end
+
+  def self.imprisoned_count_timeline_json
+    imprisoned_count_timeline_path =
+      Rails.public_path.join('generated',
+                             'json',
+                             I18n.locale.to_s,
+                             'imprisoned_count_timeline.json')
+
+    unless File.exist?(imprisoned_count_timeline_path)
+      generate_imprisoned_count_timeline_json(imprisoned_count_timeline_path)
+    end
+
+    return imprisoned_count_timeline_path
+  end
+
+  ############################################################
 
   def self.create_date_from_hash(hash)
     Date.new(hash[:year].to_i, hash[:month].to_i, hash[:day].to_i)

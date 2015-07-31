@@ -4,6 +4,7 @@ require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
 require 'mina/rbenv'
+require 'mina/whenever'
 
 set :user_path, -> { "/home/#{user}" }
 set :deploy_to, -> { "#{user_path}/#{application}" }

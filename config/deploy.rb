@@ -96,6 +96,16 @@ namespace :rails do
       queue %(ls -la #{full_current_path}/log/)
     end
   end
+
+  namespace :generated_files do
+    desc "Call rake task that regenerates all generated files"
+    task :regenerate do
+      queue %(
+      echo '-----> Regenerating generated files'
+      cd #{full_current_path} && RAILS_ENV=#{rails_env} bundle exec rake generated_files:regenerate
+      )
+    end
+  end
 end
 
 namespace :nginx do
@@ -488,6 +498,7 @@ task deploy: :environment do
       else
         invoke :'puma:phased_restart'
       end
+      invoke :'rails:generated_files:regenerate'
     end
   end
 end

@@ -87,7 +87,6 @@ RSpec.configure do |config|
 
   # Remove generated files after tests are run
   config.after(:suite) do
-    generated_dir = Rails.public_path.join('generated')
-    FileUtils.remove_dir(generated_dir, true) if File.directory?(generated_dir)
+    GeneratedFile.regenerate
   end
 end

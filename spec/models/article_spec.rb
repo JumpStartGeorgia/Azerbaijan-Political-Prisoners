@@ -36,7 +36,7 @@ RSpec.describe Article, type: :model do
   end
 
   describe 'incident counts json data' do
-    let(:json_data) { Article.incident_counts_chart_data }
+    let(:json_data) { Article.charge_counts_chart_data }
 
     describe 'with two articles (1 charge and 2 charges)' do
       before(:example) do

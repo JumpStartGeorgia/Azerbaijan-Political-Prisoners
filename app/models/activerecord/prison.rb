@@ -66,11 +66,7 @@ class Prison < ActiveRecord::Base
 
     # get the prisons with current locale translations, plus default locale
     # translations as fallback
-    if I18n.locale == I18n.default_locale
-      prisons = with_translations(I18n.locale).where(id: counts.keys)
-    else
-      prisons = with_translations(I18n.locale).with_translations(I18n.default_locale).where(id: counts.keys)
-    end
+    prisons = preload(:translations).where(id: counts.keys)
 
     # Combine count and translations
     prisons_data = []

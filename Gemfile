@@ -77,6 +77,7 @@ gem 'whenever', '~> 0.9.4', require: false # perform tasks on a schedule (cron j
 group :development do
   gem 'rails-dev-boost', '~> 0.3.0', git: 'git://github.com/thedarkone/rails-dev-boost.git'
   gem 'rb-fsevent', '~> 0.9.1'
+  gem 'brakeman', '~> 3.0.5', require: false
 end
 
 group :development, :test do

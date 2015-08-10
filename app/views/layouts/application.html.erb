@@ -215,7 +215,7 @@
           <ul class="nav navbar-nav navbar-right">
             <% I18n.available_locales.each do |locale| %>
               <% if locale != I18n.locale %>
-                <li><%= link_to t("shared.language.#{locale}"), params.merge(:locale => locale) %></li>
+                <li><%= link_to t("shared.language.#{locale}"), url_for(locale: locale) %></li>
               <% end %>
             <% end %>
           </ul>

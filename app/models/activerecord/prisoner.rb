@@ -11,8 +11,6 @@ class Prisoner < ActiveRecord::Base
   accepts_nested_attributes_for :incidents, allow_destroy: true
   validates :name, presence: true, uniqueness: true
   validates :gender_id, presence: true, inclusion: { in: [1, 2, 3] }
-  validate :validate_all_incidents_released_except_last
-  validate :validate_incident_dates
 
   # strip extra spaces before saving
   auto_strip_attributes :name
@@ -51,7 +49,6 @@ class Prisoner < ActiveRecord::Base
 
   # Callbacks
 
-  after_commit :update_currently_imprisoned, on: [:create, :update]
 
   def update_currently_imprisoned
     latest_incident = incidents.order('date_of_arrest').last
@@ -64,6 +61,8 @@ class Prisoner < ActiveRecord::Base
       update_column(:currently_imprisoned, true)
     end
   end
+  after_commit :update_currently_imprisoned, on: [:create, :update]
+  private :update_currently_imprisoned
 
   ################################################################
   ############ Validations called when incident saved ############
@@ -179,6 +178,7 @@ class Prisoner < ActiveRecord::Base
   def self.arrest_counts_by_day
     find_by_sql('select year(date_of_arrest) as year, month(date_of_arrest) as month, day(date_of_arrest) as day, count(*) from incidents group by year, month, day order by year, month, day')
   end
+  private_class_method :arrest_counts_by_day
 
   def self.release_counts_by_day
     release_counts_by_day = find_by_sql('select year(date_of_release) as year, month(date_of_release) as month, day(date_of_release) as day, count(*) from incidents group by year, month, day order by year, month, day')
@@ -187,6 +187,7 @@ class Prisoner < ActiveRecord::Base
     release_counts_by_day = release_counts_by_day.size > 0 && release_counts_by_day[0][:year].nil? ? release_counts_by_day.drop(1) : release_counts_by_day
     release_counts_by_day
   end
+  private_class_method :release_counts_by_day
 
   def self.imprisoned_counts_from_date_to_date(starting_date, ending_date)
     imprisoned_count = 0
@@ -295,6 +296,7 @@ class Prisoner < ActiveRecord::Base
   def self.create_date_from_hash(hash)
     Date.new(hash[:year].to_i, hash[:month].to_i, hash[:day].to_i)
   end
+  private_class_method :create_date_from_hash
 
   def self.convert_date_to_utc(date)
     Time.parse(date.to_s).utc.to_i * 1000
@@ -309,7 +311,4 @@ class Prisoner < ActiveRecord::Base
       I18n.t('prisoner.no_arrest_info')
     end
   end
-
-  private :update_currently_imprisoned, :validate_incident_dates, :validate_all_incidents_released_except_last
-  private_class_method :arrest_counts_by_day, :release_counts_by_day, :create_date_from_hash
 end

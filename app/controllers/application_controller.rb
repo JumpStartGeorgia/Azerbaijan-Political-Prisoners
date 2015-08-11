@@ -40,7 +40,9 @@ class ApplicationController < ActionController::Base
     redirect_to root_path
   end
 
-  def not_found
-    fail ActionController::RoutingError.new(t('shared.msgs.does_not_exist'))
+  def not_found(redirect_path = root_path)
+    Rails.logger.debug('Not found redirect')
+    redirect_to redirect_path,
+      notice: t('shared.msgs.does_not_exist')
   end
 end

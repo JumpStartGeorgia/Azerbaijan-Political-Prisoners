@@ -26,6 +26,8 @@ Rails.application.routes.draw do
         get 'incidents_to_csv', constraints: { format: :csv }, defaults: { format: :csv }
         get 'imprisoned_count_timeline', constraints: { format: :json }, defaults: { format: :json }
       end
+
+      resources :incidents, except: [:index, :show]
     end
 
     resources :users, constraints: { format: :html }

@@ -1,0 +1,95 @@
+<%= semantic_form_for([@prisoner, @incident]) do |f| %>
+  <%= f.semantic_errors *f.object.errors.keys %>
+
+  <h2>
+    <%= t('activerecord.models.prisoner', count: 1) %>:
+    <%= @prisoner.name %>
+  </h2>
+
+  <%= f.inputs do %>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.input :date_of_arrest,
+                      as: :string,
+                      input_html: { class: 'date_of_arrest_select', size: 20 } %>
+          <%= f.input :date_of_release,
+                      as: :string,
+                      input_html: { class: 'date_of_release_select', size: 20 } %>
+        </div>
+
+        <div class="col-md-6">
+          <%= f.input :articles,
+                      as: :select,
+                      label: t('activerecord.models.charge', count: 999),
+                      collection: option_groups_from_collection_for_select(
+                                    @articles,
+                                    :articles,
+                                    :name_with_model_name,
+                                    :id,
+                                    :number,
+                                    f.object.article_ids
+                                  ),
+                      input_html: { class: 'charges_select', multiple: true },
+                      hint: (link_to(
+                              t('shared.prompts.create_in_dropdown',
+                                obj: t('activerecord.models.article', count: 1)),
+                              new_article_path,
+                              target: '_blank'
+                                    )).html_safe %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.input :prison,
+                      collection: @prisons,
+                      hint: (link_to(
+                              t('shared.prompts.create_in_dropdown',
+                                obj: t('activerecord.models.prison', count: 1)),
+                              new_prison_path,
+                              target: '_blank'
+                                    )).html_safe %>
+        </div>
+
+        <div class="col-md-6">
+          <%= f.input :tags,
+                      as: :select,
+                      collection: @tags,
+                      input_html: { class: 'tags_select', multiple: true },
+                      hint: (link_to(
+                              t('shared.prompts.create_in_dropdown',
+                                obj: t('activerecord.models.tag', count: 1)),
+                              new_tag_path,
+                              target: '_blank'
+                                    )).html_safe %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <%= f.input :description_of_arrest, input_html: { class: 'tinymce' } %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <%= f.input :description_of_release, input_html: { class: 'tinymce' } %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <%= f.actions do %>
+    <button name="button" type="submit" class="btn btn-success" id="incident_submit_action">
+      <span class="fa fa-floppy-o"></span>
+      <% if @incident.new_record? %>
+        <%=t 'shared.actions.with_obj.create',
+             obj: t('activerecord.models.incident', count: 1) %>
+      <% else %>
+        <%=t 'shared.actions.with_obj.update',
+             obj: t('activerecord.models.incident', count: 1) %>
+      <% end %>
+    </button>
+  <% end %>
+<% end %>

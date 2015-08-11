@@ -6,8 +6,6 @@ class PrisonersController < ApplicationController
   before_action :set_prisoner, only: [:show, :edit, :update, :destroy]
   authorize_resource
 
-  before_action :set_form_collections, only: [:new, :edit]
-  before_action :set_gon_variables
 
   # GET /prisoners
   # GET /prisoners.json
@@ -110,32 +108,14 @@ class PrisonersController < ApplicationController
     @prisoner = Prisoner.friendly.find(params[:id])
   end
 
-  def set_form_collections
-    @tags = Tag.includes(:translations).order(:name)
-    @prisons = Prison.includes(:translations).order(:name)
-  end
-
-  def set_gon_variables
-    gon.tinymce_config = YAML.load_file('config/tinymce.yml')
-  end
-
   # Never trust parameters from the scary internet, only allow the white list through.
   def prisoner_params
-    params.require(:prisoner).permit(:name,
-                                     :date_of_birth,
-                                     :gender_id,
-                                     :portrait,
-                                     incidents_attributes:
-        [:id,
-         :date_of_arrest,
-         :description_of_arrest,
-         :prison_id,
-         :date_of_release,
-         :description_of_release,
-         :_destroy,
-         article_ids: [],
-         tag_ids: []
-        ])
+    params.require(:prisoner).permit(
+      :name,
+      :date_of_birth,
+      :gender_id,
+      :portrait
+    )
   end
 
   # if request uses id instead of slug, corrects to use the right path

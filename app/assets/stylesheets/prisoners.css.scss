@@ -13,10 +13,17 @@ $red: #d9534f;
       border-bottom:1px solid #e4e4e4;
       margin-bottom:10px;
     }
-    .actions
-    {
+    .actions {
       margin: 0;
-      div { display:inline-block; }
+
+      div {
+        display:inline-block;
+      }
+
+      a {
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
     }
     .figure {
       max-width:160px;
@@ -179,7 +186,7 @@ $red: #d9534f;
       color: #5E5E5E;
       padding:0px 10px 0px 0px;
     }
-    a {
+    a:not(.btn) {
       color: #5cb85c;
        text-decoration:none;
       &:hover, &:focus

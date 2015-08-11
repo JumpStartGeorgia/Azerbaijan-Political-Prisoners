@@ -1,18 +1,5 @@
-// Add jQuery Select2 extra functionality to Charges multiple select
-function addSelect2() {
-  $("select.charges_select").select2({
-    placeholder: "Select Charges",
-    width: "400px"
-  });
-
-  $("select.tags_select").select2({
-    placeholder: "Select Tags",
-    width: "400px"
-  });
-}
-
-function addDatePickers() {
-  $(".date_of_arrest_select, .date_of_release_select, .date_of_birth_select").datepicker({
+function addDateOfBirthPicker() {
+  $(".date_of_birth_select").datepicker({
     dateFormat: "yy-mm-dd",
     changeMonth: true,
     changeYear: true,
@@ -22,27 +9,8 @@ function addDatePickers() {
 
 $(document).ready(function() {
   if ($("form.prisoner").length) {
-    addSelect2();
-    loadTinymce();
-    addDatePickers();
-    $(".container, #links").on("cocoon:after-insert", function(e, insertedItem) {
-      addSelect2();
-      loadTinymce();
-      addDatePickers();
-    });
-
-    $(document).on("click", ".nested-fields h3 .tree-toggle", function(){
-      var t = $(this);
-      t.find("span").toggleClass("fa-caret-right fa-caret-down");
-      t.closest(".nested-fields").find(".container").toggle();
-    });
+    addDateOfBirthPicker();
   }
-
-  $("[data-toggle=\"tooltip\"]").tooltip();
-});
-
-$(document).on("page:receive", function() {
-  tinymce.remove();
 });
 
 function imprisonedCountTimeline() {

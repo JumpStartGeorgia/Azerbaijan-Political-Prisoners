@@ -1,7 +1,6 @@
 <%= semantic_form_for(@prisoner) do |f| %>
   <%= f.semantic_errors *f.object.errors.keys %>
   <%= f.inputs do %>
-
     <div class="row">
       <div class="col-md-3">
         <%= f.label :portrait %>
@@ -14,27 +13,9 @@
         <%= f.input :gender_id, as: :radio, collection: gender_collection %>
       </div>
     </div>
-
-    <div class="header h3"><div><%=t 'activerecord.models.incident', count: 999 %></div><div><div class="hor-line"></div></div></div>
-    <div id="incidents">
-      <%= f.semantic_fields_for :incidents do |incident| %>
-        <%= render "incident_fields", f: incident %>
-      <% end %>
-    </div>
   <% end %>
 
   <%= f.actions do %>
-    <div id="links">
-      <%= link_to_add_association f,
-                                 :incidents,
-                                 class: 'btn btn-primary',
-                                 data: { "association-insertion-node" => "#incidents", "association-insertion-method" => "append" } do %>
-        <span class="fa fa-plus"></span>
-        <%=t 'shared.actions.with_obj.add_new',
-             obj: t('activerecord.models.incident', count: 1) %>
-      <% end %>
-    </div>
-
     <button name="button" type="submit" class="btn btn-success" id="prisoner_submit_action">
       <span class="fa fa-floppy-o"></span>
       <% if @prisoner.new_record? %>

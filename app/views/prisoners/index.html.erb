@@ -70,6 +70,12 @@
                               data: { confirm: t('shared.prompts.confirm') },
                               class: 'btn btn-danger'
                     end %>
+                <%= if can? :new, Incident
+                      link_to t('shared.actions.with_obj.add_new',
+                                obj: t("activerecord.models.incident", count: 1)),
+                              new_prisoner_incident_path(prisoner),
+                              class: 'btn btn-success'
+                    end %>
               </div>
             <% end %>
           </div>

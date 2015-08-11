@@ -5,7 +5,7 @@
   page_title strip_tags(
     @prisoner.name + ' | ' + @prisoner.currently_imprisoned_status
   )
-  
+
   @show_page_title = false
 -%>
 
@@ -90,9 +90,22 @@
       </div>
     </div>
   </div>
-    <% @prisoner.incidents.order(date_of_arrest: :desc)
-         .each_with_index do |incident, index| %>
+  <%= if can? :new, Incident
+    link_to t('shared.actions.with_obj.add_new',
+              obj: t("activerecord.models.incident", count: 1)),
+            new_prisoner_incident_path(@prisoner),
+            class: 'btn btn-success'
+  end %>
+  
+  <% @prisoner.incidents.order(date_of_arrest: :desc)
+       .each_with_index do |incident, index| %>
     <div class="arrest">
+      <%=
+        link_to t('shared.actions.with_obj.edit',
+                  obj: t('activerecord.models.incident', count: 1)),
+                edit_prisoner_incident_path(@prisoner, incident),
+                class: 'btn btn-success'
+      %>
       <div class="row">
         <div class="col-md-6">
           <% if incident.date_of_release.present? %>

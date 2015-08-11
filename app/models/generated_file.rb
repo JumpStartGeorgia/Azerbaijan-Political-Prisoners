@@ -46,4 +46,9 @@ class GeneratedFile
     remove
     generate
   end
+
+  # Returns localized time stamp to use in file names
+  def self.timeStamp
+    Time.now.strftime(I18n.t('shared.datetime.full'))
+  end
 end

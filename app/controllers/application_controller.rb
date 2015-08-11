@@ -24,10 +24,6 @@ class ApplicationController < ActionController::Base
     { locale: I18n.locale }.merge options
   end
 
-  def fileTimeStamp
-    Time.now.strftime(t('shared.datetime.full'))
-  end
-
   rescue_from CanCan::AccessDenied do |_exception|
     if user_signed_in?
       not_authorized

@@ -1,11 +1,6 @@
 # Handles csv files
 # About name: PwCsv stands for Prisoners Watch CSV; avoids conflict with CSV gem
 class PwCsv
-  def self.fileTimeStamp
-    Time.now.strftime(I18n.t('shared.datetime.full'))
-  end
-  private_class_method :fileTimeStamp
-
   def self.getCsvFileName(model, timeStamp)
     "#{model.model_name.plural}_#{timeStamp}.csv"
   end
@@ -43,7 +38,7 @@ class PwCsv
     csv_zip = Dir.glob(Rails.root.join('public', 'generated', 'csv', I18n.locale.to_s, 'political_prisoner_data_*.zip'))[0]
 
     unless csv_zip
-      timeStamp = fileTimeStamp
+      timeStamp = GeneratedFile.timeStamp
       csv_zip = Rails.root.join('public', 'generated', 'csv', I18n.locale.to_s, "political_prisoner_data_#{timeStamp}.zip")
       createCsvZip(csv_zip, timeStamp)
     end

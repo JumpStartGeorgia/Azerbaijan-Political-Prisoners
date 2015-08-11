@@ -17,7 +17,7 @@ class PrisonsController < ApplicationController
       format.json
       format.csv do
         send_data Prison.to_csv,
-                  filename: "prisons_#{fileTimeStamp}.csv",
+                  filename: "prisons_#{GeneratedFile.timeStamp}.csv",
                   type: 'text/csv'
       end
     end

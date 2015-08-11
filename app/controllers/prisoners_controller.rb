@@ -19,7 +19,7 @@ class PrisonersController < ApplicationController
       format.json
       format.csv do
         send_data Prisoner.to_csv,
-                  filename: "prisoners_#{fileTimeStamp}.csv",
+                  filename: "prisoners_#{GeneratedFile.timeStamp}.csv",
                   type: 'text/csv'
       end
     end
@@ -93,7 +93,7 @@ class PrisonersController < ApplicationController
 
   def incidents_to_csv
     send_data Incident.to_csv,
-              filename: "incidents_#{fileTimeStamp}.csv",
+              filename: "incidents_#{GeneratedFile.timeStamp}.csv",
               type: 'text/csv'
   end
 

@@ -13,4 +13,9 @@ en:
     models:
       incident:
         one: Incident
-        other: Incidents      
+        other: Incidents
+  incident:
+    errors:
+      arrest_after_release: Date of arrest cannot come after date of release
+      arrest_before_today: The date of arrest must be today or earlier
+      release_before_today: The date of release must be today or earlier

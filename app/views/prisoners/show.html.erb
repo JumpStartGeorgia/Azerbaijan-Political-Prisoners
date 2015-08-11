@@ -96,16 +96,23 @@
             new_prisoner_incident_path(@prisoner),
             class: 'btn btn-success'
   end %>
-  
+
   <% @prisoner.incidents.order(date_of_arrest: :desc)
        .each_with_index do |incident, index| %>
     <div class="arrest">
-      <%=
-        link_to t('shared.actions.with_obj.edit',
-                  obj: t('activerecord.models.incident', count: 1)),
-                edit_prisoner_incident_path(@prisoner, incident),
-                class: 'btn btn-success'
+      <%= link_to t('shared.actions.with_obj.edit',
+                    obj: t('activerecord.models.incident', count: 1)),
+                  edit_prisoner_incident_path(@prisoner, incident),
+                  class: 'btn btn-success'
       %>
+      <%= if can? :destroy, object
+            link_to t('shared.actions.with_obj.destroy',
+                      obj: t('activerecord.models.incident', count: 1)),
+                    prisoner_incident_path(@prisoner, incident),
+                    method: :delete,
+                    data: { confirm: t('shared.prompts.confirm') },
+                    class: 'btn btn-danger'
+          end %>
       <div class="row">
         <div class="col-md-6">
           <% if incident.date_of_release.present? %>

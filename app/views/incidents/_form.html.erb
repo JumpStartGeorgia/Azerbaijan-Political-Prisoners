@@ -6,6 +6,19 @@
     <%= @prisoner.name %>
   </h2>
 
+  <div class='actions-container'>
+    <%= link_to t('shared.actions.with_obj.view_page',
+                  obj: t("activerecord.models.prisoner",
+                         count: 1)),
+                prisoner_path(@prisoner),
+                class: 'btn btn-default' %>
+    <%= link_to t('shared.actions.with_obj.edit',
+                  obj: t("activerecord.models.prisoner",
+                         count: 1)),
+                edit_prisoner_path(@prisoner),
+                class: 'btn btn-default' %>
+  </div>
+
   <%= f.inputs do %>
     <div class="container">
       <div class="row">

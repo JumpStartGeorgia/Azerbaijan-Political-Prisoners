@@ -67,4 +67,36 @@ RSpec.describe Incident, type: :model do
       expect(incident1).to have(0).error_on(:date_of_release)
     end
   end
+
+  describe 'that is most recent incident on prisoner' do
+    it 'causes error if previous incident is not released' do
+
+    end
+
+    describe 'with previous incident that is released' do
+      it "causes error if previous incident's date of release is after date of arrest" do
+
+      end
+
+      it "does not cause error if previous incident's date of release is before date of arrest" do
+
+      end
+    end
+  end
+
+  describe 'that is not most recent incident on prisoner' do
+    it 'causes error if date of release is not present' do
+
+    end
+
+    describe 'and with date of release' do
+      it "causes error if date of release is after next incident's date of arrest" do
+
+      end
+
+      it "does not cause error if date of release is before next incident's date of arrest" do
+
+      end
+    end
+  end
 end

@@ -77,11 +77,10 @@ class Prisoner < ActiveRecord::Base
     end
   end
 
-  # Valid if every incident's release date is before the next incident's arrest
-  def incident_releases_before_arrests
+  # Valid if each incident's release date is before the next incident's arrest
+  def always_released_before_arrested
     sorted_incidents = incidents.sort_by(&:date_of_arrest)
 
-    # Ensure dates are chronological
     sorted_incidents.each_with_index do |incident, index|
       if incident.date_of_release.present? && incident != sorted_incidents.last
         next_incident = sorted_incidents[index + 1]
@@ -93,6 +92,7 @@ class Prisoner < ActiveRecord::Base
     end
   end
 
+  ################################################################
   # Get prisoner by attribute
 
   def self.by_tag(tag_id)

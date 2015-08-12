@@ -37,7 +37,7 @@ class Incident < ActiveRecord::Base
 
   def prisoner_incidents_have_valid_dates
     prisoner.old_incidents_are_released
-    prisoner.incident_releases_before_arrests
+    prisoner.always_released_before_arrested
   end
   validate :prisoner_incidents_have_valid_dates
   private :prisoner_incidents_have_valid_dates

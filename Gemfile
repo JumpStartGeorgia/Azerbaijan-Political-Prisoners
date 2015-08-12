@@ -82,4 +82,5 @@ end
 
 group :development, :test do
   gem 'faker', '~> 1.4.3'
+  gem 'rspec-collection_matchers', '~> 1.1.2'
 end

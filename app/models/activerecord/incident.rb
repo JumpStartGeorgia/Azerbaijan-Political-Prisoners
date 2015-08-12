@@ -11,29 +11,30 @@ class Incident < ActiveRecord::Base
   validates :date_of_arrest, :prisoner, presence: true
 
   def arrest_is_before_release
-    if date_of_release.present?
-      if date_of_arrest >= date_of_release
-        errors.add(:date_of_release, I18n.t('incident.errors.arrest_after_release'))
-      end
-    end
+    returns true if date_of_release.blank?
+    returns true if date_of_arrest <= date_of_release
+
+    errors.add(:date_of_release, I18n.t('incident.errors.arrest_after_release'))
   end
   validate :arrest_is_before_release
   private :arrest_is_before_release
 
-  def date_of_arrest_is_before_today
-    if date_of_arrest > Date.today
-      errors.add(:date_of_arrest, I18n.t('incident.errors.arrest_after_today'))
-    end
-  end
-  validate :date_of_arrest_is_before_today
-  private :date_of_arrest_is_before_today
+  def arrest_is_before_today
+    returns true if date_of_arrest <= Date.today
 
-  def date_of_release_is_before_today
-    returns true if date_of_release.present? && date_of_release > Date.today
+    errors.add(:date_of_arrest, I18n.t('incident.errors.arrest_after_today'))
+  end
+  validate :arrest_is_before_today
+  private :arrest_is_before_today
+
+  def release_is_before_today
+    returns true if date_of_release.blank?
+    returns true if date_of_release <= Date.today
+
     errors.add(:date_of_release, I18n.t('incident.errors.release_after_today'))
   end
-  validate :date_of_release_is_before_today
-  private :date_of_release_is_before_today
+  validate :release_is_before_today
+  private :release_is_before_today
 
   def prisoner_incidents_have_valid_dates
     prisoner.old_incidents_are_released

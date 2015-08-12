@@ -71,7 +71,7 @@ class Prisoner < ActiveRecord::Base
   def old_incidents_are_released
     old_incidents = incidents.sort_by(&:date_of_arrest).slice(0, incidents.size - 1)
     old_incidents.each do |incident|
-      unless incident.date_of_release.present?
+      if incident.date_of_release.blank?
         errors.add(:base, I18n.t('prisoner.errors.must_have_release'))
       end
     end

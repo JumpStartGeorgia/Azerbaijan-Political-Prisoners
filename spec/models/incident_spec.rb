@@ -19,5 +19,15 @@ RSpec.describe Incident, type: :model do
       incident1.date_of_arrest = nil
       expect(incident1).to have(1).error_on(:date_of_arrest)
     end
+
+    it 'today has no errors' do
+      incident1.date_of_arrest = Date.today
+      expect(incident1).to have(0).error_on(:date_of_arrest)
+    end
+
+    it 'tomorrow causes error' do
+      incident1.date_of_arrest = Date.tomorrow
+      expect(incident1).to have(1).error_on(:date_of_arrest)
+    end
   end
 end

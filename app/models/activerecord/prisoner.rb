@@ -69,6 +69,8 @@ class Prisoner < ActiveRecord::Base
 
   # Valid if all incidents but the most recent are released
   def old_incidents_are_released
+    return true if incidents.blank?
+
     old_incidents = incidents.sort_by(&:date_of_arrest).slice(0, incidents.size - 1)
     old_incidents.each do |incident|
       if incident.date_of_release.blank?

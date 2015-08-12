@@ -7,7 +7,9 @@ class Incident < ActiveRecord::Base
   has_many :charges, dependent: :destroy
   has_many :articles, through: :charges
 
-  # Validations
+  ################################################################
+  ######################## Validations ###########################
+
   validates :date_of_arrest, :prisoner, presence: true
 
   def arrest_is_before_release
@@ -43,12 +45,17 @@ class Incident < ActiveRecord::Base
   validate :prisoner_incidents_have_valid_dates
   private :prisoner_incidents_have_valid_dates
 
+  ################################################################
+
   # strip extra spaces before saving
   auto_strip_attributes :description_of_arrest, :description_of_release
 
   def released?
     return date_of_release.present?
   end
+
+  ##################################################################
+  ######################## CSV Format ##############################
 
   def self.to_csv
     require 'csv'

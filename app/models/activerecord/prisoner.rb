@@ -68,7 +68,7 @@ class Prisoner < ActiveRecord::Base
   ############ Validations called when incident saved ############
 
   # Valid if all incidents but the most recent are released
-  def old_incidents_are_released
+  def old_incidents_are_released?
     return true if incidents.blank?
 
     old_incidents = incidents.sort_by(&:date_of_arrest).slice(0, incidents.size - 1)
@@ -80,7 +80,7 @@ class Prisoner < ActiveRecord::Base
   end
 
   # Valid if each incident's release date is before the next incident's arrest
-  def always_released_before_arrested
+  def always_released_before_arrested?
     sorted_incidents = incidents.sort_by(&:date_of_arrest)
 
     sorted_incidents.each_with_index do |incident, index|

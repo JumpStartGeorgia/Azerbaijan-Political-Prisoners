@@ -22,7 +22,7 @@ class Incident < ActiveRecord::Base
 
   def date_of_arrest_is_before_today
     if date_of_arrest > Date.today
-      errors.add(:date_of_arrest, I18n.t('incident.errors.arrest_before_today'))
+      errors.add(:date_of_arrest, I18n.t('incident.errors.arrest_after_today'))
     end
   end
   validate :date_of_arrest_is_before_today
@@ -30,7 +30,7 @@ class Incident < ActiveRecord::Base
 
   def date_of_release_is_before_today
     returns true if date_of_release.present? && date_of_release > Date.today
-    errors.add(:date_of_release, I18n.t('incident.errors.release_before_today'))
+    errors.add(:date_of_release, I18n.t('incident.errors.release_after_today'))
   end
   validate :date_of_release_is_before_today
   private :date_of_release_is_before_today

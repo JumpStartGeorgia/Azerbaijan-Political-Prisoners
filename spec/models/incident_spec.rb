@@ -20,7 +20,12 @@ RSpec.describe Incident, type: :model do
       expect(incident1).to have(1).error_on(:date_of_arrest)
     end
 
-    it 'today has no errors' do
+    it 'yesterday does not cause error' do
+      incident1.date_of_arrest = Date.yesterday
+      expect(incident1).to have(0).error_on(:date_of_arrest)
+    end
+
+    it 'today does not cause error' do
       incident1.date_of_arrest = Date.today
       expect(incident1).to have(0).error_on(:date_of_arrest)
     end
@@ -28,6 +33,38 @@ RSpec.describe Incident, type: :model do
     it 'tomorrow causes error' do
       incident1.date_of_arrest = Date.tomorrow
       expect(incident1).to have(1).error_on(:date_of_arrest)
+    end
+  end
+
+  describe 'date of release' do
+    it 'yesterday does not cause error' do
+      incident1.date_of_release = Date.yesterday
+      expect(incident1).to have(0).error_on(:date_of_release)
+    end
+
+    it 'today does not cause error' do
+      incident1.date_of_release = Date.today
+      expect(incident1).to have(0).error_on(:date_of_release)
+    end
+
+    it 'tomorrow causes error' do
+      incident1.date_of_release = Date.tomorrow
+      expect(incident1).to have(1).error_on(:date_of_release)
+    end
+
+    it 'on day before arrest causes error' do
+      incident1.date_of_release = incident1.date_of_arrest - 1
+      expect(incident1).to have(1).error_on(:date_of_release)
+    end
+
+    it 'on same day as arrest does not cause error' do
+      incident1.date_of_release = incident1.date_of_arrest
+      expect(incident1).to have(0).error_on(:date_of_release)
+    end
+
+    it 'on day after arrest does not cause error' do
+      incident1.date_of_release = incident1.date_of_arrest + 1
+      expect(incident1).to have(0).error_on(:date_of_release)
     end
   end
 end

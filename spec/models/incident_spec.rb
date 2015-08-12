@@ -1,8 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe Incident, type: :model do
-  it 'without Date of Arrest is invalid' do
-    incident = FactoryGirl.build(:incident, date_of_arrest: nil)
-    expect { incident.save! }.to raise_error
+  let(:incident1) { FactoryGirl.create(:incident) }
+
+  it 'is valid with valid attributes' do
+    expect(incident1).to be_valid
+  end
+
+  describe 'prisoner' do
+    it 'is required' do
+      incident1.prisoner = nil
+      expect(incident1).to have(1).error_on(:prisoner)
+    end
+  end
+
+  describe 'date of arrest' do
+    it 'is required' do
+      incident1.date_of_arrest = nil
+      expect(incident1).to have(1).error_on(:date_of_arrest)
+    end
   end
 end

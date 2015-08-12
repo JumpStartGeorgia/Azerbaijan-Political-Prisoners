@@ -13,7 +13,8 @@ class Incident < ActiveRecord::Base
   validates :date_of_arrest, :prisoner, presence: true
 
   def release_is_after_arrest?
-    return true if date_of_release.blank?
+    return if date_of_arrest.blank?
+    return if date_of_release.blank?
     return true if date_of_release >= date_of_arrest
 
     errors.add(:date_of_release, I18n.t('incident.errors.arrest_after_release'))
@@ -22,6 +23,7 @@ class Incident < ActiveRecord::Base
   private :release_is_after_arrest?
 
   def arrest_is_before_today?
+    return if date_of_arrest.blank?
     return true if date_of_arrest <= Date.today
 
     errors.add(:date_of_arrest, I18n.t('incident.errors.arrest_after_today'))
@@ -30,7 +32,7 @@ class Incident < ActiveRecord::Base
   private :arrest_is_before_today?
 
   def release_is_before_today?
-    return true if date_of_release.blank?
+    return if date_of_release.blank?
     return true if date_of_release <= Date.today
 
     errors.add(:date_of_release, I18n.t('incident.errors.release_after_today'))
@@ -39,6 +41,8 @@ class Incident < ActiveRecord::Base
   private :release_is_before_today?
 
   def prisoner_incidents_have_valid_dates?
+    return if prisoner.blank?
+
     prisoner.old_incidents_are_released?
     prisoner.always_released_before_arrested?
   end

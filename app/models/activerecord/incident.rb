@@ -12,14 +12,14 @@ class Incident < ActiveRecord::Base
 
   validates :date_of_arrest, :prisoner, presence: true
 
-  def arrest_is_before_release?
+  def release_is_after_arrest?
     return true if date_of_release.blank?
-    return true if date_of_arrest <= date_of_release
+    return true if date_of_release >= date_of_arrest
 
     errors.add(:date_of_release, I18n.t('incident.errors.arrest_after_release'))
   end
-  validate :arrest_is_before_release?
-  private :arrest_is_before_release?
+  validate :release_is_after_arrest?
+  private :release_is_after_arrest?
 
   def arrest_is_before_today?
     return true if date_of_arrest <= Date.today

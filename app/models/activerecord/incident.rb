@@ -49,11 +49,13 @@ class Incident < ActiveRecord::Base
     return if only_incident_on_prisoner?
     return unless most_recent_incident_on_prisoner?
 
+    previous_incident_edit_path = link_to 'earlier incident', Rails.application.routes.url_helpers.edit_prisoner_incident_path(previous_incident)
+
     if previous_incident.date_of_release.blank?
-      errors.add(:date_of_arrest, '')
+      errors.add(:date_of_arrest, "There is an #{previous_incident_edit_path} saved to #{prisoner.name} with no date of release. Either change the current incident's date of arrest to before the earlier incident's date of arrest (#{previous_incident.date_of_arrest}), or add a date of release to the earlier incident.")
     else
       if date_of_arrest < previous_incident.date_of_release
-        errors.add(:date_of_arrest, '')
+        errors.add(:date_of_arrest, "There is an #{previous_incident_edit_path} saved to #{prisoner.name} with a date of release (#{previous_incident.date_of_release}) after the current incident's date of arrest. Change the dates so they are in chronological order.")
       end
     end
   end
@@ -69,11 +71,13 @@ class Incident < ActiveRecord::Base
     return if only_incident_on_prisoner?
     return if most_recent_incident_on_prisoner?
 
+    subsequent_incident_edit_path = link_to 'later incident', Rails.application.routes.url_helpers.edit_prisoner_incident_path(subsequent_incident)
+
     if date_of_release.blank?
-      errors.add(:date_of_release, '')
+      errors.add(:date_of_release, "There is a #{subsequent_incident_edit_path} saved to #{prisoner.name}. Either add a date of release to the current incident, or change the order of the arrest dates on the incidents.")
     else
       if date_of_release > subsequent_incident.date_of_arrest
-        errors.add(:date_of_release, '')
+        errors.add(:date_of_release, "There is a #{subsequent_incident_edit_path} saved to #{prisoner.name} with a date of arrest before the current incident's date of release. Change the dates so they are in chronological order.")
       end
     end
   end

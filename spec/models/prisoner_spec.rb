@@ -13,55 +13,10 @@ RSpec.describe Prisoner, type: :model do
       p1.gender_id = 4
       expect { p1.save! }.to raise_error
     end
-
-    it 'if date of release is nil for any but the most recent incident' do
-      i1 = FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 1))
-      p1.incidents << i1
-      i2 = FactoryGirl.create(:incident, date_of_arrest: Date.new(2014, 1, 1))
-      p1.incidents << i2
-      expect { p1.save! }.to raise_error
-
-      i1.date_of_release = Date.new(2013, 1, 1)
-      expect { p1.save! }.not_to raise_error
-    end
-
-    it 'if dates of arrest and dates of release are not in chronological order' do
-      i1 = FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 1), date_of_release: Date.new(2011, 1, 1))
-      p1.incidents << i1
-      i2 = FactoryGirl.create(:incident, date_of_arrest: Date.new(2010, 1, 1))
-      p1.incidents << i2
-      expect { p1.save! }.to raise_error
-
-      i1.date_of_release = Date.new(2013, 1, 1)
-      expect { p1.save! }.to raise_error
-
-      i2.date_of_arrest = Date.new(2014, 1, 1)
-      expect { p1.save! }.not_to raise_error
-    end
-
-    it 'if a date of arrest or date of release is after today' do
-      i1 = FactoryGirl.create(:incident, date_of_arrest: Date.tomorrow, date_of_release: 10.days.from_now)
-      p1.incidents << i1
-      expect { p1.save! }.to raise_error
-
-      i1.date_of_arrest = 10.days.ago
-      expect { p1.save! }.to raise_error
-
-      i1.date_of_release = Date.yesterday
-      expect { p1.save! }.not_to raise_error
-    end
   end
 
   describe 'can be saved' do
     it 'with minimum required attributes' do
-      expect { p1.save! }.not_to raise_error
-    end
-
-    it 'when older incident is entered after newer incident and both are valid' do
-      i1 = FactoryGirl.create(:incident, date_of_arrest: Date.new(2012, 1, 1))
-      p1.incidents << i1
-      i2 = FactoryGirl.create(:incident, date_of_arrest: Date.new(2010, 1, 1), date_of_release: Date.new(2011, 1, 1))
-      p1.incidents << i2
       expect { p1.save! }.not_to raise_error
     end
   end

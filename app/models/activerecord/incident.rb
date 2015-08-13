@@ -40,22 +40,81 @@ class Incident < ActiveRecord::Base
   validate :release_is_after_arrest?
   private :release_is_after_arrest?
 
-  def prisoner_incidents_have_valid_dates?
+  # If the new incident is the most recent incident, the previous incident
+  # should be released, and the date of arrest should be after the previous
+  # incident's date of release.
+  def new_arrest_happened_after_previous_release?
     return if prisoner.blank?
+    return if date_of_arrest.blank?
+    return if only_incident_on_prisoner?
+    return unless most_recent_incident_on_prisoner?
 
-    prisoner.old_incidents_are_released?
-    prisoner.always_released_before_arrested?
+    if previous_incident.date_of_release.blank?
+      errors.add(:date_of_arrest, '')
+    else
+      if date_of_arrest < previous_incident.date_of_release
+        errors.add(:date_of_arrest, '')
+      end
+    end
   end
-  validate :prisoner_incidents_have_valid_dates?
-  private :prisoner_incidents_have_valid_dates?
+  validate :new_arrest_happened_after_previous_release?
+  private :new_arrest_happened_after_previous_release?
 
-  ################################################################
+  # If the new incident is not the most recent incident, then it should be
+  # released, and the release date should be before the subsequent
+  # incident's date of arrest.
+  def released_before_subsequent_incident?
+    return if prisoner.blank?
+    return if date_of_arrest.blank?
+    return if only_incident_on_prisoner?
+    return if most_recent_incident_on_prisoner?
 
-  # strip extra spaces before saving
-  auto_strip_attributes :description_of_arrest, :description_of_release
+    if date_of_release.blank?
+      errors.add(:date_of_release, '')
+    else
+      if date_of_release > subsequent_incident.date_of_arrest
+        errors.add(:date_of_release, '')
+      end
+    end
+  end
+  validate :released_before_subsequent_incident?
+  private :released_before_subsequent_incident?
 
-  def released?
-    return date_of_release.present?
+  #########################################################################
+  ###### Functions comparing incident to other incidents on prisoner ######
+
+  # Get previous incident from chronologically ordered prisoner incidents
+  def previous_incident
+    prisoner
+      .incidents
+      .where('date_of_arrest < ?', date_of_arrest)
+      .order(date_of_arrest: :asc)
+      .last
+  end
+
+  # Get subsequent incident from chronoligically ordered prisoner incidents
+  def subsequent_incident
+    prisoner
+      .incidents
+      .where('date_of_arrest > ?', date_of_arrest)
+      .order(date_of_arrest: :asc)
+      .first
+  end
+
+  # Returns true if there are no other saved incidents on prisoner
+  def only_incident_on_prisoner?
+    prisoner
+      .incidents
+      .where.not(id: id)
+      .size === 0
+  end
+
+  # Returns true if current incident has last prisoner date of arrest
+  def most_recent_incident_on_prisoner?
+    prisoner
+      .incidents
+      .where('date_of_arrest > ?', date_of_arrest)
+      .size === 0
   end
 
   ##################################################################
@@ -90,5 +149,14 @@ class Incident < ActiveRecord::Base
         ]
       end
     end
+  end
+
+  ##################################################################
+
+  # strip extra spaces before saving
+  auto_strip_attributes :description_of_arrest, :description_of_release
+
+  def released?
+    return date_of_release.present?
   end
 end

@@ -65,36 +65,6 @@ class Prisoner < ActiveRecord::Base
   private :update_currently_imprisoned
 
   ################################################################
-  ############ Validations called when incident saved ############
-
-  # Valid if all incidents but the most recent are released
-  def old_incidents_are_released?
-    return true if incidents.blank?
-
-    old_incidents = incidents.sort_by(&:date_of_arrest).slice(0, incidents.size - 1)
-    old_incidents.each do |incident|
-      if incident.date_of_release.blank?
-        errors.add(:base, I18n.t('prisoner.errors.must_have_release'))
-      end
-    end
-  end
-
-  # Valid if each incident's release date is before the next incident's arrest
-  def always_released_before_arrested?
-    sorted_incidents = incidents.sort_by(&:date_of_arrest)
-
-    sorted_incidents.each_with_index do |incident, index|
-      if incident.date_of_release.present? && incident != sorted_incidents.last
-        next_incident = sorted_incidents[index + 1]
-
-        if incident.date_of_release > next_incident.date_of_arrest
-          errors.add(:base, I18n.t('prisoner.errors.arrest_after_previous_release'))
-        end
-      end
-    end
-  end
-
-  ################################################################
   # Get prisoner by attribute
 
   def self.by_tag(tag_id)

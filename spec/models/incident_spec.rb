@@ -76,6 +76,10 @@ RSpec.describe Incident, type: :model do
       )
     end
 
+    before :example do
+      previous_incident.save!
+    end
+
     it 'causes error if previous incident is not released' do
       previous_incident.date_of_release = nil
       expect(new_incident).to have(1).error_on(:date_of_arrest)
@@ -105,6 +109,10 @@ RSpec.describe Incident, type: :model do
         :incident,
         date_of_arrest: new_incident.date_of_arrest + 365
       )
+    end
+
+    before :example do
+      subsequent_incident.save!
     end
 
     it 'causes error if date of release is not present' do

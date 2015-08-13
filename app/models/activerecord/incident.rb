@@ -49,7 +49,7 @@ class Incident < ActiveRecord::Base
     return if only_incident_on_prisoner?
     return unless most_recent_incident_on_prisoner?
 
-    previous_incident_edit_path = link_to 'earlier incident', Rails.application.routes.url_helpers.edit_prisoner_incident_path(previous_incident)
+    previous_incident_edit_path = ActionController::Base.helpers.link_to 'earlier incident', Rails.application.routes.url_helpers.edit_prisoner_incident_path(I18n.locale, prisoner, previous_incident)
 
     if previous_incident.date_of_release.blank?
       errors.add(:date_of_arrest, "There is an #{previous_incident_edit_path} saved to #{prisoner.name} with no date of release. Either change the current incident's date of arrest to before the earlier incident's date of arrest (#{previous_incident.date_of_arrest}), or add a date of release to the earlier incident.")
@@ -71,7 +71,7 @@ class Incident < ActiveRecord::Base
     return if only_incident_on_prisoner?
     return if most_recent_incident_on_prisoner?
 
-    subsequent_incident_edit_path = link_to 'later incident', Rails.application.routes.url_helpers.edit_prisoner_incident_path(subsequent_incident)
+    subsequent_incident_edit_path = ActionController::Base.helpers.link_to 'later incident', Rails.application.routes.url_helpers.edit_prisoner_incident_path(I18n.locale, prisoner, subsequent_incident)
 
     if date_of_release.blank?
       errors.add(:date_of_release, "There is a #{subsequent_incident_edit_path} saved to #{prisoner.name}. Either add a date of release to the current incident, or change the order of the arrest dates on the incidents.")

@@ -211,4 +211,51 @@ RSpec.describe Incident, type: :model do
       expect(new_incident.only_incident_on_prisoner?).to eq(true)
     end
   end
+
+  describe 'prisoner currently_imprisoned flag' do
+    it 'when incident is not most recent does not update' do
+      subsequent_incident.date_of_release = nil
+      subsequent_incident.save!
+      new_incident.date_of_release = new_incident.date_of_arrest + 1
+      new_incident.save!
+
+      expect(new_incident.prisoner.currently_imprisoned).to eq(true)
+    end
+
+    describe 'when incident is preceded by other incident on prisoner' do
+      before(:example) do
+        previous_incident.save!
+      end
+
+      it 'updates to true if incident does not have date of release' do
+        new_incident.date_of_release = nil
+        new_incident.save!
+
+        expect(new_incident.prisoner.currently_imprisoned).to eq(true)
+      end
+
+      it 'updates to false if incident does have date of release' do
+        new_incident.date_of_release = new_incident.date_of_arrest + 1
+        new_incident.save!
+
+        expect(new_incident.prisoner.currently_imprisoned).to eq(false)
+      end
+    end
+
+    describe 'when incident is only incident on prisoner' do
+      it 'updates to true if incident does not have date of release' do
+        new_incident.date_of_release = nil
+        new_incident.save!
+
+        expect(new_incident.prisoner.currently_imprisoned).to eq(true)
+      end
+
+      it 'updates to false if incident does have date of release' do
+        new_incident.date_of_release = new_incident.date_of_arrest + 1
+        new_incident.save!
+
+        expect(new_incident.prisoner.currently_imprisoned).to eq(false)
+      end
+    end
+  end
 end

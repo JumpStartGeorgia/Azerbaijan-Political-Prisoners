@@ -1,8 +1,6 @@
 ---
 en:
   prisoners:
-    incident_fields:
-      title: "%{incident} (%{arrest_date_label} %{arrest_date})"
     labels:
       age: 'Age:'
       arrest_description: 'Arrest Description:'

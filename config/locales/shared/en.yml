@@ -14,7 +14,6 @@ en:
         download_data: Download %{obj} Data
         edit: Edit %{obj}
         new: New %{obj}
-        remove: Remove %{obj}
         search: Search %{obj}
         update: Update %{obj}
         view: View %{obj}

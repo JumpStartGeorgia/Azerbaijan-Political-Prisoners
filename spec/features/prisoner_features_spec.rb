@@ -1,31 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe 'Prisoner', type: :feature do
-  before(:example) do
+RSpec.describe 'Prisoner and incident', type: :feature do
+  it 'can be created using new forms and updated using edit forms', js: true do
     @role = FactoryGirl.create(:role, name: 'content_manager')
     @user = FactoryGirl.create(:user, role: @role)
-  end
+    login_as(@user, scope: :user)
 
-  describe 'with one added incident' do
-    it 'loads two TinyMCE editors', js: true do
-      login_as(@user, scope: :user)
+    prisoner_name = Faker::Name.name
 
-      visit '/prisoners/new'
-      click_link 'Add New Incident'
-      expect(page).to have_selector('.mce-tinymce', count: 2)
-    end
-
-    it 'loads two TinyMCE editors after failing to be created', js: true do
-      login_as(@user, scope: :user)
-
-      visit '/prisoners/new'
-      click_link 'Add New Incident'
-      click_button 'Create Prisoner'
-      expect(page).to have_selector('.mce-tinymce', count: 2)
-    end
-  end
-
-  it 'can be created using new form and then updated using edit form', js: true do
     # Home page requires app_intro page section
     FactoryGirl.create(:page_section, name: 'app_intro')
 
@@ -35,44 +17,50 @@ RSpec.describe 'Prisoner', type: :feature do
     FactoryGirl.create(:tag, name: 'tag#1')
     FactoryGirl.create(:tag, name: 'tag#2')
 
-    login_as(@user, scope: :user)
 
     visit prisoners_path
+
     click_on 'New'
+
     within('.inputs') do
-      fill_in 'Name', with: 'Bob Jones'
+      fill_in 'Name', with: prisoner_name
       choose('Male')
-    end
-
-    click_link 'Add New Incident'
-    within('.nested-fields') do
-      fill_in 'Date of arrest', with: '2015-02-09'
-    end
-
-    click_button 'Create Prisoner'
-    expect(page).to have_content('Prisoner was successfully created.')
-    expect(page).to have_content('February 09, 2015')
-
-    click_link 'Edit'
-    within('.inputs') do
-      expect(find('#prisoner_gender_id_1')['checked']).to eq(nil)
-      expect(find('#prisoner_gender_id_2')['checked']).not_to eq(nil)
-
       fill_in 'Date of birth', with: (Date.today - 50.years).strftime('%Y-%m-%d')
     end
 
-    within('.nested-fields') do
+    click_on 'Create Prisoner'
+
+    expect(page).to have_content('Prisoner was successfully created.')
+    expect(page).to have_content(prisoner_name)
+    expect(page).to have_content('50 years old')
+
+    ####
+
+    click_on 'Add New Incident'
+
+    within('.inputs') do
+      fill_in 'Date of arrest', with: '2015-02-09'
+    end
+
+    click_on 'Create Incident'
+
+    ####
+
+    click_on 'Edit Incident'
+
+    within('.inputs') do
       select('prison#1', from: 'Prison')
       fill_in 'Date of release', with: '2015-02-10'
     end
 
-    select2_select_multiple(['article#1', 'article#2'], find(:xpath, "//*[contains(@id, 's2id_prisoner_incidents_attributes')][contains(@id, 'article_ids')]//input"))
-    select2_select_multiple(['tag#1', 'tag#2'], find(:xpath, "//*[contains(@id, 's2id_prisoner_incidents_attributes')][contains(@id, 'tag_ids')]//input"))
+    select2_select_multiple(['article#1', 'article#2'], 'incident_articles_input')
 
-    click_button 'Update Prisoner'
+    select2_select_multiple(['tag#1', 'tag#2'], 'incident_tags_input')
+
+    click_on 'Update Incident'
 
     expect(page).to have_content('50 years old')
-    expect(page).to have_content('Prisoner was successfully updated.')
+    expect(page).to have_content('Incident was successfully updated.')
     expect(page).to have_content('February 09, 2015')
     expect(page).to have_content('prison#1')
     expect(page).to have_content('February 10, 2015')

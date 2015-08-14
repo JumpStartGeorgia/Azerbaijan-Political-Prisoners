@@ -52,10 +52,18 @@ class Incident < ActiveRecord::Base
     previous_incident_edit_path = ActionController::Base.helpers.link_to 'earlier incident', Rails.application.routes.url_helpers.edit_prisoner_incident_path(I18n.locale, prisoner, previous_incident)
 
     if previous_incident.date_of_release.blank?
-      errors.add(:date_of_arrest, "There is an #{previous_incident_edit_path} saved to #{prisoner.name} with no date of release. Either change the current incident's date of arrest to before the earlier incident's date of arrest (#{previous_incident.date_of_arrest}), or add a date of release to the earlier incident.")
+      errors.add(:date_of_arrest,
+                 I18n.t('incident.errors.previous_incident_no_release',
+                        earlier_incident: previous_incident_edit_path,
+                        prisoner_name: prisoner.name,
+                        previous_arrest: previous_incident.date_of_arrest))
     else
       if date_of_arrest < previous_incident.date_of_release
-        errors.add(:date_of_arrest, "There is an #{previous_incident_edit_path} saved to #{prisoner.name} with a date of release (#{previous_incident.date_of_release}) after the current incident's date of arrest. Change the dates so they are in chronological order.")
+        errors.add(:date_of_arrest,
+                   I18n.t('incident.errors.previous_incident_wrong_release',
+                          earlier_incident: previous_incident_edit_path,
+                          prisoner_name: prisoner.name,
+                          previous_release: previous_incident.date_of_release))
       end
     end
   end
@@ -74,10 +82,16 @@ class Incident < ActiveRecord::Base
     subsequent_incident_edit_path = ActionController::Base.helpers.link_to 'later incident', Rails.application.routes.url_helpers.edit_prisoner_incident_path(I18n.locale, prisoner, subsequent_incident)
 
     if date_of_release.blank?
-      errors.add(:date_of_release, "There is a #{subsequent_incident_edit_path} saved to #{prisoner.name}. Either add a date of release to the current incident, or change the order of the arrest dates on the incidents.")
+      errors.add(:date_of_release,
+                 I18n.t('incident.errors.subsequent_incident_release_required',
+                        later_incident: subsequent_incident_edit_path,
+                        prisoner_name: prisoner.name))
     else
       if date_of_release > subsequent_incident.date_of_arrest
-        errors.add(:date_of_release, "There is a #{subsequent_incident_edit_path} saved to #{prisoner.name} with a date of arrest before the current incident's date of release. Change the dates so they are in chronological order.")
+        errors.add(:date_of_release,
+                   I18n.t('incident.errors.subsequent_incident_wrong_arrest',
+                          later_incident: subsequent_incident_edit_path,
+                          prisoner_name: prisoner.name))
       end
     end
   end

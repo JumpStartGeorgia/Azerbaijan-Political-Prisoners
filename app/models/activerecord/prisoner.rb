@@ -47,23 +47,6 @@ class Prisoner < ActiveRecord::Base
     end
   end
 
-  # Callbacks
-
-
-  def update_currently_imprisoned
-    latest_incident = incidents.order('date_of_arrest').last
-
-    return false if latest_incident.nil?
-
-    if latest_incident.date_of_release.present?
-      update_column(:currently_imprisoned, false)
-    else
-      update_column(:currently_imprisoned, true)
-    end
-  end
-  after_commit :update_currently_imprisoned, on: [:create, :update]
-  private :update_currently_imprisoned
-
   ################################################################
   # Get prisoner by attribute
 

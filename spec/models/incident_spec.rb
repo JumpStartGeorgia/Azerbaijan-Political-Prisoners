@@ -216,8 +216,10 @@ RSpec.describe Incident, type: :model do
     it 'when incident is not most recent does not update' do
       subsequent_incident.date_of_release = nil
       subsequent_incident.save!
+      subsequent_incident.run_callbacks(:commit)
       new_incident.date_of_release = new_incident.date_of_arrest + 1
       new_incident.save!
+      new_incident.run_callbacks(:commit)
 
       expect(new_incident.prisoner.currently_imprisoned).to eq(true)
     end
@@ -225,11 +227,13 @@ RSpec.describe Incident, type: :model do
     describe 'when incident is preceded by other incident on prisoner' do
       before(:example) do
         previous_incident.save!
+        previous_incident.run_callbacks(:commit)
       end
 
       it 'updates to true if incident does not have date of release' do
         new_incident.date_of_release = nil
         new_incident.save!
+        new_incident.run_callbacks(:commit)
 
         expect(new_incident.prisoner.currently_imprisoned).to eq(true)
       end
@@ -237,6 +241,7 @@ RSpec.describe Incident, type: :model do
       it 'updates to false if incident does have date of release' do
         new_incident.date_of_release = new_incident.date_of_arrest + 1
         new_incident.save!
+        new_incident.run_callbacks(:commit)
 
         expect(new_incident.prisoner.currently_imprisoned).to eq(false)
       end
@@ -246,6 +251,7 @@ RSpec.describe Incident, type: :model do
       it 'updates to true if incident does not have date of release' do
         new_incident.date_of_release = nil
         new_incident.save!
+        new_incident.run_callbacks(:commit)
 
         expect(new_incident.prisoner.currently_imprisoned).to eq(true)
       end
@@ -253,6 +259,7 @@ RSpec.describe Incident, type: :model do
       it 'updates to false if incident does have date of release' do
         new_incident.date_of_release = new_incident.date_of_arrest + 1
         new_incident.save!
+        new_incident.run_callbacks(:commit)
 
         expect(new_incident.prisoner.currently_imprisoned).to eq(false)
       end

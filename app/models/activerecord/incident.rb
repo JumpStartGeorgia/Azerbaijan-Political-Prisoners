@@ -136,6 +136,23 @@ class Incident < ActiveRecord::Base
   end
 
   ##################################################################
+  ######################## Callbacks ###############################
+
+  def update_prisoner_currently_imprisoned
+    return unless most_recent_incident_on_prisoner?
+
+    if date_of_release.present?
+      currently_imprisoned = false
+    else
+      currently_imprisoned = true
+    end
+
+    prisoner.update_column(:currently_imprisoned, currently_imprisoned)
+  end
+  after_commit :update_prisoner_currently_imprisoned, on: [:create, :update]
+  private :update_prisoner_currently_imprisoned
+
+  ##################################################################
   ######################## CSV Format ##############################
 
   def self.to_csv

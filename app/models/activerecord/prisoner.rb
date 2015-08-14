@@ -72,15 +72,18 @@ class Prisoner < ActiveRecord::Base
     where(currently_imprisoned: true).select('id').map(&:id)
   end
 
-  def self.imprisoned_count(date)
-    imprisoned_ids(date).size
-  end
 
-  def self.imprisoned_ids(date)
-    date_formatted = date.strftime('%Y-%m-%d')
-    sql = "select prisoner_id from incidents where date_of_arrest < '" + date_formatted + "' and (date_of_release > '" + date_formatted + "' or date_of_release is null) group by prisoner_id"
-    find_by_sql(sql).map { |x| x.attributes['prisoner_id'] }
-  end
+  #### Commented out imprisoned_count and imprisoned_ids, because they are
+  #### currently unused (and untested) but may be useful in future.
+  # def self.imprisoned_count(date)
+  #   imprisoned_ids(date).size
+  # end
+  #
+  # def self.imprisoned_ids(date)
+  #   date_formatted = date.strftime('%Y-%m-%d')
+  #   sql = "select prisoner_id from incidents where date_of_arrest < '" + date_formatted + "' and (date_of_release > '" + date_formatted + "' or date_of_release is null) group by prisoner_id"
+  #   find_by_sql(sql).map { |x| x.attributes['prisoner_id'] }
+  # end
 
   # Attributes
 

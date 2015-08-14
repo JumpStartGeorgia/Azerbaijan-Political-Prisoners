@@ -73,6 +73,8 @@ gem 'i18n-tasks', '~> 0.8.3' # finds unused and missing translations
 gem 'globalize', '~> 5.0.0' # translations of data in database
 gem 'globalize-accessors', '~> 0.2.1' # makes translation forms easier
 gem 'whenever', '~> 0.9.4', require: false # perform tasks on a schedule (cron jobs)
+# sends updates to google analytics when turbolinks changes page
+gem 'google-analytics-turbolinks', '~> 0.0.4'
 
 group :development do
   gem 'rails-dev-boost', '~> 0.3.0', git: 'git://github.com/thedarkone/rails-dev-boost.git'

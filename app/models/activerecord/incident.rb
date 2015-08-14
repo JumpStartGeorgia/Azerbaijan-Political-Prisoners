@@ -173,8 +173,4 @@ class Incident < ActiveRecord::Base
 
   # strip extra spaces before saving
   auto_strip_attributes :description_of_arrest, :description_of_release
-
-  def released?
-    return date_of_release.present?
-  end
 end

@@ -134,7 +134,7 @@ class Prisoner < ActiveRecord::Base
   def total_days_in_prison
     time = 0
     incidents.each do |inc|
-      if inc.released?
+      if inc.date_of_release.present?
         time += inc.date_of_release - inc.date_of_arrest
       else
         time += Date.today - inc.date_of_arrest

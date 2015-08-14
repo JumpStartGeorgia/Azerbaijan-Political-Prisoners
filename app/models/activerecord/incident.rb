@@ -124,7 +124,7 @@ class Incident < ActiveRecord::Base
     prisoner
       .incidents
       .where.not(id: id)
-      .size === 0
+      .size == 0
   end
 
   # Returns true if current incident has last prisoner date of arrest
@@ -132,7 +132,7 @@ class Incident < ActiveRecord::Base
     prisoner
       .incidents
       .where('date_of_arrest > ?', date_of_arrest)
-      .size === 0
+      .size == 0
   end
 
   ##################################################################

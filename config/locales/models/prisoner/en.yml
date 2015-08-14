@@ -17,9 +17,6 @@ en:
         other: Prisoners
   prisoner:
     currently_imprisoned: Currently Imprisoned
-    errors:
-      arrest_after_previous_release: Date of arrest must occur after date of release of previous incident
-      must_have_release: All incidents but the last must have dates of release
     no_arrest_info: No Arrest Information
     released: Released
     total_days_in_prison: Total Days in Prison

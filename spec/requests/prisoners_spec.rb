@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe 'Prisoners', type: :request do
-  prisoner_name_1 = 'Prisoner#1'
-  prisoner_name_2 = 'Prisoner#2'
+  let(:prisoner1) { FactoryGirl.create(:prisoner, name: 'prisoner1') }
+  let(:prisoner2) { FactoryGirl.create(:prisoner, name: 'prisoner2') }
 
   before(:example) do
-    FactoryGirl.create(:prisoner, name: prisoner_name_1)
-    FactoryGirl.create(:prisoner, name: prisoner_name_2)
+    prisoner1.save!
+    prisoner2.save!
   end
 
   describe 'GET /prisoners' do
@@ -20,8 +20,7 @@ RSpec.describe 'Prisoners', type: :request do
         prison1 = FactoryGirl.create(:prison)
         article1 = FactoryGirl.create(:article)
         article2 = FactoryGirl.create(:article)
-        p1 = Prisoner.find_by_name(prisoner_name_1)
-        p1.incidents << FactoryGirl.create(
+        prisoner1.incidents << FactoryGirl.create(
           :incident,
           date_of_arrest: Date.today - 2.years,
           prison: prison1,
@@ -31,50 +30,45 @@ RSpec.describe 'Prisoners', type: :request do
       end
 
       it 'name' do
-        p1 = Prisoner.find_by_name(prisoner_name_1)
-        expect(response.body).to include(p1.name)
+        expect(response.body).to include(prisoner1.name)
       end
 
       it 'day of arrest' do
-        p1 = Prisoner.find_by_name(prisoner_name_1)
-        expect(response.body).to include(l p1.incidents.first.date_of_arrest, format: :long)
+        expect(response.body).to include(l prisoner1.incidents.first.date_of_arrest, format: :long)
       end
 
       it 'articles' do
-        p1 = Prisoner.find_by_name(prisoner_name_1)
-        expect(response.body).to include(p1.incidents.first.articles.first.number)
-        expect(response.body).to include(p1.incidents.first.articles.second.number)
+        expect(response.body).to include(prisoner1.incidents.first.articles.first.number)
+        expect(response.body).to include(prisoner1.incidents.first.articles.second.number)
       end
 
       it 'total days in prison' do
-        p1 = Prisoner.find_by_name(prisoner_name_1)
-        expect(response.body).to include(p1.total_days_in_prison.to_s)
+        expect(response.body).to include(prisoner1.total_days_in_prison.to_s)
       end
 
       it 'status' do
-        p1 = Prisoner.find_by_name(prisoner_name_1)
-        expect(response.body).to include(p1.currently_imprisoned_status)
+        expect(response.body).to include(prisoner1.currently_imprisoned_status)
       end
     end
   end
 
   describe 'GET prisoner' do
     it 'works with id' do
-      get prisoner_path(Prisoner.find_by_name(prisoner_name_1).id)
+      get prisoner_path(prisoner1.id)
 
       expect(response).to have_http_status(301)
       expect(response).to redirect_to(
-        prisoner_path(Prisoner.find_by_name(prisoner_name_1)))
+        prisoner_path(prisoner1))
       follow_redirect!
 
       expect(response).to have_http_status(200)
-      expect(response.body).to include(prisoner_name_1)
+      expect(response.body).to include(prisoner1.name)
     end
 
     it 'works with friendly id' do
-      get prisoner_path(Prisoner.find_by_name(prisoner_name_1))
+      get prisoner_path(prisoner1)
       expect(response).to have_http_status(200)
-      expect(response.body).to include(prisoner_name_1)
+      expect(response.body).to include(prisoner1.name)
     end
   end
 
@@ -89,8 +83,8 @@ RSpec.describe 'Prisoners', type: :request do
     it 'works' do
       get prisoners_path(format: :csv)
       expect(response).to have_http_status(200)
-      expect(response.body).to include(prisoner_name_1)
-      expect(response.body).to include(prisoner_name_2)
+      expect(response.body).to include(prisoner1.name)
+      expect(response.body).to include(prisoner2.name)
     end
   end
 
@@ -102,8 +96,7 @@ RSpec.describe 'Prisoners', type: :request do
     get imprisoned_count_timeline_prisoners_path
     orig_json = response.body
 
-    pris1 = Prisoner.find_by_name(prisoner_name_1)
-    incident1 = FactoryGirl.create(:incident, prisoner: pris1, date_of_arrest: 10.days.ago)
+    incident1 = FactoryGirl.create(:incident, prisoner: prisoner1, date_of_arrest: 10.days.ago)
     incident1.run_callbacks(:commit)
 
     get imprisoned_count_timeline_prisoners_path
@@ -120,21 +113,21 @@ RSpec.describe 'Prisoners', type: :request do
 
     describe 'EDIT prisoner' do
       it 'works with id' do
-        get edit_prisoner_path(Prisoner.find_by_name(prisoner_name_1).id)
+        get edit_prisoner_path(prisoner1.id)
 
         expect(response).to have_http_status(301)
         expect(response).to redirect_to(
-          edit_prisoner_path(Prisoner.find_by_name(prisoner_name_1)))
+          edit_prisoner_path(prisoner1))
         follow_redirect!
 
         expect(response).to have_http_status(200)
-        expect(response.body).to include(prisoner_name_1)
+        expect(response.body).to include(prisoner1.name)
       end
 
       it 'works with friendly id' do
-        get edit_prisoner_path(Prisoner.find_by_name(prisoner_name_1))
+        get edit_prisoner_path(prisoner1.name)
         expect(response).to have_http_status(200)
-        expect(response.body).to include(prisoner_name_1)
+        expect(response.body).to include(prisoner1.name)
       end
     end
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_150_730_081_106) do
+ActiveRecord::Schema.define(version: 20_150_817_080_652) do
   create_table 'article_translations', force: :cascade do |t|
     t.integer 'article_id',  limit: 4,     null: false
     t.string 'locale',      limit: 255,   null: false
@@ -128,8 +128,19 @@ ActiveRecord::Schema.define(version: 20_150_730_081_106) do
   add_index 'prison_translations', ['locale'], name: 'index_prison_translations_on_locale', using: :btree
   add_index 'prison_translations', ['prison_id'], name: 'index_prison_translations_on_prison_id', using: :btree
 
+  create_table 'prisoner_translations', force: :cascade do |t|
+    t.integer 'prisoner_id', limit: 4,   null: false
+    t.string 'locale',      limit: 255, null: false
+    t.datetime 'created_at',              null: false
+    t.datetime 'updated_at',              null: false
+    t.string 'name',        limit: 255
+  end
+
+  add_index 'prisoner_translations', ['locale'], name: 'index_prisoner_translations_on_locale', using: :btree
+  add_index 'prisoner_translations', ['prisoner_id'], name: 'index_prisoner_translations_on_prisoner_id', using: :btree
+
   create_table 'prisoners', force: :cascade do |t|
-    t.string 'name',                  limit: 255
+    t.string 'old_name',              limit: 255
     t.datetime 'created_at'
     t.datetime 'updated_at'
     t.string 'portrait_file_name',    limit: 255
@@ -143,7 +154,7 @@ ActiveRecord::Schema.define(version: 20_150_730_081_106) do
   end
 
   add_index 'prisoners', ['gender_id'], name: 'index_prisoners_on_gender_id', using: :btree
-  add_index 'prisoners', ['name'], name: 'index_prisoners_on_name', using: :btree
+  add_index 'prisoners', ['old_name'], name: 'index_prisoners_on_old_name', using: :btree
   add_index 'prisoners', ['slug'], name: 'index_prisoners_on_slug', using: :btree
 
   create_table 'prisons', force: :cascade do |t|

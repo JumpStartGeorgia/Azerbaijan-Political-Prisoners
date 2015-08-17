@@ -11,6 +11,11 @@ class Prisoner < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
   validates :gender_id, presence: true, inclusion: { in: [1, 2, 3] }
 
+  translates :name, fallbacks_for_empty_translations: true
+  # Allows reference of specific translations, i.e. post.title_az
+  # or post.title_en
+  globalize_accessors
+
   # strip extra spaces before saving
   auto_strip_attributes :name
 

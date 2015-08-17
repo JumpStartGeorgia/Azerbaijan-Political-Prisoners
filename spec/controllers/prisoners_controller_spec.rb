@@ -30,11 +30,11 @@ RSpec.describe PrisonersController, type: :controller do
   # Prisoner. As you add validations to Prisoner, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
-    FactoryGirl.build(:prisoner, name: 'MyName').attributes
+    FactoryGirl.attributes_for(:prisoner)
   end
 
   let(:invalid_attributes) do
-    FactoryGirl.build(:prisoner, name: '').attributes
+    FactoryGirl.attributes_for(:prisoner, name_en: '')
   end
 
   # This should return the minimal set of values that should be in the session

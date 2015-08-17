@@ -1,7 +1,6 @@
 FactoryGirl.define do
   factory :prisoner do
-    sequence(:name) { |n| "prisoner##{n}" }
-    date_of_birth Date.new(1950, 1, 1)
+    sequence(:name_en) { |n| "prisoner##{n}" }
     gender_id 1
 
     factory :prisoner_with_incidents do

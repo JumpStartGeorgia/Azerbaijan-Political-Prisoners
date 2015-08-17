@@ -8,7 +8,6 @@ class Prisoner < ActiveRecord::Base
                     url: '/system/images/:class/:attachment/:id/:style/:basename.:extension',
                     convert_options: { large: '-resize 150x200 -gravity center -extent 150x200' }
   validates_attachment :portrait, content_type: { content_type: /\Aimage\/.*\Z/ }
-  accepts_nested_attributes_for :incidents, allow_destroy: true
   validates :name, presence: true, uniqueness: true
   validates :gender_id, presence: true, inclusion: { in: [1, 2, 3] }
 

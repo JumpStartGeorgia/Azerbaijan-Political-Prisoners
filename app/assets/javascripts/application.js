@@ -31,6 +31,7 @@
 //= require select2
 //= require highcharts
 //= require highcharts/modules/exporting
+//= require google-analytics-turbolinks
 //= require_tree .
 
 ////////////////////////////////////////

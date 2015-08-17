@@ -72,7 +72,6 @@ class Prisoner < ActiveRecord::Base
     where(currently_imprisoned: true).select('id').map(&:id)
   end
 
-
   #### Commented out imprisoned_count and imprisoned_ids, because they are
   #### currently unused (and untested) but may be useful in future.
   # def self.imprisoned_count(date)
@@ -246,7 +245,7 @@ class Prisoner < ActiveRecord::Base
       generate_imprisoned_count_timeline_json(imprisoned_count_timeline_path)
     end
 
-    return imprisoned_count_timeline_path
+    imprisoned_count_timeline_path
   end
 
   ############################################################

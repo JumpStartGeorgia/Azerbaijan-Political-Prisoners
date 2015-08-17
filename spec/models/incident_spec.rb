@@ -8,7 +8,7 @@ RSpec.describe Incident, type: :model do
     FactoryGirl.build(
       :incident,
       prisoner: prisoner,
-      date_of_arrest: date_of_arrest,
+      date_of_arrest: date_of_arrest
     )
   end
 

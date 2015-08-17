@@ -65,10 +65,8 @@ RSpec.describe 'Articles', type: :request do
     orig_json = response.body
 
     prisoner1 = FactoryGirl.create(:prisoner)
-    prisoner1.incidents <<
-      FactoryGirl.create(:incident, articles: [Article.find_by_number(article_number_1)])
-    prisoner1.save!
-    prisoner1.run_callbacks(:commit)
+    incident1 = FactoryGirl.create(:incident, prisoner: prisoner1, articles: [Article.find_by_number(article_number_1)])
+    incident1.run_callbacks(:commit)
 
     get article_incident_counts_articles_path
     expect(orig_json).not_to eq(response.body)

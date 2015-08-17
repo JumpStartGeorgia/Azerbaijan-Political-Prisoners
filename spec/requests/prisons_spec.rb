@@ -66,10 +66,8 @@ RSpec.describe 'Prisons', type: :request do
     orig_json = response.body
 
     prisoner1 = FactoryGirl.create(:prisoner)
-    prisoner1.incidents <<
-      FactoryGirl.create(:incident, prison: prison1)
-    prisoner1.save!
-    prisoner1.run_callbacks(:commit)
+    incident1 = FactoryGirl.create(:incident, prisoner: prisoner1, prison: prison1)
+    incident1.run_callbacks(:commit)
 
     get prison_prisoner_counts_prisons_path
     expect(orig_json).not_to eq(response.body)

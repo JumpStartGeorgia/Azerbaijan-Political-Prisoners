@@ -103,10 +103,8 @@ RSpec.describe 'Prisoners', type: :request do
     orig_json = response.body
 
     pris1 = Prisoner.find_by_name(prisoner_name_1)
-    pris1.incidents <<
-      FactoryGirl.create(:incident, date_of_arrest: 10.days.ago)
-    pris1.save!
-    pris1.run_callbacks(:commit)
+    incident1 = FactoryGirl.create(:incident, prisoner: pris1, date_of_arrest: 10.days.ago)
+    incident1.run_callbacks(:commit)
 
     get imprisoned_count_timeline_prisoners_path
     expect(orig_json).not_to eq(response.body)

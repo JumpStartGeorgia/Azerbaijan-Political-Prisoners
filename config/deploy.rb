@@ -99,7 +99,7 @@ namespace :rails do
   end
 
   namespace :generated_files do
-    desc "Call rake task that regenerates all generated files"
+    desc 'Call rake task that regenerates all generated files'
     task :regenerate do
       queue %(
       echo '-----> Regenerating generated files'

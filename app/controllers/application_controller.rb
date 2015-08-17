@@ -43,6 +43,6 @@ class ApplicationController < ActionController::Base
   def not_found(redirect_path = root_path)
     Rails.logger.debug('Not found redirect')
     redirect_to redirect_path,
-      notice: t('shared.msgs.does_not_exist')
+                notice: t('shared.msgs.does_not_exist')
   end
 end

@@ -6,7 +6,6 @@ class PrisonersController < ApplicationController
   before_action :set_prisoner, only: [:show, :edit, :update, :destroy]
   authorize_resource
 
-
   # GET /prisoners
   # GET /prisoners.json
   def index

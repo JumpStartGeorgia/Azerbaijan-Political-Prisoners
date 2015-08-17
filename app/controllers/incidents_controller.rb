@@ -105,8 +105,6 @@ class IncidentsController < ApplicationController
 
   def set_prisoner
     @prisoner = Prisoner.friendly.find(params[:prisoner_id])
-    if @prisoner.blank?
-      not_found(prisoners_path)
-    end
+    not_found(prisoners_path) if @prisoner.blank?
   end
 end

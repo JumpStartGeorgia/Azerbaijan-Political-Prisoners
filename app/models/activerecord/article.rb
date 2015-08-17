@@ -133,7 +133,7 @@ class Article < ActiveRecord::Base
       generate_charge_counts_chart_json(charge_counts_chart_json_path)
     end
 
-    return charge_counts_chart_json_path
+    charge_counts_chart_json_path
   end
 
   def desc

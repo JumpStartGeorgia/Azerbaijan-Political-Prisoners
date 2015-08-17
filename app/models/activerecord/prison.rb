@@ -97,7 +97,7 @@ class Prison < ActiveRecord::Base
   def self.generate_current_prisoner_counts_chart_json(prisoner_counts_chart_json_path)
     # if folder path not exist, create it
     FileUtils.mkdir_p(Pathname.new(
-      File.dirname(prisoner_counts_chart_json_path)))
+                        File.dirname(prisoner_counts_chart_json_path)))
 
     File.open(prisoner_counts_chart_json_path, 'w') do |f|
       f.write(current_prisoner_counts.to_json)
@@ -115,7 +115,7 @@ class Prison < ActiveRecord::Base
       generate_current_prisoner_counts_chart_json(prisoner_counts_chart_json_path)
     end
 
-    return prisoner_counts_chart_json_path
+    prisoner_counts_chart_json_path
   end
 
   ############################################################

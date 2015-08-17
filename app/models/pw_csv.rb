@@ -43,6 +43,6 @@ class PwCsv
       createCsvZip(csv_zip, timeStamp)
     end
 
-    return csv_zip
+    csv_zip
   end
 end

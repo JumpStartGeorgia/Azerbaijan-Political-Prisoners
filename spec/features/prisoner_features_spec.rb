@@ -17,7 +17,6 @@ RSpec.describe 'Prisoner and incident', type: :feature do
     FactoryGirl.create(:tag, name: 'tag#1')
     FactoryGirl.create(:tag, name: 'tag#2')
 
-
     visit prisoners_path
 
     click_on 'New'

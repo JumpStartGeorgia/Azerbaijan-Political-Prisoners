@@ -1,5 +1,6 @@
 <% object = @tag %>
 <%= semantic_form_for object do |f| %>
+  <%= f.semantic_errors *f.object.errors.keys %>
   <%= f.inputs do %>
     <%= render layout: 'shared/form/translated_inputs',
                locals: { object: object } do |enabled_locale, enabled_locale_name| %>

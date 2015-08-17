@@ -66,17 +66,22 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-md-12">
-          <%= f.input :description_of_arrest, input_html: { class: 'tinymce' } %>
-        </div>
-      </div>
+      <%= render layout: 'shared/form/translated_inputs',
+                 locals: { object: @prisoner } do |enabled_locale, enabled_locale_name| %>
+        <%= f.input "description_of_arrest_#{enabled_locale}",
+                    as: :text,
+                    input_html: { class: 'tinymce' },
+                    label: t('shared.labels.translated_field',
+                           field: t('activerecord.attributes.incident.description_of_arrest'),
+                           language: enabled_locale_name) %>
 
-      <div class="row">
-        <div class="col-md-12">
-          <%= f.input :description_of_release, input_html: { class: 'tinymce' } %>
-        </div>
-      </div>
+        <%= f.input "description_of_release_#{enabled_locale}",
+                    as: :text,
+                    input_html: { class: 'tinymce' },
+                    label: t('shared.labels.translated_field',
+                           field: t('activerecord.attributes.incident.description_of_release'),
+                           language: enabled_locale_name) %>
+      <% end %>
     </div>
   <% end %>
 

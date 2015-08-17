@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_150_817_080_652) do
+ActiveRecord::Schema.define(version: 20_150_817_102_512) do
   create_table 'article_translations', force: :cascade do |t|
     t.integer 'article_id',  limit: 4,     null: false
     t.string 'locale',      limit: 255,   null: false
@@ -74,13 +74,25 @@ ActiveRecord::Schema.define(version: 20_150_817_080_652) do
   add_index 'friendly_id_slugs', ['sluggable_id'], name: 'index_friendly_id_slugs_on_sluggable_id', using: :btree
   add_index 'friendly_id_slugs', ['sluggable_type'], name: 'index_friendly_id_slugs_on_sluggable_type', using: :btree
 
-  create_table 'incidents', force: :cascade do |t|
-    t.integer 'prisoner_id',            limit: 4
-    t.date 'date_of_arrest'
+  create_table 'incident_translations', force: :cascade do |t|
+    t.integer 'incident_id',            limit: 4,     null: false
+    t.string 'locale',                 limit: 255,   null: false
+    t.datetime 'created_at',                           null: false
+    t.datetime 'updated_at',                           null: false
     t.text 'description_of_arrest',  limit: 65_535
-    t.integer 'prison_id',              limit: 4
-    t.date 'date_of_release'
     t.text 'description_of_release', limit: 65_535
+  end
+
+  add_index 'incident_translations', ['incident_id'], name: 'index_incident_translations_on_incident_id', using: :btree
+  add_index 'incident_translations', ['locale'], name: 'index_incident_translations_on_locale', using: :btree
+
+  create_table 'incidents', force: :cascade do |t|
+    t.integer 'prisoner_id',                limit: 4
+    t.date 'date_of_arrest'
+    t.text 'old_description_of_arrest',  limit: 65_535
+    t.integer 'prison_id',                  limit: 4
+    t.date 'date_of_release'
+    t.text 'old_description_of_release', limit: 65_535
     t.datetime 'created_at'
     t.datetime 'updated_at'
   end

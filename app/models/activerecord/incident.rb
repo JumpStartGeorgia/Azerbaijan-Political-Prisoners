@@ -8,6 +8,16 @@ class Incident < ActiveRecord::Base
   has_many :articles, through: :charges
 
   ################################################################
+  ######################## Translations ##########################
+
+  translates :description_of_arrest,
+             :description_of_release,
+             fallbacks_for_empty_translations: true
+  # Allows reference of specific translations, i.e. post.title_az
+  # or post.title_en
+  globalize_accessors
+
+  ################################################################
   ######################## Validations ###########################
 
   validates :date_of_arrest, :prisoner, presence: true

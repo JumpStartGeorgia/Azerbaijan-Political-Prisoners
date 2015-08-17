@@ -8,7 +8,13 @@
         <%= f.input :portrait, as: :file, label: false %>
       </div>
       <div class="col-md-9">
-        <%= f.input :name %>
+        <%= render layout: 'shared/form/translated_inputs',
+                   locals: { object: @prisoner } do |enabled_locale, enabled_locale_name| %>
+          <%= f.input "name_#{enabled_locale}",
+                      label: t('shared.labels.translated_field',
+                             field: t('activerecord.attributes.prisoner.name'),
+                             language: enabled_locale_name) %>
+        <% end %>
         <%= f.input :date_of_birth, as: :string, input_html: { class: 'date_of_birth_select', size: 20 } %>
         <%= f.input :gender_id, as: :radio, collection: gender_collection %>
       </div>

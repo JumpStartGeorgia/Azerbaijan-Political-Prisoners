@@ -9,7 +9,7 @@ class PrisonersController < ApplicationController
   # GET /prisoners
   # GET /prisoners.json
   def index
-    @prisoners = Prisoner.search_for(params[:q]).with_meta_data.ordered.ordered_date_of_arrest.paginate(page: params[:page])
+    @prisoners = Prisoner.with_translations.search_for(params[:q]).with_meta_data.ordered.ordered_date_of_arrest.paginate(page: params[:page])
 
     respond_to do |format|
       format.html
@@ -110,7 +110,7 @@ class PrisonersController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def prisoner_params
     params.require(:prisoner).permit(
-      :name,
+      *Prison.globalize_attribute_names,
       :date_of_birth,
       :gender_id,
       :portrait

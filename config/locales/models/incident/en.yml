@@ -23,3 +23,4 @@ en:
       previous_incident_wrong_release: There is an %{earlier_incident} saved to %{prisoner_name} with a date of release (%{previous_release}) after the current incident's date of arrest. Change the dates so they are in chronological order.
       subsequent_incident_release_required: This incident requires a date of release, because there is a %{later_incident} saved to %{prisoner_name}. Either add a date of release to the current incident, or change the order of the arrest dates on the incidents.
       subsequent_incident_wrong_arrest: There is a %{later_incident} saved to %{prisoner_name} with a date of arrest before the current incident's date of release. Change the dates so they are in chronological order.
+      same_arrest_date: "There is an %{incident} on %{prisoner_name} that has the same arrest date. You must change one of the two incidents' dates of arrest."

@@ -50,6 +50,28 @@ class Incident < ActiveRecord::Base
   validate :release_is_after_arrest?
   private :release_is_after_arrest?
 
+  def new_arrest_not_same_day_as_other_arrest?
+    return if prisoner.blank?
+    return if date_of_arrest.blank?
+    return if only_incident_on_prisoner?
+
+    # Check if other incident has same arrest date
+    incidents_with_same_arrest = prisoner
+                                   .incidents
+                                   .where('date_of_arrest = ?', date_of_arrest)
+                                   .where.not(id: id)
+
+    return if incidents_with_same_arrest.empty?
+
+    incident_edit_path = ActionController::Base.helpers.link_to 'incident', Rails.application.routes.url_helpers.edit_prisoner_incident_path(I18n.locale, prisoner, incidents_with_same_arrest[0])
+
+    errors.add(:date_of_arrest, I18n.t('incident.errors.same_arrest_date',
+                                       incident: incident_edit_path,
+                                       prisoner_name: prisoner.name))
+  end
+  validate :new_arrest_not_same_day_as_other_arrest?
+  private :new_arrest_not_same_day_as_other_arrest?
+
   # If the new incident is the most recent incident, the previous incident
   # should be released, and the date of arrest should be after the previous
   # incident's date of release.

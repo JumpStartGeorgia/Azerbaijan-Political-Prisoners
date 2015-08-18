@@ -132,6 +132,11 @@ RSpec.describe Incident, type: :model do
       expect(new_incident).to have(1).error_on(:date_of_arrest)
     end
 
+    it "causes error if new date of arrest is saved as the same as already saved incident's date of arrest" do
+      new_incident.date_of_arrest = previous_incident.date_of_arrest
+      expect(new_incident).to have(1).error_on(:date_of_arrest)
+    end
+
     describe 'that is released' do
       it "causes error if previous incident's date of release is after date of arrest" do
         previous_incident.date_of_release = new_incident.date_of_arrest + 1
@@ -169,6 +174,11 @@ RSpec.describe Incident, type: :model do
     it 'causes error if date of release is not present' do
       new_incident.date_of_release = nil
       expect(new_incident).to have(1).error_on(:date_of_release)
+    end
+
+    it "causes error if new date of arrest is saved as the same as already saved incident's date of arrest" do
+      new_incident.date_of_arrest = subsequent_incident.date_of_arrest
+      expect(new_incident).to have(1).error_on(:date_of_arrest)
     end
 
     describe 'and with date of release' do
@@ -210,6 +220,14 @@ RSpec.describe Incident, type: :model do
     it 'causes error if date of arrest is before previous date of release' do
       new_incident.date_of_arrest = previous_incident.date_of_release - 1
       expect(new_incident).to have(1).error_on(:date_of_arrest)
+    end
+
+    it 'causes error if date of arrest is moved to before earlier incident but not date of release' do
+      new_incident.date_of_release = new_incident.date_of_arrest + 1
+      new_incident.save!
+
+      new_incident.date_of_arrest = previous_incident.date_of_arrest - 1
+      expect(new_incident).to have(1).error_on(:date_of_release)
     end
 
     it 'has previous incident' do

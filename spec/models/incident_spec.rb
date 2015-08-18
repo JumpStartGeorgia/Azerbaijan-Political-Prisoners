@@ -113,14 +113,14 @@ RSpec.describe Incident, type: :model do
     end
   end
 
-  describe 'that is most recent incident on prisoner' do
+  describe 'that has previous incident on prisoner' do
     it 'causes error if previous incident is not released' do
       previous_incident.date_of_release = nil
       previous_incident.save!
       expect(new_incident).to have(1).error_on(:date_of_arrest)
     end
 
-    describe 'with previous incident that is released' do
+    describe 'that is released' do
       it "causes error if previous incident's date of release is after date of arrest" do
         previous_incident.date_of_release = new_incident.date_of_arrest + 1
         previous_incident.save!
@@ -141,7 +141,7 @@ RSpec.describe Incident, type: :model do
     end
   end
 
-  describe 'that is not most recent incident on prisoner' do
+  describe 'that has subsequent incident on prisoner' do
     before :example do
       subsequent_incident.save!
     end
@@ -166,6 +166,28 @@ RSpec.describe Incident, type: :model do
         new_incident.date_of_release = subsequent_incident.date_of_arrest
         expect(new_incident).to be_valid
       end
+    end
+  end
+
+  describe 'with earlier and later incident on prisoner' do
+    before :example do
+      previous_incident.date_of_release = previous_incident.date_of_release + 1
+      subsequent_incident.date_of_release = nil
+    end
+
+    it 'causes error if no date of release' do
+      new_incident.date_of_release = nil
+      expect(new_incident).to have(1).error_on(:date_of_release)
+    end
+
+    it 'causes error if date of release is after subsequent date of arrest' do
+      new_incident.date_of_release = subsequent_incident.date_of_arrest + 1
+      expect(new_incident).to have(1).error_on(:date_of_release)
+    end
+
+    it 'causes error if date of arrest is before previous date of release' do
+      new_incident.date_of_arrest = previous_incident.date_of_release - 1
+      expect(new_incident).to have(1).error_on(:date_of_arrest)
     end
   end
 

@@ -30,6 +30,7 @@ class IncidentsController < ApplicationController
         end
         format.json { render :show, status: :created, location: @prisoner }
       else
+        set_form_collections
         format.html { render :new }
         format.json { render json: @incident.errors, status: :unprocessable_entity }
       end
@@ -48,6 +49,7 @@ class IncidentsController < ApplicationController
         end
         format.json { render :show, status: :ok, location: @prisoner }
       else
+        set_form_collections
         format.html { render :edit }
         format.json do
           render json: @incident.errors, status: :unprocessable_entity

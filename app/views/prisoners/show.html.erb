@@ -100,12 +100,13 @@
   <% @prisoner.incidents.order(date_of_arrest: :desc)
        .each_with_index do |incident, index| %>
     <div class="arrest">
-      <%= link_to t('shared.actions.with_obj.edit',
-                    obj: t('activerecord.models.incident', count: 1)),
-                  edit_prisoner_incident_path(@prisoner, incident),
-                  class: 'btn btn-success'
-      %>
-      <%= if can? :destroy, object
+      <%= if can? :edit, incident
+            link_to t('shared.actions.with_obj.edit',
+                      obj: t('activerecord.models.incident', count: 1)),
+                    edit_prisoner_incident_path(@prisoner, incident),
+                    class: 'btn btn-success'
+          end %>
+      <%= if can? :destroy, incident
             link_to t('shared.actions.with_obj.destroy',
                       obj: t('activerecord.models.incident', count: 1)),
                     prisoner_incident_path(@prisoner, incident),

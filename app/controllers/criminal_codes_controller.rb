@@ -11,7 +11,7 @@ class CriminalCodesController < ApplicationController
       format.html
       format.csv do
         send_data CriminalCode.to_csv,
-                  filename: "criminal_codes_#{GeneratedFile.timeStamp}.csv",
+                  filename: GeneratedFile.clean_filename('criminal_codes', 'csv'),
                   type: 'text/csv'
       end
     end

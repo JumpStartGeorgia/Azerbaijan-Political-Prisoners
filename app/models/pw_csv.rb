@@ -39,7 +39,14 @@ class PwCsv
 
     unless csv_zip
       timeStamp = GeneratedFile.timeStamp
-      csv_zip = Rails.root.join('public', 'generated', 'csv', I18n.locale.to_s, "political_prisoner_data_#{timeStamp}.zip")
+      csv_zip = Rails.root
+        .join('public',
+              'generated',
+              'csv',
+              I18n.locale.to_s,
+              GeneratedFile.clean_filename('political_prisoner_data', 
+                                           'zip',
+                                           timeStamp))
       createCsvZip(csv_zip, timeStamp)
     end
 

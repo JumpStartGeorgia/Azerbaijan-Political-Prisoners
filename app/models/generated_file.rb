@@ -58,7 +58,7 @@ class GeneratedFile
   end
 
   # Returns cleaned file name with extension
-  def self.clean_filename(str, extension)
+  def self.clean_filename(str, extension, timeStamp = self.timeStamp)
     "#{clean_string_in_filename(str)}_#{timeStamp}.#{extension}"
   end
 end

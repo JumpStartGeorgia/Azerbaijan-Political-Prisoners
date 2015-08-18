@@ -47,16 +47,17 @@ class GeneratedFile
     generate
   end
 
+  # Returns a string that is cleaned for use in filename
+  def self.clean_string_in_filename(str)
+    str.to_ascii.gsub(/[^a-z0-9\-]+/i, '_')
+  end
+
   # Returns localized time stamp to use in file names
   def self.timeStamp
     clean_string_in_filename(Time.now.strftime(I18n.t('shared.datetime.full')))
   end
 
-  # Returns cleaned file name
-  def self.clean_string_in_filename(str)
-    str.to_ascii.gsub(/[^a-z0-9\-]+/i, '_')
-  end
-
+  # Returns cleaned file name with extension
   def self.clean_filename(str, extension)
     "#{clean_string_in_filename(str)}_#{timeStamp}.#{extension}"
   end

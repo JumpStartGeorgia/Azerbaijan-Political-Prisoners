@@ -49,6 +49,15 @@ class GeneratedFile
 
   # Returns localized time stamp to use in file names
   def self.timeStamp
-    Time.now.strftime(I18n.t('shared.datetime.full'))
+    clean_string_in_filename(Time.now.strftime(I18n.t('shared.datetime.full')))
+  end
+
+  # Returns cleaned file name
+  def self.clean_string_in_filename(str)
+    str.to_ascii.gsub(/[^a-z0-9\-]+/i, '_')
+  end
+
+  def self.clean_filename(str, extension)
+    "#{clean_string_in_filename(str)}_#{timeStamp}.#{extension}"
   end
 end

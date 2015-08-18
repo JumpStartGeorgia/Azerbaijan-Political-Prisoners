@@ -9,7 +9,7 @@ class PrisonersController < ApplicationController
   # GET /prisoners
   # GET /prisoners.json
   def index
-    @prisoners = Prisoner.with_translations.search_for(params[:q]).with_meta_data.ordered.ordered_date_of_arrest.paginate(page: params[:page])
+    @prisoners = Prisoner.with_translations.with_incident_translations.with_article_translations.search_for(params[:q]).with_meta_data.ordered.ordered_date_of_arrest.paginate(page: params[:page])
 
     respond_to do |format|
       format.html

@@ -2,6 +2,7 @@ class Prisoner < ActiveRecord::Base
   extend FriendlyId
 
   has_many :incidents, inverse_of: :prisoner, dependent: :destroy
+  has_many :incident_translations, through: :incidents, source: :translations
   has_attached_file :portrait,
                     styles: { thumb: '150x150>', large: '150x200>' },
                     default_url: 'missing/:style.png',
@@ -33,10 +34,11 @@ class Prisoner < ActiveRecord::Base
 
   # fields to search for in a story
   scoped_search in: :translations, on: [:name]
-  # scoped_search in: :incidents, on: [:date_of_arrest, :date_of_release]
-  # scoped_search in: :incident_translations, on: [:description_of_arrest, :description_of_release]
+  scoped_search in: :incident_translations, on: [:description_of_arrest, :description_of_release]
 
   # SCOPES
+  scope :with_incident_translations, -> { includes(incidents: :translations) }
+  scope :with_article_translations, -> { includes(incidents: {articles: :translations} ) }
   scope :with_meta_data, -> { includes(incidents: [:prison, :tags, :articles]) }
   scope :ordered, -> { order(:name) }
   scope :ordered_date_of_arrest, -> { order('incidents.date_of_arrest desc') }

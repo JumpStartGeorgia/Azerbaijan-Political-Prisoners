@@ -89,9 +89,7 @@ RSpec.describe 'Prisoners', type: :request do
   end
 
   it 'timeline json is different after adding incident to prisoner' do
-    FileUtils.rm_rf(Rails.public_path.join('system',
-                                           'json',
-                                           'imprisoned_count_timeline.json'))
+    GeneratedFile.remove
 
     get imprisoned_count_timeline_prisoners_path
     orig_json = response.body

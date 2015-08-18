@@ -58,9 +58,7 @@ RSpec.describe 'Prisons', type: :request do
   end
 
   it 'prisoner count json is different after adding prisoner to prison' do
-    FileUtils.rm_rf(Rails.public_path.join('system',
-                                           'json',
-                                           'prison_prisoner_count_chart.json'))
+    GeneratedFile.remove
 
     get prison_prisoner_counts_prisons_path
     orig_json = response.body

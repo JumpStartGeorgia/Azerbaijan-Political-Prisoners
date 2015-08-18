@@ -57,9 +57,7 @@ RSpec.describe 'Articles', type: :request do
   end
 
   it 'sentence count json is different after adding new sentence to prisoner' do
-    FileUtils.rm_rf(Rails.public_path.join('system',
-                                           'json',
-                                           'article_incident_counts_chart.json'))
+    GeneratedFile.remove
 
     get article_incident_counts_articles_path
     orig_json = response.body

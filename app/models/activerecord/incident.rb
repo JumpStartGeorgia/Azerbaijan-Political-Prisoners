@@ -116,6 +116,7 @@ class Incident < ActiveRecord::Base
     prisoner
       .incidents
       .where('date_of_arrest < ?', date_of_arrest)
+      .where.not(id: id)
       .size > 0
   end
 
@@ -124,6 +125,7 @@ class Incident < ActiveRecord::Base
     prisoner
       .incidents
       .where('date_of_arrest > ?', date_of_arrest)
+      .where.not(id: id)
       .size > 0
   end
 
@@ -132,6 +134,7 @@ class Incident < ActiveRecord::Base
     prisoner
       .incidents
       .where('date_of_arrest < ?', date_of_arrest)
+      .where.not(id: id)
       .order(date_of_arrest: :asc)
       .last
   end
@@ -141,6 +144,7 @@ class Incident < ActiveRecord::Base
     prisoner
       .incidents
       .where('date_of_arrest > ?', date_of_arrest)
+      .where.not(id: id)
       .order(date_of_arrest: :asc)
       .first
   end

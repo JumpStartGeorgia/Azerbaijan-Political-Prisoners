@@ -15,6 +15,10 @@ RSpec.describe 'Prisoners', type: :request do
       expect(response).to have_http_status(200)
     end
 
+    it 'works with search parameter' do
+      get prisoners_path(q: prisoner1.name)
+    end
+
     describe 'displays prisoner attribute' do
       before(:example) do
         prison1 = FactoryGirl.create(:prison)

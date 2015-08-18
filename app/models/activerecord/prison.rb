@@ -109,7 +109,7 @@ class Prison < ActiveRecord::Base
       Rails.public_path.join('generated',
                              'json',
                              I18n.locale.to_s,
-                             'prison_prisoner_count_chart.json')
+                             GeneratedFile.clean_filename('prison_prisoner_count_chart', 'json'))
 
     unless File.exist?(prisoner_counts_chart_json_path)
       generate_current_prisoner_counts_chart_json(prisoner_counts_chart_json_path)

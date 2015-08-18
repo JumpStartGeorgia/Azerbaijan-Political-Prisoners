@@ -245,7 +245,7 @@ class Prisoner < ActiveRecord::Base
       Rails.public_path.join('generated',
                              'json',
                              I18n.locale.to_s,
-                             'imprisoned_count_timeline.json')
+                             GeneratedFile.clean_filename('imprisoned_count_timeline', 'json'))
 
     unless File.exist?(imprisoned_count_timeline_path)
       generate_imprisoned_count_timeline_json(imprisoned_count_timeline_path)

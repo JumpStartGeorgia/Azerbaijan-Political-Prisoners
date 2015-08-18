@@ -127,7 +127,7 @@ class Article < ActiveRecord::Base
       Rails.public_path.join('generated',
                              'json',
                              I18n.locale.to_s,
-                             'article_incident_counts_chart.json')
+                             GeneratedFile.clean_filename('article_incident_counts_chart', 'json'))
 
     unless File.exist?(charge_counts_chart_json_path)
       generate_charge_counts_chart_json(charge_counts_chart_json_path)

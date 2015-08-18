@@ -57,7 +57,7 @@ class Incident < ActiveRecord::Base
     return if prisoner.blank?
     return if date_of_arrest.blank?
     return if only_incident_on_prisoner?
-    return unless most_recent_incident_on_prisoner?
+    return unless has_previous_incident?
 
     previous_incident_edit_path = ActionController::Base.helpers.link_to 'earlier incident', Rails.application.routes.url_helpers.edit_prisoner_incident_path(I18n.locale, prisoner, previous_incident)
 
@@ -87,7 +87,7 @@ class Incident < ActiveRecord::Base
     return if prisoner.blank?
     return if date_of_arrest.blank?
     return if only_incident_on_prisoner?
-    return if most_recent_incident_on_prisoner?
+    return unless has_subsequent_incident?
 
     subsequent_incident_edit_path = ActionController::Base.helpers.link_to 'later incident', Rails.application.routes.url_helpers.edit_prisoner_incident_path(I18n.locale, prisoner, subsequent_incident)
 
@@ -110,6 +110,22 @@ class Incident < ActiveRecord::Base
 
   #########################################################################
   ###### Functions comparing incident to other incidents on prisoner ######
+
+  # Check if prisoner has earlier incident
+  def has_previous_incident?
+    prisoner
+      .incidents
+      .where('date_of_arrest < ?', date_of_arrest)
+      .size > 0
+  end
+
+  # Check if prisoner has later incident
+  def has_subsequent_incident?
+    prisoner
+      .incidents
+      .where('date_of_arrest > ?', date_of_arrest)
+      .size > 0
+  end
 
   # Get previous incident from chronologically ordered prisoner incidents
   def previous_incident
@@ -137,19 +153,11 @@ class Incident < ActiveRecord::Base
       .size == 0
   end
 
-  # Returns true if current incident has last prisoner date of arrest
-  def most_recent_incident_on_prisoner?
-    prisoner
-      .incidents
-      .where('date_of_arrest > ?', date_of_arrest)
-      .size == 0
-  end
-
   ##################################################################
   ######################## Callbacks ###############################
 
   def update_prisoner_currently_imprisoned
-    return unless most_recent_incident_on_prisoner?
+    return if has_subsequent_incident?
 
     if date_of_release.present?
       currently_imprisoned = false

@@ -114,6 +114,18 @@ RSpec.describe Incident, type: :model do
   end
 
   describe 'that has previous incident on prisoner' do
+    before :example do
+      previous_incident.save!
+    end
+
+    it 'has previous incident' do
+      expect(new_incident.has_previous_incident?).to eq(true)
+    end
+
+    it 'does not have subsequent incident' do
+      expect(new_incident.has_subsequent_incident?).to eq(false)
+    end
+
     it 'causes error if previous incident is not released' do
       previous_incident.date_of_release = nil
       previous_incident.save!
@@ -146,6 +158,14 @@ RSpec.describe Incident, type: :model do
       subsequent_incident.save!
     end
 
+    it 'has subsequent incident' do
+      expect(new_incident.has_subsequent_incident?).to eq(true)
+    end
+
+    it 'does not have previous incident' do
+      expect(new_incident.has_previous_incident?).to eq(false)
+    end
+
     it 'causes error if date of release is not present' do
       new_incident.date_of_release = nil
       expect(new_incident).to have(1).error_on(:date_of_release)
@@ -171,8 +191,10 @@ RSpec.describe Incident, type: :model do
 
   describe 'with earlier and later incident on prisoner' do
     before :example do
-      previous_incident.date_of_release = previous_incident.date_of_release + 1
+      previous_incident.date_of_release = previous_incident.date_of_arrest + 2
+      previous_incident.save!
       subsequent_incident.date_of_release = nil
+      subsequent_incident.save!
     end
 
     it 'causes error if no date of release' do
@@ -188,6 +210,14 @@ RSpec.describe Incident, type: :model do
     it 'causes error if date of arrest is before previous date of release' do
       new_incident.date_of_arrest = previous_incident.date_of_release - 1
       expect(new_incident).to have(1).error_on(:date_of_arrest)
+    end
+
+    it 'has previous incident' do
+      expect(new_incident.has_previous_incident?).to eq(true)
+    end
+
+    it 'has subsequent incident' do
+      expect(new_incident.has_subsequent_incident?).to eq(true)
     end
   end
 
@@ -212,15 +242,6 @@ RSpec.describe Incident, type: :model do
     it 'is not only incident' do
       expect(new_incident.only_incident_on_prisoner?).to eq(false)
     end
-
-    it 'is not the most recent incident' do
-      expect(new_incident.most_recent_incident_on_prisoner?).to eq(false)
-    end
-
-    it 'is the most recent incident if date of arrest is changed to last' do
-      new_incident.date_of_arrest = latest_incident.date_of_arrest + 365
-      expect(new_incident.most_recent_incident_on_prisoner?).to eq(true)
-    end
   end
 
   describe 'without other incidents on prisoner' do
@@ -231,6 +252,14 @@ RSpec.describe Incident, type: :model do
     it 'is only incident when saved' do
       new_incident.save!
       expect(new_incident.only_incident_on_prisoner?).to eq(true)
+    end
+
+    it 'does not have subsequent incident' do
+      expect(new_incident.has_subsequent_incident?).to eq(false)
+    end
+
+    it 'does not have previous incident' do
+      expect(new_incident.has_previous_incident?).to eq(false)
     end
   end
 

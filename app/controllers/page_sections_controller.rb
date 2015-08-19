@@ -29,7 +29,9 @@ class PageSectionsController < ApplicationController
 
     respond_to do |format|
       if @page_section.save
-        format.html { redirect_to @page_section, notice: 'Page Section was successfully created.' }
+        format.html { redirect_to @page_section,
+                                  notice: t('shared.msgs.success_created',
+                                            obj: t('activerecord.models.page_section', count: 1)) }
         format.json { render :show, status: :created, location: @page_section }
       else
         format.html { render :new }
@@ -43,7 +45,9 @@ class PageSectionsController < ApplicationController
   def update
     respond_to do |format|
       if @page_section.update(page_section_params)
-        format.html { redirect_to @page_section, notice: 'Page Section was successfully updated.' }
+        format.html { redirect_to @page_section,
+                                  notice: t('shared.msgs.success_updated',
+                                            obj: t('activerecord.models.page_section', count: 1)) }
         format.json { render :show, status: :ok, location: @page_section }
       else
         format.html { render :edit }
@@ -57,7 +61,9 @@ class PageSectionsController < ApplicationController
   def destroy
     @page_section.destroy
     respond_to do |format|
-      format.html { redirect_to page_sections_url, notice: 'Page Section was successfully destroyed.' }
+      format.html { redirect_to page_sections_url,
+                                notice: t('shared.msgs.success_destroyed',
+                                          obj: t('activerecord.models.page_section', count: 1)) }
       format.json { head :no_content }
     end
   end

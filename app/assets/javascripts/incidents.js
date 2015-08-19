@@ -22,10 +22,9 @@ function addDatePickers() {
   });
 }
 
-$(document).ready(function() {
+$(document).on('page:change', function() {
   if ($("form.incident").length) {
     addSelect2();
-    loadTinymce();
     addDatePickers();
   }
 });

@@ -1,9 +1,3 @@
-$(document).ready(function() {
-  if ($('body').hasClass('prisons')) {
-    loadTinymce();
-  }
-});
-
 function prison_prisoner_counts_chart() {
   $.ajax({
     url: gon.prison_prisoner_counts_prisons_path,

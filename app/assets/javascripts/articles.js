@@ -1,9 +1,3 @@
-$(document).ready(function() {
-  if ($('form.article').length) {
-    loadTinymce();
-  }
-});
-
 function article_incident_counts_chart() {
   $.ajax({
     url: gon.article_incident_counts_articles_path,

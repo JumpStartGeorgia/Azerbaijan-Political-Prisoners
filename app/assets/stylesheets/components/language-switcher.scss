@@ -5,14 +5,9 @@
 
   .language-switcher-item {
     display: inline-block;
-    font-size: 1.2em;
 
     *display: inline; /* this fix is needed for IE7- */
     zoom: 1; /* this is also needed for IE7 */
-  }
-
-  .language-switcher-item.is-active {
-    font-weight: bold;
   }
 
   .language-switcher .language-switcher-item::after {
@@ -22,3 +17,11 @@
   .language-switcher .language-switcher-item:last-child::after {
     content: ''
   }
+
+    .language-switcher-item-link {
+      text-transform: uppercase;
+    }
+
+    .language-switcher-item-link.is-active {
+      font-weight: bold;
+    }

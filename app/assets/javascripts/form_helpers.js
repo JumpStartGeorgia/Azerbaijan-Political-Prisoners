@@ -7,7 +7,6 @@ $(document).on('page:change', function() {
 
     // Add default config attributes to tinymce options
     for (var attrname in tinymceDefaultConfig) { tinymceOptions[attrname] = tinymceDefaultConfig[attrname]; }
-    debugger
     tinyMCE.init(tinymceOptions);
   }
 });

@@ -189,17 +189,16 @@
                   <li><%= link_to t('.account.logout'), destroy_user_session_path, method: :delete %></li>
                 </ul>
               </li>
+              <li class='language-switcher-container'>
+                <ul class='language-switcher'>
+                  <% I18n.available_locales.each do |locale| %>
+                    <li class='language-switcher-item <%= "is-active" if I18n.locale == locale %>'><%= link_to t("shared.locale.short.#{locale}"), url_for(locale: locale) %></li>
+                  <% end %>
+                </ul>
+              </li>
             <% end %>
           </ul>
-          <% if false %>
-          <ul class="nav navbar-nav navbar-right">
-            <% I18n.available_locales.each do |locale| %>
-              <% if locale != I18n.locale %>
-                <li><%= link_to t("shared.language.#{locale}"), url_for(locale: locale) %></li>
-              <% end %>
-            <% end %>
-          </ul>
-          <% end %>
+
         </div>
       </div>
     </div>

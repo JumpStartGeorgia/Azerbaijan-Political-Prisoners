@@ -4,11 +4,12 @@
 * Author: Farhad Safarov <farhad.safarov@gmail.com>
 */
 
-$(document).on('page:change', function() {
+function addSelect2Translations() {
   (function ($) {
     "use strict";
 
     if (gon.locale === 'az') {
+
       $.fn.select2.locales['az'] = {
         formatMatches: function (matches) { return matches + " nəticə mövcuddur, hərəkət etdirmək üçün yuxarı və aşağı düymələrindən istifadə edin."; },
         formatNoMatches: function () { return "Nəticə tapılmadı"; },
@@ -20,7 +21,11 @@ $(document).on('page:change', function() {
       };
 
       $.extend($.fn.select2.defaults, $.fn.select2.locales['az']);
+    } else if (gon.locale === 'en') {
+
+      $.extend($.fn.select2.defaults, $.fn.select2.locales['en'])
+      var helldsafdo = 'sdaf'
     }
 
   })(jQuery);
-});
+}

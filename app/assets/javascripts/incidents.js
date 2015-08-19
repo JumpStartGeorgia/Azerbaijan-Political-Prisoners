@@ -1,5 +1,7 @@
 // Add jQuery Select2 extra functionality to Charges multiple select
 function addSelect2() {
+  addSelect2Translations();
+
   $("select.charges_select").select2({
     placeholder: gon.select_charges,
     width: "400px"

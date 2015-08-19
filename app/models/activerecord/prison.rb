@@ -72,16 +72,18 @@ class Prison < ActiveRecord::Base
     prisons_data = []
 
     counts.keys.each do |prison_id|
-      prison = prisons.find { |prison| prison.id == prison_id }
-      prisoner_count = counts[prison_id]
+      if prison_id.present?
+        prison = prisons.find { |prison| prison.id == prison_id }
+        prisoner_count = counts[prison_id]
 
-      prisons_data.append(
-        y: prisoner_count,
-        name: prison.name,
-        link: Rails.application.routes.url_helpers
-          .prison_path(prison, locale: I18n.locale),
-        summary: summary(prisoner_count, prison.name)
-      )
+        prisons_data.append(
+          y: prisoner_count,
+          name: prison.name,
+          link: Rails.application.routes.url_helpers
+            .prison_path(prison, locale: I18n.locale),
+          summary: summary(prisoner_count, prison.name)
+        )
+      end
     end
 
     prisons_data

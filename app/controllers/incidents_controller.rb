@@ -2,7 +2,7 @@ class IncidentsController < ApplicationController
   before_action :set_incident, only: [:edit, :update, :destroy]
   authorize_resource
 
-  before_action :set_form_collections, only: [:new, :edit]
+  before_action :set_form_variables, only: [:new, :edit]
   before_action :set_tinymce_config_gon
   before_action :set_prisoner
 
@@ -30,7 +30,7 @@ class IncidentsController < ApplicationController
         end
         format.json { render :show, status: :created, location: @prisoner }
       else
-        set_form_collections
+        set_form_variables
         format.html { render :new }
         format.json { render json: @incident.errors, status: :unprocessable_entity }
       end
@@ -49,7 +49,7 @@ class IncidentsController < ApplicationController
         end
         format.json { render :show, status: :ok, location: @prisoner }
       else
-        set_form_collections
+        set_form_variables
         format.html { render :edit }
         format.json do
           render json: @incident.errors, status: :unprocessable_entity
@@ -98,10 +98,15 @@ class IncidentsController < ApplicationController
   end
 
   # Set tags and prisons to be used in dropdowns on form
-  def set_form_collections
+  def set_form_variables
     @articles = CriminalCode.all.includes(:articles).with_translations
     @tags = Tag.includes(:translations).order(:name)
     @prisons = Prison.includes(:translations).order(:name)
+
+    gon.select_charges = t('shared.actions.with_obj.select',
+                           obj: t('activerecord.models.charge', count: 999))
+    gon.select_tags = t('shared.actions.with_obj.select',
+                        obj: t('activerecord.models.tag', count: 999))                           
   end
 
   def set_prisoner

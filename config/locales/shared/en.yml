@@ -15,6 +15,7 @@ en:
         edit: Edit %{obj}
         new: New %{obj}
         search: Search %{obj}
+        select: Select %{obj}
         update: Update %{obj}
         view: View %{obj}
         view_all: View All %{obj}

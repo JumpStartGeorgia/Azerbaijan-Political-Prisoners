@@ -1,12 +1,12 @@
 // Add jQuery Select2 extra functionality to Charges multiple select
 function addSelect2() {
   $("select.charges_select").select2({
-    placeholder: "Select Charges",
+    placeholder: gon.select_charges,
     width: "400px"
   });
 
   $("select.tags_select").select2({
-    placeholder: "Select Tags",
+    placeholder: gon.select_tags,
     width: "400px"
   });
 }

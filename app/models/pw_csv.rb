@@ -59,11 +59,11 @@ class PwCsv
 
     unless csv_zip
       csv_zip = Rails.root
-        .join('public',
-              'generated',
-              'csv',
-              I18n.locale.to_s,
-              GeneratedFile.clean_filename('political_prisoner_data', 'zip'))
+                .join('public',
+                      'generated',
+                      'csv',
+                      I18n.locale.to_s,
+                      GeneratedFile.clean_filename('political_prisoner_data', 'zip'))
 
       create_csv_zip(csv_zip)
     end

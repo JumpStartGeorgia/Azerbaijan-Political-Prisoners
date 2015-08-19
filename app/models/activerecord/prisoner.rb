@@ -38,7 +38,7 @@ class Prisoner < ActiveRecord::Base
 
   # SCOPES
   scope :with_incident_translations, -> { includes(incidents: :translations) }
-  scope :with_article_translations, -> { includes(incidents: {articles: :translations} ) }
+  scope :with_article_translations, -> { includes(incidents: { articles: :translations }) }
   scope :with_meta_data, -> { includes(incidents: [:prison, :tags, :articles]) }
   scope :ordered, -> { order(:name) }
   scope :ordered_date_of_arrest, -> { order('incidents.date_of_arrest desc') }

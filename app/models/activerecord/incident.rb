@@ -57,9 +57,9 @@ class Incident < ActiveRecord::Base
 
     # Check if other incident has same arrest date
     incidents_with_same_arrest = prisoner
-                                   .incidents
-                                   .where('date_of_arrest = ?', date_of_arrest)
-                                   .where.not(id: id)
+                                 .incidents
+                                 .where('date_of_arrest = ?', date_of_arrest)
+                                 .where.not(id: id)
 
     return if incidents_with_same_arrest.empty?
 

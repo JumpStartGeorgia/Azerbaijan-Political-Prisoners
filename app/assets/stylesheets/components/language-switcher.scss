@@ -10,17 +10,13 @@
     zoom: 1; /* this is also needed for IE7 */
   }
 
-  .language-switcher .language-switcher-item::after {
+  .language-switcher-item::after {
     content: ' / '
   }
 
-  .language-switcher .language-switcher-item:last-child::after {
+  .language-switcher-item:last-child::after {
     content: ''
   }
-
-    .language-switcher-item-link {
-      text-transform: uppercase;
-    }
 
     .language-switcher-item-link.is-active {
       font-weight: bold;

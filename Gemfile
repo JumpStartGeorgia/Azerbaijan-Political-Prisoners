@@ -76,6 +76,7 @@ gem 'whenever', '~> 0.9.4', require: false # perform tasks on a schedule (cron j
 # sends updates to google analytics when turbolinks changes page
 gem 'google-analytics-turbolinks', '~> 0.0.4'
 gem 'unidecoder', '~> 1.1.2' # String latinization
+gem 'autoprefixer-rails', '~> 6.0.3'
 
 group :development do
   gem 'rails-dev-boost', '~> 0.3.0', git: 'git://github.com/thedarkone/rails-dev-boost.git'

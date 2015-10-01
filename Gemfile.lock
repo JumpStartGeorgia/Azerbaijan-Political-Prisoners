@@ -47,6 +47,9 @@ GEM
     arel (6.0.3)
     auto_strip_attributes (2.0.6)
       activerecord (>= 3.0)
+    autoprefixer-rails (6.0.3)
+      execjs
+      json
     bcrypt (3.1.10)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
@@ -364,6 +367,7 @@ PLATFORMS
 
 DEPENDENCIES
   auto_strip_attributes (~> 2.0.6)
+  autoprefixer-rails (~> 6.0.3)
   bcrypt (~> 3.1.7)
   brakeman (~> 3.0.5)
   bullet (~> 4.14.5)

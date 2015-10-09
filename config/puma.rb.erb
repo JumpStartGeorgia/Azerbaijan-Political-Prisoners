@@ -10,7 +10,7 @@ activate_control_app "unix://<%= pumactl_socket %>"
 
 stdout_redirect "<%= puma_error_log %>", "<%= puma_access_log %>", true
 
-threads 2,4
+threads 1,1
 
 bind "unix://<%= puma_socket %>"
-workers 2
+workers 1

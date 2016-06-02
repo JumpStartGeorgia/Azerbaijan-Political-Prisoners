@@ -9,7 +9,9 @@ server {
 }
 
 server {
-  listen 443 ssl spdy default deferred;
+  ### there can only be one default and deferred on a server
+  #  listen 443 ssl spdy default deferred;
+  listen 443 ssl spdy;
 
   server_name <%= web_url %> www.<%= web_url %>;
   root <%= full_current_path %>/public;
@@ -37,7 +39,7 @@ server {
   ssl_session_timeout 5m;
 
   # Diffie-Hellman parameter for DHE ciphersuites, recommended 2048 bits
-  ssl_dhparam /etc/ssl/dhparams.pem;
+  ssl_dhparam /etc/ssl/certs/dhparam.pem;
 
   # enables server-side protection from BEAST attacks
   # http://blog.ivanristic.com/2013/09/is-beast-still-a-threat.html

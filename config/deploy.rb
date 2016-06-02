@@ -40,8 +40,8 @@ set :nginx_conf, -> { "#{full_current_path}/config/nginx.conf" }
 set :nginx_symlink, -> { "/etc/nginx/sites-enabled/#{application}" }
 
 # SSL settings
-set :ssl_key, -> { "/etc/letsencrypt/live/#{web_url}/fullchain.pem" }
-set :ssl_cert, -> { "/etc/letsencrypt/live/#{web_url}/privkey.pem" }
+set :ssl_key, -> { "/etc/letsencrypt/live/#{web_url}/privkey.pem" }
+set :ssl_cert, -> { "/etc/letsencrypt/live/#{web_url}/fullchain.pem" }
 
 # Assets settings
 set :precompiled_assets_dir, 'public/assets'

@@ -111,6 +111,8 @@ server {
   location @puma_<%= application %> {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Host $http_host;
+    proxy_set_header X-Forwarded-Proto https;
+    proxy_set_header X-Forwarded-Ssl on;
     proxy_redirect off;
     proxy_pass http://puma_<%= application %>;
     access_log <%= full_shared_path %>/log/nginx.access.log;
@@ -156,4 +158,13 @@ server {
   location ~ \.(php|html)$ {
     return 405;
   }
+
+  ##############################################################
+  # the following is to allow certbots/letsencrypt access to certs
+  ##############################################################
+  location ~ /.well-known {
+    allow all;
+  }
+
+
 }

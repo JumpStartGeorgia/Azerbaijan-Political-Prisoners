@@ -4,4 +4,4 @@ set :application, 'Prisoners'
 set :repository, 'https://github.com/JumpStartGeorgia/Azerbaijan-Political-Prisoners.git'
 set :repo_branch, 'master'
 set :web_url, 'prisoners.watch'
-set :use_ssl, false
+set :use_ssl, true

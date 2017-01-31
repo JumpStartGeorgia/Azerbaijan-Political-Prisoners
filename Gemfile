@@ -79,8 +79,6 @@ gem 'unidecoder', '~> 1.1.2' # String latinization
 gem 'autoprefixer-rails', '~> 6.0.3'
 
 group :development do
-  gem 'rails-dev-boost', '~> 0.3.0', git: 'git://github.com/thedarkone/rails-dev-boost.git'
-  gem 'rb-fsevent', '~> 0.9.1'
   gem 'brakeman', '~> 3.0.5', require: false
 end
 

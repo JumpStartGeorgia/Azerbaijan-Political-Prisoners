@@ -8,6 +8,7 @@ default: &default
 
 development:
     <<: *default
+    host: db
     database: <%= ENV["DB_NAME"] %>
     username: <%= ENV["DB_USER"] %>
     password: <%= ENV["DB_PASSWORD"] %>
@@ -26,6 +27,7 @@ production:
 
 test:
     <<: *default
+    host: db
     database: <%= ENV["TEST_DB_NAME"] %>
     username: <%= ENV["TEST_DB_USER"] %>
     password: <%= ENV["TEST_DB_PASSWORD"] %>

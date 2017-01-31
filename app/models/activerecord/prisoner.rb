@@ -138,6 +138,10 @@ class Prisoner < ActiveRecord::Base
     time.numerator
   end
 
+  def data_last_updated
+    incidents.maximum(:updated_at)
+  end
+
   ############################################################
   ############### Imprisoned count timeline ###############
 

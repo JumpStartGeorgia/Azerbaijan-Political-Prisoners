@@ -58,6 +58,12 @@
               <%= @prisoner.currently_imprisoned_status.html_safe %>
             </span>
           </div>
+          <div>
+            <%= t 'prisoners.labels.data_last_updated' %>
+            <span>
+              <%= l(@prisoner.data_last_updated, format: t('date.formats.long')) %>
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -76,6 +82,12 @@
         </div>
         <div class="status<%= klass %>">
           <%= @prisoner.currently_imprisoned_status.html_safe %>
+        </div>
+
+        <div class="right-box-last-updated">
+          <%= t 'prisoners.labels.data_last_updated' %>
+          <br />
+          <%= l(@prisoner.data_last_updated, format: t('date.formats.long')) %>
         </div>
       </div>
     </div>

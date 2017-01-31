@@ -6,6 +6,7 @@ en:
       arrest_description: 'Arrest Description:'
       categories: 'Categories:'
       charged_under_articles: 'Charged Under Article(s):'
+      data_last_updated: 'Data Last Updated:'
       imprisoned_at: 'Imprisoned At:'
       in_prison_from: 'In Prison From:'
       in_prison_since: 'In Prison Since:'

@@ -6,3 +6,5 @@ set :repo_branch, 'master'
 set :web_url, 'dev-prisoners.jumpstart.ge'
 set :use_ssl, true
 set :visible_to_robots, false
+set :puma_thread_count, '1,1'
+set :puma_worker_count, '1'

@@ -5,3 +5,5 @@ set :repository, 'https://github.com/JumpStartGeorgia/Azerbaijan-Political-Priso
 set :repo_branch, 'master'
 set :web_url, 'prisoners.watch'
 set :use_ssl, true
+set :puma_thread_count, '2,4'
+set :puma_worker_count, '2'

@@ -71,6 +71,9 @@ class Prisoner < ActiveRecord::Base
     Prisoner.joins(incidents: :charges).where(charges: { article_id: article_id }).uniq
   end
 
+  def self.data_last_updated
+    Incident.maximum(:updated_at)
+  end
   # Get prisoners by whether they are imprisoned or were imprisoned on a certain date
 
   def self.currently_imprisoned_count
@@ -233,7 +236,7 @@ class Prisoner < ActiveRecord::Base
   def self.imprisoned_count_timeline
     {
       data: imprisoned_counts_from_date_to_date(Date.new(2012, 01, 01),
-                                                Date.today),
+                                                Prisoner.data_last_updated),
       text: imprisoned_count_timeline_text
     }
   end

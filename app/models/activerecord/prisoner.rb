@@ -235,7 +235,7 @@ class Prisoner < ActiveRecord::Base
 
   def self.imprisoned_count_timeline
     {
-      data: imprisoned_counts_from_date_to_date(Date.new(2012, 01, 01),
+      data: imprisoned_counts_from_date_to_date(Date.new(2014, 05, 01),
                                                 Prisoner.data_last_updated),
       text: imprisoned_count_timeline_text
     }

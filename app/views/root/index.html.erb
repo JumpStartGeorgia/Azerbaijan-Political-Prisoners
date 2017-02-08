@@ -10,6 +10,9 @@
       </div>
       <div class="descr">
         <%= simple_format_no_tags(@app_intro.content) %>
+        <p>
+          <%= "#{t 'shared.last_updated'} #{l(Prisoner.data_last_updated, format: t('date.formats.long'))}" %>
+        </p>
       </div>
     </div>
   </div>

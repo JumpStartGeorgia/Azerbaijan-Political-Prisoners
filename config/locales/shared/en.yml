@@ -33,6 +33,7 @@ en:
       full: "%Y-%m-%d_%H-%M-%S"
     labels:
       translated_field: "%{field} (%{language})"
+    last_updated: "Data last updated:"
     msgs:
       does_not_exist: You tried to access a page that does not exist.
       no_search_results: Sorry, there are no %{obj} on file that match your search request.
